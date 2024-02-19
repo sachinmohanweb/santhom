@@ -1,0 +1,167 @@
+/*! -----------------------------------------------------------------------------------
+
+    Template Name: Cuba Admin
+    Template URI: http://admin.pixelstrap.com/cuba/theme
+    Description: This is Admin theme
+    Author: Pixelstrap
+    Author URI: https://themeforest.net/user/pixelstrap
+
+-----------------------------------------------------------------------------------
+ */
+// *** utils ***
+@import "utils/variables";
+
+:root {
+    --theme-deafult: #7366ff;
+    --theme-secondary: #0cc1ee;
+    --light-background: rgba(242, 243, 247, 0.7);
+    --body-font-color: #2F2F3B;
+    --chart-border: #ECF3FA;
+    --recent-chart-bg: #FCFCFD;
+    --light-bg: #F6F7F9;
+    --white: #fff;
+    --light2: #F5F6F9;
+    --sidebar-border: rgba(0,0,0,0.1);
+    --chart-text-color: rgba(82, 82, 108, 0.8);
+    --recent-dashed-border: rgba(82, 82, 108, 0.3);
+    --chart-dashed-border: rgba(82, 82, 108, 0.2);
+    --chart-progress-light: rgba(82, 82, 108, 0.1);
+    --recent-box-bg: #F2F4F7;
+    --recent-border: rgba(97, 101, 122, 0.25);
+    --course-light-btn: #F2F3F7;
+    --course-bg: #F7F7F7;
+    --balance-profie-bg: #E0DFEF;
+    --view-grid-bg: #ECF3FA80;
+    --view-border-marker: #cfcdfc;
+
+    --fc-button-bg-color: var(--theme-deafult);
+    --fc-button-active-bg-color: var(--theme-deafult);
+    --fc-button-active-border-color: var(--theme-deafult);
+    --fc-button-border-color: var(--theme-deafult);
+    --fc-button-hover-bg-color: var(--theme-deafult);
+    --fc-button-hover-border-color: var(--theme-deafult);
+}
+
+body[class='dark-only'] {
+    --light-background: rgba(31, 32, 40 , 0.65);
+    --recent-chart-bg: #262932;
+    --light-bg: #1d1e26;
+    --white: #262932;
+    --sidebar-border: rgba(255,255,255,0.1);
+    --light2: #1d1e26;
+    --chart-border: #374558;
+    --recent-box-bg: #1d1e26;
+    --recent-border: #374558;
+    --body-font-color: rgba(255,255,255,0.6);
+    --course-light-btn: var(--light-bg);
+    --view-grid-bg: var(--light-bg);
+    --view-border-marker: #2c2c45d4;
+}
+
+// *** base ***
+@import "base/reset";
+@import "base/typography";
+
+
+//  *** components ***
+@import "components/according";
+@import "components/alert";
+@import "components/avatars";
+@import "components/badge";
+@import "components/bookmark";
+@import "components/breadcrumb";
+@import "components/builders";
+
+@import "components/buttons";
+
+@import "components/card";
+@import "components/color";
+@import "components/datatable";
+@import "components/datepicker";
+@import "components/dropdown";
+@import "components/form-builder";
+@import "components/form-input";
+@import "components/form-wizard";
+@import "components/forms";
+@import "components/form_builder-2";
+@import "components/icons";
+@import "components/list";
+@import "components/loader";
+@import "components/popover";
+@import "components/print";
+@import "components/radio";
+@import "components/ribbon";
+@import "components/switch";
+@import "components/tab";
+@import "components/table";
+@import "components/touchspin";
+@import "components/tour";
+@import "components/tree";
+@import "components/typeahead-search";
+@import "components/scrollbar";
+
+
+
+//	*** pages ***
+
+@import "pages/blog";
+@import "pages/bookmark-app";
+@import "pages/cart";
+@import "pages/chart";
+@import "pages/chat";
+@import "pages/checkout";
+@import "pages/comingsoon";
+@import "pages/contacts";
+@import "pages/dashboard_2";
+@import "pages/dashboard_3";
+@import "pages/dashboard_4";
+@import "pages/dashboard_5";
+@import "pages/dashboard_default";
+@import "pages/ecommerce";
+@import "pages/email-application";
+@import "pages/errorpage";
+@import "pages/faq";
+@import "pages/file";
+@import "pages/gallery";
+@import "pages/internationalization";
+@import "pages/job-search";
+@import "pages/jsgrid";
+@import "pages/kanban";
+@import "pages/knowledgebase";
+@import "pages/landing";
+@import "pages/language";
+@import "pages/learning";
+@import "pages/login";
+@import "pages/megaoption";
+@import "pages/order-history";
+@import "pages/page";
+@import "pages/pricing";
+@import "pages/progress";
+@import "pages/projectlist";
+@import "pages/social-app";
+@import "pages/task";
+@import "pages/timeline-v";
+@import "pages/timeliny";
+@import "pages/user-profile";
+@import "pages/wishlist";
+
+
+/* ---------------------
+	*** themes ***
+-----------------------*/
+// *** layout ***
+@import "layout/footer";
+@import "layout/grid";
+@import "layout/header";
+@import "layout/navs";
+@import "layout/search";
+@import "layout/select2";
+@import "layout/sidebar";
+@import "layout/rtl";
+@import "layout/box-layout";
+
+// *** Theme ***
+@import "themes/dark";
+@import "themes/theme-customizer";
+@import "themes/update";
+@import "themes/responsive";
