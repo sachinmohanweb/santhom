@@ -8,27 +8,17 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', [UserController::class, 'admin_index'])->name('index');
 Route::post('/login', [UserController::class, 'admin_login'])->name('admin.login');
-Route::get('/logout', [UserController::class, 'admin_logout'])->name('admin.logout');
-Route::get('/dashboard', [UserController::class, 'admin_dashboard'])->name('admin.dashboard');
-Route::get('/familylist', [UserController::class, 'admin_family_list'])->name('admin.family.list');
-Route::get('/familymemberslist', [UserController::class, 'admin_family_members_list'])
-        ->name('admin.family.members.list');
 
+Route::middleware('auth:admin')->group(function(){
 
+    Route::get('/logout', [UserController::class, 'admin_logout'])->name('admin.logout');
+    Route::get('/dashboard', [UserController::class, 'admin_dashboard'])->name('admin.dashboard');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    Route::get('/familylist', [UserController::class, 'admin_family_list'])->name('admin.family.list');
+    Route::get('/familymemberslist', [UserController::class, 'admin_family_members_list'])
+            ->name('admin.family.members.list');
+    
+});
 
 
 
