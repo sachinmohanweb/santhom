@@ -66,7 +66,7 @@
           </div>
         </li>
         <li class="profile-nav onhover-dropdown pe-0 py-0">
-          <div class="media profile-media"><img class="b-r-10" src="{{ asset('assets/images/dashboard/profile.png') }}" alt="">
+          <div class="media profile-media"><img class="b-r-10" style="max-width: 30px;padding-top: 4px;" src="{{ asset('assets/images/dashboard/Admin2.svg') }}" alt="">
             <div class="media-body"><span>{{Auth::guard('admin')->user()->name}}</span>
               <p class="mb-0 font-roboto">{{Auth::guard('admin')->user()->email}} <i class="middle fa fa-angle-down"></i></p>
             </div>

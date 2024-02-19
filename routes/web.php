@@ -2,20 +2,25 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FamilyController;
 
 
 
-Route::get('/', [UserController::class, 'admin_index'])->name('index');
+Route::get('/', [HomeController::class, 'admin_index'])->name('index');
 Route::post('/login', [UserController::class, 'admin_login'])->name('admin.login');
 
 Route::middleware('auth:admin')->group(function(){
 
     Route::get('/logout', [UserController::class, 'admin_logout'])->name('admin.logout');
-    Route::get('/dashboard', [UserController::class, 'admin_dashboard'])->name('admin.dashboard');
+    Route::get('/dashboard', [HomeController::class, 'admin_dashboard'])->name('admin.dashboard');
 
-    Route::get('/familylist', [UserController::class, 'admin_family_list'])->name('admin.family.list');
-    Route::get('/familymemberslist', [UserController::class, 'admin_family_members_list'])
+    Route::get('/familylist', [FamilyController::class, 'admin_family_list'])->name('admin.family.list');
+    Route::get('/createfamily', [FamilyController::class, 'admin_family_create'])->name('admin.family.create');
+    Route::post('/storefamily', [FamilyController::class, 'admin_family_store'])->name('admin.family.store');
+
+    Route::get('/familymemberslist', [FamilyController::class, 'admin_family_members_list'])
             ->name('admin.family.members.list');
     
 });

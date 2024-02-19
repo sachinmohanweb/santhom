@@ -3,19 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 
+use Auth;
 
 class UserController extends Controller
 {
     
-    public function admin_index() : View
-    {
-        return view('index',[]);
-    }
-
     public function admin_login(Request $request): RedirectResponse
     {
 
@@ -51,20 +45,5 @@ class UserController extends Controller
      
         return redirect('/')->with('success', 'You have been successfully logged out.');
     }
-
-    public function admin_dashboard() : View
-    {
-        return view('dashboard.index',[]);
-    }
-
-    public function admin_family_list() : View
-    {
-        return view('user.family.index',[]);
-    }
-
-    public function admin_family_members_list() : View
-    {
-        return view('user.members.index',[]);
-    }
-
+    
 }

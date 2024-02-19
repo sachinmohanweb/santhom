@@ -25,10 +25,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header pb-0 card-no-border">
-                        <h3 class="mb-3">Ajax sourced data</h3><span>DataTables has the ability to read data from
-                            virtually any JSON data source that can be obtained by Ajax. This can be done, in its most
-                            simple form, by setting the <code>ajax:option</code> option to the address of the JSON data
-                            source.</span>
+                        <h3 class="mb-3">Family members page</h3><span>Discover the faces and stories behind our church families</span>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

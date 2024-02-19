@@ -25,10 +25,31 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header pb-0 card-no-border">
-                        <h3 class="mb-3">Ajax sourced data</h3><span>DataTables has the ability to read data from
-                            virtually any JSON data source that can be obtained by Ajax. This can be done, in its most
-                            simple form, by setting the <code>ajax:option</code> option to the address of the JSON data
-                            source.</span>
+                        <div class="row" style="display:flex;">
+
+                            @if (Session::has('success'))
+                                <div class="alert alert-success">
+                                   <ul>
+                                      <li>{!! \Session::get('success') !!}</li>
+                                   </ul>
+                                </div>
+                             @endif
+                         
+                            <div class="col-md-9">
+                                <h3 class="mb-3">Church Families Page</h3> 
+                            </div>
+                            <div class="col-md-3 d-flex justify-content-end">
+                                 
+                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.family.create')}}" data-bs-original-title="" title="">Add New Family</a>
+
+                            </div>
+                        </div>
+                        <div class="row" style="display:flex;">
+                            
+                        <div class="col-md-12">
+                            <span>The hub for information and resources related to families within our church community</span>
+                        </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -65,5 +86,5 @@
 
 @section('script')
     <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatables/datatable.families.js') }}"></script>
 @endsection

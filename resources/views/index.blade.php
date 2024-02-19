@@ -31,7 +31,7 @@
                      <h4 class="text-center">Welcome Admin</h4>
                      <p class="text-center">Please enter your login details</p>
 
-                     @if (\Session::has('success'))
+                     @if (Session::has('success'))
                         <div class="alert alert-success">
                            <ul>
                               <li>{!! \Session::get('success') !!}</li>
