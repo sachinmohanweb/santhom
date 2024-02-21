@@ -16,12 +16,22 @@ Route::middleware('auth:admin')->group(function(){
     Route::get('/logout', [UserController::class, 'admin_logout'])->name('admin.logout');
     Route::get('/dashboard', [HomeController::class, 'admin_dashboard'])->name('admin.dashboard');
 
-    Route::get('/familylist', [FamilyController::class, 'admin_family_list'])->name('admin.family.list');
-    Route::get('/createfamily', [FamilyController::class, 'admin_family_create'])->name('admin.family.create');
-    Route::post('/storefamily', [FamilyController::class, 'admin_family_store'])->name('admin.family.store');
+    Route::get('/familylist', [FamilyController::class, 'admin_family_list'])
+            ->name('admin.family.list');
+    Route::get('/familyDatatable', [FamilyController::class, 'family_Datatable'])
+            ->name('admin.family.list.datatable');
+    Route::get('/createfamily', [FamilyController::class, 'admin_family_create'])
+            ->name('admin.family.create');
+    Route::post('/storefamily', [FamilyController::class, 'admin_family_store'])
+            ->name('admin.family.store');
+    Route::post('/showfamily', [FamilyController::class, 'admin_family_show'])
+            ->name('admin.family.show_details');
+    Route::post('/deletefamily', [FamilyController::class, 'admin_family_delete'])->name('admin.family.delete');
 
     Route::get('/familymemberslist', [FamilyController::class, 'admin_family_members_list'])
             ->name('admin.family.members.list');
+
+
     
 });
 

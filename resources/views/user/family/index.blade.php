@@ -30,7 +30,14 @@
                             @if (Session::has('success'))
                                 <div class="alert alert-success">
                                    <ul>
-                                      <li>{!! \Session::get('success') !!}</li>
+                                      <li>{!! Session::get('success') !!}</li>
+                                   </ul>
+                                </div>
+                             @endif
+                              @if (Session::has('error'))
+                                <div class="alert alert-danger">
+                                   <ul>
+                                      <li>{!! Session::get('error') !!}</li>
                                    </ul>
                                 </div>
                              @endif
@@ -53,25 +60,25 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="display" id="data-source-2" style="width:100%">
+                            <table class="display" id="family_data" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Extn.</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
+                                        <th>Family code</th>
+                                        <th>Family Name</th>
+                                        <th>Family Email</th>
+                                        <th>Head Of Family</th>
+                                        <th>Action</th>
+
+                                       
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Extn.</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
+                                         <th>family_code</th>
+                                        <th>family_name</th>
+                                        <th>family_email</th>
+                                        <th>head_of_family.</th>
+                                        <th>Action</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -79,12 +86,84 @@
                     </div>
                 </div>
             </div>
-            <!-- Ajax sourced data Ends-->
         </div>
     </div>
 @endsection
 
 @section('script')
     <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/datatable/datatables/datatable.families.js') }}"></script>
+    <!-- <script src="{{ asset('assets/js/datatable/datatables/datatable.families.js') }}"></script> -->
+
+    <script>
+        $(document).ready( function () {
+            $.ajaxSetup({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+         
+            $('#family_data').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('admin.family.list.datatable') }}",
+                columns: [
+                    { data: 'family_code', name: 'family_code' },
+                    { data: 'family_name', name: 'family_name' },
+                    { data: 'family_email', name: 'family_email' },
+                    { data: 'head_of_family', name: 'head_of_family' },
+                    { data: 'action', name: 'action', orderable: false},
+                ],
+                order: [[0, 'desc']]
+            });
+        });
+              
+        function deleteFunc(id){
+            if (confirm("Are you sure? Delete this family?") == true) {
+                var id = id;
+                $.ajax({
+                    type:"POST",
+                    url: "{{ route('admin.family.delete') }}",
+                    data: { _token : "<?= csrf_token() ?>",
+                            id     : id
+                    },
+                    dataType: 'json',
+                    success: function(res){
+                        var oTable = $('#family_data').dataTable();
+                        if (res.status=='success'){
+                            window.location.href ="{{ route('admin.family.list') }}";
+                        }else{
+                            window.location.href ="{{ route('admin.family.list') }}";
+                            alert('Failed to delete family. Please try again later.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX request failed:', status, error);
+                        alert('Failed to delete family. Please try again later.');
+                    }
+                });
+            }
+        }
+
+
+        function viewFunc(id){
+            $.ajax({
+                type:"POST",
+                 url: "{{ route('admin.family.show_details') }}",
+                data: { _token : "<?= csrf_token() ?>",
+                        id     : id
+                      },
+                dataType: 'json',
+                success: function(res){
+                    // $('#EmployeeModal').html("Edit Employee");
+                    // $('#employee-modal').modal('show');
+                    // $('#id').val(res.id);
+                    // $('#name').val(res.name);
+                    // $('#address').val(res.address);
+                    // $('#email').val(res.email);
+                }
+            });
+        }  
+ 
+
+    </script>
 @endsection
