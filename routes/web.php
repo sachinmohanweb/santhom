@@ -24,8 +24,10 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.family.create');
     Route::post('/storefamily', [FamilyController::class, 'admin_family_store'])
             ->name('admin.family.store');
-    Route::post('/showfamily', [FamilyController::class, 'admin_family_show'])
+    Route::get('/showfamily/{id}', [FamilyController::class, 'admin_family_show'])
             ->name('admin.family.show_details');
+    Route::post('/updatefamily', [FamilyController::class, 'admin_family_update'])
+            ->name('admin.family.update');
     Route::post('/deletefamily', [FamilyController::class, 'admin_family_delete'])->name('admin.family.delete');
 
     Route::get('/familymemberslist', [FamilyController::class, 'admin_family_members_list'])

@@ -146,22 +146,7 @@
 
 
         function viewFunc(id){
-            $.ajax({
-                type:"POST",
-                 url: "{{ route('admin.family.show_details') }}",
-                data: { _token : "<?= csrf_token() ?>",
-                        id     : id
-                      },
-                dataType: 'json',
-                success: function(res){
-                    // $('#EmployeeModal').html("Edit Employee");
-                    // $('#employee-modal').modal('show');
-                    // $('#id').val(res.id);
-                    // $('#name').val(res.name);
-                    // $('#address').val(res.address);
-                    // $('#email').val(res.email);
-                }
-            });
+            window.location.href = "{{ url('/showfamily') }}"+'/' + id;
         }  
  
 

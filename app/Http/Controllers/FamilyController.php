@@ -70,6 +70,42 @@ class FamilyController extends Controller
 
     }
 
+    public function admin_family_show($id) : View
+    {
+        $family = Family::where('id',$id)->first();
+        return view('user.family.details',compact('family'));
+    }
+
+    public function admin_family_update(Request $request): RedirectResponse
+    {
+        DB::beginTransaction();
+        try {
+            
+            $family = Family::find($request->id);
+            $a =  $request->validate([
+                'family_code' => 'required',
+                'family_name' => 'required',
+                'family_email' => 'required',
+                'head_of_family' => 'required',
+                'prayer_group' => 'required',
+                'address1' => 'required',
+                'address2' => 'required',
+                'pincode' => 'required',
+            ]);
+            $family->update($request->all());
+            DB::commit();
+
+            return redirect()->back()
+                    ->with('success','Family details successfully updated.');
+        }catch (Exception $e) {
+
+            DB::rollBack();
+            $message = $e->getMessage();
+            return back()->with('error',$e->getMessage());
+        }
+
+    }
+
     public function admin_family_delete(Request $request) : JsonResponse
     {
         DB::beginTransaction();
@@ -87,44 +123,5 @@ class FamilyController extends Controller
         }
         return response()->json($return);
     }
-
-
-
-
-
-    public function admin_family_show() : View
-    {
-
-        return view('user.family.details',[]);
-    }
-
-
-    public function edit(Product $product): View
-    {
-        return view('products.edit',compact('product'));
-    }
-
-    public function update(Request $request, Product $product): RedirectResponse
-    {
-        $request->validate([
-            'name' => 'required',
-            'detail' => 'required',
-        ]);
-        
-        $product->update($request->all());
-        
-        return redirect()->route('products.index')
-                        ->with('success','Product updated successfully');
-    }
-  
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Product $product): RedirectResponse
-    {
-        $product->delete();
-         
-        return redirect()->route('products.index')
-                        ->with('success','Product deleted successfully');
-    }
+    
 }
