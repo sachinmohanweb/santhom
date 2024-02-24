@@ -1,5 +1,5 @@
 @extends('layouts.simple.master')
-@section('title', 'Validation Forms')
+@section('title', 'Family')
 
 @section('css')
 @endsection
@@ -61,8 +61,10 @@
                                  <div class="col-md-6">
                                     <label class="form-label" for="validationCustom04">Prayer Group</label>
                                     <select class="form-select" id="validationCustom04" required="" name="prayer_group">
-                                        <option >Choose...</option>
-                                        <option value="1" {{ old('prayer_group') == '1' ? 'selected' : '' }}>test prayer group</option>
+                                        <option value="">Choose...</option>
+                                         @foreach($prayer_groups as $key=>$value)
+                                        <option value="{{$value->id}}" {{ old('prayer_group') == '1' ? 'selected' : '' }}>{{$value->group_name}}</option>
+                                        @endforeach
                                     </select>
                                     <div class="invalid-feedback">Please select a valid prayer group.</div>
                                 </div>

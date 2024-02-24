@@ -46,7 +46,7 @@
             <div class="page-title">
               <div class="row">
                 <div class="col-6">
-                  @yield('breadcrumb-title')
+                @yield('breadcrumb-title')
                 </div>
                 <div class="col-6">
                   <ol class="breadcrumb">

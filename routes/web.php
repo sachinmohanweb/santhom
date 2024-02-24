@@ -18,7 +18,7 @@ Route::middleware('auth:admin')->group(function(){
 
     Route::get('/familylist', [FamilyController::class, 'admin_family_list'])
             ->name('admin.family.list');
-    Route::get('/familyDatatable', [FamilyController::class, 'family_Datatable'])
+    Route::get('/familyDatatable', [FamilyController::class, 'admin_family_Datatable'])
             ->name('admin.family.list.datatable');
     Route::get('/createfamily', [FamilyController::class, 'admin_family_create'])
             ->name('admin.family.create');
@@ -28,13 +28,27 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.family.show_details');
     Route::post('/updatefamily', [FamilyController::class, 'admin_family_update'])
             ->name('admin.family.update');
-    Route::post('/deletefamily', [FamilyController::class, 'admin_family_delete'])->name('admin.family.delete');
-
+    Route::post('/deletefamily', [FamilyController::class, 'admin_family_delete'])
+            ->name('admin.family.delete');
     Route::get('/familymemberslist', [FamilyController::class, 'admin_family_members_list'])
             ->name('admin.family.members.list');
+    Route::get('/familymembersDatatable',[FamilyController::class,'admin_family_members_Datatable'])
+            ->name('admin.familymembers.list.datatable');
+    Route::get('/createfamilymember', [FamilyController::class, 'admin_family_member_create'])
+            ->name('admin.family.member.create');
+    Route::post('/storefamilymember', [FamilyController::class, 'admin_family_member_store'])
+            ->name('admin.family.member.store');
+    Route::get('/showfamilymember/{id}', [FamilyController::class, 'admin_family_member_show'])
+            ->name('admin.family.member.show_details');
+    Route::get('/editfamilymember/{id}', [FamilyController::class, 'admin_family_member_edit'])
+            ->name('admin.family.member.edit');
+    Route::post('/deletefamilymember', [FamilyController::class, 'admin_family_member_delete'])
+            ->name('admin.family.member.delete');
 
 
-    
+
+    Route::post('/updatefamilymember', [FamilyController::class, 'admin_family_member_update'])
+            ->name('admin.family.member.update');   
 });
 
 

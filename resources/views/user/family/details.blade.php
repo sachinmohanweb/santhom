@@ -1,5 +1,5 @@
 @extends('layouts.simple.master')
-@section('title', 'Family Details')
+@section('title', 'Family')
 
 @section('css')
 

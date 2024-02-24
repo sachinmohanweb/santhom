@@ -1,5 +1,5 @@
 @extends('layouts.simple.master')
-@section('title', 'DATA Source DataTables')
+@section('title', 'Family')
 
 @section('css')
     
@@ -72,7 +72,7 @@
                                        
                                     </tr>
                                 </thead>
-                                <tfoot>
+                                <!-- <tfoot>
                                     <tr>
                                          <th>family_code</th>
                                         <th>family_name</th>
@@ -80,7 +80,7 @@
                                         <th>head_of_family.</th>
                                         <th>Action</th>
                                     </tr>
-                                </tfoot>
+                                </tfoot> -->
                             </table>
                         </div>
                     </div>
@@ -92,8 +92,6 @@
 
 @section('script')
     <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
-    <!-- <script src="{{ asset('assets/js/datatable/datatables/datatable.families.js') }}"></script> -->
-
     <script>
         $(document).ready( function () {
             $.ajaxSetup({
@@ -148,7 +146,5 @@
         function viewFunc(id){
             window.location.href = "{{ url('/showfamily') }}"+'/' + id;
         }  
- 
-
     </script>
 @endsection
