@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-Use App\Models\Family;
-Use App\Models\Relationship;
 
 class FamilyMember extends Model
 {
@@ -42,6 +40,14 @@ class FamilyMember extends Model
     public function Relationship(){
     
         return $this->belongsTo(Relationship::class);
+    }
+    public function MaritalStatus(){
+    
+        return $this->belongsTo(MaritalStatus::class);
+    }
+    public function BloodGroup(){
+    
+        return $this->belongsTo(BloodGroup::class);
     }
 
 

@@ -76,7 +76,7 @@ class FamilyController extends Controller
 
     public function admin_family_show($id) : View
     {
-        $family = Family::where('id',$id)->first();
+        $family = Family::where('id',$id)->with('HeadOfFamily','Members')->first();
         return view('user.family.details',compact('family'));
     }
 
@@ -212,7 +212,7 @@ class FamilyController extends Controller
 
     public function admin_family_member_show($id) : View
     {
-        $familymember = FamilyMember::where('id',$id)->first();
+        $familymember = FamilyMember::with('family','MaritalStatus','BloodGroup')->find($id);
         return view('user.members.details',compact('familymember'));
     }
 

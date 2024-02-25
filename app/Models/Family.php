@@ -20,6 +20,17 @@ class Family extends Model
         'pincode'
     ];
 
+    public function HeadOfFamily(){
+    
+        return $this->belongsTo(FamilyMember::class,'head_of_family','name');
+    }
+
+    public function Members(){
+
+    
+        return $this->hasMany(FamilyMember::class);
+    }
+
 
 
 }

@@ -8,6 +8,11 @@
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/owlcarousel.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/rating.css')}}">
+  <style type="text/css">
+    .p_l_5 {
+      padding-left: 10px !important;
+    }
+  </style>
 @endsection
 
 @section('breadcrumb-title')
@@ -23,128 +28,160 @@
 <div class="container-fluid">
   <div class="edit-profile">
     <div class="row">
-      <div class="col-xl-4">
-        <div class="card">
-          <div class="card-header">
-            <h4 class="card-title mb-0">Member Profile</h4>
-            <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
-          </div>
-          <div class="card-body">
-            <form>
-              <div class="row mb-2">
-                <div class="profile-title">
-                  <div class="media">                        <img class="img-70 rounded-circle" alt="" src="{{ asset('assets/images/user/7.jpg') }}">
-                    <div class="media-body">
-                      <h5 class="mb-1">MARK JECNO</h5>
-                      <p>DESIGNER</p>
+
+       @if($familymember)
+        <div class="col-xl-4">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title mb-0">Member Profile</h4>
+              <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
+            </div>
+            <div class="card-body">
+                <div class="row mb-2">
+                  <div class="profile-title">
+                    <div class="media">                        
+                      <img class="img-70 rounded-circle" alt="" src="{{ asset($familymember->image) }}">
+                      <div class="media-body">
+                        <h5 class="mb-1">{{ $familymember->name}}</h5>
+                        <p>{{ $familymember->occupation ? $familymember->occupation : 'occupation-nill' }} </p>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="mb-3 col-md-6">
+                    <label class="form-label">Family</label>
+                    <a href="{{ route('admin.family.show_details', ['id' => $familymember->family_id]) }}"><p><h6>{{ $familymember->family->family_name }} </h6></p></a>
+                  </div>
+                  <div class="mb-3 col-md-6">
+                    <label class="form-label">Family head</label>
+                    <p><h6>{{ $familymember->family->head_of_family }} <h6></p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="mb-3 col-md-6">
+                    <label class="form-label">Date of birth</label>
+                    <p><b>{{ $familymember->dob }}</b> </p>
+                  </div>
+
+                  <div class="mb-3 col-md-6">
+                    <label class="form-label">Gender</label>
+                    <p><b>{{ $familymember->gender }}</b> </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="mb-3 col-md-6">
+                    <label class="form-label">Relation</label>
+                    <p><b>{{ $familymember->relationship->relation_name }}</b> </p>
+                  </div>
+                   <div class="mb-3 col-md-6">
+                    <label class="form-label">Marital Status</label>
+                    <p><b>{{ $familymember->maritalstatus->marital_status_name }}</b> </p>
+                  </div>
+                </div>
               </div>
-              <div class="mb-3">
-                <h6 class="form-label">Bio</h6>
-                <textarea class="form-control" rows="5">On the other hand, we denounce with righteous indignation</textarea>
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Email-Address</label>
-                <input class="form-control" placeholder="your-email@domain.com">
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input class="form-control" type="password" value="password">
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Website</label>
-                <input class="form-control" placeholder="http://Uplor .com">
-              </div>
-              <div class="form-footer">
-                <button class="btn btn-primary btn-block">Save</button>
-              </div>
-            </form>
           </div>
         </div>
-      </div>
-      <div class="col-xl-8">
-        <form class="card">
-          <div class="card-header">
-            <h4 class="card-title mb-0">Edit Profile</h4>
-            <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-5">
-                <div class="mb-3">
-                  <label class="form-label">Company</label>
-                  <input class="form-control" type="text" placeholder="Company">
+
+        <div class="col-xl-8">
+          <form class="card">
+            <div class="card-header">
+              <h4 class="card-title mb-0">Other Details</h4>
+              <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-6 col-md-3">
+                  <div class="mb-3">
+                    <label class="form-label">Name Title</label>
+                    <p class="p_l_5"><b>{{$familymember->title ? $familymember->title : 'N/A' }} </b> </p>
+
+                  </div>
                 </div>
+                <div class="col-sm-6 col-md-3">
+                  <div class="mb-3">
+                    <label class="form-label">Nickname </label>
+                    <p class="p_l_5"><b>{{ $familymember->nickname ? $familymember->nickname : 'N/A' }}</b> </p>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <div class="mb-3">
+                    <label class="form-label">Date_of_baptism</label>
+                    <p class="p_l_5"><b>{{ $familymember->date_of_baptism ? $familymember->date_of_baptism : 'N/A'}} </b> </p>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <div class="mb-3">
+                    <label class="form-label">Blood Group</label>
+                    <p class="p_l_5"><b>{{ $familymember->bloodgroup ? $familymember->bloodgroup->blood_group_name : 'N/A'}} </b> </p>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <div class="mb-3">
+                    <label class="form-label">Head of the family</label>
+                    <p class="p_l_5"><b>{{ $familymember->family ? $familymember->family->head_of_family : 'N/A'}} </b> </p>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <div class="mb-3">
+                    <label class="form-label">Date of marriage</label>
+                    <p class="p_l_5"><b>{{ $familymember->dob ? $familymember->dob : 'N/A'}} </b> </p>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <div class="mb-3">
+                    <label class="form-label">Qualification</label>
+                    <p class="p_l_5"><b>{{ $familymember->qualification ? $familymember->qualification : 'N/A'}} </b> </p>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <div class="mb-3">
+                    <label class="form-label">Occupation</label>
+                    <p class="p_l_5"><b>{{ $familymember->occupation ? $familymember->occupation : 'N/A'}} </b> </p>
+                    
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <div>
+                    <label class="form-label">Company name</label>
+                    <p class="p_l_5"><b>{{ $familymember->company_name ? $familymember->company_name : 'N/A'}} </b> </p>
+                    
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <p class="p_l_5"><b>{{ $familymember->email ? $familymember->email : 'N/A'}} </b> </p>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <div class="mb-3">
+                    <label class="form-label">Mobile</label>
+                    <p class="p_l_5"><b>{{ $familymember->mobile ? $familymember->mobile : 'N/A'}} </b> </p>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="mb-3">
+                      <label class="form-label">Alternat Mobile</label>
+                      <p class="p_l_5"><b>{{ $familymember->alt_contact_no ? $familymember->alt_contact_no : 'N/A'}} </b> </p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <div class="mb-3">
+                    <label class="form-label">Date of death</label>
+                    <p class="p_l_5"><b>{{ $familymember->date_of_death ? $familymember->date_of_death : 'N/A'}} </b> </p>
+                  </div>
+                </div>
+              <div class="card-footer text-end" style="padding:17px !important">
+                <button class="btn btn-primary" type="submit">Update Details</button>
               </div>
-              <div class="col-sm-6 col-md-3">
-                <div class="mb-3">
-                  <label class="form-label">Username</label>
-                  <input class="form-control" type="text" placeholder="Username">
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-4">
-                <div class="mb-3">
-                  <label class="form-label">Email address</label>
-                  <input class="form-control" type="email" placeholder="Email">
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-6">
-                <div class="mb-3">
-                  <label class="form-label">First Name</label>
-                  <input class="form-control" type="text" placeholder="Company">
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-6">
-                <div class="mb-3">
-                  <label class="form-label">Last Name</label>
-                  <input class="form-control" type="text" placeholder="Last Name">
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="mb-3">
-                  <label class="form-label">Address</label>
-                  <input class="form-control" type="text" placeholder="Home Address">
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-4">
-                <div class="mb-3">
-                  <label class="form-label">City</label>
-                  <input class="form-control" type="text" placeholder="City">
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-3">
-                <div class="mb-3">
-                  <label class="form-label">Postal Code</label>
-                  <input class="form-control" type="number" placeholder="ZIP Code">
-                </div>
-              </div>
-              <div class="col-md-5">
-                <div class="mb-3">
-                  <label class="form-label">Country</label>
-                  <select class="form-control btn-square">
-                    <option value="0">--Select--</option>
-                    <option value="1">Germany</option>
-                    <option value="2">Canada</option>
-                    <option value="3">Usa</option>
-                    <option value="4">Aus</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div>
-                  <label class="form-label">About Me</label>
-                  <textarea class="form-control" rows="4" placeholder="Enter About your description"></textarea>
-                </div>
               </div>
             </div>
-          </div>
-          <div class="card-footer text-end">
-            <button class="btn btn-primary" type="submit">Update Profile</button>
-          </div>
-        </form>
-      </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      @endif
 
     </div>
   </div>

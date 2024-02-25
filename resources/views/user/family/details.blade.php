@@ -76,7 +76,13 @@
                    <tr>
                      <td> <b>Head Of The Family</b></td>
                      <td> <b>&nbsp;:&nbsp;</b></td>
-                     <td>{{$family->head_of_family}}</td>
+                     <td>
+                      @if($family->headoffamily)
+                        <a href="{{ route('admin.family.member.show_details', ['id' => $family->headoffamily->id]) }}">{{$family->head_of_family}}</a> 
+                      @else
+                        nill
+                      @endif
+                     </td>
                    </tr>
                    <tr>
                      <td> <b>Email  </b></td>
@@ -119,27 +125,16 @@
                             </tr>
                           </thead>
                           <tbody>
+                          @foreach($family->members as $key=>$value)
                             <tr>
-                              <th scope="row">1</th>
-                              <td>Web Development </td>
-                              <td>Pixel@efo.com </td>
+                              <th scope="row">{{$key+1}}</th>
+                              <td>
+                                <a href="{{ route('admin.family.member.show_details', ['id' => $value->id]) }}">{{$value->name}}
+                                </a>
+                              </td>
+                              <td>{{$value->relationship->relation_name}} </td>
                             </tr>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Web Development </td>
-                              <td>Pixel@efo.com </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Web Development </td>
-                              <td>Pixel@efo.com </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Web Development </td>
-                              <td>Pixel@efo.com </td>
-                            </tr>
-                            
+                          @endforeach  
                           </tbody>
                         </table>
                       </div>

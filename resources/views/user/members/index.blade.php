@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-md-3 d-flex justify-content-end">
                                  
-                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.family.member.create')}}" data-bs-original-title="" title="">Add New Family Member</a>
+                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.family.member.create')}}" data-bs-original-title="" title="">Add Family Member</a>
 
                             </div>
                         </div>
