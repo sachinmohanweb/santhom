@@ -42,13 +42,11 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.family.member.show_details');
     Route::get('/editfamilymember/{id}', [FamilyController::class, 'admin_family_member_edit'])
             ->name('admin.family.member.edit');
-    Route::post('/deletefamilymember', [FamilyController::class, 'admin_family_member_delete'])
-            ->name('admin.family.member.delete');
-
-
-
     Route::post('/updatefamilymember', [FamilyController::class, 'admin_family_member_update'])
             ->name('admin.family.member.update');   
+    Route::post('/deletefamilymember', [FamilyController::class, 'admin_family_member_delete'])
+            ->name('admin.family.member.delete');
+    
 });
 
 

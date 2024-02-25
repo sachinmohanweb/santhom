@@ -191,7 +191,7 @@ class FamilyController extends Controller
 
             if($request['image']){
 
-                $fileName = $request->name.'.'.$request['image']->extension();
+                $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
                 $request->image->storeAs('members', $fileName);
                 $inputData['image'] = 'storage/members/'.$fileName;
             }
@@ -218,13 +218,53 @@ class FamilyController extends Controller
 
     public function admin_family_member_edit($id) : View
     {
-        $familymember = FamilyMember::where('id',$id)->first();
         $familys = Family::all();
         $relations = Relationship::all();
         $blood_groups = BloodGroup::all();
         $marital_statuses = MaritalStatus::all();
+        $familymember = FamilyMember::where('id',$id)->first();
 
         return view('user.members.edit',compact('familymember','familys','relations','blood_groups','marital_statuses'));
+    }
+
+    public function admin_family_member_update(Request $request): RedirectResponse
+    {
+        DB::beginTransaction();
+        try {
+            
+            $familymember = FamilyMember::find($request->id);
+             $a =  $request->validate([
+                'name'      => 'required',
+                'family_id' => 'required',
+                'gender'    => 'required',
+                'dob'       => 'required',
+                'marital_status_id' => 'required',
+                'relationship_id'   => 'required',
+            ]);
+
+            $inputData = $request->all();
+            $inputData['status'] = 1;
+
+            if($request['image']){
+
+                $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                $request->image->storeAs('members', $fileName);
+                $inputData['image'] = 'storage/members/'.$fileName;
+            }
+
+
+            $familymember->update($inputData);
+            DB::commit();
+
+            return redirect()->back()
+                    ->with('success','Family member details successfully updated.');
+        }catch (Exception $e) {
+
+            DB::rollBack();
+            $message = $e->getMessage();
+            return back()->with('error',$e->getMessage());
+        }
+
     }
 
     public function admin_family_member_delete(Request $request) : JsonResponse
@@ -254,35 +294,6 @@ class FamilyController extends Controller
 
 
 
-    public function admin_family_member_update(Request $request): RedirectResponse
-    {
-        DB::beginTransaction();
-        try {
-            
-            $family = Family::find($request->id);
-            $a =  $request->validate([
-                'family_code' => 'required',
-                'family_name' => 'required',
-                'family_email' => 'required',
-                'head_of_family' => 'required',
-                'prayer_group' => 'required',
-                'address1' => 'required',
-                'address2' => 'required',
-                'pincode' => 'required',
-            ]);
-            $family->update($request->all());
-            DB::commit();
-
-            return redirect()->back()
-                    ->with('success','Family details successfully updated.');
-        }catch (Exception $e) {
-
-            DB::rollBack();
-            $message = $e->getMessage();
-            return back()->with('error',$e->getMessage());
-        }
-
-    }
 
 
 }

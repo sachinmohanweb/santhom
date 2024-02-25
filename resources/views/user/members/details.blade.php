@@ -173,7 +173,7 @@
                   </div>
                 </div>
               <div class="card-footer text-end" style="padding:17px !important">
-                <button class="btn btn-primary" type="submit">Update Details</button>
+                <a href="{{route('admin.family.member.edit', ['id' => $familymember->id])}}"><button class="btn btn-primary" type="button" >Update Details</button></a>
               </div>
               </div>
             </div>
