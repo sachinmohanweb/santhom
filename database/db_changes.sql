@@ -10,6 +10,8 @@ CREATE TABLE `admins` (
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`));
 
+INSERT INTO `admins` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', 'admin@santhom.com', '$2y$12$8b5SCDK.GrK3ncuJBYA7E.vqyprzlptFCeqQE8mKXCdurrSmKU7Rm', 'jNMj8IJRcJTmyyQiCbMlM9J9qNN791z2RtH0CRCJ3FNzUdf2G3Cf84Tbu6he', '2024-02-18 16:48:04', '2024-02-18 16:48:04');
 
 -- 19/02/24----
 
@@ -58,7 +60,7 @@ CREATE TABLE `family_members` (
 
 
 ALTER TABLE `family_members` 
-	ADD `family_id` INT NOT NULL AFTER `nikname`, 
+	ADD `family_id` INT NOT NULL AFTER `nickname`, 
 	ADD `head_of_family` INT NOT NULL DEFAULT '0' AFTER `family_id`;
 
 ALTER TABLE `family_members` CHANGE `blood_group_id` `blood_group_id` INT NULL DEFAULT NULL;
