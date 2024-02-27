@@ -1,6 +1,6 @@
 <div class="sidebar-wrapper" sidebar-layout="stroke-svg">
     <div>
-        <div class="logo-wrapper"  style="padding: 28px 30px; box-shadow: 2px 0 6px rgba(89, 102, 122, 0.1);"><a href="{{ route('index') }}">
+        <div class="logo-wrapper"  style="padding: 28px 30px; box-shadow: 2px 0 6px rgba(89, 102, 122, 0.1);"><a href="{{ route('admin.dashboard') }}">
             <img class="img-fluid for-light"
                     src="{{ asset('assets/images/logo/logoname.jpg') }}" alt="" style="max-width: 100% !important;"> 
             <img class="img-fluid for-dark logo_img"
@@ -8,13 +8,13 @@
             <div class="back-btn"><i class="fa fa-angle-left"></i></div>
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
         </div>
-        <div class="logo-icon-wrapper"><a href="{{ route('index') }}"><img class="img-fluid"
+        <div class="logo-icon-wrapper"><a href="{{ route('admin.dashboard') }}"><img class="img-fluid"
                     src="{{ asset('assets/images/logo/logo.svg') }}" alt="" width="10px"></a></div>
         <nav class="sidebar-main">
             <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
             <div id="sidebar-menu">
                 <ul class="sidebar-links" id="simple-bar">
-                    <li class="back-btn"><a href="{{ route('index') }}"><img class="img-fluid"
+                    <li class="back-btn"><a href="{{ route('admin.dashboard') }}"><img class="img-fluid"
                                 src="{{ asset('assets/images/logo/logo.svg') }}" alt="" width="10px"></a>
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
                                 aria-hidden="true"></i></div>
