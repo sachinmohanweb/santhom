@@ -1,4 +1,4 @@
-$(document).ready(function () {
+/*$(document).ready(function () {
   var engine, remoteHost, template, empty;
 
   $.support.cors = true;
@@ -59,4 +59,4 @@ $(document).ready(function () {
       $('.Typeahead-spinner').hide();
     });
 
-});
+});*/

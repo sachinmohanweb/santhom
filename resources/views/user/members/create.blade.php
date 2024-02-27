@@ -178,7 +178,7 @@
                       <input class="form-control" type="file"  name="image">
                   </div>
                   <div class="col-md-4 mb-3">
-                     <img class="img-fluid for-light" src="http://santhom_connect.local/assets/images/logo/logo.svg" alt="" style="max-width: 100% !important;">
+                     <img class="img-fluid for-light" alt="Your Image" style="max-width: 100% !important;">
                   </div>
               </div>  
               <div class="form-footer">
