@@ -31,8 +31,11 @@ class FamilyController extends Controller
         if(request()->ajax()) {
             return datatables()
             ->of(Family::select('*'))
+            ->addColumn('prayer_group', function ($family) {
+                return $family->PrayerGroup->group_name;
+            })
             ->addColumn('action', 'user.family.family-datatable-action')
-            ->rawColumns(['action'])
+            ->rawColumns(['action','prayer_group'])
             ->addIndexColumn()
             ->make(true);
         }
@@ -54,10 +57,8 @@ class FamilyController extends Controller
                 'family_code' => 'required',
                 'family_name' => 'required',
                 'family_email' => 'required',
-                'head_of_family' => 'required',
-                'prayer_group' => 'required',
+                'prayer_group_id' => 'required',
                 'address1' => 'required',
-                'address2' => 'required',
                 'pincode' => 'required',
             ]);
             Family::create($request->all());
@@ -76,8 +77,10 @@ class FamilyController extends Controller
 
     public function admin_family_show($id) : View
     {
-        $family = Family::where('id',$id)->with('HeadOfFamily','Members')->first();
-        return view('user.family.details',compact('family'));
+        $family = Family::where('id',$id)->with('Members','PrayerGroup','HeadOfFamily')->first();
+        $prayer_groups = PrayerGroup::all();
+
+        return view('user.family.details',compact('family','prayer_groups'));
     }
 
     public function admin_family_update(Request $request): RedirectResponse
@@ -87,13 +90,11 @@ class FamilyController extends Controller
             
             $family = Family::find($request->id);
             $a =  $request->validate([
-                'family_code' => 'required',
+                 'family_code' => 'required',
                 'family_name' => 'required',
                 'family_email' => 'required',
-                'head_of_family' => 'required',
-                'prayer_group' => 'required',
+                'prayer_group_id' => 'required',
                 'address1' => 'required',
-                'address2' => 'required',
                 'pincode' => 'required',
             ]);
             $family->update($request->all());
@@ -182,7 +183,6 @@ class FamilyController extends Controller
                 'family_id' => 'required',
                 'gender'    => 'required',
                 'dob'       => 'required',
-                'marital_status_id' => 'required',
                 'relationship_id'   => 'required',
             ]);
 
@@ -238,7 +238,6 @@ class FamilyController extends Controller
                 'family_id' => 'required',
                 'gender'    => 'required',
                 'dob'       => 'required',
-                'marital_status_id' => 'required',
                 'relationship_id'   => 'required',
             ]);
 

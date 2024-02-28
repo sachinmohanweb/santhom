@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class FamilyMember extends Model
 {
     use HasFactory;
@@ -49,6 +50,4 @@ class FamilyMember extends Model
     
         return $this->belongsTo(BloodGroup::class);
     }
-
-
 }

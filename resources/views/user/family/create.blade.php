@@ -51,25 +51,16 @@
                                     <input class="form-control" id="validationCustom02" type="email" value="{{ old('family_email') }}" required="" name='family_email'>
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
-
-                                <div class="col-md-6">
-                                    <label class="form-label" for="validationCustom02">Head of the Family</label>
-                                    <input class="form-control" id="validationCustom02" type="text" 
-                                    value="{{ old('head_of_family') }}" required="" name='head_of_family'>
-                                    <div class="valid-feedback">Looks good!</div>
-                                </div>
-                                 <div class="col-md-6">
+                                 <div class="col-md-4">
                                     <label class="form-label" for="validationCustom04">Prayer Group</label>
-                                    <select class="form-select" id="validationCustom04" required="" name="prayer_group">
+                                    <select class="form-select" id="validationCustom04" required="" name="prayer_group_id">
                                         <option value="">Choose...</option>
                                          @foreach($prayer_groups as $key=>$value)
-                                        <option value="{{$value->id}}" {{ old('prayer_group') == '1' ? 'selected' : '' }}>{{$value->group_name}}</option>
+                                        <option value="{{$value->id}}" {{ old('prayer_group_id') == '1' ? 'selected' : '' }}>{{$value->group_name}}</option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback">Please select a valid prayer group.</div>
                                 </div>
-                            </div>
-                            <div class="row g-3">
                                 <div class="col-md-4">
                                     <label class="form-label" for="validationCustom03">Address 1</label>
                                     <input class="form-control" id="validationCustom03" type="text" 
@@ -79,14 +70,29 @@
                                 <div class="col-md-4">
                                     <label class="form-label" for="validationCustom03">Address 2</label>
                                     <input class="form-control" id="validationCustom03" type="text" 
-                                        required="" name="address2" value="{{ old('address2') }}">
+                                     name="address2" value="{{ old('address2') }}">
                                     <div class="invalid-feedback">Please provide a valid address.</div>
+                                </div>
+                            </div>
+                            <div class="row g-3">
+                                
+                                 <div class="col-md-4">
+                                    <label class="form-label" for="validationCustom03">Post Office</label>
+                                    <input class="form-control" id="validationCustom03" type="text" 
+                                     name="post_office" value="{{ old('post_office') }}">
+                                    <div class="invalid-feedback">Please provide a valid post office.</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label" for="validationCustom05">Pincode</label>
                                     <input class="form-control" id="validationCustom05" type="text" 
                                         required="" name="pincode" value="{{ old('pincode') }}">
                                     <div class="invalid-feedback">Please provide a valid zip.</div>
+                                </div>
+                                 <div class="col-md-4 mb-3">
+                                    <label class="form-label" for="validationCustom05">Map Location</label>
+                                    <input class="form-control" id="validationCustom05" type="text" 
+                                        name="map_location" value="{{ old('map_location') }}">
+                                    <div class="invalid-feedback">Please provide a valid map location.</div>
                                 </div>
                                
                             </div>

@@ -143,8 +143,8 @@
               </div>
               <div class="row">
                 <div class="col-md-4 mb-3">
-                  <label class="form-label">Marital Status <span style="color:red">***</span></label>
-                  <select class="form-control" name="marital_status_id" required>
+                  <label class="form-label">Marital Status</label>
+                  <select class="form-control" name="marital_status_id">
                     <option value="">--Select--</option>
                       @foreach($marital_statuses as $key=>$value)
                           @if($value->id==$familymember->marital_status_id)
@@ -219,7 +219,7 @@
                       <input class="form-control" type="file"  name="image">
                   </div>
                   <div class="col-md-4 mb-3">
-                     <img class="img-fluid for-light" src="{{asset($familymember->image)}}" alt="" style="max-width: 40% !important;">
+                     <img class="img-fluid for-light" src="{{ asset($familymember->image) }}" alt="" style="max-width: 40% !important;">
                   </div>
               </div>  
               <div class="form-footer">

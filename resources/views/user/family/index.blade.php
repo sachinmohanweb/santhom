@@ -66,21 +66,13 @@
                                         <th>Family code</th>
                                         <th>Family Name</th>
                                         <th>Family Email</th>
-                                        <th>Head Of Family</th>
+                                        <th>Prayer Group</th>
+                                        <th>Address</th>
                                         <th>Action</th>
 
                                        
                                     </tr>
                                 </thead>
-                                <!-- <tfoot>
-                                    <tr>
-                                         <th>family_code</th>
-                                        <th>family_name</th>
-                                        <th>family_email</th>
-                                        <th>head_of_family.</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </tfoot> -->
                             </table>
                         </div>
                     </div>
@@ -108,8 +100,9 @@
                     { data: 'family_code', name: 'family_code' },
                     { data: 'family_name', name: 'family_name' },
                     { data: 'family_email', name: 'family_email' },
-                    { data: 'head_of_family', name: 'head_of_family' },
-                    { data: 'action', name: 'action', orderable: false},
+                    { data: 'prayer_group', name: 'prayer_group' },
+                    { data: 'address1', name: 'address1' },
+                    { data: 'action', name: 'action', orderable: false,width:'25%'},
                 ],
                 order: [[0, 'desc']]
             });

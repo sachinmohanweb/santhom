@@ -68,7 +68,7 @@
             </div>
 
              <hr>
-             <p>Prayer Group : {{$family->prayer_group}}</p>
+             <p>Prayer Group : {{$family->PrayerGroup->group_name}}</p>
              <hr>
              <div>
                <table class="product-page-width">
@@ -77,8 +77,8 @@
                      <td> <b>Head Of The Family</b></td>
                      <td> <b>&nbsp;:&nbsp;</b></td>
                      <td>
-                      @if($family->headoffamily)
-                        <a href="{{ route('admin.family.member.show_details', ['id' => $family->headoffamily->id]) }}">{{$family->head_of_family}}</a> 
+                      @if($family->headOfFamily)
+                        {{$family->headOfFamily->name}}
                       @else
                         nill
                       @endif
@@ -181,22 +181,21 @@
                           <div class="valid-feedback">Looks good!</div>
                       </div>
 
-                      <div class="col-md-6">
-                          <label class="form-label" for="validationCustom02">Head of the Family</label>
-                          <input class="form-control" id="validationCustom02" type="text" 
-                          value="{{$family->head_of_family}}" required="" name='head_of_family'>
-                          <div class="valid-feedback">Looks good!</div>
-                      </div>
-                       <div class="col-md-6">
+                       <div class="col-md-4">
                           <label class="form-label" for="validationCustom04">Prayer Group</label>
-                          <select class="form-select" id="validationCustom04" required="" name="prayer_group">
-                              <option >Choose...</option>
-                              <option value="1" {{ old('prayer_group') == '1' ? 'selected' : '' }}>test prayer group</option>
+                          <select class="form-select" id="validationCustom04" required="" name="prayer_group_id">
+                             <option value="">Choose...</option>
+                                 @foreach($prayer_groups as $key=>$value)
+                                  @if( $value->id==$family->prayer_group_id)
+                                    <option value="{{$value->id}}" selected>{{$value->group_name}}</option>
+                                  @else
+                                    <option value="{{$value->id}}" >{{$value->group_name}}</option>
+                                  @endif
+                                @endforeach
                           </select>
                           <div class="invalid-feedback">Please select a valid prayer group.</div>
                       </div>
-                  </div>
-                  <div class="row g-3">
+
                       <div class="col-md-4">
                           <label class="form-label" for="validationCustom03">Address 1</label>
                           <input class="form-control" id="validationCustom03" type="text" 
@@ -206,14 +205,28 @@
                       <div class="col-md-4">
                           <label class="form-label" for="validationCustom03">Address 2</label>
                           <input class="form-control" id="validationCustom03" type="text" 
-                              required="" name="address2" value="{{$family->address2}}">
+                            name="address2" value="{{$family->address2}}">
                           <div class="invalid-feedback">Please provide a valid address.</div>
+                      </div>
+                  </div>
+                  <div class="row g-3">
+                       <div class="col-md-4 mb-3">
+                          <label class="form-label" for="validationCustom05">Post Office</label>
+                          <input class="form-control" id="validationCustom05" type="text" 
+                            name="post_office" value="{{$family->post_office}}">
+                          <div class="invalid-feedback">Please provide a valid Post office.</div>
                       </div>
                       <div class="col-md-4 mb-3">
                           <label class="form-label" for="validationCustom05">Pincode</label>
                           <input class="form-control" id="validationCustom05" type="text" 
                               required="" name="pincode" value="{{$family->pincode}}">
                           <div class="invalid-feedback">Please provide a valid zip.</div>
+                      </div>
+                       <div class="col-md-4 mb-3">
+                          <label class="form-label" for="validationCustom05">Map Location</label>
+                          <input class="form-control" id="validationCustom05" type="text" 
+                            name="map_location" value="{{$family->map_location}}">
+                          <div class="invalid-feedback">Please provide a valid Map Location.</div>
                       </div>
                      
                   </div>

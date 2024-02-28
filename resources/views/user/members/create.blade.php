@@ -114,8 +114,8 @@
               </div>
               <div class="row">
                 <div class="col-md-4 mb-3">
-                  <label class="form-label">Marital Status <span style="color:red">***</span></label>
-                  <select class="form-control" name="marital_status_id" required>
+                  <label class="form-label">Marital Status</label>
+                  <select class="form-control" name="marital_status_id">
                     <option value="">--Select--</option>
                       @foreach($marital_statuses as $key=>$value)
                         <option value="{{$value->id}}">{{$value->marital_status_name}}</option>

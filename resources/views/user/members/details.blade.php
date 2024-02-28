@@ -55,7 +55,7 @@
                   </div>
                   <div class="mb-3 col-md-6">
                     <label class="form-label">Family head</label>
-                    <p><h6>{{ $familymember->family->head_of_family }} <h6></p>
+                    <p><h6>-- <h6></p>
                   </div>
                 </div>
                 <div class="row">
@@ -76,7 +76,12 @@
                   </div>
                    <div class="mb-3 col-md-6">
                     <label class="form-label">Marital Status</label>
+                    @if($familymember->maritalstatus)
                     <p><b>{{ $familymember->maritalstatus->marital_status_name }}</b> </p>
+                    @else
+                    <p><b>Nill</b> </p>
+
+                    @endif
                   </div>
                 </div>
               </div>

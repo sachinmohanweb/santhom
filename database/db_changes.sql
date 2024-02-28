@@ -121,3 +121,13 @@ INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `upd
  (NULL, 'Wife', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), (NULL, 'Son', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
  (NULL, 'Daughter', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), (NULL, 'Daughter-in-law', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), 
  (NULL, 'Grandson', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), (NULL, 'Granddaughter', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+
+-- 27/02/24----
+
+ALTER TABLE `families` DROP `head_of_family`;
+ALTER TABLE `families` ADD `post_office` VARCHAR(256) NULL DEFAULT NULL AFTER `address2`;
+ALTER TABLE `families` ADD `map_location` VARCHAR(256) NULL DEFAULT NULL AFTER `pincode`;
+ALTER TABLE `families` CHANGE `address2` `address2` VARCHAR(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL;
+ALTER TABLE `families` CHANGE `prayer_group` `prayer_group_id` INT NOT NULL;
+ALTER TABLE `family_members` CHANGE `marital_status_id` `marital_status_id` INT NULL DEFAULT NULL;
