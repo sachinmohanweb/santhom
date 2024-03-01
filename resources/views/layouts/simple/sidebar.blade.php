@@ -49,6 +49,7 @@
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('admin.family.list') }}">Family List</a></li>
                             <li><a href="{{ route('admin.family.members.list') }}">Family Members List</a></li>
+                            <li><a href="{{ route('admin.family.members.import') }}">Import Family & Members</a></li>
                         </ul>
                     </li>
 

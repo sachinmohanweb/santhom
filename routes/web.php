@@ -46,6 +46,12 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.family.member.update');   
     Route::post('/deletefamilymember', [FamilyController::class, 'admin_family_member_delete'])
             ->name('admin.family.member.delete');
+    Route::get('/importfamilymember', [FamilyController::class, 'admin_family_member_import'])
+            ->name('admin.family.members.import');
+    Route::post('import/progress'  ,[FamilyController::class,'import_progress'])
+            ->name('import.progress');
+    Route::post('/storefamilymemberimport', [FamilyController::class, 'admin_family_member_import_store'])
+            ->name('admin.family.members.Import.store');
     
 });
 

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 
 use DB;
+use Excel;
+use Cache;
 use Session;
 use Exception;
 use Datatables;
@@ -18,6 +20,8 @@ use App\Models\PrayerGroup;
 use App\Models\FamilyMember;
 use App\Models\Relationship;
 use App\Models\MaritalStatus;
+
+use App\Imports\FamilyMemberImport;
 
 class FamilyController extends Controller
 {
@@ -284,15 +288,27 @@ class FamilyController extends Controller
         return response()->json($return);
     }
 
+    public function admin_family_member_import() : View
+    {
+        return view('user.import');
+    }
 
+    public function import_progress(Request $request)
+    {
+        $progress = Cache::get('import_progress', 0);
+        return response()->json([
+            'progress' => $progress,
+        ]);
+    }
 
+    public function admin_family_member_import_store(Request $request) : JsonResponse
+    {
+        $fileData=$request->file('excel_file');
 
-
-
-
-
-
-
-
+        $family_member_import = new FamilyMemberImport();
+        Excel::import($family_member_import, $fileData);
+        $output = $family_member_import->getImportResult();
+        return response()->json([$output]);
+    }
 
 }

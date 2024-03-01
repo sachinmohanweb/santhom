@@ -20,7 +20,8 @@ class Family extends Model
         'address2',
         'post_office',
         'pincode',
-        'map_location'
+        'map_location',
+        'status'
     ];
 
     public function PrayerGroup(){
