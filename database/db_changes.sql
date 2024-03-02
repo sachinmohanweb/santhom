@@ -86,11 +86,11 @@ CREATE TABLE `blood_groups` (
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`));
 
-INSERT INTO `blood_groups` (`id`, `blood_group_name`, `status`, `created_at`, `updated_at`) VALUES (NULL, 'A+ve', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
- (NULL, 'A-ve', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), (NULL, 'B+ve', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  (NULL, 'B-ve', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), (NULL, 'O+ve', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-   (NULL, 'O-ve', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), (NULL, 'AB+ve', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (NULL, 'Ab-ve', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO `blood_groups` (`id`, `blood_group_name`, `status`, `created_at`, `updated_at`) VALUES (NULL, 'A+', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+ (NULL, 'A-', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), (NULL, 'B+', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (NULL, 'B-', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), (NULL, 'O+', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+   (NULL, 'O-', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), (NULL, 'AB+', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (NULL, 'AB-', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 
 CREATE TABLE `marital_statuses` (
@@ -136,3 +136,10 @@ ALTER TABLE `family_members` CHANGE `marital_status_id` `marital_status_id` INT 
 
 INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `updated_at`)
  VALUES (NULL, 'Son-in-law', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+ 
+-- 02/03/24----
+
+INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `updated_at`) 
+VALUES (NULL, 'Mother-in-law', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `updated_at`) 
+VALUES (NULL, 'Brother', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

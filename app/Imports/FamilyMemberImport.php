@@ -49,7 +49,7 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
                     $details['family_name']    =$row['family_name'];
 
                     $row['prayer_group'] = trim($row['prayer_group']);
-                    $prayer_group=PrayerGroup::where('group_name','like',"%{$row['prayer_group']}%")->first();
+                    $prayer_group=PrayerGroup::where('group_name',$row['prayer_group'])->first();
                     if(!$prayer_group){
                         throw new \Exception("PrayerGroup unidentified Row-".$key+2);
                     }
@@ -89,7 +89,7 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
                 $member_details['dob']        = date('Y-m-d', $unixTimestampDOB);
 
                 $row['relationship'] = trim($row['relationship']);
-                $relationship=Relationship::where('relation_name','like',"%{$row['relationship']}%")->first();
+                $relationship=Relationship::where('relation_name',$row['relationship'])->first();
                 if(!$relationship){
                     throw new \Exception("Relationship unidentified Row-".$key+2);
                 } 
@@ -121,7 +121,7 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
 
                 if(isset($row['blood_group'])){
                     $row['blood_group'] = trim($row['blood_group']);
-                    $blood_group=BloodGroup::where('blood_group_name','like',"%{$row['blood_group']}%")->first();
+                    $blood_group=BloodGroup::where('blood_group_name',$row['blood_group'])->first();
                     if(!$blood_group){
                         throw new \Exception("Bloodgroup unidentified Row-".$key+2);
                     } 
@@ -132,7 +132,7 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
 
                 if(isset($row['marital_status'])){
                     $row['marital_status'] = trim($row['marital_status']);
-                    $marital_status=MaritalStatus::where('marital_status_name','like',"%{$row['marital_status']}%")->first();
+                    $marital_status=MaritalStatus::where('marital_status_name',$row['marital_status'])->first();
                     if(!$marital_status){
                         throw new \Exception("Marital Status unidentified Row-".$key+2);
                     } 
@@ -204,8 +204,12 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
             $return['message'] = "successfully imported";
         }catch (\Exception $e) {
             DB::rollBack();
+            $errorMessage = "Failed due to " . $e->getMessage();
+            if (isset($key)) {
+                $errorMessage .= " at row " . ($key + 2);
+            }
             $return['result'] = "Failed";
-            $return['message'] = "Failed due to-".$e->getMessage();
+            $return['message'] = $errorMessage;
         }
 
         $this->setImportResult($return);
