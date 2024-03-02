@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 
 use DB;
+use Auth;
 use Excel;
 use Cache;
 use Session;
@@ -191,7 +192,7 @@ class FamilyController extends Controller
             ]);
 
             $inputData = $request->all();
-            $inputData['status'] = 2;
+            $inputData['status'] = 1;
 
             if($request['image']){
 
@@ -246,7 +247,10 @@ class FamilyController extends Controller
             ]);
 
             $inputData = $request->all();
-            $inputData['status'] = 1;
+
+            if(Auth::user()->name  !== 'Admin'){
+                $inputData['status'] = 2;
+            }
 
             if($request['image']){
 

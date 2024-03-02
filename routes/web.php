@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FamilyController;
+use App\Http\Controllers\PrayerGroupController;
 
 
 
@@ -30,6 +31,7 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.family.update');
     Route::post('/deletefamily', [FamilyController::class, 'admin_family_delete'])
             ->name('admin.family.delete');
+
     Route::get('/familymemberslist', [FamilyController::class, 'admin_family_members_list'])
             ->name('admin.family.members.list');
     Route::get('/familymembersDatatable',[FamilyController::class,'admin_family_members_Datatable'])
@@ -52,6 +54,19 @@ Route::middleware('auth:admin')->group(function(){
             ->name('import.progress');
     Route::post('/storefamilymemberimport', [FamilyController::class, 'admin_family_member_import_store'])
             ->name('admin.family.members.Import.store');
+
+    Route::get('/prayerGroupList', [PrayerGroupController::class, 'prayer_group_list'])
+            ->name('admin.prayergroup.list');
+    Route::get('/prayerGroupDatatable', [PrayerGroupController::class, 'prayer_group_datatable'])
+            ->name('admin.prayergroup.datatable');
+    Route::post('/storeprayerGroup', [PrayerGroupController::class, 'prayer_group_store'])
+            ->name('admin.prayergroupr.store');
+    Route::post('/getprayerGroup', [PrayerGroupController::class, 'prayer_group_get'])
+            ->name('admin.get.prayergroup');
+    Route::post('/updateprayergroup/{id}', [PrayerGroupController::class, 'prayer_group_update'])
+            ->name('admin.prayergroup.update');
+    Route::post('/deleteprayerGroup', [PrayerGroupController::class, 'prayer_group_delete'])
+            ->name('admin.prayergroup.delete');
     
 });
 

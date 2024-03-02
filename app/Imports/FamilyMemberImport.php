@@ -70,7 +70,7 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
                         $details['post_office']    =null;
                     }
 
-                    $details['status']    = 2 ;
+                    $details['status']    = 1 ;
 
                     $NewFamily = Family::create($details);
 
@@ -191,7 +191,7 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
                     $member_details['date_of_death']    =null;
                 }
                 
-                $member_details['status']    =2;
+                $member_details['status']    =1;
                 $NewMember = FamilyMember::create($member_details); 
 
                 $processedRows++;

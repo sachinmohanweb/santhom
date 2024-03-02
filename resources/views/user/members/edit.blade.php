@@ -127,8 +127,8 @@
                   <label class="form-label">Gender<span style="color:red">***</span></label>
                   <select class="form-control" name="gender" required>
                     <option value="">--Select--</option>
-                    <option value="male" {{ $familymember->gender === 'male' ? 'selected' :'' }}>Male</option>
-                    <option value="female" {{ $familymember->gender === 'female' ? 'selected' : '' }}>Female</option>
+                    <option value="Male" {{ $familymember->gender === 'Male' ? 'selected' :'' }}>Male</option>
+                    <option value="Female" {{ $familymember->gender === 'Female' ? 'selected' : '' }}>Female</option>
                   </select>  
                 </div>
 

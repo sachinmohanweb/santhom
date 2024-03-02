@@ -12,10 +12,12 @@ class PrayerGroup extends Model
     protected $fillable = [
         'group_name',
         'leader',
-        'leader_phone_ number',
+        'leader_phone_number',
         'status',
     ];
 
-
-
+    public function getStatusAttribute($value)
+    {
+        return $value == 1 ? 'Active' : 'Suspended';
+    }
 }
