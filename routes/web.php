@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\PrayerGroupController;
+use App\Http\Controllers\OrganizationController;
 
 
 
@@ -67,6 +68,19 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.prayergroup.update');
     Route::post('/deleteprayerGroup', [PrayerGroupController::class, 'prayer_group_delete'])
             ->name('admin.prayergroup.delete');
+
+    Route::get('/organizationsList', [OrganizationController::class, 'organizations_list'])
+            ->name('admin.organizations.list');
+    Route::get('/organizationsDatatable', [OrganizationController::class, 'organizations_datatable'])
+            ->name('admin.organizations.datatable');
+    Route::post('/storeorganizations', [OrganizationController::class, 'organizations_store'])
+            ->name('admin.organizations.store');
+    Route::post('/getorganizations', [OrganizationController::class, 'organizations_get'])
+            ->name('admin.get.organizations');
+    Route::post('/updateorganizations/{id}', [OrganizationController::class, 'organizations_update'])
+            ->name('admin.organizations.update');
+    Route::post('/deleteorganizations', [OrganizationController::class, 'organizations_delete'])
+            ->name('admin.organizations.delete');
     
 });
 

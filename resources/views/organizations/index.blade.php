@@ -1,5 +1,5 @@
 @extends('layouts.simple.master')
-@section('title', 'Prayer Groups')
+@section('title', 'Organizations')
 
 @section('css')
     
@@ -10,12 +10,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Prayer Groups</h3>
+    <h3>Organizations</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Data Tables</li>
-    <li class="breadcrumb-item active">Prayer Groups</li>
+    <li class="breadcrumb-item active">Organizations</li>
 @endsection
 
 @section('content')
@@ -43,30 +43,30 @@
                              @endif
                          
                             <div class="col-md-9">
-                                <h3 class="mb-3">Church Prayer Groups</h3> 
+                                <h3 class="mb-3">Church Organizations</h3> 
                             </div>
                             <div class="col-md-3 d-flex justify-content-end">
                                  
-                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" data-bs-toggle="modal" data-bs-target="#AddPrayerGroupModal" >Add New Prayer Group</a>
+                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" data-bs-toggle="modal" data-bs-target="#AddOrganizationModal" >Add New Organization</a>
 
                             </div>
                         </div>
                         <div class="row" style="display:flex;">
                             
                         <div class="col-md-12">
-                            <span>The hub for information and resources related to Prayer Groups within our church community</span>
+                            <span>The hub for information and resources related to Organizations within our church community</span>
                         </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="display" id="prayer_group_data" style="width:100%">
+                            <table class="display" id="organizations_data" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Sl.No</th>
-                                        <th>Group Name</th>
-                                        <th>Leader</th>
-                                        <th>Leader's Phone</th>
+                                        <th>Organization Name</th>
+                                        <th>Coordinator</th>
+                                        <th>Coordinator's Phone</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -79,38 +79,38 @@
         </div>
     </div>
 
-    <div class="modal fade" id="AddPrayerGroupModal" tabindex="-1" role="dialog" aria-labelledby="AddPrayerGroupModalArea" aria-hidden="true">
+    <div class="modal fade" id="AddOrganizationModal" tabindex="-1" role="dialog" aria-labelledby="AddPrayerGroupModalArea" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Prayer Group Details</h5>
+                    <h5 class="modal-title">Organization Details</h5>
                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="needs-validation" novalidate="" action="{{route('admin.prayergroupr.store')}}" method="Post">
+                <form class="needs-validation" novalidate="" action="{{route('admin.organizations.store')}}" method="Post">
                     <div class="modal-body">
                     @csrf
                     <div class="row g-3 mb-3">
                         <div class="col-md-4">
-                          <label class="form-label" for="validationCustom01">Group Name</label>
-                          <input class="form-control" id="group_name" type="text" 
-                          required="" name='group_name'>
+                          <label class="form-label" for="validationCustom01">Organization Name</label>
+                          <input class="form-control" id="organization_name" type="text" 
+                          required="" name='organization_name'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="col-md-4">
-                          <label class="form-label" for="validationCustom02">Group Leader</label>
-                          <input class="form-control" id="leader" type="text" required="" name='leader'>
+                          <label class="form-label" for="validationCustom02">Coordinator</label>
+                          <input class="form-control" id="coordinator" type="text" required="" name='coordinator'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
 
                         <div class="col-md-4">
-                          <label class="form-label" for="validationCustom02">Leader's Phone</label>
-                          <input class="form-control" id="leader_phone_number" type="text" required="" name='leader_phone_number'>
+                          <label class="form-label" for="validationCustom02">Coordinator's Phone</label>
+                          <input class="form-control" id="coordinator_phone_number" type="text" required="" name='coordinator_phone_number'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                     </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.prayergroup.list') }}'">Close</button>
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.organizations.list') }}'">Close</button>
                         <button class="btn btn-success" type="submit">Create</button>
                     </div>
                 </form>
@@ -119,39 +119,39 @@
     </div>
 
 
-    <div class="modal fade" id="EditPrayerGroupModal" tabindex="-1" role="dialog" aria-labelledby="EditPrayerGroupModalArea" aria-hidden="true">
+    <div class="modal fade" id="EditOrganizationsModal" tabindex="-1" role="dialog" aria-labelledby="EditOrganizationsModalArea" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Prayer Group Details</h5>
+                    <h5 class="modal-title">Organizations Details</h5>
                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="needs-validation" id="EditPrayerGroupForm" novalidate="" method="Post">
+                <form class="needs-validation" id="EditOrganizationsForm" novalidate="" method="Post">
                     <div class="modal-body">
                     @csrf
                     <div class="row g-3 mb-3">
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom01">Group Name</label>
-                          <input class="form-control" id="group_name_edit" type="text" 
-                          required="" name='group_name'>
+                          <input class="form-control" id="organization_name_edit" type="text" 
+                          required="" name='organization_name'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom02">Group Leader</label>
-                          <input class="form-control" id="leader_edit" type="text" required="" name='leader'>
+                          <input class="form-control" id="coordinator_edit" type="text" required="" name='coordinator'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
 
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom02">Leader's Phone</label>
-                          <input class="form-control" id="leader_phone_number_edit" type="text" required="" 
-                          name='leader_phone_number'>
+                          <input class="form-control" id="coordinator_phone_number_edit" type="text" required="" 
+                          name='coordinator_phone_number'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                     </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.prayergroup.list') }}'">Close</button>
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.organizations.list') }}'">Close</button>
                         <button class="btn btn-success" type="submit">Update</button>
                     </div>
                 </form>
@@ -172,15 +172,15 @@
                 }
             });
          
-            $('#prayer_group_data').DataTable({
+            $('#organizations_data').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('admin.prayergroup.datatable') }}",
+                ajax: "{{ route('admin.organizations.datatable') }}",
                 columns: [
                     {  data: 'DT_RowIndex', name: 'Sl.No'},
-                    { data: 'group_name', name: 'group_name' },
-                    { data: 'leader', name: 'leader' },
-                    { data: 'leader_phone_number', name: 'leader_phone_number' },
+                    { data: 'organization_name', name: 'organization_name' },
+                    { data: 'coordinator', name: 'coordinator' },
+                    { data: 'coordinator_phone_number', name: 'coordinator_phone_number' },
                     { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false,width:'25%'},
                 ],
@@ -197,11 +197,11 @@
         });
               
         function deleteFunc(id){
-            if (confirm("Are you sure? Delete this prayer group?") == true) {
+            if (confirm("Are you sure? Delete this organization?") == true) {
                 var id = id;
                 $.ajax({
                     type:"POST",
-                    url: "{{ route('admin.prayergroup.delete') }}",
+                    url: "{{ route('admin.organizations.delete') }}",
                     data: { _token : "<?= csrf_token() ?>",
                             id     : id
                     },
@@ -209,15 +209,15 @@
                     success: function(res){
                         var oTable = $('#prayer_group_data').dataTable();
                         if (res.status=='success'){
-                            window.location.href ="{{ route('admin.prayergroup.list') }}";
+                            window.location.href ="{{ route('admin.organizations.list') }}";
                         }else{
-                            window.location.href ="{{ route('admin.prayergroup.list') }}";
-                            alert('Failed to delete prayergroup. Please try again later.');
+                            window.location.href ="{{ route('admin.organizations.list') }}";
+                            alert('Failed to delete organization. Please try again later.');
                         }
                     },
                     error: function(xhr, status, error) {
                         console.error('AJAX request failed:', status, error);
-                        alert('Failed to delete prayer group. Please try again later.');
+                        alert('Failed to delete organization. Please try again later.');
                     }
                 });
             }
@@ -227,19 +227,19 @@
         function EditFunc(id){
             $.ajax({
                 type:"post",
-                url: "{{ route('admin.get.prayergroup') }}",
+                url: "{{ route('admin.get.organizations') }}",
                 data: { _token : "<?= csrf_token() ?>",
                         id     : id
                 },
                 dataType: 'json',
                 success: function(res){
-                    $('#group_name_edit').attr('value', res.group_name);
-                    $('#leader_edit').val(res.leader);
-                    $('#leader_phone_number_edit').val(res.leader_phone_number);
-                    $('#EditPrayerGroupForm').attr('action', "{{ url('updateprayergroup') }}/" + id);
+                    $('#organization_name_edit').attr('value', res.organization_name);
+                    $('#coordinator_edit').val(res.coordinator);
+                    $('#coordinator_phone_number_edit').val(res.coordinator_phone_number);
+                    $('#EditOrganizationsForm').attr('action', "{{ url('updateorganizations') }}/" + id);
 
 
-                    $('#EditPrayerGroupModal').modal('show');
+                    $('#EditOrganizationsModal').modal('show');
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX request failed:', status, error);

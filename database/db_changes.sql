@@ -143,3 +143,15 @@ INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `upd
 VALUES (NULL, 'Mother-in-law', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `updated_at`) 
 VALUES (NULL, 'Brother', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+
+-- 0/03/24----
+
+CREATE TABLE `organizations` (
+	`id` INT NOT NULL AUTO_INCREMENT , 
+	`organization_name` VARCHAR(256) NOT NULL , 
+	`coordinator` VARCHAR(256) NULL , 
+	`coordinator_phone_number` VARCHAR(256) NULL , 
+	`status` INT NOT NULL DEFAULT '1' , 
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`));
