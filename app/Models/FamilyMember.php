@@ -3,12 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+
+//use Illuminate\Database\Eloquent\Model;
 
 
-class FamilyMember extends Model
+//class FamilyMember extends Model
+class FamilyMember extends Authenticatable
 {
-    use HasFactory;
+    //use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
+
 
     protected $fillable = [
         'title',
