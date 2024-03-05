@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\PrayerGroupController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\VikarDetailsController;
 
 
 
@@ -81,6 +82,21 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.organizations.update');
     Route::post('/deleteorganizations', [OrganizationController::class, 'organizations_delete'])
             ->name('admin.organizations.delete');
+
+    Route::get('/vikarlist', [VikarDetailsController::class, 'vikars_list'])
+            ->name('admin.vikar.list');
+    Route::get('/vikarDatatable', [VikarDetailsController::class, 'vikars_Datatable'])
+            ->name('admin.vikar.list.datatable');
+    Route::get('/createvikar', [VikarDetailsController::class, 'vikar_create'])
+            ->name('admin.vikar.create');
+    Route::post('/storevikar', [VikarDetailsController::class, 'vikar_store'])
+            ->name('admin.vikar.store');
+    Route::get('/showvikar/{id}', [VikarDetailsController::class, 'vikar_show'])
+            ->name('admin.vikar.show_details');
+    Route::post('/updatevikar', [VikarDetailsController::class, 'vikar_update'])
+            ->name('admin.vikar.update');
+    Route::post('/deletevikar', [VikarDetailsController::class, 'vikar_delete'])
+            ->name('admin.vikar.delete');
     
 });
 

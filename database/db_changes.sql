@@ -145,7 +145,7 @@ INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `upd
 VALUES (NULL, 'Brother', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 
--- 0/03/24----
+-- 04/03/24----
 
 CREATE TABLE `organizations` (
 	`id` INT NOT NULL AUTO_INCREMENT , 
@@ -155,3 +155,19 @@ CREATE TABLE `organizations` (
 	`status` INT NOT NULL DEFAULT '1' , 
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`));
+
+CREATE TABLE `vikar_details` (
+	`id` INT NOT NULL AUTO_INCREMENT , 
+	`name` VARCHAR(256) NOT NULL , 
+	`family_name` VARCHAR(256) NOT NULL , 
+	`dob` DATE NOT NULL , 
+	`designation` VARCHAR(256) NOT NULL , 
+	`date_of_joining` DATE NOT NULL , 
+	`date_of_relieving` DATE NULL DEFAULT NULL , 
+	`email` VARCHAR(256) NOT NULL , 
+	`mobile` VARCHAR(256) NULL DEFAULT NULL , 
+	`photo` VARCHAR(256) NULL DEFAULT NULL , 
+	`status` INT NOT NULL DEFAULT '1' , 
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`deleted_at` TIMESTAMP NULL DEFAULT NULL , PRIMARY KEY (`id`));
