@@ -9,6 +9,7 @@ use App\Http\Controllers\PrayerGroupController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\VikarDetailsController;
 use App\Http\Controllers\VikarMessageController;
+use App\Http\Controllers\BibleVerseController;
 
 
 
@@ -115,6 +116,19 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.vikarmessages.update');
     Route::post('/delete_vikarmessages', [VikarMessageController::class, 'vikar_message_delete'])
             ->name('admin.vikarmessages.delete');
+
+    Route::get('/bibleverselist', [BibleVerseController::class, 'bible_verse_list'])
+            ->name('admin.bibleverse.list');
+    Route::get('/bibleversedatatable', [BibleVerseController::class, 'bible_verse_datatable'])
+            ->name('admin.bibleverse.datatable');
+    Route::post('/storebibleverse', [BibleVerseController::class, 'bible_verse_store'])
+            ->name('admin.bibleverse.store');
+    Route::post('/getbibleverse', [BibleVerseController::class, 'bible_verse_get'])
+            ->name('admin.get.bibleverse');
+    Route::post('/updatebibleverse/{id}', [BibleVerseController::class, 'bible_verse_update'])
+            ->name('admin.bibleverse.update');
+    Route::post('/deletebibleverse', [BibleVerseController::class, 'bible_verse_delete'])
+            ->name('admin.bibleverse.delete');
   
 });
 
