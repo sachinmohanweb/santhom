@@ -8,6 +8,7 @@ use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\PrayerGroupController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\VikarDetailsController;
+use App\Http\Controllers\VikarMessageController;
 
 
 
@@ -97,7 +98,24 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.vikar.update');
     Route::post('/deletevikar', [VikarDetailsController::class, 'vikar_delete'])
             ->name('admin.vikar.delete');
-    
+
+     Route::get('/vikarmessages_list', [VikarMessageController::class, 'vikar_message_list'])
+            ->name('admin.vikarmessages.list');
+    Route::get('/vikarmessages_Datatable', [VikarMessageController::class, 'vikars_message_Datatable'])
+            ->name('admin.vikarmessages.datatable');
+    Route::get('/create_vikarmessages', [VikarMessageController::class, 'vikar_message_create'])
+            ->name('admin.vikarmessages.create');
+    Route::post('/store_vikarmessages', [VikarMessageController::class, 'vikar_message_store'])
+            ->name('admin.vikarmessages.store');
+    Route::get('/show_vikarmessages/{id}', [VikarMessageController::class, 'vikar_message_show'])
+            ->name('admin.vikarmessages.show_details');
+    Route::get('/edit_vikarmessages/{id}', [VikarMessageController::class, 'vikar_message_edit'])
+            ->name('admin.vikarmessages.edit');
+    Route::post('/update_vikarmessages', [VikarMessageController::class, 'vikar_message_update'])
+            ->name('admin.vikarmessages.update');
+    Route::post('/delete_vikarmessages', [VikarMessageController::class, 'vikar_message_delete'])
+            ->name('admin.vikarmessages.delete');
+  
 });
 
 
