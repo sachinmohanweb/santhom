@@ -66,7 +66,6 @@ class UserController extends Controller
 
     }
 
-
     public function VerifyOtp(Request $request)
     {
         DB::beginTransaction();
@@ -89,8 +88,11 @@ class UserController extends Controller
 
                     Auth::guard('member')->login($user);
 
-                    $return['user']  =  Auth::guard('member')->user();
+                    $token = $user->createToken('santhom-mobile-app')->plainTextToken;
+
                     $return['messsage']  =  'OTP verified successfully';
+                    $return['token']  = $token;
+                    //$return['user']  =  Auth::guard('member')->user();
 
                     return $this->outputer->code(200)->success($return)->json();
                 }else{
@@ -109,7 +111,40 @@ class UserController extends Controller
             $return['result']=$e->getMessage();
             return $this->outputer->code(422)->error($return)->json();
         }
+    }
 
+    public function myprofile(){
+        $user=Auth::user();
+
+        $return['user']  =  $user;
+
+        return $this->outputer->code(200)->success($return)->json();
+    }
+
+    public function logoutuser(){
+
+        DB::beginTransaction();
+
+        try {
+
+            $user=Auth::user();
+            $currentToken = $user->currentAccessToken();
+
+            if ($currentToken) {
+                $currentToken->delete();
+            }
+            
+            DB::commit();
+
+            $return['messsage']  =  'User Tokens deleted';
+            return $this->outputer->code(200)->success($return)->json();
+
+        }catch (\Exception $e) {
+
+            DB::rollBack();
+            $return['result']=$e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
     }
 
 }
