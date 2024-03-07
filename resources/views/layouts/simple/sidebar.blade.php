@@ -115,7 +115,7 @@
                         </svg><span>Daily Schedules</span></a>
                     </li>
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                        class="sidebar-link sidebar-title link-nav" href="#">
+                        class="sidebar-link sidebar-title link-nav" href="{{route('admin.event.list')}}">
                         <svg class="stroke-icon">
                             <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
                         </svg>

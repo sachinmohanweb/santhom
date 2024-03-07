@@ -10,6 +10,7 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\VikarDetailsController;
 use App\Http\Controllers\VikarMessageController;
 use App\Http\Controllers\BibleVerseController;
+use App\Http\Controllers\EventController;
 
 
 
@@ -129,6 +130,21 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.bibleverse.update');
     Route::post('/deletebibleverse', [BibleVerseController::class, 'bible_verse_delete'])
             ->name('admin.bibleverse.delete');
+
+    Route::get('/eventlist', [EventController::class, 'event_list'])
+            ->name('admin.event.list');
+    Route::get('/eventDatatable', [EventController::class, 'event_Datatable'])
+            ->name('admin.event.datatable');
+    Route::get('/createevent', [EventController::class, 'event_create'])
+            ->name('admin.event.create');
+    Route::post('/storeevent', [EventController::class, 'event_store'])
+            ->name('admin.event.store');
+    Route::get('/showevent/{id}', [EventController::class, 'event_show'])
+            ->name('admin.event.show_details');
+    Route::post('/updateevent', [EventController::class, 'event_update'])
+            ->name('admin.event.update');
+    Route::post('/deleteevent', [EventController::class, 'event_delete'])
+            ->name('admin.event.delete');
   
 });
 
