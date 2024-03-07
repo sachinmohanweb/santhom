@@ -11,6 +11,7 @@ use App\Http\Controllers\VicarDetailsController;
 use App\Http\Controllers\VicarMessageController;
 use App\Http\Controllers\BibleVerseController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\NewsAnnouncementController;
 
 
 
@@ -145,6 +146,21 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.event.update');
     Route::post('/deleteevent', [EventController::class, 'event_delete'])
             ->name('admin.event.delete');
+
+    Route::get('/newsannouncementlist', [NewsAnnouncementController::class, 'news_announcement_list'])
+            ->name('admin.news_announcement.list');
+    Route::get('/newsannouncementDatatable',[NewsAnnouncementController::class,'news_announcemnt_Datatable'])
+            ->name('admin.news_announcement.datatable');
+    Route::get('/createnewsannouncement', [NewsAnnouncementController::class, 'news_announcement_create'])
+            ->name('admin.news_announcement.create');
+    Route::post('/storenewsannouncement', [NewsAnnouncementController::class, 'news_announcement_store'])
+            ->name('admin.news_announcement.store');
+    Route::get('/shownewsannouncement/{id}', [NewsAnnouncementController::class, 'news_announcement_show'])
+            ->name('admin.news_announcement.show_details');
+    Route::post('/updatenewsannouncement', [NewsAnnouncementController::class, 'news_announcement_update'])
+            ->name('admin.news_announcement.update');
+    Route::post('/deletenewsannouncement', [NewsAnnouncementController::class, 'news_announcement_delete'])
+            ->name('admin.news_announcement.delete');
   
 });
 
