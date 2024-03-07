@@ -1,5 +1,5 @@
 @extends('layouts.simple.master')
-@section('title', 'Vikar Messages')
+@section('title', 'Vicar Messages')
 
 @section('css')
 @endsection
@@ -16,12 +16,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Vikar Messages Form</h3>
+    <h3>Vicar Messages Form</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Forms</li>
-    <li class="breadcrumb-item active">Vikar Messages Form</li>
+    <li class="breadcrumb-item active">Vicar Messages Form</li>
 @endsection
 
 @section('content')
@@ -29,13 +29,13 @@
     <div class="edit-profile">
       <div class="row">
           
-      <form class="needs-validation" novalidate="" action="{{route('admin.vikarmessages.store')}}" 
+      <form class="needs-validation" novalidate="" action="{{route('admin.vicarmessages.store')}}" 
           method="Post" enctype="multipart/form-data">
           @csrf
         <div class="col-xl-11">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title mb-0">Vikar Message</h4>
+              <h4 class="card-title mb-0">Vicar Message</h4>
               <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
               @if($errors->any())
@@ -66,7 +66,7 @@
               </div> 
               <div class="form-footer">
                 <button type="submit" class="btn btn-primary btn-block">Save</button>
-                <a class="btn btn-primary btn-block" href="{{route('admin.vikarmessages.create')}}">Cancel</a>
+                <a class="btn btn-primary btn-block" href="{{route('admin.vicarmessages.create')}}">Cancel</a>
 
               </div>
 

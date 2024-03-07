@@ -1,5 +1,5 @@
 @extends('layouts.simple.master')
-@section('title', 'Vikars')
+@section('title', 'Vicars')
 
 @section('css')
     
@@ -10,12 +10,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Vikars</h3>
+    <h3>Vicars</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Data Tables</li>
-    <li class="breadcrumb-item active">Vikars</li>
+    <li class="breadcrumb-item active">Vicars</li>
 @endsection
 
 @section('content')
@@ -43,24 +43,24 @@
                              @endif
                          
                             <div class="col-md-9">
-                                <h3 class="mb-3">Church Vikars Page</h3> 
+                                <h3 class="mb-3">Church Vicars Page</h3> 
                             </div>
                             <div class="col-md-3 d-flex justify-content-end">
                                  
-                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.vikar.create')}}" data-bs-original-title="" title="">Add Vikar Details </a>
+                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.vicar.create')}}" data-bs-original-title="" title="">Add Vicar Details </a>
 
                             </div>
                         </div>
                         <div class="row" style="display:flex;">
                             
                         <div class="col-md-12">
-                            <span>The hub for information and resources related to vikars within our church community</span>
+                            <span>The hub for information and resources related to vicars within our church community</span>
                         </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="display" id="vikars_data" style="width:100%">
+                            <table class="display" id="vicars_data" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Sl.No</th>
@@ -92,10 +92,10 @@
                 }
             });
          
-            $('#vikars_data').DataTable({
+            $('#vicars_data').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('admin.vikar.list.datatable') }}",
+                ajax: "{{ route('admin.vicar.list.datatable') }}",
                 columns: [
                     {  data: 'DT_RowIndex', name: 'Sl.No'},
                     { data: 'name', name: 'name', width: '10%' },
@@ -114,27 +114,27 @@
         });
               
         function deleteFunc(id){
-            if (confirm("Are you sure? Delete this vikar details?") == true) {
+            if (confirm("Are you sure? Delete this vicar details?") == true) {
                 var id = id;
                 $.ajax({
                     type:"POST",
-                    url: "{{ route('admin.vikar.delete') }}",
+                    url: "{{ route('admin.vicar.delete') }}",
                     data: { _token : "<?= csrf_token() ?>",
                             id     : id
                     },
                     dataType: 'json',
                     success: function(res){
-                        var oTable = $('#vikars_data').dataTable();
+                        var oTable = $('#vicars_data').dataTable();
                         if (res.status=='success'){
-                            window.location.href ="{{ route('admin.vikar.list') }}";
+                            window.location.href ="{{ route('admin.vicar.list') }}";
                         }else{
-                            window.location.href ="{{ route('admin.vikar.list') }}";
-                            alert('Failed to delete vikar details. Please try again later.');
+                            window.location.href ="{{ route('admin.vicar.list') }}";
+                            alert('Failed to delete vicar details. Please try again later.');
                         }
                     },
                     error: function(xhr, status, error) {
                         console.error('AJAX request failed:', status, error);
-                        alert('Failed to delete vikar details. Please try again later.');
+                        alert('Failed to delete vicar details. Please try again later.');
                     }
                 });
             }
@@ -142,7 +142,7 @@
 
 
         function viewFunc(id){
-            window.location.href = "{{ url('/showvikar') }}"+'/' + id;
+            window.location.href = "{{ url('/showvicar') }}"+'/' + id;
         }  
     </script>
 @endsection

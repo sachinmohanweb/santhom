@@ -54,7 +54,7 @@
                     </li>
 
                      <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                        class="sidebar-link sidebar-title link-nav" href="{{route('admin.vikar.list')}}">
+                        class="sidebar-link sidebar-title link-nav" href="{{route('admin.vicar.list')}}">
                         <svg class="stroke-icon">
                             <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
                         </svg>
@@ -88,7 +88,7 @@
                     </li>
 
                      <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                        class="sidebar-link sidebar-title link-nav" href="{{route('admin.vikarmessages.list')}}">
+                        class="sidebar-link sidebar-title link-nav" href="{{route('admin.vicarmessages.list')}}">
                         <svg class="stroke-icon">
                             <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
                         </svg>

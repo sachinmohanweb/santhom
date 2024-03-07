@@ -156,7 +156,7 @@ CREATE TABLE `organizations` (
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`));
 
-CREATE TABLE `vikar_details` (
+CREATE TABLE `vicar_details` (
 	`id` INT NOT NULL AUTO_INCREMENT , 
 	`name` VARCHAR(256) NOT NULL , 
 	`family_name` VARCHAR(256) NOT NULL , 
@@ -185,7 +185,7 @@ CREATE TABLE `email_verifications` (
 
 -- 06/03/24----
 
-CREATE TABLE `vikar_messages` (
+CREATE TABLE `vicar_messages` (
 	`id` INT NOT NULL AUTO_INCREMENT , 
 	`subject` VARCHAR(256) NOT NULL , 
 	`message_body` TEXT NOT NULL , 

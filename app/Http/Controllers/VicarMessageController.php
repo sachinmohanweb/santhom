@@ -10,22 +10,22 @@ use Illuminate\Http\RedirectResponse;
 use DB;
 use Session;
 
-use App\Models\VikarMessage;
+use App\Models\VicarMessage;
 
-class VikarMessageController extends Controller
+class VicarMessageController extends Controller
 {
 
-    public function vikar_message_list(): View
+    public function vicar_message_list(): View
     {
-        return view('vikar_messages.index',[]);
+        return view('vicar_messages.index',[]);
     }
 
-    public function vikar_message_create() : View
+    public function vicar_message_create() : View
     {
-        return view('vikar_messages.create',[]);
+        return view('vicar_messages.create',[]);
     }
 
-    public function vikar_message_store(Request $request): RedirectResponse
+    public function vicar_message_store(Request $request): RedirectResponse
     {
         DB::beginTransaction();
         try {
@@ -39,14 +39,14 @@ class VikarMessageController extends Controller
             if($request['image']){
 
                 $fileName = str_replace(' ', '_', $request->subject).'.'.$request['image']->extension();
-                $request->image->storeAs('vikar_messages', $fileName);
-                $inputData['image'] = 'storage/vikar_messages/'.$fileName;
+                $request->image->storeAs('vicar_messages', $fileName);
+                $inputData['image'] = 'storage/vicar_messages/'.$fileName;
             }
-            VikarMessage::create($inputData);
+            VicarMessage::create($inputData);
             DB::commit();
              
-            return redirect()->route('admin.vikarmessages.list')
-                            ->with('success','Vikar Message added successfully.');
+            return redirect()->route('admin.vicarmessages.list')
+                            ->with('success','Vicar Message added successfully.');
         }catch (Exception $e) {
 
             DB::rollBack();
@@ -55,19 +55,19 @@ class VikarMessageController extends Controller
         }
     }
 
-    public function vikars_message_Datatable()
+    public function vicars_message_Datatable()
     {
         if(request()->ajax()) {
 
             return datatables()
-            ->of(VikarMessage::select('*'))
+            ->of(VicarMessage::select('*'))
             ->addColumn('DT_RowIndex', function () {
                 return '';
             })
-            ->addColumn('image', function ($vikarmessage) {
-                return '<img  class="img-70 rounded-circle" src="' . asset($vikarmessage->image) . '"  alt="Family Member Image" style="height: 70px;">';
+            ->addColumn('image', function ($vicarmessage) {
+                return '<img  class="img-70 rounded-circle" src="' . asset($vicarmessage->image) . '"  alt="Family Member Image" style="height: 70px;">';
             })           
-            ->addColumn('action', 'vikar_messages.vikar-messages-datatable-action')
+            ->addColumn('action', 'vicar_messages.vicar-messages-datatable-action')
             ->rawColumns(['image','action'])
             ->addIndexColumn()
             ->make(true);
@@ -75,24 +75,24 @@ class VikarMessageController extends Controller
         return view('index');
     }
 
-    public function vikar_message_show($id) : View
+    public function vicar_message_show($id) : View
     {
-        $message = VikarMessage::find($id);
-        return view('vikar_messages.details',compact('message'));
+        $message = VicarMessage::find($id);
+        return view('vicar_messages.details',compact('message'));
     }
 
-    public function vikar_message_edit($id) : View
+    public function vicar_message_edit($id) : View
     {
-        $message = VikarMessage::find($id);
-        return view('vikar_messages.edit',compact('message'));
+        $message = VicarMessage::find($id);
+        return view('vicar_messages.edit',compact('message'));
     }
 
-    public function vikar_message_update(Request $request): RedirectResponse
+    public function vicar_message_update(Request $request): RedirectResponse
     {
         DB::beginTransaction();
         try {
 
-            $message = VikarMessage::find($request->id);
+            $message = VicarMessage::find($request->id);
 
             $a =  $request->validate([
                 'subject' => 'required',
@@ -103,14 +103,14 @@ class VikarMessageController extends Controller
             if($request['image']){
 
                 $fileName = str_replace(' ', '_', $request->subject).'.'.$request['image']->extension();
-                $request->image->storeAs('vikar_messages', $fileName);
-                $inputData['image'] = 'storage/vikar_messages/'.$fileName;
+                $request->image->storeAs('vicar_messages', $fileName);
+                $inputData['image'] = 'storage/vicar_messages/'.$fileName;
             }
             $message->update($inputData);
             DB::commit();
              
-            return redirect()->route('admin.vikarmessages.list')
-                            ->with('success','Vikar Message updated successfully.');
+            return redirect()->route('admin.vicarmessages.list')
+                            ->with('success','Vicar Message updated successfully.');
         }catch (Exception $e) {
 
             DB::rollBack();
@@ -119,13 +119,13 @@ class VikarMessageController extends Controller
         }
     }
 
-    public function vikar_message_delete(Request $request) : JsonResponse
+    public function vicar_message_delete(Request $request) : JsonResponse
     {
         DB::beginTransaction();
         try{
-            $message = VikarMessage::where('id',$request->id)->delete();
+            $message = VicarMessage::where('id',$request->id)->delete();
             DB::commit();
-            Session::flash('success', 'Vikar message successfully deleted.');
+            Session::flash('success', 'Vicar message successfully deleted.');
             $return['status'] = "success";
 
          }catch (Exception $e) {

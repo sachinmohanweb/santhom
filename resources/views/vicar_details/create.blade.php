@@ -1,5 +1,5 @@
 @extends('layouts.simple.master')
-@section('title', 'Vikars')
+@section('title', 'Vicars')
 
 @section('css')
 @endsection
@@ -8,12 +8,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Vikar Details Form</h3>
+    <h3>Vicar Details Form</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Forms</li>
-    <li class="breadcrumb-item active">Vikar Details Form</li>
+    <li class="breadcrumb-item active">Vicar Details Form</li>
 @endsection
 
 @section('content')
@@ -23,14 +23,14 @@
                 <div class="card">
                     <div class="card-header">
                         <h5>Custom styles</h5>
-                        <span>This family form collects essential information about your Vikars.</span>
+                        <span>This family form collects essential information about your Vicars.</span>
                     </div>
 
                      @if($errors->any())
                         <h6 style="color:red;padding: 20px 0px 0px 30px;">{{$errors->first()}}</h6>
                      @endif
                     <div class="card-body">
-                        <form class="needs-validation" novalidate="" action="{{route('admin.vikar.store')}}" method="Post"
+                        <form class="needs-validation" novalidate="" action="{{route('admin.vicar.store')}}" method="Post"
                         enctype="multipart/form-data">
                         	@csrf
                             <div class="row g-3 mb-3">
@@ -56,8 +56,8 @@
                                     <label class="form-label" for="validationCustom02">Designation</label>
                                     <select class="form-control" name="designation" required>
                                     <option value="">--Select--</option>
-                                    <option value="1">Vikar</option>
-                                    <option value="2">Asst.Vikar</option>
+                                    <option value="1">Vicar</option>
+                                    <option value="2">Asst.Vicar</option>
                                   </select>  
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>

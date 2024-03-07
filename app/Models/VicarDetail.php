@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class VikarDetail extends Model
+class VicarDetail extends Model
 {
     use HasFactory;
 
@@ -29,6 +29,6 @@ class VikarDetail extends Model
 
     public function getDesignationAttribute($value)
     {
-        return $value == 1 ? 'Vikar' : 'Asst.Vikar';
+        return $value == 1 ? 'Vicar' : 'Asst.Vicar';
     }
 }

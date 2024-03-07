@@ -1,5 +1,5 @@
 @extends('layouts.simple.master')
-@section('title', 'Family Members')
+@section('title', 'Vicar message')
 
 @section('css')
 @endsection
@@ -16,12 +16,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Family Member Edit Form</h3>
+    <h3>Vicar message Edit Form</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Forms</li>
-    <li class="breadcrumb-item active">Family Member Form</li>
+    <li class="breadcrumb-item active">Vicar message Form</li>
 @endsection
 
 @section('content')
@@ -29,14 +29,14 @@
     <div class="edit-profile">
       <div class="row">
        @if($message)   
-      <form class="needs-validation" novalidate="" action="{{route('admin.vikarmessages.update')}}" 
+      <form class="needs-validation" novalidate="" action="{{route('admin.vicarmessages.update')}}" 
           method="Post" enctype="multipart/form-data">
           @csrf
           <input type="hidden" name="id" value="{{$message->id}}">
         <div class="col-xl-11">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title mb-0">Vikar Message</h4>
+              <h4 class="card-title mb-0">Vicar Message</h4>
               <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
               @if($errors->any())
@@ -67,7 +67,7 @@
               </div> 
               <div class="form-footer">
                 <button type="submit" class="btn btn-primary btn-block">Update</button>
-                <a class="btn btn-primary btn-block" href="{{route('admin.vikarmessages.list')}}">Cancel</a>
+                <a class="btn btn-primary btn-block" href="{{route('admin.vicarmessages.list')}}">Cancel</a>
 
               </div>
 

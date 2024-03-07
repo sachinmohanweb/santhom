@@ -15,24 +15,24 @@ use Session;
 use Exception;
 use Datatables;
 
-use App\Models\VikarDetail;
+use App\Models\VicarDetail;
 
-class VikarDetailsController extends Controller
+class VicarDetailsController extends Controller
 {
 
-    public function vikars_list() : View
+    public function vicars_list() : View
     {
-        return view('vikar_details.index',[]);
+        return view('vicar_details.index',[]);
     }
-    public function vikars_Datatable()
+    public function vicars_Datatable()
     {
         if(request()->ajax()) {
             return datatables()
-            ->of(VikarDetail::select('*'))
+            ->of(VicarDetail::select('*'))
              ->addColumn('DT_RowIndex', function () {
                 return '';
             })
-            ->addColumn('action', 'vikar_details.vikar-datatable-action')
+            ->addColumn('action', 'vicar_details.vicar-datatable-action')
             ->rawColumns(['action'])
             ->addIndexColumn()
             ->make(true);
@@ -40,12 +40,12 @@ class VikarDetailsController extends Controller
         return view('index');
     }
 
-    public function vikar_create() : View
+    public function vicar_create() : View
     {
-        return view('vikar_details.create');
+        return view('vicar_details.create');
     }
 
-    public function vikar_store(Request $request): RedirectResponse
+    public function vicar_store(Request $request): RedirectResponse
     {
 
         DB::beginTransaction();
@@ -64,14 +64,14 @@ class VikarDetailsController extends Controller
             if($request['image']){
 
                 $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
-                $request->image->storeAs('vikars', $fileName);
-                $inputData['photo'] = 'storage/vikars/'.$fileName;
+                $request->image->storeAs('vicars', $fileName);
+                $inputData['photo'] = 'storage/vicars/'.$fileName;
             }
-            VikarDetail::create($inputData);
+            VicarDetail::create($inputData);
             DB::commit();
              
-            return redirect()->route('admin.vikar.list')
-                            ->with('success','Vikar details added successfully.');
+            return redirect()->route('admin.vicar.list')
+                            ->with('success','Vicar details added successfully.');
         }catch (Exception $e) {
 
             DB::rollBack();
@@ -81,19 +81,19 @@ class VikarDetailsController extends Controller
 
     }
 
-    public function vikar_show($id) : View
+    public function vicar_show($id) : View
     {
-        $VikarDetail = VikarDetail::where('id',$id)->first();
+        $VicarDetail = VicarDetail::where('id',$id)->first();
 
-        return view('vikar_details.details',compact('VikarDetail'));
+        return view('vicar_details.details',compact('VicarDetail'));
     }
 
-    public function vikar_update(Request $request): RedirectResponse
+    public function vicar_update(Request $request): RedirectResponse
     {
         DB::beginTransaction();
         try {
             
-            $VikarDetail = VikarDetail::find($request->id);
+            $VicarDetail = VicarDetail::find($request->id);
             $a =  $request->validate([
                 'name' => 'required',
                 'family_name' => 'required',
@@ -109,15 +109,15 @@ class VikarDetailsController extends Controller
             if($request['image']){
 
                 $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
-                $request->image->storeAs('vikars', $fileName);
-                $inputData['photo'] = 'storage/vikars/'.$fileName;
+                $request->image->storeAs('vicars', $fileName);
+                $inputData['photo'] = 'storage/vicars/'.$fileName;
             }
 
-            $VikarDetail->update($inputData);
+            $VicarDetail->update($inputData);
             DB::commit();
 
             return redirect()->back()
-                    ->with('success','Vikar details successfully updated.');
+                    ->with('success','Vicar details successfully updated.');
         }catch (Exception $e) {
 
             DB::rollBack();
@@ -127,20 +127,20 @@ class VikarDetailsController extends Controller
 
     }
 
-    public function vikar_delete(Request $request) : JsonResponse
+    public function vicar_delete(Request $request) : JsonResponse
     {
         DB::beginTransaction();
         try{
-            $VikarDetail = VikarDetail::where('id',$request->id)->delete();
+            $VicarDetail = VicarDetail::where('id',$request->id)->delete();
             DB::commit();
-            Session::flash('success', 'Vikar details successfully deleted.');
+            Session::flash('success', 'Vicar details successfully deleted.');
             $return['status'] = "success";
 
          }catch (Exception $e) {
 
             DB::rollBack();
             $return['status'] = $e->getMessage();
-            Session::flash('error', 'Vikar details deletion not success.');
+            Session::flash('error', 'Vicar details deletion not success.');
         }
         return response()->json($return);
     }

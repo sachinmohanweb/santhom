@@ -7,8 +7,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\PrayerGroupController;
 use App\Http\Controllers\OrganizationController;
-use App\Http\Controllers\VikarDetailsController;
-use App\Http\Controllers\VikarMessageController;
+use App\Http\Controllers\VicarDetailsController;
+use App\Http\Controllers\VicarMessageController;
 use App\Http\Controllers\BibleVerseController;
 use App\Http\Controllers\EventController;
 
@@ -86,37 +86,37 @@ Route::middleware('auth:admin')->group(function(){
     Route::post('/deleteorganizations', [OrganizationController::class, 'organizations_delete'])
             ->name('admin.organizations.delete');
 
-    Route::get('/vikarlist', [VikarDetailsController::class, 'vikars_list'])
-            ->name('admin.vikar.list');
-    Route::get('/vikarDatatable', [VikarDetailsController::class, 'vikars_Datatable'])
-            ->name('admin.vikar.list.datatable');
-    Route::get('/createvikar', [VikarDetailsController::class, 'vikar_create'])
-            ->name('admin.vikar.create');
-    Route::post('/storevikar', [VikarDetailsController::class, 'vikar_store'])
-            ->name('admin.vikar.store');
-    Route::get('/showvikar/{id}', [VikarDetailsController::class, 'vikar_show'])
-            ->name('admin.vikar.show_details');
-    Route::post('/updatevikar', [VikarDetailsController::class, 'vikar_update'])
-            ->name('admin.vikar.update');
-    Route::post('/deletevikar', [VikarDetailsController::class, 'vikar_delete'])
-            ->name('admin.vikar.delete');
+    Route::get('/vicarlist', [VicarDetailsController::class, 'vicars_list'])
+            ->name('admin.vicar.list');
+    Route::get('/vicarDatatable', [VicarDetailsController::class, 'vicars_Datatable'])
+            ->name('admin.vicar.list.datatable');
+    Route::get('/createvicar', [VicarDetailsController::class, 'vicar_create'])
+            ->name('admin.vicar.create');
+    Route::post('/storevicar', [VicarDetailsController::class, 'vicar_store'])
+            ->name('admin.vicar.store');
+    Route::get('/showvicar/{id}', [VicarDetailsController::class, 'vicar_show'])
+            ->name('admin.vicar.show_details');
+    Route::post('/updatevicar', [VicarDetailsController::class, 'vicar_update'])
+            ->name('admin.vicar.update');
+    Route::post('/deletevicar', [VicarDetailsController::class, 'vicar_delete'])
+            ->name('admin.vicar.delete');
 
-     Route::get('/vikarmessages_list', [VikarMessageController::class, 'vikar_message_list'])
-            ->name('admin.vikarmessages.list');
-    Route::get('/vikarmessages_Datatable', [VikarMessageController::class, 'vikars_message_Datatable'])
-            ->name('admin.vikarmessages.datatable');
-    Route::get('/create_vikarmessages', [VikarMessageController::class, 'vikar_message_create'])
-            ->name('admin.vikarmessages.create');
-    Route::post('/store_vikarmessages', [VikarMessageController::class, 'vikar_message_store'])
-            ->name('admin.vikarmessages.store');
-    Route::get('/show_vikarmessages/{id}', [VikarMessageController::class, 'vikar_message_show'])
-            ->name('admin.vikarmessages.show_details');
-    Route::get('/edit_vikarmessages/{id}', [VikarMessageController::class, 'vikar_message_edit'])
-            ->name('admin.vikarmessages.edit');
-    Route::post('/update_vikarmessages', [VikarMessageController::class, 'vikar_message_update'])
-            ->name('admin.vikarmessages.update');
-    Route::post('/delete_vikarmessages', [VikarMessageController::class, 'vikar_message_delete'])
-            ->name('admin.vikarmessages.delete');
+     Route::get('/vicarmessages_list', [VicarMessageController::class, 'vicar_message_list'])
+            ->name('admin.vicarmessages.list');
+    Route::get('/vicarmessages_Datatable', [VicarMessageController::class, 'vicars_message_Datatable'])
+            ->name('admin.vicarmessages.datatable');
+    Route::get('/create_vicarmessages', [VicarMessageController::class, 'vicar_message_create'])
+            ->name('admin.vicarmessages.create');
+    Route::post('/store_vicarmessages', [VicarMessageController::class, 'vicar_message_store'])
+            ->name('admin.vicarmessages.store');
+    Route::get('/show_vicarmessages/{id}', [VicarMessageController::class, 'vicar_message_show'])
+            ->name('admin.vicarmessages.show_details');
+    Route::get('/edit_vicarmessages/{id}', [VicarMessageController::class, 'vicar_message_edit'])
+            ->name('admin.vicarmessages.edit');
+    Route::post('/update_vicarmessages', [VicarMessageController::class, 'vicar_message_update'])
+            ->name('admin.vicarmessages.update');
+    Route::post('/delete_vicarmessages', [VicarMessageController::class, 'vicar_message_delete'])
+            ->name('admin.vicarmessages.delete');
 
     Route::get('/bibleverselist', [BibleVerseController::class, 'bible_verse_list'])
             ->name('admin.bibleverse.list');

@@ -1,5 +1,5 @@
 @extends('layouts.simple.master')
-@section('title', 'Vikar Messages')
+@section('title', 'Vicar Messages')
 
 @section('css')
 
@@ -16,12 +16,12 @@
 @endsection
 
 @section('breadcrumb-title')
-<h3>Vikar Message Details</h3>
+<h3>Vicar Message Details</h3>
 @endsection
 
 @section('breadcrumb-items')
 <li class="breadcrumb-item">Family</li>
-<li class="breadcrumb-item active">Vikar Message Details</li>
+<li class="breadcrumb-item active">Vicar Message Details</li>
 @endsection
 
 @section('content')
@@ -59,7 +59,7 @@
               </div>
             </div>
               <div class="card-footer text-end" style="padding:17px !important">
-                <a href="{{route('admin.vikarmessages.edit', ['id' => $message->id])}}"><button class="btn btn-primary" type="button" >Update Details</button></a>
+                <a href="{{route('admin.vicarmessages.edit', ['id' => $message->id])}}"><button class="btn btn-primary" type="button" >Update Details</button></a>
               </div>
               </div>
             </div>

@@ -1,5 +1,5 @@
 @extends('layouts.simple.master')
-@section('title', 'Vikar Messages')
+@section('title', 'Vicar Messages')
 
 @section('css')
     
@@ -10,12 +10,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Vikar Messages</h3>
+    <h3>Vicar Messages</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Data Tables</li>
-    <li class="breadcrumb-item active">Vikar Messages</li>
+    <li class="breadcrumb-item active">Vicar Messages</li>
 @endsection
 
 @section('content')
@@ -44,24 +44,24 @@
                              @endif
                          
                             <div class="col-md-9">
-                                <h3 class="mb-3">Vikar Messages page</h3> 
+                                <h3 class="mb-3">Vicar Messages page</h3> 
                             </div>
                             <div class="col-md-3 d-flex justify-content-end">
                                  
-                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.vikarmessages.create')}}" data-bs-original-title="" title="">Add Messages</a>
+                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.vicarmessages.create')}}" data-bs-original-title="" title="">Add Messages</a>
 
                             </div>
                         </div>
                         <div class="row" style="display:flex;">
                             
                             <div class="col-md-12">
-                                <span>Vikar Messages</span>
+                                <span>Vicar Messages</span>
                             </div>
                         </div> 
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="display" id="vikar_messages_data" style="width:100%">
+                            <table class="display" id="vicar_messages_data" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Sl.No</th>
@@ -91,10 +91,10 @@
                 }
             });
          
-            $('#vikar_messages_data').DataTable({
+            $('#vicar_messages_data').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('admin.vikarmessages.datatable') }}",
+                ajax: "{{ route('admin.vicarmessages.datatable') }}",
                 columns: [
                     {  data: 'DT_RowIndex', name: 'Sl.No'},
                     {  data: 'image', name: 'image'},     
@@ -110,27 +110,27 @@
         });
               
         function deleteFunc(id){
-            if (confirm("Are you sure? Delete this vikars message?") == true) {
+            if (confirm("Are you sure? Delete this vicars message?") == true) {
                 var id = id;
                 $.ajax({
                      type:"POST",
-                    url: "{{ route('admin.vikarmessages.delete') }}",
+                    url: "{{ route('admin.vicarmessages.delete') }}",
                     data: { _token : "<?= csrf_token() ?>",
                             id     : id
                     },
                     dataType: 'json',
                     success: function(res){
-                        var oTable = $('#vikar_messages_data').dataTable();
+                        var oTable = $('#vicar_messages_data').dataTable();
                         if (res.status=='success'){
-                            window.location.href ="{{ route('admin.vikarmessages.list') }}";
+                            window.location.href ="{{ route('admin.vicarmessages.list') }}";
                         }else{
-                            window.location.href ="{{ route('admin.vikarmessages.list') }}";
-                            alert('Failed to delete Vikar message. Please try again later.');
+                            window.location.href ="{{ route('admin.vicarmessages.list') }}";
+                            alert('Failed to delete Vicar message. Please try again later.');
                         }
                     },
                     error: function(xhr, status, error) {
                         console.error('AJAX request failed:', status, error);
-                        alert('Failed to delete vikar message. Please try again later.');
+                        alert('Failed to delete vicar message. Please try again later.');
                     }
                 });
             }
@@ -138,7 +138,7 @@
 
 
         function viewFunc(id){
-            window.location.href = "{{ url('/show_vikarmessages') }}"+'/' + id;
+            window.location.href = "{{ url('/show_vicarmessages') }}"+'/' + id;
         }  
     </script>
 @endsection
