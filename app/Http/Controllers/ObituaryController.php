@@ -87,7 +87,7 @@ class ObituaryController extends Controller
     {
         $obituary = Obituary::where('id',$id)->first();
 
-        return view('Obituary.details',compact('obituary'));
+        return view('obituary.details',compact('obituary'));
     }
 
     public function obituary_update(Request $request): RedirectResponse

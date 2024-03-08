@@ -163,7 +163,7 @@
 
                                        <div class="col-md-12">
                                           <label class="form-label" for="validationCustom03">Note</label>
-                                          <textarea class="form-control" id="note" name="note" rows="5" cols="50">{{$obituary->notes}}</textarea><br>
+                                          <textarea class="form-control" id="note" name="notes" rows="5" cols="50">{{$obituary->notes}}</textarea><br>
                                           <div class="valid-feedback">Looks good!</div>
                                        </div>
 
