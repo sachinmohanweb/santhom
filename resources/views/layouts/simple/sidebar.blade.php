@@ -131,7 +131,7 @@
                             <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                         </svg><span>News/Announcements</span></a>
                     </li>
-                    <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" href="#">
+                    <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" href="{{route('admin.obituary.list')}}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#obituary') }}"></use>
                             </svg>

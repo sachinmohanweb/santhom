@@ -12,6 +12,7 @@ use App\Http\Controllers\VicarMessageController;
 use App\Http\Controllers\BibleVerseController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\NewsAnnouncementController;
+use App\Http\Controllers\ObituaryController;
 
 
 
@@ -161,6 +162,21 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.news_announcement.update');
     Route::post('/deletenewsannouncement', [NewsAnnouncementController::class, 'news_announcement_delete'])
             ->name('admin.news_announcement.delete');
+
+    Route::get('/obituarylist', [ObituaryController::class, 'obituary_list'])
+            ->name('admin.obituary.list');
+    Route::get('/obituaryDatatable',[ObituaryController::class,'obituary_Datatable'])
+            ->name('admin.obituary.datatable');
+    Route::get('/createobituary', [ObituaryController::class, 'obituary_create'])
+            ->name('admin.obituary.create');
+    Route::post('/storeobituary', [ObituaryController::class, 'obituary_store'])
+            ->name('admin.obituary.store');
+    Route::get('/showobituary/{id}', [ObituaryController::class, 'obituary_show'])
+            ->name('admin.obituary.show_details');
+    Route::post('/updateobituary', [ObituaryController::class, 'obituary_update'])
+            ->name('admin.obituary.update');
+    Route::post('/deleteobituary', [ObituaryController::class, 'obituary_delete'])
+            ->name('admin.obituary.delete');
   
 });
 

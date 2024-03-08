@@ -233,3 +233,19 @@ CREATE TABLE `news_announcements` (
 	`deleted_at` TIMESTAMP NULL DEFAULT NULL , PRIMARY KEY (`id`));
 
 ALTER TABLE `news_announcements` CHANGE `type` `type` INT NULL;
+
+-- 08/03/24----
+
+CREATE TABLE `obituaries` (
+	`id` INT NOT NULL AUTO_INCREMENT , 
+	`name_of_member` VARCHAR(256) NOT NULL , 
+	`date_of_death` DATE NOT NULL , 
+	`funeral_date` DATE NULL DEFAULT NULL , 
+	`funeral_time` TIME NULL DEFAULT NULL , 
+	`display_till_date` DATE NOT NULL , 
+	`notes` TEXT NULL DEFAULT NULL , 
+	`photo` VARCHAR(256) NULL DEFAULT NULL , 
+	`status` INT NOT NULL DEFAULT '1' , 
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`deleted_at` TIMESTAMP NULL DEFAULT NULL , PRIMARY KEY (`id`));
