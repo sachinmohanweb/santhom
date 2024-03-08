@@ -47,7 +47,7 @@
                             </div>
                             <div class="col-md-3 d-flex justify-content-end">
                                  
-                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.news_announcement.create')}}" data-bs-original-title="" title="">Add New Family</a>
+                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.news_announcement.create')}}" data-bs-original-title="" title="">New News/Announcements</a>
 
                             </div>
                         </div>

@@ -20,7 +20,13 @@
                                 aria-hidden="true"></i></div>
                     </li>
 
-                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
+                       
+                    <li class="sidebar-main-title">
+                        <div>
+                            <h6 class="">Affiliates</h6>
+                        </div>
+                    </li>
+                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav" href="{{ route('admin.dashboard') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-home') }}"></use>
@@ -30,14 +36,8 @@
                             </svg><span>Dashboard</span>
                         </a> 
                     </li>
-                       
-                    <li class="sidebar-main-title">
-                        <div>
-                            <h6 class="">Affiliates</h6>
-                        </div>
-                    </li>
                    
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
+                    <li class="sidebar-list">
                         <label class="badge badge-light-secondary"></label><a class="sidebar-link sidebar-title"
                             href="#">
                             <svg class="stroke-icon">
@@ -53,28 +53,28 @@
                         </ul>
                     </li>
 
-                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                        class="sidebar-link sidebar-title link-nav" href="{{route('admin.vicar.list')}}">
+                     <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title link-nav" href="{{route('admin.vicar.list')}}">
                         <svg class="stroke-icon">
-                            <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
+                            <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-widget') }}"></use>
                         </svg>
                         <svg class="fill-icon">
                             <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
-                        </svg><span>Vicar Details</span></a>
+                        </svg>
+                        <span>Vicar Details</span></a>
                     </li>
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{route('admin.prayergroup.list')}}">
+                    <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title link-nav" href="{{route('admin.prayergroup.list')}}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
+                            <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-board') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                             </svg><span>Prayer Groups</span></a>
                         </li>
-                        <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{route('admin.organizations.list')}}">
+                        <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" href="{{route('admin.organizations.list')}}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#star') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
@@ -87,77 +87,77 @@
                         </div>
                     </li>
 
-                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                        class="sidebar-link sidebar-title link-nav" href="{{route('admin.vicarmessages.list')}}">
+                     <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title link-nav" href="{{route('admin.vicarmessages.list')}}">
                         <svg class="stroke-icon">
-                            <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-email') }}"></use>
                         </svg>
                         <svg class="fill-icon">
                             <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                         </svg><span>Vicar's Message</span></a>
                     </li>
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                        class="sidebar-link sidebar-title link-nav" href="{{route('admin.bibleverse.list')}}">
+                    <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title link-nav" href="{{route('admin.bibleverse.list')}}">
                         <svg class="stroke-icon">
-                            <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
+                            <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-knowledgebase') }}"></use>
                         </svg>
                         <svg class="fill-icon">
                             <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                         </svg><span>Bible Verses</span></a>
                     </li>
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                        class="sidebar-link sidebar-title link-nav" href="#">
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#">
                         <svg class="stroke-icon">
-                            <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
+                        <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
+
                         </svg>
                         <svg class="fill-icon">
                             <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                         </svg><span>Daily Schedules</span></a>
                     </li>
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                        class="sidebar-link sidebar-title link-nav" href="{{route('admin.event.list')}}">
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="{{route('admin.event.list')}}">
                         <svg class="stroke-icon">
-                            <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
+                            <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-blog') }}"></use>
+
                         </svg>
                         <svg class="fill-icon">
                             <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                         </svg><span>Events</span></a>
                     </li>
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                        class="sidebar-link sidebar-title link-nav" href="{{route('admin.news_announcement.list')}}">
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="{{route('admin.news_announcement.list')}}">
                         <svg class="stroke-icon">
-                            <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
+                            <use href="{{ asset('assets/svg/icon-sprite.svg#notification') }}"></use>
                         </svg>
                         <svg class="fill-icon">
                             <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                         </svg><span>News/Announcements</span></a>
                     </li>
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="#">
+                    <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" href="#">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#obituary') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                             </svg><span>Obituarys</span></a>
                         </li>
-                        <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="#">
+                        <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" href="#">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
+                            <use href="{{ asset('assets/svg/icon-sprite.svg#payment-card') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                             </svg><span>Payments</span></a>
                         </li>
-                        <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="#">
+                        <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" href="#">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#notification') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                             </svg><span>Notificationss</span></a>
+                        </li>
+                        <li class="sidebar-list">
+                            <a class="sidebar-link sidebar-title link-nav" href="#">
+                            </a>
                         </li>
 
                 </ul>
