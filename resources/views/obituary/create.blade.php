@@ -37,9 +37,7 @@
                             <div class="row g-3 mb-3">
                                 <div class="col-md-6">
                                     <label class="form-label" for="validationCustom04">Name of the member</label>
-                                    <input class="form-control" id="validationCustom01" type="text" 
-                                    value="{{ old('name_of_member') }}" required name='name_of_member'>
-                                    <div class="valid-feedback">Looks good!</div>
+                                     <select class="js-data-example-ajax form-select" id="member_id" name="member_id" required></select>
                                 </div>
                                  <div class="col-md-3">
                                     <label class="form-label" for="validationCustom04">Date of death</label>
@@ -99,4 +97,32 @@
 
 @section('script')
     <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+
+    <script type="text/javascript">
+        $('#member_id').select2({
+            placeholder: "Select member",
+            ajax: {
+
+                url: "<?= url('get_family_members_list') ?>",
+                dataType: 'json',
+                method: 'post',
+                delay: 250,
+
+                 data: function(data) {
+                    return {
+                        _token    : "<?= csrf_token() ?>",
+                        search_tag: data.term,
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.results,
+                        pagination: { more: (params.page * 30) < data.total_count }
+                    };
+                },
+                cache: true
+            }
+        });
+    </script>
 @endsection

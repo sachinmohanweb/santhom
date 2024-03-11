@@ -120,8 +120,10 @@
                                        <div class="row g-3 mb-3">
                                        <div class="col-md-6">
                                           <label class="form-label" for="validationCustom04">Name of the member</label>
-                                          <input class="form-control" id="validationCustom01" type="text" 
-                                          value="{{$obituary->name_of_member}}" required name='name_of_member'>
+                                         <select class="js-data-example-ajax form-select" id="member_id" name="member_id" required>
+                                                 <option value="{{ $obituary['member_id'] }}" selected>{{ $obituary['name_of_member'] }}</option>
+
+                                          </select>
                                           <div class="valid-feedback">Looks good!</div>
                                        </div>
                                        <div class="col-md-3">
@@ -196,4 +198,35 @@
 <script src="{{asset('assets/js/owlcarousel/owl.carousel.js')}}"></script>
 <script src="{{asset('assets/js/ecommerce.js')}}"></script>
 <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+
+<script type="text/javascript">
+  $('#member_id').select2({
+      placeholder: "Select member",
+      ajax: {
+
+          url: "<?= url('get_family_members_list') ?>",
+          dataType: 'json',
+          method: 'post',
+          delay: 250,
+
+           data: function(data) {
+              return {
+                  _token    : "<?= csrf_token() ?>",
+                  search_tag: data.term,
+              };
+          },
+          processResults: function(data, params) {
+              params.page = params.page || 1;
+              return {
+                  results: data.results,
+                  pagination: { more: (params.page * 10) < data.total_count }
+              };
+          },
+          cache: true
+      }
+  });
+
+  
+
+</script>
 @endsection

@@ -16,6 +16,7 @@ use Exception;
 use Datatables;
 
 use App\Models\Obituary;
+use App\Models\FamilyMember;
 
 class ObituaryController extends Controller
 {
@@ -56,12 +57,16 @@ class ObituaryController extends Controller
         try {
 
             $a =  $request->validate([
-                'name_of_member' => 'required',
+                'member_id' => 'required',
                 'date_of_death' => 'required',
                 'display_till_date' => 'required',
             ]);
 
             $inputData = $request->all();
+
+            $member_name = FamilyMember::find($request['member_id'])->name;
+            $inputData = $request->all();
+            $inputData['name_of_member'] = $member_name;
 
             if($request['photo']){
 
@@ -97,12 +102,16 @@ class ObituaryController extends Controller
             
             $obituary = Obituary::find($request->id);
             $a =  $request->validate([
-                'name_of_member' => 'required',
+                'member_id' => 'required',
                 'date_of_death' => 'required',
                 'display_till_date' => 'required',
             ]);
 
             $inputData = $request->all();
+            
+            $member_name = FamilyMember::find($request['member_id'])->name;
+            $inputData = $request->all();
+            $inputData['name_of_member'] = $member_name;
 
             if($request['photo']){
 

@@ -12,6 +12,7 @@ class Obituary extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
+        'member_id',
         'name_of_member',
         'date_of_death',
         'funeral_date',

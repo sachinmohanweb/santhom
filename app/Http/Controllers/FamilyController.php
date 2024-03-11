@@ -315,10 +315,22 @@ class FamilyController extends Controller
         return response()->json([$output]);
     }
 
-    public function admin_family_member_list(): JsonResponse
+    public function admin_family_member_list(Request $request): JsonResponse
     {
+        $searchTag = request()->get('search_tag');
 
-        $familyMembers = FamilyMember::all()->map(function ($member) {
+        $familyMembers = FamilyMember::query()
+
+        ->where(function ($query) use ($searchTag) {
+            $query->whereHas('Family', function ($subquery) use ($searchTag) {
+                $subquery->where('family_name', 'like', '%' . $searchTag . '%');
+            })
+            ->orWhere('name', 'like', '%' . $searchTag . '%');
+        })
+
+        ->get()
+        
+        ->map(function ($member) {
 
             $familyName = $member->Family->family_name;
 
