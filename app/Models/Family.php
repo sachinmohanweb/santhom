@@ -25,7 +25,7 @@ class Family extends Model
         'status'
     ];
 
-    protected $appends = ['prayer_group_name','family_members'];
+   // protected $appends = ['prayer_group_name','family_members'];
 
     public function PrayerGroup(){
     

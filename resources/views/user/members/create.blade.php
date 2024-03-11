@@ -38,6 +38,20 @@
               <h4 class="card-title mb-0">Member Profile</h4>
               <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
+                @if (Session::has('success'))
+                    <div class="alert alert-success">
+                       <ul>
+                          <li>{!! Session::get('success') !!}</li>
+                       </ul>
+                    </div>
+                 @endif
+                  @if (Session::has('error'))
+                    <div class="alert alert-danger">
+                       <ul>
+                          <li>{!! Session::get('error') !!}</li>
+                       </ul>
+                    </div>
+                 @endif
               @if($errors->any())
                 <h6 style="color:red;padding: 20px 0px 0px 30px;">{{$errors->first()}}</h6>
              @endif
@@ -56,7 +70,7 @@
                         <input class="form-control" placeholder="Your Name" name="name" required>
                       </div>
                       <div class="col-md-5 pd_left_zero">
-                        <label class="form-label">Nikname</label>
+                        <label class="form-label">Nickname</label>
                         <input class="form-control" placeholder="Your Nickname" name="nickname">
                       </div>
                     </div>

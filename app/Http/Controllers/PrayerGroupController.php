@@ -47,8 +47,6 @@ class PrayerGroupController extends Controller
         try {
             $a =  $request->validate([
                 'group_name'            => 'required',
-                'leader'                => 'required',
-                'leader_phone_number'   => 'required',
             ]);
 
             $inputData = $request->all();
@@ -60,7 +58,6 @@ class PrayerGroupController extends Controller
             return redirect()->route('admin.prayergroup.list')
                             ->with('success','Prayer Group added successfully.');
         }catch (Exception $e) {
-
             DB::rollBack();
             $message = $e->getMessage();
             return back()->withInput()->withErrors(['message' =>  $e->getMessage()]);;
@@ -103,8 +100,6 @@ class PrayerGroupController extends Controller
             
             $a =  $request->validate([
                 'group_name'            => 'required',
-                'leader'                => 'required',
-                'leader_phone_number'   => 'required',
             ]);
 
             $inputData = $request->all();

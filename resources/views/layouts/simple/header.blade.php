@@ -17,7 +17,7 @@
     </div>
 
     <div class="nav-right col-xxl-7 col-xl-6 col-md-7 col-8 pull-right right-header p-0 ms-auto">
-      <ul class="nav-menus">
+      <ul class="nav-menus" style="padding-right: 20px;">
         <!-- <li class="language-nav">
           <div class="translate_wrapper">
             <div class="current_lang">
@@ -26,7 +26,7 @@
 
           </div>
         </li> -->
-        <li><span class="header-search">
+        <!-- <li><span class="header-search">
             <svg>
               <use href="{{ asset('assets/svg/icon-sprite.svg#search') }}"></use>
             </svg></span>
@@ -64,11 +64,13 @@
               <li><a class="f-w-700" href="#">Check all</a></li>
             </ul>
           </div>
-        </li>
+        </li> -->
         <li class="profile-nav onhover-dropdown pe-0 py-0">
           <div class="media profile-media"><img class="b-r-10" style="max-width: 30px;padding-top: 4px;" src="{{ asset('assets/images/dashboard/Admin2.svg') }}" alt="">
             <div class="media-body"><span>{{Auth::guard('admin')->user()->name}}</span>
-              <p class="mb-0 font-roboto">{{Auth::guard('admin')->user()->email}} <i class="middle fa fa-angle-down"></i></p>
+              <p class="mb-0 font-roboto">{{Auth::guard('admin')->user()->email}} 
+                <!-- <i class="middle fa fa-angle-down"></i> -->
+              </p>
             </div>
           </div>
           <ul class="profile-dropdown onhover-show-div">

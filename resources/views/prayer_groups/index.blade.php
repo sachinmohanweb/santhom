@@ -41,6 +41,10 @@
                                    </ul>
                                 </div>
                              @endif
+
+                             @if($errors->any())
+                                <h6 style="color:red;padding: 20px 0px 0px 30px;">{{$errors->first()}}</h6>
+                            @endif
                          
                             <div class="col-md-9">
                                 <h3 class="mb-3">Church Prayer Groups</h3> 
@@ -98,13 +102,13 @@
                         </div>
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom02">Group Leader</label>
-                          <input class="form-control" id="leader" type="text" required="" name='leader'>
+                          <input class="form-control" id="leader" type="text" name='leader'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
 
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom02">Leader's Phone</label>
-                          <input class="form-control" id="leader_phone_number" type="text" required="" name='leader_phone_number'>
+                          <input class="form-control" id="leader_phone_number" type="text" name='leader_phone_number'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                     </div>
@@ -138,13 +142,13 @@
                         </div>
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom02">Group Leader</label>
-                          <input class="form-control" id="leader_edit" type="text" required="" name='leader'>
+                          <input class="form-control" id="leader_edit" type="text" name='leader'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
 
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom02">Leader's Phone</label>
-                          <input class="form-control" id="leader_phone_number_edit" type="text" required="" 
+                          <input class="form-control" id="leader_phone_number_edit" type="text" 
                           name='leader_phone_number'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>

@@ -63,8 +63,8 @@ Route::middleware('auth:admin')->group(function(){
             ->name('import.progress');
     Route::post('/storefamilymemberimport', [FamilyController::class, 'admin_family_member_import_store'])
             ->name('admin.family.members.Import.store');
-    Route::post('/get_family_members_list', [FamilyController::class, 'admin_family_member_list'])
-            ->name('admin.family.members.list');
+    Route::post('/get_family_members_list', [FamilyController::class, 'family_members_list'])
+            ->name('family.members.list');
 
     Route::get('/prayerGroupList', [PrayerGroupController::class, 'prayer_group_list'])
             ->name('admin.prayergroup.list');

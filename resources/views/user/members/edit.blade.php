@@ -72,7 +72,7 @@
                         value="{{$familymember->name}}">
                       </div>
                       <div class="col-md-5 pd_left_zero">
-                        <label class="form-label">Nikname</label>
+                        <label class="form-label">Nickname</label>
                         <input class="form-control" placeholder="Your Nickname" name="nickname" 
                         value="{{$familymember->nickname}}" >
                       </div>

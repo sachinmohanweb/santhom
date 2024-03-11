@@ -109,9 +109,12 @@
              </div>
              <hr>
              <div class="row">
-               <div class="col-md-4">
+               <div class="col-md-9">
                  <h6 class="product-title">Family Members</h6>
                </div>
+               <div class="col-md-3">
+                 <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.family.member.create')}}" data-bs-original-title="" title="">Add Family Member</a>
+              </div>
              </div>
              <div class="card-block row" style="margin: 10px;">
                     <div class="col-sm-8 col-lg-8 col-xl-8">

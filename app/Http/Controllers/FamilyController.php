@@ -69,8 +69,9 @@ class FamilyController extends Controller
             Family::create($request->all());
             DB::commit();
              
-            return redirect()->route('admin.family.list')
-                            ->with('success','Family added successfully.');
+            //return redirect()->route('admin.family.list')
+            return redirect()->route('admin.family.member.create')
+                            ->with('success',"Success! Your family has been successfully added. Now, let's create a member profile for the head of the family.");
         }catch (Exception $e) {
 
             DB::rollBack();
@@ -204,7 +205,8 @@ class FamilyController extends Controller
             FamilyMember::create($inputData);
             DB::commit();
              
-            return redirect()->route('admin.family.members.list')
+            //return redirect()->route('admin.family.members.list')
+            return redirect()->route('admin.family.show_details',['id'=>$request['family_id']])
                             ->with('success','Family member added successfully.');
         }catch (Exception $e) {
 
@@ -315,7 +317,7 @@ class FamilyController extends Controller
         return response()->json([$output]);
     }
 
-    public function admin_family_member_list(Request $request): JsonResponse
+    public function family_members_list(Request $request): JsonResponse
     {
         $searchTag = request()->get('search_tag');
 
