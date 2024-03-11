@@ -315,4 +315,16 @@ class FamilyController extends Controller
         return response()->json([$output]);
     }
 
+    public function admin_family_member_list(): JsonResponse
+    {
+
+        $familyMembers = FamilyMember::all()->map(function ($member) {
+
+            $familyName = $member->Family->family_name;
+
+            return ['id' => $member->id, 'text' => $member->name . ' (' . $familyName . ')'];
+        });
+
+        return response()->json(['results' => $familyMembers]);
+    }
 }

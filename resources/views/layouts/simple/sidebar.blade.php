@@ -139,7 +139,8 @@
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                             </svg><span>Obituarys</span></a>
                         </li>
-                        <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" href="#">
+                        <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" 
+                            href="{{route('admin.paymentdetails.list')}}">
                             <svg class="stroke-icon">
                             <use href="{{ asset('assets/svg/icon-sprite.svg#payment-card') }}"></use>
                             </svg>
@@ -147,13 +148,14 @@
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                             </svg><span>Payments</span></a>
                         </li>
-                        <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" href="#">
+                        <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" 
+                            href="{{route('admin.notification.list')}}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#notification') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
-                            </svg><span>Notificationss</span></a>
+                            </svg><span>Notifications</span></a>
                         </li>
                         <li class="sidebar-list">
                             <a class="sidebar-link sidebar-title link-nav" href="#">

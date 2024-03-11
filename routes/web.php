@@ -13,6 +13,8 @@ use App\Http\Controllers\BibleVerseController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\NewsAnnouncementController;
 use App\Http\Controllers\ObituaryController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PaymentDetailsController;
 
 
 
@@ -61,6 +63,8 @@ Route::middleware('auth:admin')->group(function(){
             ->name('import.progress');
     Route::post('/storefamilymemberimport', [FamilyController::class, 'admin_family_member_import_store'])
             ->name('admin.family.members.Import.store');
+    Route::post('/get_family_members_list', [FamilyController::class, 'admin_family_member_list'])
+            ->name('admin.family.members.list');
 
     Route::get('/prayerGroupList', [PrayerGroupController::class, 'prayer_group_list'])
             ->name('admin.prayergroup.list');
@@ -177,6 +181,36 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.obituary.update');
     Route::post('/deleteobituary', [ObituaryController::class, 'obituary_delete'])
             ->name('admin.obituary.delete');
+
+    Route::get('/notificationlist', [NotificationController::class, 'notification_list'])
+            ->name('admin.notification.list');
+    Route::get('/notificationDatatable',[NotificationController::class,'notification_Datatable'])
+            ->name('admin.notification.datatable');
+    Route::get('/createnotification', [NotificationController::class, 'notification_create'])
+            ->name('admin.notification.create');
+    Route::post('/storenotification', [NotificationController::class, 'notification_store'])
+            ->name('admin.notification.store');
+    Route::get('/shownotification/{id}', [NotificationController::class, 'notification_show'])
+            ->name('admin.notification.show_details');
+    Route::post('/updatenotification', [NotificationController::class, 'notification_update'])
+            ->name('admin.notification.update');
+    Route::post('/deletenotification', [NotificationController::class, 'notification_delete'])
+            ->name('admin.notification.delete');
+
+    Route::get('/paymentdetailslist', [PaymentDetailsController::class, 'payment_details_list'])
+            ->name('admin.paymentdetails.list');
+    Route::get('/paymentdetailsDatatable',[PaymentDetailsController::class,'payment_details_Datatable'])
+            ->name('admin.paymentdetails.datatable');
+    Route::get('/createpaymentdetails', [PaymentDetailsController::class, 'payment_details_create'])
+            ->name('admin.paymentdetails.create');
+    Route::post('/storepaymentdetails', [PaymentDetailsController::class, 'payment_details_store'])
+            ->name('admin.paymentdetails.store');
+    Route::get('/showpaymentdetails/{id}', [PaymentDetailsController::class, 'payment_details_show'])
+            ->name('admin.paymentdetails.show_details');
+    Route::post('/updatepaymentdetails', [PaymentDetailsController::class, 'payment_details_update'])
+            ->name('admin.paymentdetails.update');
+    Route::post('/deletepaymentdetails', [PaymentDetailsController::class, 'payment_details_delete'])
+            ->name('admin.paymentdetails.delete');
   
 });
 
