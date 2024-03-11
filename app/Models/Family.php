@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+use Auth ;
 
 class Family extends Model
 {
@@ -24,6 +25,8 @@ class Family extends Model
         'status'
     ];
 
+    protected $appends = ['prayer_group_name','family_members'];
+
     public function PrayerGroup(){
     
         return $this->belongsTo(PrayerGroup::class);
@@ -37,6 +40,18 @@ class Family extends Model
     public function headOfFamily(): HasOne
     {
         return $this->hasOne(FamilyMember::class)->where('relationship_id', 1);
+    }
+
+    public function getPrayerGroupNameAttribute()
+    {
+        $family = Family::where('id',$this->id)->first();
+        $prayer = $family ? $family->PrayerGroup->group_name : 'Null';
+        return $prayer;
+    }
+
+    public function getFamilyMembersAttribute()
+    {
+        return $this->hasMany(FamilyMember::class);
     }
     
 }

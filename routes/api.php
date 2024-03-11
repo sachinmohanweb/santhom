@@ -11,6 +11,7 @@ Route::post('verify_otp',[UserController::class, 'VerifyOtp']);
 Route::middleware('auth:sanctum')->group(function(){
 
     Route::get('my_profile',[UserController::class, 'myprofile']);
+    Route::get('my_family',[UserController::class, 'myfamily']);
     Route::get('logout',[UserController::class, 'logoutuser']);
 
 });

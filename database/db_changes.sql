@@ -277,3 +277,5 @@ CREATE TABLE `payment_details` (
 	`deleted_at` TIMESTAMP NULL DEFAULT NULL , PRIMARY KEY (`id`));
 
 ALTER TABLE `payment_details` ADD `member_id` INT NOT NULL AFTER `id`;
+
+ALTER TABLE `obituaries` ADD `member_id` INT NOT NULL AFTER `id`;

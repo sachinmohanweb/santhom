@@ -114,9 +114,18 @@ class UserController extends Controller
     }
 
     public function myprofile(){
-        $user=Auth::user();
 
-        $return['user']  =  $user;
+        $member = FamilyMember::find(Auth::user()->id);
+
+        $return['member']  =  $member;
+
+        return $this->outputer->code(200)->success($return)->json();
+    }
+
+    public function myfamily(){
+
+        $family = Family::where('id',Auth::user()->family_id)->first();
+        $return['family']  =  $family;
 
         return $this->outputer->code(200)->success($return)->json();
     }

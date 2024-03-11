@@ -41,6 +41,9 @@ class FamilyMember extends Authenticatable
         'status',
     ];
 
+    protected $appends = ['family_name','family_head_name','prayer_group_name','blood_group_name',
+    'marital_status_name','relationship_name'];
+
     public function Family(){
     
         return $this->belongsTo(Family::class);
@@ -57,4 +60,47 @@ class FamilyMember extends Authenticatable
     
         return $this->belongsTo(BloodGroup::class);
     }
+
+    public function getFamilyNameAttribute()
+    {
+        $family = Family::where('id',$this->family_id)->first();
+        return $family->family_name;
+    }
+
+    public function getFamilyHeadNameAttribute()
+    {
+        $familyhead = FamilyMember::where('family_id',$this->family_id)->where('head_of_family',1)->first();
+        $family_head = $familyhead ? $familyhead->name : 'Null';
+
+        return $family_head;
+    }
+    
+    public function getPrayerGroupNameAttribute()
+    {
+        $family = Family::where('id',$this->family_id)->first();
+        $prayer = $family ? $family->PrayerGroup->group_name : 'Null';
+        return $prayer;
+    }
+
+    public function getBloodGroupNameAttribute()
+    {
+        $BloodGroup = BloodGroup::where('id',$this->blood_group_id)->first();
+        $Blood_Group = $BloodGroup ? $BloodGroup->blood_group_name : 'Null';
+        return $Blood_Group;
+    }
+
+    public function getMaritalStatusNameAttribute()
+    {
+        $MaritalStatus = MaritalStatus::where('id',$this->marital_status_id)->first();
+        $Marital_Status = $MaritalStatus ? $MaritalStatus->marital_status_name : 'Null';
+        return $Marital_Status ;
+    }
+
+    public function getRelationshipNameAttribute()
+    {
+        $Relation = Relationship::where('id',$this->relationship_id)->first();
+        $relation = $Relation ? $Relation->relation_name : 'Null';
+        return $relation;
+    }
+
 }
