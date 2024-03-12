@@ -59,18 +59,20 @@ class FamilyController extends Controller
         DB::beginTransaction();
         try {
             $a =  $request->validate([
-                'family_code' => 'required',
+                'family_code' => 'required|unique:families',
                 'family_name' => 'required',
-                'family_email' => 'required',
                 'prayer_group_id' => 'required',
                 'address1' => 'required',
                 'pincode' => 'required',
+            ], [
+                'family_code.unique' => 'The :attribute already exists.',
             ]);
-            Family::create($request->all());
+
+            $family = Family::create($request->all());
             DB::commit();
              
             //return redirect()->route('admin.family.list')
-            return redirect()->route('admin.family.member.create')
+            return redirect()->route('admin.family.member.create.family_id',['family_id' => $family['id']])
                             ->with('success',"Success! Your family has been successfully added. Now, let's create a member profile for the head of the family.");
         }catch (Exception $e) {
 
@@ -85,7 +87,6 @@ class FamilyController extends Controller
     {
         $family = Family::where('id',$id)->with('Members','PrayerGroup','HeadOfFamily')->first();
         $prayer_groups = PrayerGroup::all();
-
         return view('user.family.details',compact('family','prayer_groups'));
     }
 
@@ -96,12 +97,13 @@ class FamilyController extends Controller
             
             $family = Family::find($request->id);
             $a =  $request->validate([
-                 'family_code' => 'required',
+                 'family_code' => 'required|unique:families',
                 'family_name' => 'required',
-                'family_email' => 'required',
                 'prayer_group_id' => 'required',
                 'address1' => 'required',
                 'pincode' => 'required',
+            ], [
+                'family_code.unique' => 'The :attribute already exists.',
             ]);
             $family->update($request->all());
             DB::commit();
@@ -169,14 +171,14 @@ class FamilyController extends Controller
         return view('index');
     }
 
-    public function admin_family_member_create() : View
+    public function admin_family_member_create($family_id = null) : View
     {   
+
         $familys = Family::all();
         $relations = Relationship::all();
         $blood_groups = BloodGroup::all();
         $marital_statuses = MaritalStatus::all();
-
-        return view('user.members.create',compact('familys','blood_groups','marital_statuses','relations'));
+        return view('user.members.create',compact('familys','blood_groups','marital_statuses','relations','family_id'));
     }
 
     public function admin_family_member_store(Request $request): RedirectResponse
@@ -340,5 +342,12 @@ class FamilyController extends Controller
         });
 
         return response()->json(['results' => $familyMembers]);
+    }
+
+    public function checkFamiyHeadUpdated(Request $request): JsonResponse
+    {
+        $family_id = $request['family_id'];
+        $familyHead = FamilyMember::where('family_id',$family_id)->where('head_of_family',1)->count();
+        return response()->json(['count' => $familyHead]);
     }
 }

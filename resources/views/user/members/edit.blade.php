@@ -67,7 +67,7 @@
                       </div>
                       <div class="col-md-5 pd_left_zero">
 
-                        <label class="form-label">Name<span style="color:red">***</span></label>
+                        <label class="form-label">Name<span style="color:red">*</span></label>
                         <input class="form-control" placeholder="Your Name" name="name" required
                         value="{{$familymember->name}}">
                       </div>
@@ -83,7 +83,7 @@
               </div> 
               <div class="row">
                 <div class="col-md-5">
-                  <label class="form-label">Family <span style="color:red">***</span></label>
+                  <label class="form-label">Family <span style="color:red">*</span></label>
                   <select class="form-control" name="family_id" required>
                     <option value="">--Select--</option>
                       @foreach($familys as $key=>$value)
@@ -124,7 +124,7 @@
               </div>
               <div class="row">
                 <div class="col-md-4">
-                  <label class="form-label">Gender<span style="color:red">***</span></label>
+                  <label class="form-label">Gender<span style="color:red">*</span></label>
                   <select class="form-control" name="gender" required>
                     <option value="">--Select--</option>
                     <option value="Male" {{ $familymember->gender === 'Male' ? 'selected' :'' }}>Male</option>
@@ -133,7 +133,7 @@
                 </div>
 
                 <div class=" col-md-4 mb-3">
-                  <label class="form-label">Date of birth <span style="color:red">***</span></label>
+                  <label class="form-label">Date of birth <span style="color:red">*</span></label>
                   <input class="form-control digits" type="date"  data-bs-original-title="" title="" name="dob"  value="{{$familymember->dob}}" required>
                 </div>
                 <div class=" col-md-4 mb-3">
@@ -161,7 +161,7 @@
                 </div>
 
                 <div class="col-md-4 mb-3">
-                  <label class="form-label">Relation with Head of family <span style="color:red">***</span></label>
+                  <label class="form-label">Relation with Head of family <span style="color:red">*</span></label>
                   <select class="form-control" name="relationship_id" required>
                     <option value="">--Select--</option>
                       @foreach($relations as $key=>$value)

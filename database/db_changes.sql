@@ -279,3 +279,7 @@ CREATE TABLE `payment_details` (
 ALTER TABLE `payment_details` ADD `member_id` INT NOT NULL AFTER `id`;
 
 ALTER TABLE `obituaries` ADD `member_id` INT NOT NULL AFTER `id`;
+
+-- 12/03/24----
+
+ALTER TABLE `families` DROP `family_email`;

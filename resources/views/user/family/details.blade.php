@@ -85,11 +85,6 @@
                      </td>
                    </tr>
                    <tr>
-                     <td> <b>Email  </b></td>
-                      <td> <b> &nbsp;:&nbsp;</b></td>
-                     <td class="txt-success">{{$family->family_email}}</td>
-                   </tr>
-                   <tr>
                      <td> <b>Address  </b></td>
                       <td> <b> &nbsp;:&nbsp;</b></td>
                      <td>{{$family->address1}},{{$family->address2}}</td>
@@ -113,7 +108,7 @@
                  <h6 class="product-title">Family Members</h6>
                </div>
                <div class="col-md-3">
-                 <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.family.member.create')}}" data-bs-original-title="" title="">Add Family Member</a>
+                 <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.family.member.create.family_id',['family_id' => $family['id']])}}" data-bs-original-title="" title="">Add Family Member</a>
               </div>
              </div>
              <div class="card-block row" style="margin: 10px;">
@@ -167,25 +162,21 @@
                 @csrf
                   <div class="row g-3 mb-3">
                       <div class="col-md-4">
-                          <label class="form-label" for="validationCustom01">Family Code</label>
+                          <label class="form-label" for="validationCustom01">Family Code
+                           <span style="color:red">*</span></label>
                           <input class="form-control" id="validationCustom01" type="text" 
                           value="{{$family->family_code}}" required="" name='family_code'>
                           <div class="valid-feedback">Looks good!</div>
                       </div>
                       <div class="col-md-4">
-                          <label class="form-label" for="validationCustom02">Family Name</label>
+                          <label class="form-label" for="validationCustom02">Family Name
+                           <span style="color:red">*</span></label>
                           <input class="form-control" id="validationCustom02" type="text" value="{{$family->family_name}}"  required="" name='family_name'>
                           <div class="valid-feedback">Looks good!</div>
                       </div>
-
-                      <div class="col-md-4">
-                          <label class="form-label" for="validationCustom02">Family Email</label>
-                          <input class="form-control" id="validationCustom02" type="email" value="{{$family->family_email}}" required="" name='family_email'>
-                          <div class="valid-feedback">Looks good!</div>
-                      </div>
-
                        <div class="col-md-4">
-                          <label class="form-label" for="validationCustom04">Prayer Group</label>
+                          <label class="form-label" for="validationCustom04">Prayer Group
+                           <span style="color:red">*</span></label>
                           <select class="form-select" id="validationCustom04" required="" name="prayer_group_id">
                              <option value="">Choose...</option>
                                  @foreach($prayer_groups as $key=>$value)
@@ -199,13 +190,14 @@
                           <div class="invalid-feedback">Please select a valid prayer group.</div>
                       </div>
 
-                      <div class="col-md-4">
-                          <label class="form-label" for="validationCustom03">Address 1</label>
+                      <div class="col-md-6">
+                          <label class="form-label" for="validationCustom03">Address 1
+                           <span style="color:red">*</span></label>
                           <input class="form-control" id="validationCustom03" type="text" 
                               required="" name="address1" value="{{$family->address1}}">
                           <div class="invalid-feedback">Please provide a valid adddress.</div>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-6">
                           <label class="form-label" for="validationCustom03">Address 2</label>
                           <input class="form-control" id="validationCustom03" type="text" 
                             name="address2" value="{{$family->address2}}">
@@ -220,7 +212,8 @@
                           <div class="invalid-feedback">Please provide a valid Post office.</div>
                       </div>
                       <div class="col-md-4 mb-3">
-                          <label class="form-label" for="validationCustom05">Pincode</label>
+                          <label class="form-label" for="validationCustom05">Pincode
+                           <span style="color:red">*</span></label>
                           <input class="form-control" id="validationCustom05" type="text" 
                               required="" name="pincode" value="{{$family->pincode}}">
                           <div class="invalid-feedback">Please provide a valid zip.</div>
@@ -237,7 +230,7 @@
           </div>
           <div class="modal-footer">
              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.family.list') }}'">Close</button>
-             <button class="btn btn-success" type="submit">Update changes</button>
+             <button class="btn btn-success" type="submit">Update</button>
           </div>
           </form>
        </div>

@@ -38,6 +38,7 @@
               <h4 class="card-title mb-0">Member Profile</h4>
               <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
+            <div class="card-body">
                 @if (Session::has('success'))
                     <div class="alert alert-success">
                        <ul>
@@ -55,7 +56,6 @@
               @if($errors->any())
                 <h6 style="color:red;padding: 20px 0px 0px 30px;">{{$errors->first()}}</h6>
              @endif
-            <div class="card-body">
               <div class="row mb-2">
                 <div class="profile-title">
                   <div class="media-body">
@@ -66,7 +66,7 @@
                       </div>
                       <div class="col-md-5 pd_left_zero">
 
-                        <label class="form-label">Name<span style="color:red">***</span></label>
+                        <label class="form-label">Name<span style="color:red">*</span></label>
                         <input class="form-control" placeholder="Your Name" name="name" required>
                       </div>
                       <div class="col-md-5 pd_left_zero">
@@ -80,12 +80,16 @@
               </div> 
               <div class="row">
                 <div class="col-md-5">
-                  <label class="form-label">Family <span style="color:red">***</span></label>
-                  <select class="form-control" name="family_id" required>
+                  <label class="form-label">Family <span style="color:red">*</span></label>
+                  <select class="form-control" name="family_id" id="family_id" required>
                     <option value="">--Select--</option>
-                      @foreach($familys as $key=>$value)
-                        <option value="{{$value->id}}">{{$value->family_name}}</option>
-                      @endforeach
+                    @foreach($familys as $key=>$value)
+                        @if(($family_id) && ($family_id==$value->id))
+                            <option value="{{$value->id}}" selected>{{$value->family_name}}</option>
+                        @else
+                          <option value="{{$value->id}}">{{$value->family_name}}</option>
+                        @endif
+                    @endforeach
                   </select>                        
                 </div>
 
@@ -93,7 +97,8 @@
                   <label class="form-label pd_right_15">Are you head of the family</label>
                   <div class="form-check form-check-inline radio radio-primary">
                     <input class="form-check-input" id="radioinline1" type="radio" name="head_of_family" value="1" data-bs-original-title="" title="">
-                    <label class="form-check-label mb-0" for="radioinline1">Yes<span class="digits"></span></label>
+                    <label class="form-check-label mb-0" for="radioinline1" id="head_of_family_lable">Yes
+                    </label>
                   </div>
                 </div>
                 <div class="col-md-2">
@@ -109,7 +114,7 @@
               </div>
               <div class="row">
                 <div class="col-md-4">
-                  <label class="form-label">Gender<span style="color:red">***</span></label>
+                  <label class="form-label">Gender<span style="color:red">*</span></label>
                   <select class="form-control" name="gender" required>
                     <option value="">--Select--</option>
                     <option value="Male">Male</option>
@@ -118,7 +123,7 @@
                 </div>
 
                 <div class=" col-md-4 mb-3">
-                  <label class="form-label">Date of birth <span style="color:red">***</span></label>
+                  <label class="form-label">Date of birth <span style="color:red">*</span></label>
                   <input class="form-control digits" type="date" value="" data-bs-original-title="" title="" name="dob" required>
                 </div>
                 <div class=" col-md-4 mb-3">
@@ -142,8 +147,8 @@
                 </div>
 
                 <div class="col-md-4 mb-3">
-                  <label class="form-label">Relation with Head of family <span style="color:red">***</span></label>
-                  <select class="form-control" name="relationship_id" required>
+                  <label class="form-label">Relation with Head of family <span style="color:red">*</span></label>
+                  <select class="form-control" name="relationship_id" id="relationship_id" required>
                     <option value="">--Select--</option>
                       @foreach($relations as $key=>$value)
                         <option value="{{$value->id}}">{{$value->relation_name}}</option>
@@ -211,5 +216,55 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+<script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+      function checkFamilyHeadUpdated(family_id){
+        $.ajax({
+            url: '<?= url('check_famiy_head_updated') ?>',
+            type: 'post',
+            data: {
+                _token: "<?= csrf_token() ?>",
+                family_id:family_id
+            },
+            dataType: 'JSON',
+            success: function (data) {
+                if(data.count == 1) {
+                    $('#radioinline1').prop('disabled', true);
+                    var alreadySelectedSpan = $('<span>', {
+                        class: 'alreadyselected',
+                        text: ' already selected',
+                        css: {
+                            color: 'red'
+                        }
+                    });
+                    $('.alreadyselected').hide();
+                    $('#head_of_family_lable').after(alreadySelectedSpan);
+                    $('#relationship_id option[value="1"]').hide();
+
+                }else{
+
+                    $('.alreadyselected').hide();
+                    $('#radioinline1').prop('disabled', false);
+                    $('#relationship_id option[value="1"]').show();
+
+                }
+            }
+        });   
+      }
+
+      var selectedValue = $('#family_id').val();
+      if(selectedValue){
+        checkFamilyHeadUpdated(selectedValue);
+      }
+
+      $('#family_id').on('change', function() {
+        var selectedValue = $(this).val();
+          checkFamilyHeadUpdated(selectedValue);
+      });
+  });
+
+</script>
 @endsection

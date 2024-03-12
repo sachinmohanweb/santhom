@@ -65,7 +65,6 @@
                                     <tr>
                                         <th>Family code</th>
                                         <th>Family Name</th>
-                                        <th>Family Email</th>
                                         <th>Prayer Group</th>
                                         <th>Address</th>
                                         <th>Action</th>
@@ -99,12 +98,11 @@
                 columns: [
                     { data: 'family_code', name: 'family_code' },
                     { data: 'family_name', name: 'family_name' },
-                    { data: 'family_email', name: 'family_email' },
                     { data: 'prayer_group', name: 'prayer_group' },
                     { data: 'address1', name: 'address1' },
                     { data: 'action', name: 'action', orderable: false,width:'25%'},
                 ],
-                order: [[0, 'desc']]
+                order: [[0, 'asc']]
             });
         });
               

@@ -47,6 +47,8 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.familymembers.list.datatable');
     Route::get('/createfamilymember', [FamilyController::class, 'admin_family_member_create'])
             ->name('admin.family.member.create');
+    Route::get('/createfamilymember/{family_id}', [FamilyController::class, 'admin_family_member_create'])
+            ->name('admin.family.member.create.family_id');
     Route::post('/storefamilymember', [FamilyController::class, 'admin_family_member_store'])
             ->name('admin.family.member.store');
     Route::get('/showfamilymember/{id}', [FamilyController::class, 'admin_family_member_show'])
@@ -65,6 +67,8 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.family.members.Import.store');
     Route::post('/get_family_members_list', [FamilyController::class, 'family_members_list'])
             ->name('family.members.list');
+    Route::post('/check_famiy_head_updated', [FamilyController::class, 'checkFamiyHeadUpdated'])
+            ->name('family.head.updated');
 
     Route::get('/prayerGroupList', [PrayerGroupController::class, 'prayer_group_list'])
             ->name('admin.prayergroup.list');

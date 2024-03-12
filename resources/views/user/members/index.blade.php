@@ -115,7 +115,7 @@
                     { width: '15%', targets: 5 },
                     { width: '25%', targets: 6 },
                 ],
-                order: [[0, 'asc']]
+                order: [[2, 'asc']]
             });
         });
               
