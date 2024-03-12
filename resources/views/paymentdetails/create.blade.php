@@ -22,7 +22,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Custom styles</h5>
+                        <h5>Details</h5>
                         <span>This form collects Payment details.
                         </span>
                     </div>
@@ -64,7 +64,7 @@
                                 </div>
                             </div><br>
                            
-                            <button class="btn btn-primary" type="submit">Submit form</button>
+                            <button class="btn btn-primary" type="submit">Save</button>
                             <a class="btn btn-primary" onclick="window.location='{{ route('admin.paymentdetails.list') }}'">Cancel</a>
                         </form>
                     </div>

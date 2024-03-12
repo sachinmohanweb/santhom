@@ -89,7 +89,7 @@
                         <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
                            <div class="modal-content">
                               <div class="modal-header">
-                                 <h5 class="modal-title">Family Details</h5>
+                                 <h5 class="modal-title">News/Announcement Edit Form</h5>
                                  <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <form class="needs-validation" novalidate="" action="{{route('admin.news_announcement.update',['id'=>$news->id])}}" method="Post" enctype="multipart/form-data">

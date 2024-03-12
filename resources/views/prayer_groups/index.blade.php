@@ -58,7 +58,7 @@
                         <div class="row" style="display:flex;">
                             
                         <div class="col-md-12">
-                            <span>The hub for information and resources related to Prayer Groups within our church community</span>
+                            <span>Collects information related to Prayer Groups within our church community</span>
                         </div>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.prayergroup.list') }}'">Close</button>
-                        <button class="btn btn-success" type="submit">Create</button>
+                        <button class="btn btn-success" type="submit">Save</button>
                     </div>
                 </form>
             </div>

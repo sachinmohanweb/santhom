@@ -47,8 +47,6 @@ class OrganizationController extends Controller
         try {
             $a =  $request->validate([
                 'organization_name'            => 'required',
-                'coordinator'                => 'required',
-                'coordinator_phone_number'   => 'required',
             ]);
 
             $inputData = $request->all();
@@ -82,8 +80,6 @@ class OrganizationController extends Controller
             $group = Organization::find($request->id);
              $a =  $request->validate([
                 'organization_name'            => 'required',
-                'coordinator'                => 'required',
-                'coordinator_phone_number'   => 'required',
             ]);
 
             $inputData = $request->all();

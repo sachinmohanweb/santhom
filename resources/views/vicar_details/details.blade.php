@@ -127,7 +127,7 @@
                 <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Family Details</h5>
+                            <h5 class="modal-title">Vicars Details</h5>
                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form class="needs-validation" novalidate="" action="{{route('admin.vicar.update',['id'=>$VicarDetail->id])}}" method="Post"  enctype="multipart/form-data">
@@ -176,25 +176,25 @@
                                         <label class="form-label" for="validationCustom03">Email</label>
                                         <input class="form-control" id="validationCustom03" type="email" 
                                         required="" name="email" value="{{$VicarDetail['email'] }}">
-                                        <div class="invalid-feedback">Please provide a valid adddress.</div>
+                                        <div class="invalid-feedback">Please provide a valid email.</div>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label" for="validationCustom03">mobile</label>
                                         <input class="form-control" id="validationCustom03" type="text" 
                                         name="mobile"value="{{$VicarDetail['mobile'] }}">
-                                        <div class="invalid-feedback">Please provide a valid address.</div>
+                                        <div class="invalid-feedback">Please provide a valid mobile.</div>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label" for="validationCustom03">Image</label>
                                         <label class="form-label" for="validationCustom03">Image</label>
                                         <input class="form-control" type="file"  name="image">
-                                        <div class="invalid-feedback">Please provide a valid address.</div>
+                                        <div class="invalid-feedback">Please provide a valid image.</div>
                                     </div>
                                 </div>                 
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.family.list') }}'">Close</button>
-                                <button class="btn btn-success" type="submit">Update changes</button>
+                                <button class="btn btn-success" type="submit">Update</button>
                             </div>
                         </form>
                     </div>

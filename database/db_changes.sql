@@ -283,3 +283,5 @@ ALTER TABLE `obituaries` ADD `member_id` INT NOT NULL AFTER `id`;
 -- 12/03/24----
 
 ALTER TABLE `families` DROP `family_email`;
+
+ALTER TABLE `vicar_messages` CHANGE `image` `image` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL;

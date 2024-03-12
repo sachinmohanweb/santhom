@@ -41,6 +41,10 @@
                                    </ul>
                                 </div>
                              @endif
+
+                            @if($errors->any())
+                                <h6 style="color:red;padding: 20px 0px 0px 30px;">{{$errors->first()}}</h6>
+                            @endif
                          
                             <div class="col-md-9">
                                 <h3 class="mb-3">Church Organizations</h3> 
@@ -54,7 +58,7 @@
                         <div class="row" style="display:flex;">
                             
                         <div class="col-md-12">
-                            <span>The hub for information and resources related to Organizations within our church community</span>
+                            <span>Collects information and resources related to Organizations within our church community</span>
                         </div>
                         </div>
                     </div>
@@ -98,13 +102,13 @@
                         </div>
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom02">Coordinator</label>
-                          <input class="form-control" id="coordinator" type="text" required="" name='coordinator'>
+                          <input class="form-control" id="coordinator" type="text" name='coordinator'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
 
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom02">Coordinator's Phone</label>
-                          <input class="form-control" id="coordinator_phone_number" type="text" required="" name='coordinator_phone_number'>
+                          <input class="form-control" id="coordinator_phone_number" type="text" name='coordinator_phone_number'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                     </div>
@@ -138,13 +142,13 @@
                         </div>
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom02">Group Leader</label>
-                          <input class="form-control" id="coordinator_edit" type="text" required="" name='coordinator'>
+                          <input class="form-control" id="coordinator_edit" type="text" name='coordinator'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
 
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom02">Leader's Phone</label>
-                          <input class="form-control" id="coordinator_phone_number_edit" type="text" required="" 
+                          <input class="form-control" id="coordinator_phone_number_edit" type="text" 
                           name='coordinator_phone_number'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>

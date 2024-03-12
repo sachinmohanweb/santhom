@@ -176,7 +176,7 @@
                                  </div>
                                  <div class="modal-footer">
                                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.obituary.list') }}'">Close</button>
-                                    <button class="btn btn-success" type="submit">Update changes</button>
+                                    <button class="btn btn-success" type="submit">Update</button>
                                  </div>
                               </form>
                            </div>

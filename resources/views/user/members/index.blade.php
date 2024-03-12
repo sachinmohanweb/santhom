@@ -54,7 +54,6 @@
                         </div>
                         <div class="row" style="display:flex;">
                             
-                            <h5>Details</h5>
                             <div class="col-md-12">
                                 <span>Discover the family members and stories behind our church families</span>
                             </div>

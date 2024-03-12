@@ -1,5 +1,5 @@
 @extends('layouts.simple.master')
-@section('title', 'Vicars')
+@section('title', 'Vicar Details')
 
 @section('css')
 @endsection
@@ -22,8 +22,8 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Custom styles</h5>
-                        <span>This family form collects essential information about your Vicars.</span>
+                        <h5>Details</h5>
+                        <span>This Vicar details form collects information about Vicars and Ass.Vicars.</span>
                     </div>
 
                      @if($errors->any())
@@ -77,23 +77,23 @@
                                     <label class="form-label" for="validationCustom03">Email</label>
                                     <input class="form-control" id="validationCustom03" type="email" 
                                         required="" name="email" value="{{ old('email') }}">
-                                    <div class="invalid-feedback">Please provide a valid adddress.</div>
+                                    <div class="invalid-feedback">Please provide a valid email.</div>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label" for="validationCustom03">mobile</label>
                                     <input class="form-control" id="validationCustom03" type="text" 
                                      name="mobile" value="{{ old('mobile') }}">
-                                    <div class="invalid-feedback">Please provide a valid address.</div>
+                                    <div class="invalid-feedback">Please provide a valid mobile.</div>
                                 </div>
                                  <div class="col-md-4">
                                     <label class="form-label" for="validationCustom03">Image</label>
                                       <label class="form-label" for="validationCustom03">Image</label>
                                       <input class="form-control" type="file"  name="image">
-                                    <div class="invalid-feedback">Please provide a valid address.</div>
+                                    <div class="invalid-feedback">Please provide a valid Image.</div>
                                 </div>
                             </div>
 
-                            <button class="btn btn-primary" type="submit">Submit form</button>
+                            <button class="btn btn-primary" type="submit">Save</button>
                             <a class="btn btn-primary" onclick="window.location='{{ route('admin.family.list') }}'">Cancel</a>
                         </form>
                     </div>

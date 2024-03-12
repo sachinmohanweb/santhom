@@ -87,7 +87,7 @@
                         <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
                            <div class="modal-content">
                               <div class="modal-header">
-                                 <h5 class="modal-title">Family Details</h5>
+                                 <h5 class="modal-title">Notifications Details</h5>
                                  <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <form class="needs-validation" novalidate="" action="{{route('admin.notification.update',['id'=>$Notification->id])}}" method="Post" enctype="multipart/form-data">
@@ -128,7 +128,7 @@
                                  </div>
                                  <div class="modal-footer">
                                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.notification.list') }}'">Close</button>
-                                    <button class="btn btn-success" type="submit">Update changes</button>
+                                    <button class="btn btn-success" type="submit">Update</button>
                                  </div>
                               </form>
                            </div>

@@ -53,10 +53,7 @@
                             </div>
                         </div>
                         <div class="row" style="display:flex;">
-                            
-                            <div class="col-md-12">
-                                <span>Vicar Messages</span>
-                            </div>
+                          
                         </div> 
                     </div>
                     <div class="card-body">

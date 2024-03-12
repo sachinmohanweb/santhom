@@ -53,7 +53,7 @@
                       <div class="col-md-4 pd_left_zero">
 
                         <label class="form-label">Image</label>
-                        <input class="form-control" type="file" name="image" required>
+                        <input class="form-control" type="file" name="image">
                       </div>
                       <div class="col-md-12">
                         <label class="form-label">Message</label>

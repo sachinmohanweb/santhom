@@ -54,7 +54,6 @@
                         <div class="row" style="display:flex;">
                             
                         <div class="col-md-12">
-                            <span>The hub for information and resources related to Bible Verses</span>
                         </div>
                         </div>
                     </div>
@@ -104,7 +103,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.bibleverse.list') }}'">Close</button>
-                        <button class="btn btn-success" type="submit">Create</button>
+                        <button class="btn btn-success" type="submit">Save</button>
                     </div>
                 </form>
             </div>
@@ -116,7 +115,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Organizations Details</h5>
+                    <h5 class="modal-title">Bible Verse Details</h5>
                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form class="needs-validation" id="EditBibleVerseForm" novalidate="" method="Post">

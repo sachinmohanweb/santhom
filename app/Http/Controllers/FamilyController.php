@@ -97,7 +97,7 @@ class FamilyController extends Controller
             
             $family = Family::find($request->id);
             $a =  $request->validate([
-                 'family_code' => 'required|unique:families',
+                 'family_code' => 'required',
                 'family_name' => 'required',
                 'prayer_group_id' => 'required',
                 'address1' => 'required',

@@ -1,5 +1,5 @@
 @extends('layouts.simple.master')
-@section('title', 'Vicars')
+@section('title', 'Vicar Details')
 
 @section('css')
     
@@ -10,12 +10,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Vicars</h3>
+    <h3>Vicar Details</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Data Tables</li>
-    <li class="breadcrumb-item active">Vicars</li>
+    <li class="breadcrumb-item active">Vicar Details</li>
 @endsection
 
 @section('content')
@@ -43,7 +43,7 @@
                              @endif
                          
                             <div class="col-md-9">
-                                <h3 class="mb-3">Church Vicars Page</h3> 
+                                <h3 class="mb-3">Church Vicars Details</h3> 
                             </div>
                             <div class="col-md-3 d-flex justify-content-end">
                                  
@@ -54,7 +54,7 @@
                         <div class="row" style="display:flex;">
                             
                         <div class="col-md-12">
-                            <span>The hub for information and resources related to vicars within our church community</span>
+                            <span>The hub for information related to vicars within our church community</span>
                         </div>
                         </div>
                     </div>
@@ -98,18 +98,20 @@
                 ajax: "{{ route('admin.vicar.list.datatable') }}",
                 columns: [
                     {  data: 'DT_RowIndex', name: 'Sl.No'},
-                    { data: 'name', name: 'name', width: '10%' },
-                    { data: 'family_name', name: 'family_name' , width: '10%'},
-                    { data: 'designation', name: 'designation', width: '10%' },
-                    { data: 'date_of_joining', name: 'date_of_joining', width: '10%' },
-                    { data: 'date_of_relieving', name: 'date_of_relieving', width: '10%' },
-                    { data: 'email', name: 'email', width: '10%' },
-                    { data: 'action', name: 'action', orderable: false,width:'45%'},
+                    { data: 'name', name: 'name'},
+                    { data: 'family_name', name: 'family_name'},
+                    { data: 'designation', name: 'designation'},
+                    { data: 'date_of_joining', name: 'date_of_joining'},
+                    { data: 'date_of_relieving', name: 'date_of_relieving'},
+                    { data: 'email', name: 'email'},
+                    { data: 'action', name: 'action', orderable: false},
                 ],
                  columnDefs: [
                     { width: '5%', targets: 0 ,orderable: false, searchable: false},
+                    { "width": "15%", "targets": 6 }
+
                 ],
-                order: [[0, 'desc']]
+                order: [[4, 'desc']]
             });
         });
               

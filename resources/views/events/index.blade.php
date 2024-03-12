@@ -54,7 +54,7 @@
                         <div class="row" style="display:flex;">
                             
                         <div class="col-md-12">
-                            <span>The hub for information and resources related to Events </span>
+                            <span>The information related to Events in church </span>
                         </div>
                         </div>
                     </div>

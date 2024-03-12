@@ -32,7 +32,6 @@ class VicarMessageController extends Controller
             $a =  $request->validate([
                 'subject' => 'required',
                 'message_body' => 'required',
-                'image' => 'required',
             ]);
             $inputData = $request->all();
             $inputData['status'] = 1;
