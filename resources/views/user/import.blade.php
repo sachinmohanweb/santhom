@@ -37,7 +37,7 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Import Family & Members Form</h3>
+    <h3>Import Family & Members</h3>
 @endsection
 
 @section('breadcrumb-items')
@@ -112,10 +112,10 @@
     toastr.options = {
         "progressBar": true,
         "positionClass" : "toast-top-right custom-toast-top",
-        "showDuration": "1000000",
-        "hideDuration": "100000",
-        "timeOut": "50000",
-        "extendedTimeOut": "100000",
+        "showDuration": "1000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
     };
 
     $(document).ready(function(){

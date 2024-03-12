@@ -54,7 +54,6 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
                         throw new \Exception("PrayerGroup unidentified Row-".$key+2);
                     }
                     $details['prayer_group_id']     =$prayer_group['id'];
-                    $details['family_email']        =$row['family_email'];
                     $details['address1']            =$row['address1'];
                     $details['pincode']             =$row['pincode'];
 
@@ -232,7 +231,6 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
             'family_code'   => 'required',
             'family_name'   => 'required',
             'prayer_group'  => 'required',
-            'family_email'  => 'required',
             'address1'      => 'required',
             'pincode'       => 'required',
             'name'          => 'required',
@@ -249,7 +247,6 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
             'family_code.required'          => 'family_code should not be empty',
             'family_name.required'          => 'family_name should not be empty',
             'prayer_group.required'         => 'prayer_group should not be empty',
-            'family_email.required'         => 'family_email should not be empty',
             'address1.required'             => 'address1 should not be empty',
             'pincode.required'              => 'pincode should not be empty',
             'name.required'                 => 'name should not be empty',
