@@ -58,7 +58,7 @@
                 
               </div>
               <div class="col-md-3">         
-                  <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" data-bs-toggle="modal" data-bs-target="#EditFamilyModal">
+                  <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" data-bs-toggle="modal" data-bs-target="#EditEventModal">
                   Edit Event Details
                 </a>
 
@@ -67,29 +67,36 @@
 
              <hr>
 
-             <div>
-               <table class="product-page-width"  style="border-collapse: separate;border-spacing: 20px;">
-                 <tbody>
-                   <tr>
-                     <td> <b>Date</b></td>
-                     <td> <b>&nbsp;:&nbsp;</b></td>
-                     <td>{{$event->date}}
-                     
-                     </td>
-                   </tr>
-                   <tr>
-                     <td> <b>Venue  </b></td>
-                      <td> <b> &nbsp;:&nbsp;</b></td>
-                     <td class="txt-success">{{$event->venue}}</td>
-                   </tr>
-                  
-                   <tr>
-                     <td> <b>Details  </b></td>
-                      <td> <b> &nbsp;:&nbsp;</b></td>
-                     <td>{{$event->details}}</td>
-                   </tr>
-                 </tbody>
-               </table>
+             <div class="row">
+                <div class="col-md-9">
+
+                   <table class="product-page-width"  style="border-collapse: separate;border-spacing: 20px;">
+                     <tbody>
+                       <tr>
+                         <td> <b>Date</b></td>
+                         <td> <b>&nbsp;:&nbsp;</b></td>
+                         <td>{{$event->date}}
+                         
+                         </td>
+                       </tr>
+                       <tr>
+                         <td> <b>Venue  </b></td>
+                          <td> <b> &nbsp;:&nbsp;</b></td>
+                         <td class="txt-success">{{$event->venue}}</td>
+                       </tr>
+                      
+                       <tr>
+                         <td> <b>Details  </b></td>
+                          <td> <b> &nbsp;:&nbsp;</b></td>
+                         <td>{{$event->details}}</td>
+                       </tr>
+                     </tbody>
+                   </table>
+                </div>
+                <div class="col-md-3">
+                  <img src="{{asset($event->image)}}" width="100%">
+                </div>
+
              </div>
              <hr>
            </div>
@@ -103,14 +110,14 @@
 
 @if($event)
 
- <div class="modal fade" id="EditFamilyModal" tabindex="-1" role="dialog" aria-labelledby="EditFamilyModalArea" aria-hidden="true">
+ <div class="modal fade" id="EditEventModal" tabindex="-1" role="dialog" aria-labelledby="EditEventModalArea" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
        <div class="modal-content">
           <div class="modal-header">
-             <h5 class="modal-title">Family Details</h5>
+             <h5 class="modal-title">Event Details</h5>
              <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form class="needs-validation" novalidate="" action="{{route('admin.event.update',['id'=>$event->id])}}" method="Post">
+          <form class="needs-validation" novalidate="" action="{{route('admin.event.update',['id'=>$event->id])}}" method="Post" enctype="multipart/form-data">
           <div class="modal-body">
               @csrf
                   <div class="row g-3 mb-4">
@@ -135,13 +142,22 @@
                     </div>
                     <div class="row g-3">
                         
-                         <div class="col-md-12">
+                         <div class="col-md-8">
                             <label class="form-label" for="validationCustom04">Details</label>
                              <textarea class="form-control" id="details" name="details" rows="5" cols="50" >
                                {{$event['details']}}
                              </textarea><br>
                             <div class="valid-feedback">Looks good!</div>
                         </div>
+                        <div class="col-md-4">
+                                    <div style="height: 55px;">
+                                        
+                                    </div>
+                                    <label class="form-label" for="validationCustom05">Image</label>
+                                    <input class="form-control" id="validationCustom05" type="file" 
+                                         name="image" value="{{ old('image') }}">
+                                    <div class="invalid-feedback">Please provide a valid zip.</div>
+                                </div>
                        
                     </div>      
           </div>

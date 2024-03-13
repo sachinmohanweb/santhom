@@ -286,4 +286,8 @@ ALTER TABLE `families` DROP `family_email`;
 
 ALTER TABLE `vicar_messages` CHANGE `image` `image` VARCHAR(256)  NULL DEFAULT NULL;
 
+-- 13/03/24----
+
 update `family_members` set status=1;
+
+ALTER TABLE `events` ADD `image` VARCHAR(256) NULL DEFAULT NULL AFTER `details`;

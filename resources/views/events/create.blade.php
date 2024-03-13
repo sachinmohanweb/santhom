@@ -31,7 +31,7 @@
                         <h6 style="color:red;padding: 20px 0px 0px 30px;">{{$errors->first()}}</h6>
                      @endif
                     <div class="card-body">
-                        <form class="needs-validation" novalidate="" action="{{route('admin.event.store')}}" method="Post">
+                        <form class="needs-validation" novalidate="" action="{{route('admin.event.store')}}" method="Post" enctype="multipart/form-data">
                         	@csrf
                             <div class="row g-3 mb-4">
                                 <div class="col-md-4">
@@ -55,12 +55,20 @@
                             </div>
                             <div class="row g-3">
                                 
-                                 <div class="col-md-12">
+                                 <div class="col-md-8">
                                     <label class="form-label" for="validationCustom04">Details</label>
-                                     <textarea class="form-control" id="details" name="details" rows="5" cols="50" ></textarea><br>
+                                     <textarea class="form-control" id="details" name="details" rows="7" cols="50" ></textarea><br>
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
-                               
+                                <div class="col-md-4">
+                                    <div style="height: 145px;">
+                                        
+                                    </div>
+                                    <label class="form-label" for="validationCustom05">Image</label>
+                                    <input class="form-control" id="validationCustom05" type="file" 
+                                         name="image" value="{{ old('image') }}">
+                                    <div class="invalid-feedback">Please provide a valid zip.</div>
+                                </div>
                             </div>
 
                             <button class="btn btn-primary" type="submit">Save</button>

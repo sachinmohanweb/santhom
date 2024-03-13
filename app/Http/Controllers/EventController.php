@@ -55,7 +55,17 @@ class EventController extends Controller
                 'event_name' => 'required',
                 'date' => 'required',
             ]);
-            Event::create($request->all());
+
+            $inputData = $request->all();
+
+            if($request['image']){
+
+                $fileName = str_replace(' ', '_', $request->event_name).'.'.$request['image']->extension();
+                $request->image->storeAs('events', $fileName);
+                $inputData['image'] = 'storage/events/'.$fileName;
+            }
+
+            Event::create($inputData);
             DB::commit();
              
             return redirect()->route('admin.event.list')
@@ -86,7 +96,17 @@ class EventController extends Controller
                 'event_name' => 'required',
                 'date' => 'required',
             ]);
-            $event->update($request->all());
+
+            $inputData = $request->all();
+
+            if($request['image']){
+
+                $fileName = str_replace(' ', '_', $request->event_name).'.'.$request['image']->extension();
+                $request->image->storeAs('events', $fileName);
+                $inputData['image'] = 'storage/events/'.$fileName;
+            }
+
+            $event->update($inputData);
             DB::commit();
 
             return redirect()->back()
