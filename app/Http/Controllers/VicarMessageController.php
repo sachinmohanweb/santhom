@@ -64,7 +64,16 @@ class VicarMessageController extends Controller
                 return '';
             })
             ->addColumn('image', function ($vicarmessage) {
-                return '<img  class="img-70 rounded-circle" src="' . asset($vicarmessage->image) . '"  alt="Family Member Image" style="height: 70px;">';
+
+                if ($vicarmessage->image) {
+                    return '<img  class="img-70 rounded-circle" src="' . asset($vicarmessage->image) . '"  alt="Family Member Image" style="height: 70px;">';
+                } else {
+                   
+                    $name = 'No Image';
+                    $backgroundColor = '#7366ff';
+
+                    return '<div class="img-70 rounded-circle text-center" style="height: 70px; width: 70px; background-color: ' . $backgroundColor . '; color: white; line-height: 70px; font-size: 10px;">' . $name . '</div>';
+                }
             })           
             ->addColumn('action', 'vicar_messages.vicar-messages-datatable-action')
             ->rawColumns(['image','action'])

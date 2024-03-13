@@ -33,7 +33,7 @@ class BibleVerseController extends Controller
             ->addColumn('DT_RowIndex', function () {
                 return '';
             })
-            ->addColumn('action', 'bible_Verse.bibleVerse-datatable-action')
+            ->addColumn('action', 'bible_verse.bible_verse-datatable-action')
             ->addIndexColumn()
             ->make(true);
         }
