@@ -417,4 +417,88 @@ class FamilyController extends Controller
 
     }
 
+    public function admin_family_members_list_pending() : View
+    {
+        return view('approval.members.index');
+    }
+
+    public function admin_family_members_Datatable_pending()
+    {
+        if(request()->ajax()) {
+
+            return datatables()
+            ->of(FamilyMember::select('*')->where('status',2)->with('family','relationship'))
+            ->addColumn('DT_RowIndex', function () {
+                return '';
+            })
+            ->addColumn('image', function ($familyMember) {
+
+                if ($familyMember->image) {
+                    return '<img  class="img-70 rounded-circle" src="' . asset($familyMember->image) . '"  alt="Family Member Image" style="height: 70px;">';
+                } else {
+                    $nameWords = explode(' ', $familyMember->name);
+                    $nameLetters = '';
+
+                    foreach ($nameWords as $word) {
+                        $nameLetters .= substr($word, 0, 1);
+                        if(strlen($nameLetters) >= 2) {
+                            break;
+                        }
+                    }
+
+                    if(strlen($nameLetters) == 1) {
+                        $nameLetters = substr($this->name, 0, 2);
+                    }
+
+                    $backgroundColors = ['#ff7f0e', '#2ca02c', '#1f77b4', '#d62728', '#9467bd'];
+                    $backgroundColor = $backgroundColors[array_rand($backgroundColors)];
+
+                    return '<div class="img-70 rounded-circle text-center" style="height: 70px; width: 70px; background-color: ' . $backgroundColor . '; color: white; line-height: 70px; font-size: 24px;">' . $nameLetters . '</div>';
+                }
+            })
+            ->addColumn('dob', function ($familyMember) {
+                return date("d-m-Y", strtotime($familyMember->dob));
+            })
+            ->addColumn('family_name', function ($familyMember) {
+                return $familyMember->family->family_name;
+            })
+            ->addColumn('relationship', function ($familyMember) {
+                return $familyMember->relationship->relation_name;
+            })
+           
+            ->addColumn('action', 'approval.members.pending-family-members-datatable-action')
+            ->rawColumns(['image','action'])
+            ->addIndexColumn()
+            ->make(true);
+        }
+        return view('index');
+    }
+
+
+    public function admin_family_member_show_pending($id) : View
+    {
+        $familymember = FamilyMember::with('family','MaritalStatus','BloodGroup')->find($id);
+        return view('approval.members.details',compact('familymember'));
+    }
+
+
+    public function admin_family_member_approve(Request $request): RedirectResponse
+    {
+        DB::beginTransaction();
+        try {
+            
+            $member = FamilyMember::find($request['member_id']);
+            $member->status=1;
+            $member->save();;
+            DB::commit();
+            return redirect()->route('admin.family.members.list')
+                    ->with('success','Family member details successfully Approved.');
+        }catch (Exception $e) {
+
+            DB::rollBack();
+            $message = $e->getMessage();
+            return back()->with('error',$e->getMessage());
+        }
+
+    }
 }

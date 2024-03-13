@@ -41,7 +41,7 @@ Route::middleware('auth:admin')->group(function(){
     Route::post('/deletefamily', [FamilyController::class, 'admin_family_delete'])
             ->name('admin.family.delete');
 
-    Route::get('/familycslist', [FamilyController::class, 'admin_family_members_list'])
+    Route::get('/familymemberslist', [FamilyController::class, 'admin_family_members_list'])
             ->name('admin.family.members.list');
     Route::get('/familymembersDatatable',[FamilyController::class,'admin_family_members_Datatable'])
             ->name('admin.familymembers.list.datatable');
@@ -59,12 +59,14 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.family.member.update');   
     Route::post('/deletefamilymember', [FamilyController::class, 'admin_family_member_delete'])
             ->name('admin.family.member.delete');
+
     Route::get('/importfamilymember', [FamilyController::class, 'admin_family_member_import'])
             ->name('admin.family.members.import');
     Route::post('import/progress'  ,[FamilyController::class,'import_progress'])
             ->name('import.progress');
     Route::post('/storefamilymemberimport', [FamilyController::class, 'admin_family_member_import_store'])
             ->name('admin.family.members.Import.store');
+
     Route::post('/get_family_members_list', [FamilyController::class, 'family_members_list'])
             ->name('family.members.list');
     Route::post('/check_famiy_head_updated', [FamilyController::class, 'checkFamiyHeadUpdated'])
@@ -78,6 +80,14 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.family.show_details.pending');
     Route::post('/approvefamily', [FamilyController::class, 'admin_family_approve'])
             ->name('admin.family.approve');
+
+    Route::get('/familymemberslist_pending', [FamilyController::class, 'admin_family_members_list_pending'])
+            ->name('admin.family.members.list.pending');
+    Route::get('/familymembers_pendingDatatable',[FamilyController::class,'admin_family_members_Datatable_pending'])->name('admin.familymembers.list.datatable.pending');
+    Route::get('/showfamilymember_pending/{id}',[FamilyController::class,'admin_family_member_show_pending'])
+            ->name('admin.family.member.show_details.pending');
+     Route::post('/approvefamilymember', [FamilyController::class, 'admin_family_member_approve'])
+            ->name('admin.family.member.approve');
 
     Route::get('/prayerGroupList', [PrayerGroupController::class, 'prayer_group_list'])
             ->name('admin.prayergroup.list');

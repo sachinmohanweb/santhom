@@ -64,7 +64,7 @@
                             </svg><span>Pending Approvals</span></a>
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('admin.family.list.pending') }}">Families</a></li>
-                            <li><a href="{{ route('admin.family.list.pending') }}">Family Members</a></li>
+                            <li><a href="{{ route('admin.family.members.list.pending') }}">Family Members</a></li>
                         </ul>
                     </li>
                      <li class="sidebar-list">
