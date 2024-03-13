@@ -53,6 +53,20 @@
                         </ul>
                     </li>
 
+                    <li class="sidebar-list">
+                        <label class="badge badge-light-secondary"></label><a class="sidebar-link sidebar-title"
+                            href="#">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-user') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
+                            </svg><span>Pending Approvals</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('admin.family.list.pending') }}">Families</a></li>
+                            <li><a href="{{ route('admin.family.list.pending') }}">Family Members</a></li>
+                        </ul>
+                    </li>
                      <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav" href="{{route('admin.vicar.list')}}">
                         <svg class="stroke-icon">
@@ -71,15 +85,16 @@
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                             </svg><span>Prayer Groups</span></a>
-                        </li>
-                        <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" href="{{route('admin.organizations.list')}}">
+                    </li>
+                    <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title link-nav" href="{{route('admin.organizations.list')}}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#star') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                             </svg><span>Organisations</span></a>
-                        </li>
+                    </li>
 
                     <li class="sidebar-main-title">
                         <div>

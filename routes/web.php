@@ -28,7 +28,7 @@ Route::middleware('auth:admin')->group(function(){
 
     Route::get('/familylist', [FamilyController::class, 'admin_family_list'])
             ->name('admin.family.list');
-    Route::get('/familyDatatable', [FamilyController::class, 'admin_family_Datatable'])
+    Route::post('/familyDatatable', [FamilyController::class, 'admin_family_Datatable'])
             ->name('admin.family.list.datatable');
     Route::get('/createfamily', [FamilyController::class, 'admin_family_create'])
             ->name('admin.family.create');
@@ -41,7 +41,7 @@ Route::middleware('auth:admin')->group(function(){
     Route::post('/deletefamily', [FamilyController::class, 'admin_family_delete'])
             ->name('admin.family.delete');
 
-    Route::get('/familymemberslist', [FamilyController::class, 'admin_family_members_list'])
+    Route::get('/familycslist', [FamilyController::class, 'admin_family_members_list'])
             ->name('admin.family.members.list');
     Route::get('/familymembersDatatable',[FamilyController::class,'admin_family_members_Datatable'])
             ->name('admin.familymembers.list.datatable');
@@ -69,6 +69,15 @@ Route::middleware('auth:admin')->group(function(){
             ->name('family.members.list');
     Route::post('/check_famiy_head_updated', [FamilyController::class, 'checkFamiyHeadUpdated'])
             ->name('family.head.updated');
+
+    Route::get('/familylist_pending', [FamilyController::class, 'admin_family_list_pending'])
+            ->name('admin.family.list.pending');
+    Route::post('/family_pendingDatatable', [FamilyController::class, 'admin_family_Datatable_pending'])
+            ->name('admin.family.list.datatable.pending');
+    Route::get('/showfamily_pending/{id}', [FamilyController::class, 'admin_family_show_pending'])
+            ->name('admin.family.show_details.pending');
+    Route::post('/approvefamily', [FamilyController::class, 'admin_family_approve'])
+            ->name('admin.family.approve');
 
     Route::get('/prayerGroupList', [PrayerGroupController::class, 'prayer_group_list'])
             ->name('admin.prayergroup.list');

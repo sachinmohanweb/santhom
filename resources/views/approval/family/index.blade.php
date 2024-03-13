@@ -10,12 +10,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Families</h3>
+    <h3>Families-Pending</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Data Tables</li>
-    <li class="breadcrumb-item active">Families</li>
+    <li class="breadcrumb-item active">Families-Pending</li>
 @endsection
 
 @section('content')
@@ -43,24 +43,18 @@
                              @endif
                          
                             <div class="col-md-9">
-                                <h3 class="mb-3">Church Families Page</h3> 
+                                <h3 class="mb-3">Church Families Page-Pending</h3> 
                             </div>
-                            <div class="col-md-3 d-flex justify-content-end">
-                                 
-                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.family.create')}}" data-bs-original-title="" title="">Add New Family</a>
-
-                            </div>
+                           
                         </div>
                         <div class="row" style="display:flex;">
                             
-                        <div class="col-md-12">
-                            <span>The hub for information and resources related to families within our church community</span>
-                        </div>
+                        
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="display" id="family_data" style="width:100%">
+                            <table class="display" id="family_pending_data" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Family code</th>
@@ -91,11 +85,11 @@
                 }
             });
          
-            $('#family_data').DataTable({
+            $('#family_pending_data').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('admin.family.list.datatable') }}",
+                    url: "{{ route('admin.family.list.datatable.pending') }}",
                     type: "POST",
                     data: {
                         _token : "<?= csrf_token() ?>",
@@ -112,36 +106,8 @@
             });
         });
               
-        function deleteFunc(id){
-            if (confirm("Are you sure? Delete this family?") == true) {
-                var id = id;
-                $.ajax({
-                    type:"POST",
-                    url: "{{ route('admin.family.delete') }}",
-                    data: { _token : "<?= csrf_token() ?>",
-                            id     : id
-                    },
-                    dataType: 'json',
-                    success: function(res){
-                        var oTable = $('#family_data').dataTable();
-                        if (res.status=='success'){
-                            window.location.href ="{{ route('admin.family.list') }}";
-                        }else{
-                            window.location.href ="{{ route('admin.family.list') }}";
-                            alert('Failed to delete family. Please try again later.');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX request failed:', status, error);
-                        alert('Failed to delete family. Please try again later.');
-                    }
-                });
-            }
-        }
-
-
         function viewFunc(id){
-            window.location.href = "{{ url('/showfamily') }}"+'/' + id;
+            window.location.href = "{{ url('/showfamily_pending') }}"+'/' + id;
         }  
     </script>
 @endsection

@@ -367,4 +367,54 @@ class FamilyController extends Controller
         $familyHead = FamilyMember::where('family_id',$family_id)->where('head_of_family',1)->count();
         return response()->json(['count' => $familyHead]);
     }
+
+    public function admin_family_list_pending() : View
+    {
+        return view('approval.family.index',[]);
+    }
+
+    public function admin_family_Datatable_pending()
+    {
+        if(request()->ajax()) {
+            return datatables()
+            ->of(Family::select('*')->where('status',2))
+            ->addColumn('prayer_group', function ($family) {
+                return $family->PrayerGroup->group_name;
+            })
+            ->addColumn('action', 'approval.family.pending-family-datatable-action')
+            ->rawColumns(['action','prayer_group'])
+            ->addIndexColumn()
+            ->make(true);
+        }
+        return view('index');
+    }
+
+    public function admin_family_show_pending($id) : View
+    {
+        $family = Family::where('id',$id)->with('Members','PrayerGroup','HeadOfFamily')->first();
+        $prayer_groups = PrayerGroup::all();
+        return view('approval.family.details',compact('family','prayer_groups'));
+    }
+
+    public function admin_family_approve(Request $request): RedirectResponse
+    {
+        DB::beginTransaction();
+        try {
+            
+            $family = Family::find($request['family_id']);
+            $family->status=1;
+            $family->save();;
+            DB::commit();
+
+            return redirect()->back()
+                    ->with('success','Family details successfully Approved.');
+        }catch (Exception $e) {
+
+            DB::rollBack();
+            $message = $e->getMessage();
+            return back()->with('error',$e->getMessage());
+        }
+
+    }
+
 }

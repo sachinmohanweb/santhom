@@ -94,10 +94,15 @@
                       <td> <b>&nbsp;:&nbsp;</b></td>
                      <td>{{$family->pincode}}</td>
                    </tr>
+                  <tr>
+                     <td> <b>Post Office  </b></td>
+                      <td> <b> &nbsp;:&nbsp;</b></td>
+                     <td>{{$family->post_office}}</td>
+                   </tr>
                    <tr>
                      <td> <b>Location  </b></td>
                       <td> <b> &nbsp;:&nbsp;</b></td>
-                     <td>{{$family->pincode}}</td>
+                     <td>{{$family->map_location}}</td>
                    </tr>
                  </tbody>
                </table>
