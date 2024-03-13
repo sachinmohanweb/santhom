@@ -64,11 +64,10 @@
                                 <thead>
                                     <tr>
                                         <th>Sl.No</th>
+                                        <th>Image</th>
                                         <th>Name</th>
-                                        <th>Family Name</th>
                                         <th>Designation</th>
                                         <th>Joining Date</th>
-                                        <th>Relieving Date</th>
                                         <th>Email</th>
                                         <th>Action</th>
                                     </tr>
@@ -98,11 +97,10 @@
                 ajax: "{{ route('admin.vicar.list.datatable') }}",
                 columns: [
                     {  data: 'DT_RowIndex', name: 'Sl.No'},
+                    { data: 'image', name: 'image'},
                     { data: 'name', name: 'name'},
-                    { data: 'family_name', name: 'family_name'},
                     { data: 'designation', name: 'designation'},
                     { data: 'date_of_joining', name: 'date_of_joining'},
-                    { data: 'date_of_relieving', name: 'date_of_relieving'},
                     { data: 'email', name: 'email'},
                     { data: 'action', name: 'action', orderable: false},
                 ],

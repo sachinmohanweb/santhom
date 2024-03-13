@@ -39,8 +39,35 @@
             <div class="card-body">
                 <div class="row mb-2">
                   <div class="profile-title">
-                    <div class="media">                        
-                      <img class="img-70 rounded-circle" alt="" src="{{ asset($familymember->image) }}">
+                    <div class="media">      
+                      @if($familymember->image) 
+                        <img class="img-70 rounded-circle" alt="" src="{{ asset($familymember->image) }}">
+                      @else
+
+                      <?php
+                          $nameWords = explode(' ', $familymember->name);
+                          $nameLetters = '';
+
+                          foreach ($nameWords as $word) {
+                              $nameLetters .= substr($word, 0, 1);
+                              if(strlen($nameLetters) >= 2) {
+                                  break;
+                              }
+                          }
+
+                          if(strlen($nameLetters) == 1) {
+                              $nameLetters = substr($familymember->name, 0, 2);
+                          }
+
+                          $backgroundColors = ['#ff7f0e', '#2ca02c', '#1f77b4', '#d62728', '#9467bd'];
+                          $backgroundColor = $backgroundColors[array_rand($backgroundColors)];
+
+                        ?>
+                         
+                        <div class="img-70 rounded-circle text-center" style="height: 70px; width: 70px; background-color: #7366ff ; color: white; line-height: 70px; font-size: 24px;">{{$nameLetters}}</div>
+
+                      @endif
+
                       <div class="media-body">
                         <h5 class="mb-1">{{ $familymember->name}}</h5>
                         <p>{{ $familymember->occupation ? $familymember->occupation : 'occupation-nill' }} </p>

@@ -100,7 +100,11 @@
                               </table>
                            </div>
                            <div class="col-md-4">
-                              <img src="{{asset($obituary['photo'])}}" width="100%">
+                               @if($obituary->photo) 
+                                  <img src="{{asset($obituary->photo)}} " width="100%">
+                              @else
+                                  <div style="height: 70px; width: 100px; background-color: #7366ff; color: white; line-height: 70px; font-size: 12px;">No Image</div>
+                              @endif
                            </div>
                         </div>
 

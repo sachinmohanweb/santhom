@@ -107,7 +107,11 @@
                                             </table>
                                         </div>
                                         <div class="col-md-4">
-                                            <img src="{{asset($VicarDetail->photo)}}" width="100%">
+                                            @if($VicarDetail->photo) 
+                                                    <img src="{{asset($VicarDetail->photo)}} " width="100%">
+                                            @else
+                                              <div style="height: 70px; width: 100px; background-color: #7366ff; color: white; line-height: 70px; font-size: 12px;">No Image</div>
+                                            @endif
                                         </div>
                                     </div>
                                     <hr>

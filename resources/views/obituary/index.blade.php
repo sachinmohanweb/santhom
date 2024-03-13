@@ -64,6 +64,7 @@
                                 <thead>
                                     <tr>
                                         <th>Sl.No</th>
+                                        <th>Image</th>
                                         <th>Name </th>
                                         <th>Date of death</th>
                                         <th>Display till</th>
@@ -97,6 +98,7 @@
                 ajax: "{{ route('admin.obituary.datatable') }}",
                 columns: [
                     {  data: 'DT_RowIndex', name: 'Sl.No'},
+                    {  data: 'image', name: 'image'},
                     { data: 'name_of_member', name: 'name_of_member' },
                     { data: 'date_of_death', name: 'created' },
                     { data: 'display_till_date', name: 'display_till_date' },

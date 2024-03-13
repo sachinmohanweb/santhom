@@ -32,8 +32,33 @@ class VicarDetailsController extends Controller
              ->addColumn('DT_RowIndex', function () {
                 return '';
             })
+            ->addColumn('image', function ($vicar) {
+
+                if ($vicar->photo) {
+                    return '<img  class="img-70 rounded-circle" src="' . asset($vicar->photo) . '"  alt="Family Member Image" style="height: 70px;">';
+                } else {
+                    $nameWords = explode(' ', $vicar->name);
+                    $nameLetters = '';
+
+                    foreach ($nameWords as $word) {
+                        $nameLetters .= substr($word, 0, 1);
+                        if(strlen($nameLetters) >= 2) {
+                            break;
+                        }
+                    }
+
+                    if(strlen($nameLetters) == 1) {
+                        $nameLetters = substr($vicar->name, 0, 2);
+                    }
+
+                    $backgroundColors = ['#ff7f0e', '#2ca02c', '#1f77b4', '#d62728', '#9467bd'];
+                    $backgroundColor = $backgroundColors[array_rand($backgroundColors)];
+
+                    return '<div class="img-70 rounded-circle text-center" style="height: 70px; width: 70px; background-color: ' . $backgroundColor . '; color: white; line-height: 70px; font-size: 24px;">' . $nameLetters . '</div>';
+                }
+            })
             ->addColumn('action', 'vicar_details.vicar-datatable-action')
-            ->rawColumns(['action'])
+            ->rawColumns(['image','action'])
             ->addIndexColumn()
             ->make(true);
         }
