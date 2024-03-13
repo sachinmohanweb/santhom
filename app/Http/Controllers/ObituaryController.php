@@ -49,7 +49,7 @@ class ObituaryController extends Controller
                     }
 
                     if(strlen($nameLetters) == 1) {
-                        $nameLetters = substr($this->name, 0, 2);
+                        $nameLetters = substr($obituary->name, 0, 2);
                     }
 
                     $backgroundColors = ['#ff7f0e', '#2ca02c', '#1f77b4', '#d62728', '#9467bd'];

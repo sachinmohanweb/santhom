@@ -285,3 +285,5 @@ ALTER TABLE `obituaries` ADD `member_id` INT NOT NULL AFTER `id`;
 ALTER TABLE `families` DROP `family_email`;
 
 ALTER TABLE `vicar_messages` CHANGE `image` `image` VARCHAR(256)  NULL DEFAULT NULL;
+
+update `family_members` set status=1;

@@ -35,7 +35,7 @@ class FamilyController extends Controller
     {
         if(request()->ajax()) {
             return datatables()
-            ->of(Family::select('*'))
+            ->of(Family::select('*')->where('status',1))
             ->addColumn('prayer_group', function ($family) {
                 return $family->PrayerGroup->group_name;
             })
@@ -146,7 +146,7 @@ class FamilyController extends Controller
         if(request()->ajax()) {
 
             return datatables()
-            ->of(FamilyMember::select('*')->with('family','relationship'))
+            ->of(FamilyMember::select('*')->where('status',1)->with('family','relationship'))
             ->addColumn('DT_RowIndex', function () {
                 return '';
             })
@@ -217,7 +217,6 @@ class FamilyController extends Controller
             ]);
 
             $inputData = $request->all();
-            $inputData['status'] = 1;
 
             if($request['image']){
 
@@ -273,10 +272,6 @@ class FamilyController extends Controller
             ]);
 
             $inputData = $request->all();
-
-            if(Auth::user()->name  !== 'Admin'){
-                $inputData['status'] = 2;
-            }
 
             if($request['image']){
 
