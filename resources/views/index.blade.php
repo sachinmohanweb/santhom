@@ -12,6 +12,16 @@
     .logo{
         margin-bottom: 0px !important;
     }
+    .login-card {
+         min-height: 100vh  !important;
+         display: flex  !important;
+         align-items: center  !important;
+         justify-content: center  !important;
+         margin: 0 auto  !important;
+         background: url("https://santhom.intellyze.in/public/assets/images/login/login_bg.jpg") !important;
+         background-position: center  !important;
+         padding: 30px 12px  !important;
+      }
 </style>
 @endsection
 
@@ -19,9 +29,9 @@
 <div class="container-fluid p-0">
    <div class="row m-0">
       <div class="col-12 p-0">
-         <div class="login-card">
+         <div class="login-card" style="ba">
             <div>
-               <div class="login-main">
+               <div class="login-main" style="background: url('../images/login/login_bg.jpg') !important;">
                <div><a class="logo" href="">
                   <img class="img-fluid for-light login_img" src="{{asset('assets/images/logo/logo.svg')}}" alt="looginpage" width="100%">
                   <img class="img-fluid for-dark" src="{{asset('assets/images/logo/logo.svg')}}" alt="looginpage" width="100%"></a>

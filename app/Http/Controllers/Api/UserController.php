@@ -29,8 +29,8 @@ class UserController extends Controller
         $this->userRepo = $userRepo;
     }
 
-    public function loginUser(Request $request)
-    {
+    public function loginUser(Request $request){
+
         DB::beginTransaction();
 
         try {
@@ -63,11 +63,10 @@ class UserController extends Controller
             $return['result']=$e->getMessage();
             return $this->outputer->code(422)->error($return)->json();
         }
-
     }
 
-    public function VerifyOtp(Request $request)
-    {
+    public function VerifyOtp(Request $request){
+
         DB::beginTransaction();
 
         try {
@@ -122,12 +121,133 @@ class UserController extends Controller
         return $this->outputer->code(200)->success($return)->json();
     }
 
+    public function updateFamily(Request $request,$family_id){
+        DB::beginTransaction();
+
+        try {
+
+            $family = Family::find($family_id);
+            
+            $a =  $request->validate([
+                'family_name' => 'required',
+                'prayer_group_id' => 'required',
+                'address1' => 'required',
+                'pincode' => 'required',
+                ]);
+
+            $inputData = $request->all();
+            $inputData['status'] = 2;
+
+
+            $family->update($inputData);
+            DB::commit();
+
+            $return['messsage']  =  'success';
+            $return['family']  =  $family;
+            return $this->outputer->code(200)->success($return)->json();
+
+
+        }catch (\Exception $e) {
+
+            DB::rollBack();
+            $return['result']=$e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
+
     public function myfamily(){
 
         $family = Family::where('id',Auth::user()->family_id)->first();
+        $members = FamilyMember::where('family_id',Auth::user()->family_id)->get();
+
         $return['family']  =  $family;
+        $return['memebers']  =  $members;
 
         return $this->outputer->code(200)->success($return)->json();
+    }
+
+    public function addMember(Request $request){
+        DB::beginTransaction();
+
+        try {
+
+
+            $a =  $request->validate([
+                'name'      => 'required',
+                'family_id' => 'required',
+                'gender'    => 'required',
+                'dob'       => 'required',
+                'relationship_id'   => 'required',
+
+                ]);
+
+            $inputData = $request->all();
+            $inputData['status'] = 2;
+
+            if($request['image']){
+
+                $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                $request->image->storeAs('members', $fileName);
+                $inputData['image'] = 'storage/members/'.$fileName;
+            }
+
+            $member = FamilyMember::create($inputData);
+            DB::commit();
+
+            $return['messsage']  =  'success';
+            $return['family']  =  $member;
+            return $this->outputer->code(200)->success($return)->json();
+
+
+        }catch (\Exception $e) {
+
+            DB::rollBack();
+            $return['result']=$e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
+
+    public function updateMember(Request $request,$member_id){
+        DB::beginTransaction();
+
+        try {
+
+            $member = FamilyMember::find($member_id);
+
+            $a =  $request->validate([
+                'name'      => 'required',
+                'family_id' => 'required',
+                'gender'    => 'required',
+                'dob'       => 'required',
+                'relationship_id'   => 'required',
+
+                ]);
+
+            $inputData = $request->all();
+            $inputData['status'] = 2;
+
+            if($request['image']){
+
+                $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                $request->image->storeAs('members', $fileName);
+                $inputData['image'] = 'storage/members/'.$fileName;
+            }
+
+
+            $member->update($inputData);
+            DB::commit();
+
+            $return['messsage']  =  'success';
+            $return['family']  =  $member;
+            return $this->outputer->code(200)->success($return)->json();
+
+
+        }catch (\Exception $e) {
+
+            DB::rollBack();
+            $return['result']=$e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
     }
 
     public function logoutuser(){

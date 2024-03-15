@@ -291,3 +291,5 @@ ALTER TABLE `vicar_messages` CHANGE `image` `image` VARCHAR(256)  NULL DEFAULT N
 update `family_members` set status=1;
 
 ALTER TABLE `events` ADD `image` VARCHAR(256) NULL DEFAULT NULL AFTER `details`;
+
+ALTER TABLE `family_members` CHANGE `status` `status` INT(11) NULL DEFAULT '1';

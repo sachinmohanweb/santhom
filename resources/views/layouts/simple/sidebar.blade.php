@@ -152,7 +152,7 @@
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
-                            </svg><span>Obituarys</span></a>
+                            </svg><span>Obituaries</span></a>
                         </li>
                         <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" 
                             href="{{route('admin.paymentdetails.list')}}">
