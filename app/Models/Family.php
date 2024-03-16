@@ -25,7 +25,7 @@ class Family extends Model
         'status'
     ];
 
-   // protected $appends = ['prayer_group_name','family_members'];
+    protected $appends = ['family_head_name','prayer_group_name'];
 
     public function PrayerGroup(){
     
@@ -53,5 +53,13 @@ class Family extends Model
     {
         return $this->hasMany(FamilyMember::class);
     }
-    
+
+    public function getFamilyHeadNameAttribute()
+    {
+        $familyhead = FamilyMember::where('family_id',$this->id)->where('head_of_family',1)->first();
+        $family_head = $familyhead ? $familyhead->name : 'Null';
+
+        return $family_head;
+    }
+
 }
