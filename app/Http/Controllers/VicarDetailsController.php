@@ -16,6 +16,8 @@ use Exception;
 use Datatables;
 
 use App\Models\VicarDetail;
+use App\Models\Family;
+use App\Models\FamilyMember;
 
 class VicarDetailsController extends Controller
 {
@@ -92,7 +94,38 @@ class VicarDetailsController extends Controller
                 $request->image->storeAs('vicars', $fileName);
                 $inputData['photo'] = 'storage/vicars/'.$fileName;
             }
-            VicarDetail::create($inputData);
+            $vicar_data = VicarDetail::create($inputData);
+
+            $vicar_family = Family::where('family_code','VC001')->first();
+            if(!$vicar_family){
+               
+                $inputData2['family_code'] = 'VC001';
+                $inputData2['family_name'] = 'Vicar Family';
+                $inputData2['prayer_group_id'] = 1;
+                $inputData2['address1'] = 'STMSSC Nalanchira';
+                $inputData2['pincode'] = '000000';
+
+                $vicar_family = Family::create($inputData2);
+            }
+
+            $inputData1['name'] = $request->name;
+            $inputData1['email'] = $request->email;
+            $inputData1['family_id'] = $vicar_family['id'];
+            $inputData1['gender'] = 'Male';
+            $inputData1['dob'] = $request->dob;
+            $inputData1['relationship_id'] = '14';
+            $inputData1['user_type'] = '2';
+
+            if($request['image']){
+
+                $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                $inputData1['image'] = 'storage/vicars/'.$fileName;
+            }
+
+            $member = FamilyMember::create($inputData1);
+            $vicar_data->member_id = $member->id;
+            $vicar_data->save();
+
             DB::commit();
              
             return redirect()->route('admin.vicar.list')
@@ -139,6 +172,20 @@ class VicarDetailsController extends Controller
             }
 
             $VicarDetail->update($inputData);
+
+            $inputData1['name'] = $request->name;
+            $inputData1['dob'] = $request->dob;
+            $inputData1['email'] = $request->email;
+
+            if($request['image']){
+
+                $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                $inputData1['image'] = 'storage/vicars/'.$fileName;
+            }
+
+            $familymember = FamilyMember::where('id',$VicarDetail->member_id)->first();
+            $familymember->update($inputData1);
+
             DB::commit();
 
             return redirect()->back()

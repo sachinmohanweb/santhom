@@ -293,3 +293,14 @@ update `family_members` set status=1;
 ALTER TABLE `events` ADD `image` VARCHAR(256) NULL DEFAULT NULL AFTER `details`;
 
 ALTER TABLE `family_members` CHANGE `status` `status` INT(11) NULL DEFAULT '1';
+
+
+-- 16/03/24----
+
+ALTER TABLE `family_members` ADD `user_type` INT NOT NULL DEFAULT '1'
+	 COMMENT '1-members,2-vicar/asst vicar' AFTER `status`;
+
+INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `updated_at`)
+ VALUES (NULL, 'Vicar', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+ALTER TABLE `vicar_details` ADD `member_id` INT NULL DEFAULT NULL AFTER `id`;

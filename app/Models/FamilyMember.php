@@ -39,6 +39,7 @@ class FamilyMember extends Authenticatable
         'date_of_death',
         'image',
         'status',
+        'user_type',
     ];
 
     protected $appends = ['family_name','family_head_name','prayer_group_name','blood_group_name',
