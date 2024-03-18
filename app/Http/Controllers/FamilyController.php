@@ -16,6 +16,7 @@ use Exception;
 use Datatables;
 
 use App\Models\Family;
+use App\Models\Obituary;
 use App\Models\BloodGroup;
 use App\Models\PrayerGroup;
 use App\Models\FamilyMember;
@@ -146,7 +147,7 @@ class FamilyController extends Controller
         if(request()->ajax()) {
 
             return datatables()
-            ->of(FamilyMember::select('*')->where('status',1)->with('family','relationship'))
+            ->of(FamilyMember::select('*')->where('status',1)->whereNull('date_of_death')->with('family','relationship'))
             ->addColumn('DT_RowIndex', function () {
                 return '';
             })
@@ -221,11 +222,35 @@ class FamilyController extends Controller
             if($request['image']){
 
                 $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
-                $request->image->storeAs('members', $fileName);
-                $inputData['image'] = 'storage/members/'.$fileName;
+
+                if($request['date_of_death']){
+                    $request->image->storeAs('obituary', $fileName);
+                    $inputData['image'] = 'storage/obituary/'.$fileName;
+                }else{
+
+                    $request->image->storeAs('members', $fileName);
+                    $inputData['image'] = 'storage/members/'.$fileName;
+                }
             }
 
-            FamilyMember::create($inputData);
+            $member = FamilyMember::create($inputData);
+
+            if($request['date_of_death']){
+                $inputData1['member_id'] = $member->id;
+                $inputData1['name_of_member'] = $member->name;
+                $inputData1['date_of_death'] = $member->date_of_death;
+                $inputData1['display_till_date'] = $member->date_of_death;
+
+                if($request['image']){
+
+                    $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                    $request->image->storeAs('obituary', $fileName);
+                    $inputData1['photo'] = 'storage/obituary/'.$fileName;
+                }
+
+                Obituary::create($inputData1);
+            }
+
             DB::commit();
              
             //return redirect()->route('admin.family.members.list')
@@ -276,12 +301,39 @@ class FamilyController extends Controller
             if($request['image']){
 
                 $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
-                $request->image->storeAs('members', $fileName);
-                $inputData['image'] = 'storage/members/'.$fileName;
+
+                if($request['date_of_death']){
+                    $request->image->storeAs('obituary', $fileName);
+                    $inputData['image'] = 'storage/obituary/'.$fileName;
+                }else{
+
+                    $request->image->storeAs('members', $fileName);
+                    $inputData['image'] = 'storage/members/'.$fileName;
+                }
+            }
+
+            $familymember->update($inputData);
+
+            if($request['date_of_death']){
+                $inputData1['member_id'] = $familymember->id;
+                $inputData1['name_of_member'] = $familymember->name;
+                $inputData1['date_of_death'] = $familymember->date_of_death;
+                $inputData1['display_till_date'] = $familymember->date_of_death;
+
+                if($request['image']){
+
+                    $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                    $request->image->storeAs('obituary', $fileName);
+                    $inputData1['photo'] = 'storage/obituary/'.$fileName;
+                }else{
+                    $inputData1['photo'] = $familymember->image;
+
+                }
+
+                Obituary::create($inputData1);
             }
 
 
-            $familymember->update($inputData);
             DB::commit();
 
             return redirect()->back()
@@ -339,17 +391,26 @@ class FamilyController extends Controller
     public function family_members_list(Request $request): JsonResponse
     {
         $searchTag = request()->get('search_tag');
+        $page =  request()->get('page');
 
-        $familyMembers = FamilyMember::query()
+        $familyMembersQuery = FamilyMember::query()
 
         ->where(function ($query) use ($searchTag) {
             $query->whereHas('Family', function ($subquery) use ($searchTag) {
                 $subquery->where('family_name', 'like', '%' . $searchTag . '%');
             })
             ->orWhere('name', 'like', '%' . $searchTag . '%');
-        })
 
-        ->get()
+           
+        });
+
+        if($page) {
+            
+            $familyMembersQuery->whereNull('date_of_death');
+        }
+        
+        $familyMembers = $familyMembersQuery->orderBy('name')->get()
+
         
         ->map(function ($member) {
 

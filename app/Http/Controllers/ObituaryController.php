@@ -95,11 +95,19 @@ class ObituaryController extends Controller
 
             if($request['photo']){
 
-                $fileName = str_replace(' ', '_', $request->name_of_member).'.'.$request['photo']->extension();
+                $fileName = str_replace(' ', '_', $member_name).'.'.$request['photo']->extension();
                 $request->photo->storeAs('obituary', $fileName);
                 $inputData['photo'] = 'storage/obituary/'.$fileName;
+            }else{
+                $member = FamilyMember::find($request['member_id']);
+                $inputData['photo'] = $member->image;
             }
             Obituary::create($inputData);
+
+            $member = FamilyMember::where('id',$request['member_id'])->first();
+            $member->date_of_death = $request['date_of_death'];
+            $member->save();
+
             DB::commit();
              
             return redirect()->route('admin.obituary.list')
@@ -140,11 +148,19 @@ class ObituaryController extends Controller
 
             if($request['photo']){
 
-                $fileName = str_replace(' ', '_', $request->name_of_member).'.'.$request['photo']->extension();
+                $fileName = str_replace(' ', '_', $member_name).'.'.$request['photo']->extension();
                 $request->photo->storeAs('obituary', $fileName);
                 $inputData['photo'] = 'storage/obituary/'.$fileName;
+            }else{
+                $member = FamilyMember::find($request['member_id']);
+                $inputData['photo'] = $member->image;
             }
             $obituary->update($inputData);
+
+            $member = FamilyMember::find($request['member_id'])->first();
+            $member->date_of_death = $request['date_of_death'];
+            $member->save();
+            
             DB::commit();
 
             return redirect()->back()

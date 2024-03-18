@@ -43,7 +43,7 @@ class FamilyMember extends Authenticatable
     ];
 
     protected $appends = ['family_name','family_head_name','prayer_group_name','blood_group_name',
-    'marital_status_name','relationship_name'];
+    'marital_status_name','relationship_name','obituary_id'];
 
     public function Family(){
     
@@ -129,5 +129,12 @@ class FamilyMember extends Authenticatable
     //         return '<div class="img-70 rounded-circle text-center" style="height: 70px; width: 70px; background-color: ' . $backgroundColor . '; color: white; line-height: 70px; font-size: 24px;">' . $nameLetters . '</div>';
     //     }
     // }
+
+    public function getObituaryIdAttribute()
+    {
+        $obituary = Obituary::where('member_id',$this->id)->first();
+        $obituary_id = $obituary ? $obituary->id : 'Null';
+        return $obituary_id;
+    }
 
 }
