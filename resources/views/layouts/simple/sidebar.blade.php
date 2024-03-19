@@ -146,6 +146,14 @@
                             <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                         </svg><span>News/Announcements</span></a>
                     </li>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="{{route('admin.download.list')}}">
+                        <svg class="stroke-icon">
+                            <use href="{{ asset('assets/svg/icon-sprite.svg#notification') }}"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
+                        </svg><span>Downloads</span></a>
+                    </li>
                     <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" href="{{route('admin.obituary.list')}}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#obituary') }}"></use>

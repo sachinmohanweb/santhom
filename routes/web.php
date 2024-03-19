@@ -12,6 +12,7 @@ use App\Http\Controllers\VicarMessageController;
 use App\Http\Controllers\BibleVerseController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\NewsAnnouncementController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\ObituaryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentDetailsController;
@@ -189,6 +190,19 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.news_announcement.update');
     Route::post('/deletenewsannouncement', [NewsAnnouncementController::class, 'news_announcement_delete'])
             ->name('admin.news_announcement.delete');
+
+    Route::get('/downloadList', [DownloadController::class, 'download_list'])
+            ->name('admin.download.list');
+    Route::get('/downloadDatatable', [DownloadController::class, 'download_datatable'])
+            ->name('admin.download.datatable');
+    Route::post('/storedownload', [DownloadController::class, 'download_store'])
+            ->name('admin.download.store');
+    Route::post('/getdownload', [DownloadController::class, 'download_get'])
+            ->name('admin.get.download');
+    Route::post('/updatedownload/{id}', [DownloadController::class, 'download_update'])
+            ->name('admin.download.update');
+    Route::post('/deletedownload', [DownloadController::class, 'download_delete'])
+            ->name('admin.download.delete');
 
     Route::get('/obituarylist', [ObituaryController::class, 'obituary_list'])
             ->name('admin.obituary.list');

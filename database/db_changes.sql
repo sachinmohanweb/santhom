@@ -304,3 +304,17 @@ INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `upd
  VALUES (NULL, 'Vicar', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 ALTER TABLE `vicar_details` ADD `member_id` INT NULL DEFAULT NULL AFTER `id`;
+
+-- 16/03/24----
+
+CREATE TABLE `downloads` (
+	`id` INT NOT NULL AUTO_INCREMENT , 
+	`title` VARCHAR(256) NOT NULL , 
+	`file` VARCHAR(256) NOT NULL , 
+	`type` VARCHAR(256) NOT NULL , 
+	`status` INT NOT NULL DEFAULT '1' , 
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`deleted_at` TIMESTAMP NULL DEFAULT NULL , PRIMARY KEY (`id`));
+
+ALTER TABLE `downloads` ADD `details` TEXT NULL DEFAULT NULL AFTER `type`;
