@@ -22,17 +22,20 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::get('blood_groups',[SettingsController::class, 'BloodGroups']);
     Route::get('marital_statuses',[SettingsController::class, 'MaritatStatuses']);
-    Route::get('prayer_groups',[SettingsController::class, 'PrayerGroups']);
     Route::get('relationships',[SettingsController::class, 'Relationships']);
-
+    
     Route::get('families',[HomeController::class, 'Families']);
     Route::get('members',[HomeController::class, 'Members']);
+    Route::get('prayer_groups',[SettingsController::class, 'PrayerGroups']);
+    Route::get('organizations',[HomeController::class, 'Organizations']);
+    Route::get('directory',[HomeController::class, 'Directory']);
+
     Route::get('bible_verses',[HomeController::class, 'BibleVerses']);
+    Route::get('vicar_messages',[HomeController::class, 'VicarMessages']);
+
     Route::get('events',[HomeController::class, 'Events']);
     Route::get('news_announcements',[HomeController::class, 'NewsAnnouncements']);
     Route::get('notifications',[HomeController::class, 'Notifications']);
     Route::get('obituaries',[HomeController::class, 'Obituaries']);
-    Route::get('organizations',[HomeController::class, 'Organizations']);
-    Route::get('vicar_messages',[HomeController::class, 'VicarMessages']);
 });
 

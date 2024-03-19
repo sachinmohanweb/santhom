@@ -305,7 +305,7 @@ INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `upd
 
 ALTER TABLE `vicar_details` ADD `member_id` INT NULL DEFAULT NULL AFTER `id`;
 
--- 16/03/24----
+-- 18/03/24----
 
 CREATE TABLE `downloads` (
 	`id` INT NOT NULL AUTO_INCREMENT , 
