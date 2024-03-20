@@ -24,18 +24,26 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('marital_statuses',[SettingsController::class, 'MaritatStatuses']);
     Route::get('relationships',[SettingsController::class, 'Relationships']);
     
-    Route::get('families',[HomeController::class, 'Families']);
-    Route::get('members',[HomeController::class, 'Members']);
-    Route::get('prayer_groups',[SettingsController::class, 'PrayerGroups']);
-    Route::get('organizations',[HomeController::class, 'Organizations']);
+    Route::get('bible_verses',[HomeController::class, 'BibleVerses']);
+
+    // Route::get('families',[HomeController::class, 'Families']);
+    // Route::get('members',[HomeController::class, 'Members']);
+    // Route::get('prayer_groups',[SettingsController::class, 'PrayerGroups']);
+    // Route::get('organizations',[HomeController::class, 'Organizations']);
     Route::get('directory',[HomeController::class, 'Directory']);
 
-    Route::get('bible_verses',[HomeController::class, 'BibleVerses']);
-    Route::get('vicar_messages',[HomeController::class, 'VicarMessages']);
+    
+    // Route::get('daily_schedules',[HomeController::class, 'DailySchedules']);
+    // Route::get('event',[HomeController::class, 'BirthDay']);
+    // Route::get('birth_day',[HomeController::class, 'BirthDay']);
+    // Route::get('obituary',[HomeController::class, 'BirthDay']);
+    Route::get('daily_digest',[HomeController::class, 'DailyDigest']);
 
-    Route::get('events',[HomeController::class, 'Events']);
-    Route::get('news_announcements',[HomeController::class, 'NewsAnnouncements']);
-    Route::get('notifications',[HomeController::class, 'Notifications']);
-    Route::get('obituaries',[HomeController::class, 'Obituaries']);
+    // Route::get('events',[HomeController::class, 'Events']);
+    // Route::get('news_announcements',[HomeController::class, 'NewsAnnouncements']);
+    // Route::get('notifications',[HomeController::class, 'Notifications']);
+    // Route::get('obituaries',[HomeController::class, 'Obituaries']);
+    // Route::get('vicar_messages',[HomeController::class, 'VicarMessages']);
+    Route::get('bulletin',[HomeController::class, 'Bulletin']);
 });
 
