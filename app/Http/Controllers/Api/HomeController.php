@@ -866,8 +866,8 @@ class HomeController extends Controller
 
             /*---------News & Announcements Details----------*/
 
-            $newsAnnouncements = NewsAnnouncement::select('id','type','heading','body','image')
-                            ->where('status',1);
+            $newsAnnouncements = NewsAnnouncement::select('id','type','group_org_id','heading','body'
+                        ,'image')->where('status',1);
             if($request['search_word']){
                 $newsAnnouncements->where('heading','like',$request['search_word'].'%')
                                 ->orwhere('body','like',$request['search_word'].'%');
@@ -899,7 +899,7 @@ class HomeController extends Controller
 
             /*---------Notifications Details----------*/
 
-            $notifications = Notification::select('id','title','content','type')
+            $notifications = Notification::select('id','title','group_org_id','content','type')
                             ->where('status',1);
 
             if($request['search_word']){

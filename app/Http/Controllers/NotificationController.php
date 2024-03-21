@@ -52,10 +52,20 @@ class NotificationController extends Controller
         DB::beginTransaction();
         try {
 
-            $a =  $request->validate([
-                'title' => 'required',
-                'content' => 'required',
-            ]);
+            if(in_array($request->type, [3,4])){
+
+                $a =  $request->validate([
+                    'title' => 'required',
+                    'content' => 'required',
+                    'group_org_id' => 'required',
+                ]);
+                
+            }else{
+                $a =  $request->validate([
+                    'title' => 'required',
+                    'content' => 'required',
+                ]);
+            }
 
             $inputData = $request->all();
 
@@ -76,8 +86,9 @@ class NotificationController extends Controller
     public function notification_show($id) : View
     {
         $Notification = Notification::where('id',$id)->first();
+        $type = [ 1 => 'Trustee',2 => 'Secretary',3 => 'Prayer Group',4 => 'Organization'];
 
-        return view('notification.details',compact('Notification'));
+        return view('notification.details',compact('Notification','type'));
     }
 
     public function notification_update(Request $request): RedirectResponse
@@ -93,6 +104,10 @@ class NotificationController extends Controller
 
             $inputData = $request->all();
 
+            if(($request['type']==1) || ($request['type']==2)){
+
+                $inputData['group_org_id'] =Null;
+            }
            
             $notification->update($inputData);
             DB::commit();

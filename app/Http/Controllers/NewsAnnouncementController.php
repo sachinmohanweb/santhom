@@ -54,10 +54,21 @@ class NewsAnnouncementController extends Controller
 
         DB::beginTransaction();
         try {
-            $a =  $request->validate([
-                'heading' => 'required',
-                'body' => 'required',
-            ]);
+            
+            if(in_array($request->type, [3,4])){
+                $a =  $request->validate([
+                    'heading' => 'required',
+                    'body' => 'required',
+                    'type' => 'required',
+                    'group_org_id' => 'required',
+                ]);  
+            }else{
+                 $a =  $request->validate([
+                    'heading' => 'required',
+                    'body' => 'required',
+                    'type' => 'required',
+                ]);  
+            }
 
             $inputData = $request->all();
 
@@ -85,7 +96,9 @@ class NewsAnnouncementController extends Controller
     {
         $news = NewsAnnouncement::where('id',$id)->first();
 
-        return view('news_announcement.details',compact('news'));
+        $type = [ 1 => 'Trustee',2 => 'Secretary',3 => 'Prayer Group',4 => 'Organization'];
+
+        return view('news_announcement.details',compact('news','type'));
     }
 
     public function news_announcement_update(Request $request): RedirectResponse
@@ -97,10 +110,15 @@ class NewsAnnouncementController extends Controller
             $a =  $request->validate([
                 'heading' => 'required',
                 'body' => 'required',
+                'type' => 'required',
             ]);
 
             $inputData = $request->all();
 
+            if(($request['type']==1) || ($request['type']==2)){
+
+                $inputData['group_org_id'] =Null;
+            }
             if($request['image']){
 
                 $fileName = str_replace(' ', '_', $request->heading).'.'.$request['image']->extension();

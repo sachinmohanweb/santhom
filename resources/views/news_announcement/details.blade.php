@@ -72,6 +72,24 @@
                         <hr>
                         <div class="row">
                            <div class="col-md-8">
+                              <p class="p_l_5">Type : 
+                                 <b>
+                                    {{$news['type']}}
+                                 </b>
+                              </p>
+                           </div><br>
+                           @if($news['group_org_id'] != null)
+                           <div class="col-md-8">
+                              <p class="p_l_5">Group/Organization : 
+                                 <b>
+                                    {{$news['group_organization_name']}}
+                                 </b>
+                              </p>
+                           </div><br>
+                           @endif
+                           <br>
+
+                           <div class="col-md-8">
                               <p class="p_l_5">
                                  <b>
                                     {{$news['body']}}
@@ -100,22 +118,32 @@
                                  <div class="modal-body">
                                     @csrf
                                     <div class="row g-3 mb-3">
-                                       <div class="col-md-4">
-                                          <label class="form-label" for="validationCustom04">Type</label>
-                                          <select class="form-select" id="validationCustom04" name="type">
-                                             <option value="">Choose...</option>
-                                             <option value="1" {{ old('type') == '1' ? 'selected' : '' }}>
-                                             Trustee</option>
-                                             <option value="2" {{ old('type') == '1' ? 'selected' : '' }}>Secretary</option>
-                                          </select>
-                                          <div class="invalid-feedback">Please select a valid type.</div>
-                                       </div>
-
-                                       <div class="col-md-8">
+                                       <div class="col-md-5">
                                           <label class="form-label" for="validationCustom01">Heading</label>
                                           <input class="form-control" id="validationCustom01" type="text" 
                                           value="{{ $news['heading'] }}" required="" name='heading'>
                                           <div class="valid-feedback">Looks good!</div>
+                                       </div>
+                                       <div class="col-md-3">
+                                          <label class="form-label" for="validationCustom04">Type</label>
+                                          <select class="form-select" id="type"  name="type">
+                                             <option value="">Select group/org</option>
+                                             @foreach($type as $key=>$value)
+                                                @if($value==$news['type'])
+                                                   <option value="{{$key}}" selected>{{$value}}</option>
+                                                @else
+                                                   <option value="{{$key}}">{{$value}}</option>
+                                                @endif
+                                             @endforeach
+                                          </select>
+                                          <div class="invalid-feedback">Please select a valid type.</div>
+                                       </div>
+
+                                       <div class="col-md-4" id="group_org_div">
+                                          <label class="form-label" for="validationCustom04">Group/Org.</label>
+                                              <select class="js-data-example-ajax form-selec" id="group_org_id" name="group_org_id"></select>
+                                            
+                                          <div class="invalid-feedback">Please select a valid type.</div>
                                        </div>
 
                                     </div>
@@ -161,4 +189,71 @@
 <script src="{{asset('assets/js/owlcarousel/owl.carousel.js')}}"></script>
 <script src="{{asset('assets/js/ecommerce.js')}}"></script>
 <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+<script type="text/javascript">
+     $(document).ready(function(){
+
+         type =  $('#type').val();
+         if(type==3 || type == '4'){
+            $('#group_org_div').show();
+            fillgroup(type)
+         }else{
+            $('#group_org_div').hide();
+         }
+
+         $('#type').change(function(){
+             var selectedValue = $(this).val();
+             if(selectedValue == '3' || selectedValue == '4') {
+                 $('#group_org_div').show();
+             } else {
+                 $('#group_org_div').hide();
+             }
+         });
+
+         $('#group_org_id').select2({
+             placeholder: "Select group/org",
+             ajax: {
+
+                 url: "<?= url('get_group_org_list') ?>",
+                 dataType: 'json',
+                 method: 'post',
+                 delay: 250,
+
+                  data: function(data) {
+                     return {
+                         _token    : "<?= csrf_token() ?>",
+                         search_tag: data.term,
+                            type: $('#type').val(),
+                     };
+                 },
+                 processResults: function(data, params) {
+                     params.page = params.page || 1;
+                     return {
+                         results: data.results,
+                         pagination: { more: (params.page * 30) < data.total_count }
+                     };
+                 },
+                 cache: true
+             }
+         });
+
+
+         function fillgroup(type) {
+              $.ajax({
+                  url: "<?= url('get_group_org_list') ?>",
+                  type: 'POST',
+                  dataType: 'json',
+                  data: {
+                      _token: "<?= csrf_token() ?>",
+                      type: type,
+                      news_id:'<?php echo $news->id ?>',
+                  },
+                  success: function(response) {
+                     
+                     $('#group_org_id').html('').append(response.results);
+
+                  }
+              });
+          }
+     });
+</script>
 @endsection

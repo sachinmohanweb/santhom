@@ -115,6 +115,10 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.organizations.update');
     Route::post('/deleteorganizations', [OrganizationController::class, 'organizations_delete'])
             ->name('admin.organizations.delete');
+    Route::post('/get_group_org_list', [OrganizationController::class, 'getGroupOrgList'])
+            ->name('admin.group.organization.list');
+    Route::post('/get_current_group_org', [OrganizationController::class, 'getCurrentGroupOrg'])
+            ->name('admin.group.organization.current');
 
     Route::get('/vicarlist', [VicarDetailsController::class, 'vicars_list'])
             ->name('admin.vicar.list');

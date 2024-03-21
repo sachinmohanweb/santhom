@@ -318,3 +318,9 @@ CREATE TABLE `downloads` (
 	`deleted_at` TIMESTAMP NULL DEFAULT NULL , PRIMARY KEY (`id`));
 
 ALTER TABLE `downloads` ADD `details` TEXT NULL DEFAULT NULL AFTER `type`;
+
+-- 21/03/24----
+
+ALTER TABLE `news_announcements` ADD `group_org_id` INT NULL DEFAULT NULL AFTER `type`;
+ALTER TABLE `notifications` ADD `group_org_id` INT NULL DEFAULT NULL AFTER `status`;
+

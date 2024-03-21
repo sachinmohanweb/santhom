@@ -15,6 +15,7 @@ use Exception;
 use Datatables;
 
 use App\Models\Organization;
+use App\Models\PrayerGroup;
 
 class OrganizationController extends Controller
 {
@@ -117,4 +118,42 @@ class OrganizationController extends Controller
         return response()->json($return);
     }
 
+    public function getGroupOrgList(Request $request): JsonResponse
+    {
+        $searchTag = request()->get('search_tag');
+        $type =  request()->get('type');
+
+
+        if ($type == 3) {
+
+            $group = PrayerGroup::select('*')->where('status', 1);
+
+            if($searchTag) {
+                $group->Where('group_name', 'like', '%' . $searchTag . '%');
+            }
+
+            $group = $group->orderBy('group_name')->get();
+
+            $results = $group->map(function ($group) {
+                return ['id' => $group->id, 'text' => $group->group_name];
+            });
+
+        }else{
+
+            $org = Organization::select('*')->where('status', 1);
+            if($searchTag) {
+                $org->Where('organization_name', 'like', '%' . $searchTag . '%');
+            }
+
+            $org = $org->orderBy('organization_name')->get();
+
+            $results = $org->map(function ($org) {
+                return ['id' => $org->id, 'text' => $org->organization_name];
+            });
+        
+        }
+
+        return response()->json(['results' => $results]);
+
+    }
 }
