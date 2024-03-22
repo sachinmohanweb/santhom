@@ -17,6 +17,8 @@ use App\Models\Obituary;
 use App\Models\Organization;
 use App\Models\VicarMessage;
 use App\Models\PrayerGroup;
+use App\Models\Download;
+use App\Models\PaymentDetail;
 
 use App\Http\Repositories\UserRepository;
 
@@ -1017,6 +1019,232 @@ class HomeController extends Controller
 
             return $this->outputer->code(200)->metadata($metadata)
                         ->success($mergedData)->json();
+
+        }catch (\Exception $e) {
+
+            $return['result']=$e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
+
+    public function Downloads(Request $request){
+
+        try {
+
+            $pg_no='';
+            $per_pg='';
+
+            $downloads = Download::select('id','title','file','type','details')
+                            ->where('status',1);
+
+            if($request['search_word']){
+                $downloads->where('title','like','%'.$request['search_word'].'%')
+                        ->orwhere('type','like','%'.$request['search_word'].'%');
+            }
+            if($request['page_no']){
+                $pg_no=$page=$request['page_no'];
+            }
+            if($request['per_page']){
+               $per_pg=$page=$request['per_page'];
+            }
+            $downloads=$downloads->orderBy('title', 'desc')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+            if(empty($downloads)) {
+                $return['result']=  "Empty downloads list ";
+                return $this->outputer->code(422)->error($return)->json();
+            }
+
+            // $downloads->getCollection()->transform(function ($item, $key) {
+            //     $item->file = asset('/') . $item->file;
+            //     return $item;
+            // });
+
+            $metadata = array(
+                "total" => $downloads->total(),
+                "per_page" => $downloads->perPage(),
+                "current_page" => $downloads->currentPage(),
+                "last_page" => $downloads->lastPage(),
+                "next_page_url" => $downloads->nextPageUrl(),
+                "prev_page_url" => $downloads->previousPageUrl(),
+                "from" => $downloads->firstItem(),
+                "to" => $downloads->lastItem()
+            );
+
+            return $this->outputer->code(200)->metadata($metadata)
+                        ->success($downloads->getCollection())->json();
+
+        }catch (\Exception $e) {
+
+            $return['result']=$e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
+
+    public function Contributions(Request $request){
+
+        try {
+
+            $pg_no='';
+            $per_pg='';
+            $family_id = Auth::user()->family_id;
+
+            $payments = PaymentDetail::select('payment_details.*')
+                    ->join('family_members', 'payment_details.member_id', '=', 'family_members.id')
+                    ->where('family_members.family_id', $family_id)
+                    ->where('payment_details.status', 1);
+            $payments_sum = $payments->sum('payment_details.amount');
+
+            $family = Family::select('id','family_code','family_name')->find($family_id);
+
+            $payments=$payments->orderBy('payment_details.date')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+            if(empty($payments)) {
+                $return['result']=  "Empty payments list ";
+                return $this->outputer->code(422)->error($return)->json();
+            }
+            
+            $result['family'] = $family;
+            $result['total'] = $payments_sum;
+            $result['payments'] = $payments->getCollection();
+
+            $metadata = array(
+                "total" => $payments->total(),
+                "per_page" => $payments->perPage(),
+                "current_page" => $payments->currentPage(),
+                "last_page" => $payments->lastPage(),
+                "next_page_url" => $payments->nextPageUrl(),
+                "prev_page_url" => $payments->previousPageUrl(),
+                "from" => $payments->firstItem(),
+                "to" => $payments->lastItem()
+            );
+
+            return $this->outputer->code(200)->metadata($metadata)->success($result)->json();
+
+        }catch (\Exception $e) {
+
+            $return['result']=$e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
+
+    public function CalenderEvents(Request $request){
+
+        try {
+
+            $pg_no='';
+            $per_pg='';
+
+            $year=date('Y');
+            $month=date('n');
+
+            if($request['year']){
+                $year = $request['year'];
+            }
+            if($request['month']){
+                $month = $request['month'];
+            }
+
+            /*---------Birthdays Details----------*/
+
+                $birthdays = FamilyMember::select('id','name','dob','family_id')
+                                ->whereRaw("MONTH(dob) = ?", $month)
+                                ->where('status', 1)
+                                ->orderByRaw("DAY(dob) ASC")
+                                ->orderBy('dob', 'asc');
+
+                if($request['page_no']){
+                    $pg_no=$page=$request['page_no'];
+                }
+                if($request['per_page']){
+                   $per_pg=$page=$request['per_page'];
+                }
+                $birthdays=$birthdays->orderBy('id', 'desc')
+                                    ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+                if(empty($birthdays)) {
+                    $return['result']=  "Empty birthday list ";
+                    return $this->outputer->code(422)->error($return)->json();
+                }
+
+                $birthdays_metadata = array(
+                    "total" => $birthdays->total(),
+                    "per_page" => $birthdays->perPage(),
+                    "current_page" => $birthdays->currentPage(),
+                    "last_page" => $birthdays->lastPage(),
+                    "next_page_url" => $birthdays->nextPageUrl(),
+                    "prev_page_url" => $birthdays->previousPageUrl(),
+                    "from" => $birthdays->firstItem(),
+                    "to" => $birthdays->lastItem()
+                );
+
+                $groupedBirthdays = [];
+                foreach ($birthdays as $birthday) {
+                    $day = date('d', strtotime($birthday['dob']));
+                    if (!isset($groupedBirthdays[$day])) {
+                        $groupedBirthdays[$day] = [];
+                    }
+                    $groupedBirthdays[$day][] = $birthday;
+                }
+
+
+            /*---------Death Anniversary Details----------*/
+
+                $obituary = Obituary::select('*')
+                    ->whereRaw("MONTH(date_of_death) = ?", $month)
+                    ->where('status',1)
+                    ->orderByRaw("DAY(date_of_death) ASC")
+                    ->orderBy('date_of_death', 'asc');
+
+
+                if($request['page_no']){
+                    $pg_no=$page=$request['page_no'];
+                }
+                if($request['per_page']){
+                   $per_pg=$page=$request['per_page'];
+                }
+                $obituary=$obituary->orderBy('id', 'desc')
+                                    ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+                if(empty($obituary)) {
+                    $return['result']=  "Empty Death anniversary list ";
+                    return $this->outputer->code(422)->error($return)->json();
+                }
+
+                $grouped_death_anniversaries = [];
+                foreach ($obituary as $obituary_data) {
+                    $day = date('d', strtotime($obituary_data['date_of_death']));
+                    if (!isset($grouped_death_anniversaries[$day])) {
+                        $grouped_death_anniversaries[$day] = [];
+                    }
+                    $grouped_death_anniversaries[$day][] = $obituary_data;
+                }
+
+                $obituary_metadata = array(
+                    "total" => $obituary->total(),
+                    "per_page" => $obituary->perPage(),
+                    "current_page" => $obituary->currentPage(),
+                    "last_page" => $obituary->lastPage(),
+                    "next_page_url" => $obituary->nextPageUrl(),
+                    "prev_page_url" => $obituary->previousPageUrl(),
+                    "from" => $obituary->firstItem(),
+                    "to" => $obituary->lastItem()
+                );
+
+
+
+
+
+            $mergedData = [
+                'birthdays' => $groupedBirthdays,
+                'death_anniversaries' => $grouped_death_anniversaries,
+            ];
+
+            $metadata = [
+                'birthdays_metadata' => $birthdays_metadata,
+                'obituary_metadata' => $obituary_metadata,
+            ];
+
+            return $this->outputer->code(200) ->metadata($metadata)->success($mergedData)->json();
 
         }catch (\Exception $e) {
 

@@ -45,5 +45,8 @@ Route::middleware('auth:sanctum')->group(function(){
     // Route::get('obituaries',[HomeController::class, 'Obituaries']);
     // Route::get('vicar_messages',[HomeController::class, 'VicarMessages']);
     Route::get('bulletin',[HomeController::class, 'Bulletin']);
+    Route::get('downloads',[HomeController::class, 'Downloads']);
+    Route::get('contributions',[HomeController::class, 'Contributions']);
+    Route::get('calender_events',[HomeController::class, 'CalenderEvents']);
 });
 
