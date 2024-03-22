@@ -70,7 +70,7 @@
                                         <th>Sl.No</th>
                                         <th>Organization Name</th>
                                         <th>Coordinator</th>
-                                        <th>Coordinator's Phone</th>
+                                        <th>Number</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>

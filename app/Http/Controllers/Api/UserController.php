@@ -7,13 +7,12 @@ use Mail;
 use Auth;
 use Carbon\Carbon;
 
-
 use App\Models\Family;
 use App\Models\FamilyMember;
 use App\Models\EmailVerification;
 
 use App\Http\Repositories\UserRepository;
-
+use App\Mail\UserVerificationMail;
 
 use App\Helpers\Outputer;
 use Illuminate\Http\Request;
@@ -49,9 +48,14 @@ class UserController extends Controller
                 EmailVerification::create($inputData);
                 DB::commit();
 
-                Mail::raw("Your OTP is: $otp", function ($message) use ($request) {
-                    $message->to($request->input('email'))->subject('OTP Verification');
-                });
+                $member = FamilyMember::where('email',$request->input('email'))->first();
+                
+                $mailData = [
+                    'member' => $member,
+                    'otp' => $otp,
+                ];
+
+                Mail::to($request->input('email'))->send(new UserVerificationMail($mailData));
 
                 $return['messsage']  =  'OTP sent to your email';
                 return $this->outputer->code(200)->success($return)->json();
