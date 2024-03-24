@@ -16,6 +16,8 @@ use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\ObituaryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentDetailsController;
+use App\Http\Controllers\BiblicalCitationController;
+use App\Http\Controllers\MemoriesController;
 
 
 
@@ -252,6 +254,39 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.paymentdetails.update');
     Route::post('/deletepaymentdetails', [PaymentDetailsController::class, 'payment_details_delete'])
             ->name('admin.paymentdetails.delete');
+
+    Route::get('/biblicalcitationlist', [BiblicalCitationController::class, 'admin_biblical_citation_list'])
+                    ->name('admin.biblical.citation.list');
+    Route::get('/biblicalcitationDatatable',[BiblicalCitationController::class,
+                'admin_bible_citation_Datatable'])->name('admin.biblical.citation.list.datatable');
+    Route::get('/createbiblicalcitation', [BiblicalCitationController::class, 
+                'admin_biblical_citation_create'])->name('admin.biblical.citation.create');
+    Route::post('/storebiblicalcitation', [BiblicalCitationController::class, 
+                'admin_biblical_citation_store'])->name('admin.biblical.citation.store');
+    Route::get('/showbiblicalcitation/{id}', [BiblicalCitationController::class, 
+                'admin_biblical_citation_show'])->name('admin.biblical.citation.show_details');
+    Route::post('/updatebiblicalcitation', [BiblicalCitationController::class, 
+                'admin_biblical_citation_update'])->name('admin.biblical.citation.update');   
+    Route::post('/deletebiblicalcitation', [BiblicalCitationController::class, 
+                'admin_biblical_citation_delete'])->name('admin.biblical.citation.delete');
+
+    Route::get('/memorieslist', [MemoriesController::class, 'admin_memories_list'])
+            ->name('admin.memories.list');
+    Route::get('/memoriesDatatable',[MemoriesController::class,'admin_memories_Datatable'])
+            ->name('admin.memories.list.datatable');
+    Route::get('/creatememories', [MemoriesController::class, 'admin_memories_create'])
+            ->name('admin.memories.create');
+    Route::post('/storememories', [MemoriesController::class, 'admin_memories_store'])
+            ->name('admin.memories.store');
+    Route::get('/showmemory/{id}', [MemoriesController::class, 'admin_memories_show'])
+            ->name('admin.memories.show_details');
+    Route::post('/updatebiblicalcitation', [MemoriesController::class, 'admin_memories_update'])
+            ->name('admin.memories.update');   
+    Route::post('/deletebiblicalcitation', [MemoriesController::class, 'admin_memories_delete'])
+            ->name('admin.memories.delete');
+
+    Route::get('/dailyscheduleslist', [FamilyController::class, 'admin_daily_schedules_list'])
+            ->name('admin.daily.schedules.list');
   
 });
 

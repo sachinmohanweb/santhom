@@ -623,11 +623,56 @@ class HomeController extends Controller
                 );
 
 
+            /*---------type 1 result----------*/
+
+            // $mergedData = [
+            //     'families' => $families->getCollection(),
+            //     'members' => $members->getCollection(),
+            //     'prayer_group' => $prayer_group->getCollection(),
+            //     'organizations' => $organizations->getCollection(),
+            // ];
+
+
+            /*---------type 2 result----------*/
+
+            // $familyData = [
+            //     'category' => 'family',
+            //     'list' => $families->getCollection()
+            // ];
+            // $memberData = [
+            //     'category' => 'member',
+            //     'list' => $members->getCollection()
+            // ];
+            // $prayer_groupData = [
+            //     'category' => 'prayer_group',
+            //     'list' => $prayer_group->getCollection()
+            // ];
+            // $organizationsData = [
+            //     'category' => 'organizations',
+            //     'list' => $organizations->getCollection()
+            // ];
+
+            // $mergedData = [
+            //     'families' => $familyData,
+            //     'members' => $memberData,
+            //     'prayer_group' => $prayer_groupData,
+            //     'organizations' => $organizationsData,
+            // ];
+
+
+            /*---------type 3 result----------*/
+
+
             $mergedData = [
-                'families' => $families->getCollection(),
-                'members' => $members->getCollection(),
-                'prayer_group' => $prayer_group->getCollection(),
-                'organizations' => $organizations->getCollection(),
+
+                [ 'category' => 'Families', 'list' => $families->getCollection() ],
+
+                [ 'category' => 'Members', 'list' => $members->getCollection() ],
+
+                [ 'category' => 'Prayer Groups', 'list' => $prayer_group->getCollection() ],
+
+                [ 'category' => 'Organizations', 'list' => $organizations->getCollection() ],
+               
             ];
 
             $metadata = [
@@ -803,11 +848,23 @@ class HomeController extends Controller
             );
 
 
+            // $mergedData = [
+            //     'daiy_schedules' => $daiy_schedules->getCollection(),
+            //     'events' => $events->getCollection(),
+            //     'birthdays' => $birthdays->getCollection(),
+            //     'obituary' => $obituary->getCollection(),
+            // ];
+
             $mergedData = [
-                'daiy_schedules' => $daiy_schedules->getCollection(),
-                'events' => $events->getCollection(),
-                'birthdays' => $birthdays->getCollection(),
-                'obituary' => $obituary->getCollection(),
+
+                [ 'category' => 'Daiy Schedules', 'list' => $daiy_schedules->getCollection() ],
+
+                [ 'category' => 'Events', 'list' => $events->getCollection() ],
+
+                [ 'category' => 'Birthdays', 'list' => $birthdays->getCollection() ],
+
+                [ 'category' => 'Obituary', 'list' => $obituary->getCollection() ],
+               
             ];
 
             $metadata = [
@@ -1001,12 +1058,26 @@ class HomeController extends Controller
             );
 
 
+            // $mergedData = [
+            //     'events' => $events->getCollection(),
+            //     'newsAnnouncements' => $newsAnnouncements->getCollection(),
+            //     'notifications' => $notifications->getCollection(),
+            //     'VicarMessages' => $VicarMessages->getCollection(),
+            //     'obituaries' => $obituaries->getCollection(),
+            // ];
+
             $mergedData = [
-                'events' => $events->getCollection(),
-                'newsAnnouncements' => $newsAnnouncements->getCollection(),
-                'notifications' => $notifications->getCollection(),
-                'VicarMessages' => $VicarMessages->getCollection(),
-                'obituaries' => $obituaries->getCollection(),
+
+                [ 'category' => 'Events', 'list' => $events->getCollection() ],
+
+                [ 'category' => 'News & Announcements', 'list' => $newsAnnouncements->getCollection() ],
+
+                [ 'category' => 'Notifications', 'list' => $notifications->getCollection() ],
+
+                [ 'category' => 'Vicar Messages', 'list' => $VicarMessages->getCollection() ],
+
+                [ 'category' => 'Obituaries', 'list' => $obituaries->getCollection() ],
+               
             ];
 
             $metadata = [

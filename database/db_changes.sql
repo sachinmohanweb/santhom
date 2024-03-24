@@ -324,3 +324,44 @@ ALTER TABLE `downloads` ADD `details` TEXT NULL DEFAULT NULL AFTER `type`;
 ALTER TABLE `news_announcements` ADD `group_org_id` INT NULL DEFAULT NULL AFTER `type`;
 ALTER TABLE `notifications` ADD `group_org_id` INT NULL DEFAULT NULL AFTER `status`;
 
+
+-- 22/03/24----
+
+CREATE TABLE `biblical_citations` (
+	`id` INT NOT NULL AUTO_INCREMENT , 
+	`date` DATE NOT NULL , 
+	`reference` VARCHAR(256) NOT NULL , 
+	`note1` TEXT NULL DEFAULT NULL , 
+	`note2` TEXT NULL DEFAULT NULL , 
+	`status` INT NOT NULL DEFAULT '1' , 
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`deleted_at` TIMESTAMP NULL DEFAULT NULL , PRIMARY KEY (`id`));
+
+
+CREATE TABLE `memory_types` (
+	`id` INT NOT NULL AUTO_INCREMENT , 
+	`type_name` VARCHAR(256) NOT NULL , 
+	`status` INT NOT NULL DEFAULT '1' , 
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`deleted_at` TIMESTAMP NULL DEFAULT NULL , PRIMARY KEY (`id`));
+
+
+INSERT INTO `memory_types` (`id`, `type_name`, `status`, `created_at`, `updated_at`, `deleted_at`) 
+VALUES (NULL, 'Memorial Historical Days', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+(NULL, 'Ancestral Days', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+ (NULL, 'Remembrance Days', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL);
+
+
+ CREATE TABLE `memory_days` (
+ 	`id` INT NOT NULL AUTO_INCREMENT , 
+ 	`memory_type_id` INT NOT NULL , 
+ 	`date` DATE NOT NULL , 
+ 	`title` TEXT NOT NULL , 
+ 	`note1` TEXT NULL DEFAULT NULL , 
+ 	`note2` TEXT NULL DEFAULT NULL , 
+ 	`status` INT NOT NULL DEFAULT '1' , 
+ 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+ 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+ 	`deleted_at` TIMESTAMP NULL DEFAULT NULL , PRIMARY KEY (`id`));

@@ -71,7 +71,6 @@
                                         <th>Organization Name</th>
                                         <th>Coordinator</th>
                                         <th>Number</th>
-                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -185,7 +184,6 @@
                     { data: 'organization_name', name: 'organization_name' },
                     { data: 'coordinator', name: 'coordinator' },
                     { data: 'coordinator_phone_number', name: 'coordinator_phone_number' },
-                    { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false,width:'25%'},
                 ],
                 columnDefs: [
@@ -193,8 +191,7 @@
                     { width: '10%', targets: 1 },
                     { width: '15%', targets: 2 },
                     { width: '15%', targets: 3 },
-                    { width: '15%', targets: 4 ,searchable: false},
-                    { width: '15%', targets: 5 },
+                    { width: '15%', targets: 4 },
                 ],
                 order: [[0, 'desc']]
             });

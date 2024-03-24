@@ -120,14 +120,20 @@
                             <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                         </svg><span>Bible Verses</span></a>
                     </li>
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#">
-                        <svg class="stroke-icon">
-                        <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
-
-                        </svg>
-                        <svg class="fill-icon">
-                            <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
-                        </svg><span>Daily Schedules</span></a>
+                   <li class="sidebar-list">
+                        <label class="badge badge-light-secondary"></label><a class="sidebar-link sidebar-title"
+                            href="#">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-user') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
+                            </svg><span>Daily Digest</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('admin.biblical.citation.list')}}">Bible Citations</a></li>
+                            <li><a href="{{ route('admin.memories.list') }}">Memories</a></li>
+                            <!-- <li><a href="{{ route('admin.daily.schedules.list') }}">Daily Schedules</a></li> -->
+                        </ul>
                     </li>
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="{{route('admin.event.list')}}">
                         <svg class="stroke-icon">
