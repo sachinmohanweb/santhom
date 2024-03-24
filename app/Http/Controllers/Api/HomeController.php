@@ -486,7 +486,9 @@ class HomeController extends Controller
 
             /*---------Family Details----------*/
 
-                $families = Family::select('*')->where('status',1);
+                $families = Family::select('id as id','family_name as item')
+                ->addSelect(DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS sub_item'))
+                ->where('status',1);
                 if($request['search_word']){
 
                     $families->where(function ($query) use ($request) {
@@ -524,7 +526,10 @@ class HomeController extends Controller
 
             /*---------Members Details----------*/
 
-                $members = FamilyMember::select('*')->where('status',1);
+                $members = FamilyMember::select('id as id','name as item')
+                        ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'))
+                        ->addSelect('family_id')
+                        ->where('status',1);
                 if($request['search_word']){
 
                     $members->where(function ($query) use ($request) {
@@ -560,7 +565,7 @@ class HomeController extends Controller
 
             /*---------Prayer Group Details----------*/
 
-                $prayer_group = PrayerGroup::select('id','group_name','leader','leader_phone_number')
+                $prayer_group = PrayerGroup::select('id as id','group_name as item','leader as sub_item')
                                 ->where('status',1);
                 if($request['search_word']){
                     $prayer_group->where('group_name','like',$request['search_word'].'%')
@@ -591,7 +596,7 @@ class HomeController extends Controller
 
             /*---------Organizations Details----------*/
 
-                $organizations=Organization::select('id','organization_name','coordinator','coordinator_phone_number')
+                $organizations=Organization::select('id as id','organization_name as item','coordinator as sub_item')
                         ->where('status',1);
                 if($request['search_word']){
                     $organizations->where('organization_name','like',$request['search_word'].'%')
@@ -893,7 +898,7 @@ class HomeController extends Controller
 
             /*---------Events Details----------*/
 
-            $events = Event::select('id','event_name','date','venue','details','image')
+            $events = Event::select('id','date','event_name as item','venue as sub_item','details','image')
                             ->where('status',1);
             if($request['search_word']){
                 $events->where('event_name','like',$request['search_word'].'%')
@@ -925,8 +930,17 @@ class HomeController extends Controller
 
             /*---------News & Announcements Details----------*/
 
-            $newsAnnouncements = NewsAnnouncement::select('id','type','group_org_id','heading','body'
-                        ,'image')->where('status',1);
+            $newsAnnouncements = NewsAnnouncement::select('id','updated_at as date','heading as item')
+            ->addSelect(DB::raw("
+                CASE
+                    WHEN type = 1 THEN 'Trustee'
+                    WHEN type = 2 THEN 'Secretary'
+                    WHEN type = 3 THEN 'Prayer Group'
+                    ELSE 'Organization'
+                END AS sub_item
+            "))
+            ->addSelect('body as details','image','type' ,'group_org_id')
+            ->where('status',1);
             if($request['search_word']){
                 $newsAnnouncements->where('heading','like',$request['search_word'].'%')
                                 ->orwhere('body','like',$request['search_word'].'%');
@@ -958,8 +972,17 @@ class HomeController extends Controller
 
             /*---------Notifications Details----------*/
 
-            $notifications = Notification::select('id','title','group_org_id','content','type')
-                            ->where('status',1);
+            $notifications = Notification::select('id','updated_at as date','title as item')
+             ->addSelect(DB::raw("
+                CASE
+                    WHEN type = 1 THEN 'Trustee'
+                    WHEN type = 2 THEN 'Secretary'
+                    WHEN type = 3 THEN 'Prayer Group'
+                    ELSE 'Organization'
+                END AS sub_item
+            "))
+            ->addSelect('content as details','group_org_id','type')
+            ->where('status',1);
 
             if($request['search_word']){
                 $notifications->where('title','like',$request['search_word'].'%')
@@ -974,6 +997,10 @@ class HomeController extends Controller
             $notifications=$notifications->orderBy('id', 'desc')
                                 ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
 
+            $notifications->getCollection()->transform(function ($notif) {
+                $notif->image = null;
+                return $notif;
+            });
             if(empty($notifications)) {
                 $return['result']=  "Empty prayer group list ";
                 return $this->outputer->code(422)->error($return)->json();
@@ -992,7 +1019,7 @@ class HomeController extends Controller
 
             /*---------Obituaries Details----------*/
 
-            $VicarMessages=VicarMessage::select('id','subject','message_body','image')
+            $VicarMessages=VicarMessage::select('id','updated_at as date','subject as item','message_body as details','image')
                             ->where('status',1);
 
             if($request['search_word']){
@@ -1008,6 +1035,11 @@ class HomeController extends Controller
             }
             $VicarMessages=$VicarMessages->orderBy('id', 'desc')
                                 ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+            
+            $VicarMessages->getCollection()->transform(function ($msg) {
+                $msg->sub_item = null;
+                return $msg;
+            });
 
             if(empty($VicarMessages)) {
                 $return['result']=  "Empty prayer group list ";
@@ -1028,7 +1060,16 @@ class HomeController extends Controller
 
             /*---------Obituaries Details----------*/
 
-            $obituaries = Obituary::select('*')->where('status',1);
+            $obituaries = Obituary::select('id','date_of_death as date','name_of_member as item')
+                ->selectSub(function ($query) {
+                    $query->select('families.family_name')
+                        ->from('family_members')
+                        ->join('families', 'family_members.family_id', '=', 'families.id')
+                        ->whereColumn('family_members.id', 'obituaries.member_id')
+                        ->limit(1);
+                }, 'sub_item')
+            ->addSelect('notes as details','photo as image')
+            ->where('status',1);
 
             if($request['search_word']){
                 $obituaries->where('name_of_member','like',$request['search_word'].'%');
