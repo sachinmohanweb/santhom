@@ -1277,14 +1277,7 @@ class HomeController extends Controller
                     ->orderBy('date_of_death')
                     ->get();
 
-                $monthly_total = count($birthdays) + count($obituaries);
-                
-                $monthName = date("F", mktime(0, 0, 0, $month, 1));
-                $monthData = [
-                    'month' => $monthName,
-                    'monthly_total_events' => $monthly_total,
-                    'date_results' => []
-                ];
+                $date_results = [];
 
                 for ($day = 1; $day <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $day++) {
 
@@ -1300,15 +1293,15 @@ class HomeController extends Controller
 
                     $total_events = $bday_count + $obituary_count;
 
-                    $monthData['date_results'][] = [
-                        'date' => sprintf('%02d-%02d', $month, $day),
+                    $date_results[] = [
+                        'date' => sprintf('%02d-%02d-%02d', $day, $month, $year),
                         'total_events' => $total_events,
                         'birthday_events'=>$bday_count,
                         'death_anniversary_events'=>$obituary_count,
                     ];
                 }
 
-                $data[] = $monthData;
+                $data[] = $date_results;
             }
 
             return $this->outputer->code(200)->success($data)->json();
