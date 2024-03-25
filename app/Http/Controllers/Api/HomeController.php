@@ -1239,30 +1239,92 @@ class HomeController extends Controller
         }
     }
 
-    public function CalenderEvents(Request $request){
+    public function YearlyCalenderEvents(Request $request){
 
         try {
 
             $pg_no='';
             $per_pg='';
 
-            $year=date('Y');
-            $month=date('n');
+            $year=date("Y");
 
             if($request['year']){
                 $year = $request['year'];
             }
-            if($request['month']){
-                $month = $request['month'];
+
+            $data = [];
+
+            for ($month = 1; $month <= 12; $month++) {
+                $birthdays = FamilyMember::select('id', 'name', 'dob')
+                    ->whereMonth('dob', $month)
+                    ->orderBy('dob')
+                    ->get();
+                $obituaries = Obituary::select('id', 'member_id', 'name_of_member', 'date_of_death')
+                    ->whereMonth('date_of_death', $month)
+                    ->orderBy('date_of_death')
+                    ->get();
+
+                $monthly_total = count($birthdays) + count($obituaries);
+                
+                $monthName = date("F", mktime(0, 0, 0, $month, 1));
+                $monthData = [
+                    'month' => $monthName,
+                    'monthly_total_events' => $monthly_total,
+                    'date_results' => []
+                ];
+
+                for ($day = 1; $day <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $day++) {
+
+                    $birthdaysForDay = $birthdays->filter(function ($birthday) use ($day) {
+                        return date('d', strtotime($birthday->dob)) == $day;
+                    });
+                    $bday_count = $birthdaysForDay->count();
+
+                    $obituariesForDay = $obituaries->filter(function ($obituary) use ($day) {
+                        return date('d', strtotime($obituary->date_of_death)) == $day;
+                    });
+                    $obituary_count = $birthdaysForDay->count();
+
+                    $total_events = $bday_count + $obituary_count;
+
+                    $monthData['date_results'][] = [
+                        'date' => sprintf('%02d-%02d', $month, $day),
+                        'total_events' => $total_events,
+                        'birthday_events'=>$bday_count,
+                        'death_anniversary_events'=>$obituary_count,
+                    ];
+                }
+
+                $data[] = $monthData;
+            }
+
+            return $this->outputer->code(200)->success($data)->json();
+
+        }catch (\Exception $e) {
+
+            $return['result']=$e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
+
+    public function DailyCalenderEvents(Request $request){
+
+        try {
+
+            $pg_no='';
+            $per_pg='';
+
+            $date=date("d-m-Y");
+            if($request['date']){
+                $date = $request['date'];
             }
 
             /*---------Birthdays Details----------*/
 
                 $birthdays = FamilyMember::select('id','name','dob','family_id')
-                                ->whereRaw("MONTH(dob) = ?", $month)
+                                ->whereRaw("DATE_FORMAT(dob, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
                                 ->where('status', 1)
-                                ->orderByRaw("DAY(dob) ASC")
-                                ->orderBy('dob', 'asc');
+                                ->orderBy('name', 'asc');
 
                 if($request['page_no']){
                     $pg_no=$page=$request['page_no'];
@@ -1289,20 +1351,11 @@ class HomeController extends Controller
                     "to" => $birthdays->lastItem()
                 );
 
-                $groupedBirthdays = [];
-                foreach ($birthdays as $birthday) {
-                    $day = date('d', strtotime($birthday['dob']));
-                    if (!isset($groupedBirthdays[$day])) {
-                        $groupedBirthdays[$day] = [];
-                    }
-                    $groupedBirthdays[$day][] = $birthday;
-                }
-
 
             /*---------Death Anniversary Details----------*/
 
                 $obituary = Obituary::select('*')
-                    ->whereRaw("MONTH(date_of_death) = ?", $month)
+                    ->whereRaw("DATE_FORMAT(date_of_death, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
                     ->where('status',1)
                     ->orderByRaw("DAY(date_of_death) ASC")
                     ->orderBy('date_of_death', 'asc');
@@ -1322,15 +1375,6 @@ class HomeController extends Controller
                     return $this->outputer->code(422)->error($return)->json();
                 }
 
-                $grouped_death_anniversaries = [];
-                foreach ($obituary as $obituary_data) {
-                    $day = date('d', strtotime($obituary_data['date_of_death']));
-                    if (!isset($grouped_death_anniversaries[$day])) {
-                        $grouped_death_anniversaries[$day] = [];
-                    }
-                    $grouped_death_anniversaries[$day][] = $obituary_data;
-                }
-
                 $obituary_metadata = array(
                     "total" => $obituary->total(),
                     "per_page" => $obituary->perPage(),
@@ -1344,11 +1388,20 @@ class HomeController extends Controller
 
 
 
-
+            $total = $birthdays->total() + $obituary->total();
 
             $mergedData = [
-                'birthdays' => $groupedBirthdays,
-                'death_anniversaries' => $grouped_death_anniversaries,
+                'number_of_events' => $total,
+                'events' => [
+                    [
+                        'type' => 'Birthdays',
+                        'list' => $birthdays->items()
+                    ],
+                    [
+                        'type' => 'Death Anniversary',
+                        'list' => $obituary->items()
+                    ]
+                ]
             ];
 
             $metadata = [

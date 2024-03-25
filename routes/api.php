@@ -47,6 +47,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('bulletin',[HomeController::class, 'Bulletin']);
     Route::get('downloads',[HomeController::class, 'Downloads']);
     Route::get('contributions',[HomeController::class, 'Contributions']);
-    Route::get('calender_events',[HomeController::class, 'CalenderEvents']);
+    Route::get('yearly_calender_events',[HomeController::class, 'YearlyCalenderEvents']);
+    Route::get('daily_calender_events',[HomeController::class, 'DailyCalenderEvents']);
 });
 
