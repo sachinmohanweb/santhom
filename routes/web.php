@@ -280,9 +280,9 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.memories.store');
     Route::get('/showmemory/{id}', [MemoriesController::class, 'admin_memories_show'])
             ->name('admin.memories.show_details');
-    Route::post('/updatebiblicalcitation', [MemoriesController::class, 'admin_memories_update'])
+    Route::post('/updatememory', [MemoriesController::class, 'admin_memories_update'])
             ->name('admin.memories.update');   
-    Route::post('/deletebiblicalcitation', [MemoriesController::class, 'admin_memories_delete'])
+    Route::post('/deletememory', [MemoriesController::class, 'admin_memories_delete'])
             ->name('admin.memories.delete');
 
     Route::get('/dailyscheduleslist', [FamilyController::class, 'admin_daily_schedules_list'])

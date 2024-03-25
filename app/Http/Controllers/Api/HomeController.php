@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use DB;
 use Mail;
 use Auth;
+use Cache;
 use Carbon\Carbon;
 
 use App\Models\Family;
@@ -136,6 +137,18 @@ class HomeController extends Controller
     public function BibleVerses(Request $request){
 
         try {
+
+        // $today = Carbon::today()->toDateString();
+        // if($request['date']){
+        //     $today=$page=$request['date'];
+        // }
+        // $cachedVerse = Cache::get('verse_for_' . $today);
+        // if ($cachedVerse) {
+        //     return response()->json($cachedVerse);
+        // }
+
+        // $bible_verse = BibleVerse::select('id','verse','ref')->inRandomOrder()->first();
+        // Cache::put('verse_for_' . $today, $bible_verse, now()->addDay());
 
             $pg_no='';
             $per_pg='';
@@ -1321,7 +1334,9 @@ class HomeController extends Controller
 
             /*---------Birthdays Details----------*/
 
-                $birthdays = FamilyMember::select('id','name','dob','family_id')
+                $birthdays = FamilyMember::select('id','name as heading')
+                        ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
+                        ->addSelect('dob as date','image as image','family_id')
                                 ->whereRaw("DATE_FORMAT(dob, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
                                 ->where('status', 1)
                                 ->orderBy('name', 'asc');
@@ -1354,7 +1369,16 @@ class HomeController extends Controller
 
             /*---------Death Anniversary Details----------*/
 
-                $obituary = Obituary::select('*')
+                $obituary = Obituary::select('id','name_of_member as heading')
+                   ->selectSub(function ($query) {
+                        $query->select('families.family_name')
+                            ->from('family_members')
+                            ->join('families', 'family_members.family_id', '=', 'families.id')
+                            ->whereColumn('family_members.id', 'obituaries.member_id')
+                            ->limit(1);
+                    }, 'sub_heading')
+                    ->addSelect('date_of_death as date','photo as image')
+
                     ->whereRaw("DATE_FORMAT(date_of_death, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
                     ->where('status',1)
                     ->orderByRaw("DAY(date_of_death) ASC")
