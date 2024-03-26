@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Api;
 use DB;
 use Mail;
 use Auth;
+use Artisan;
 use Carbon\Carbon;
 
 use App\Models\BloodGroup;
-use App\Models\MaritalStatus;
 use App\Models\PrayerGroup;
 use App\Models\Relationship;
+use App\Models\MaritalStatus;
 
 use App\Http\Repositories\UserRepository;
 
@@ -216,4 +217,12 @@ class SettingsController extends Controller
         }
     }
 
+    public function ClearCache(Request $request) {
+        
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('config:cache');
+        Artisan::call('view:clear');
+        return "Cleared!";
+    }
 }

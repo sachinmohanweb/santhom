@@ -20,6 +20,8 @@ use App\Models\VicarMessage;
 use App\Models\PrayerGroup;
 use App\Models\Download;
 use App\Models\PaymentDetail;
+use App\Models\MemoryDay;
+use App\Models\BiblicalCitation;
 
 use App\Http\Repositories\UserRepository;
 
@@ -134,162 +136,246 @@ class HomeController extends Controller
         }
     }
 
-    public function BibleVerses(Request $request){
+    // public function BibleVerses(Request $request){
 
-        try {
+    //     try {
 
-        // $today = Carbon::today()->toDateString();
-        // if($request['date']){
-        //     $today=$page=$request['date'];
-        // }
-        // $cachedVerse = Cache::get('verse_for_' . $today);
-        // if ($cachedVerse) {
-        //     return response()->json($cachedVerse);
-        // }
+    //         $pg_no='';
+    //         $per_pg='';
 
-        // $bible_verse = BibleVerse::select('id','verse','ref')->inRandomOrder()->first();
-        // Cache::put('verse_for_' . $today, $bible_verse, now()->addDay());
+    //         $bible_verse = BibleVerse::select('id','ref','verse')->where('status',1);
 
-            $pg_no='';
-            $per_pg='';
+    //         if($request['search_word']){
+    //             $bible_verse->where('ref','like',$request['search_word'].'%')
+    //                         ->orwhere('verse','like',$request['search_word'].'%');
+    //         }
+    //         if($request['page_no']){
+    //             $pg_no=$page=$request['page_no'];
+    //         }
+    //         if($request['per_page']){
+    //            $per_pg=$page=$request['per_page'];
+    //         }
+    //         $bible_verse=$bible_verse->orderBy('id', 'desc')->paginate($perPage=$per_pg,[],'',$page =$pg_no);
 
-            $bible_verse = BibleVerse::select('id','ref','verse')->where('status',1);
+    //         if(empty($bible_verse)) {
+    //             $return['result']=  "Empty bible verse list ";
+    //             return $this->outputer->code(422)->error($return)->json();
+    //         }
 
-            if($request['search_word']){
-                $bible_verse->where('ref','like',$request['search_word'].'%')
-                            ->orwhere('verse','like',$request['search_word'].'%');
-            }
-            if($request['page_no']){
-                $pg_no=$page=$request['page_no'];
-            }
-            if($request['per_page']){
-               $per_pg=$page=$request['per_page'];
-            }
-            $bible_verse=$bible_verse->orderBy('id', 'desc')->paginate($perPage=$per_pg,[],'',$page =$pg_no);
+    //         $metadata = array(
+    //             "total" => $bible_verse->total(),
+    //             "per_page" => $bible_verse->perPage(),
+    //             "current_page" => $bible_verse->currentPage(),
+    //             "last_page" => $bible_verse->lastPage(),
+    //             "next_page_url" => $bible_verse->nextPageUrl(),
+    //             "prev_page_url" => $bible_verse->previousPageUrl(),
+    //             "from" => $bible_verse->firstItem(),
+    //             "to" => $bible_verse->lastItem()
+    //         );
 
-            if(empty($bible_verse)) {
-                $return['result']=  "Empty bible verse list ";
-                return $this->outputer->code(422)->error($return)->json();
-            }
+    //         return $this->outputer->code(200)->metadata($metadata)
+    //                     ->success($bible_verse->getCollection())->json();
 
-            $metadata = array(
-                "total" => $bible_verse->total(),
-                "per_page" => $bible_verse->perPage(),
-                "current_page" => $bible_verse->currentPage(),
-                "last_page" => $bible_verse->lastPage(),
-                "next_page_url" => $bible_verse->nextPageUrl(),
-                "prev_page_url" => $bible_verse->previousPageUrl(),
-                "from" => $bible_verse->firstItem(),
-                "to" => $bible_verse->lastItem()
-            );
+    //     }catch (\Exception $e) {
 
-            return $this->outputer->code(200)->metadata($metadata)
-                        ->success($bible_verse->getCollection())->json();
+    //         $return['result']=$e->getMessage();
+    //         return $this->outputer->code(422)->error($return)->json();
+    //     }
+    // }
 
-        }catch (\Exception $e) {
+    // public function Events(Request $request){
 
-            $return['result']=$e->getMessage();
-            return $this->outputer->code(422)->error($return)->json();
-        }
-    }
+    //     try {
 
-    public function Events(Request $request){
+    //         $pg_no='';
+    //         $per_pg='';
 
-        try {
+    //         $events = Event::select('id','event_name','date','venue','details','image')
+    //                         ->where('status',1);
 
-            $pg_no='';
-            $per_pg='';
+    //         if($request['search_word']){
+    //             $events->where('event_name','like',$request['search_word'].'%')
+    //                     ->orwhere('venue','like',$request['search_word'].'%')
+    //                     ->orwhere('details','like',$request['search_word'].'%');
+    //         }
+    //         if($request['page_no']){
+    //             $pg_no=$page=$request['page_no'];
+    //         }
+    //         if($request['per_page']){
+    //            $per_pg=$page=$request['per_page'];
+    //         }
+    //         $events=$events->orderBy('id', 'desc')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
 
-            $events = Event::select('id','event_name','date','venue','details','image')
-                            ->where('status',1);
+    //         if(empty($events)) {
+    //             $return['result']=  "Empty prayer group list ";
+    //             return $this->outputer->code(422)->error($return)->json();
+    //         }
 
-            if($request['search_word']){
-                $events->where('event_name','like',$request['search_word'].'%')
-                        ->orwhere('venue','like',$request['search_word'].'%')
-                        ->orwhere('details','like',$request['search_word'].'%');
-            }
-            if($request['page_no']){
-                $pg_no=$page=$request['page_no'];
-            }
-            if($request['per_page']){
-               $per_pg=$page=$request['per_page'];
-            }
-            $events=$events->orderBy('id', 'desc')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+    //         $metadata = array(
+    //             "total" => $events->total(),
+    //             "per_page" => $events->perPage(),
+    //             "current_page" => $events->currentPage(),
+    //             "last_page" => $events->lastPage(),
+    //             "next_page_url" => $events->nextPageUrl(),
+    //             "prev_page_url" => $events->previousPageUrl(),
+    //             "from" => $events->firstItem(),
+    //             "to" => $events->lastItem()
+    //         );
 
-            if(empty($events)) {
-                $return['result']=  "Empty prayer group list ";
-                return $this->outputer->code(422)->error($return)->json();
-            }
+    //         return $this->outputer->code(200)->metadata($metadata)
+    //                     ->success($events->getCollection())->json();
 
-            $metadata = array(
-                "total" => $events->total(),
-                "per_page" => $events->perPage(),
-                "current_page" => $events->currentPage(),
-                "last_page" => $events->lastPage(),
-                "next_page_url" => $events->nextPageUrl(),
-                "prev_page_url" => $events->previousPageUrl(),
-                "from" => $events->firstItem(),
-                "to" => $events->lastItem()
-            );
+    //     }catch (\Exception $e) {
 
-            return $this->outputer->code(200)->metadata($metadata)
-                        ->success($events->getCollection())->json();
+    //         $return['result']=$e->getMessage();
+    //         return $this->outputer->code(422)->error($return)->json();
+    //     }
+    // }
 
-        }catch (\Exception $e) {
+    // public function NewsAnnouncements(Request $request){
 
-            $return['result']=$e->getMessage();
-            return $this->outputer->code(422)->error($return)->json();
-        }
-    }
+    //     try {
 
-    public function NewsAnnouncements(Request $request){
+    //         $pg_no='';
+    //         $per_pg='';
 
-        try {
+    //         $NewsAnnouncement = NewsAnnouncement::select('id','type','heading','body','image')
+    //                         ->where('status',1);
 
-            $pg_no='';
-            $per_pg='';
+    //         if($request['search_word']){
+    //             $NewsAnnouncement->where('heading','like',$request['search_word'].'%')
+    //                             ->orwhere('body','like',$request['search_word'].'%');
+    //         }
+    //         if($request['page_no']){
+    //             $pg_no=$page=$request['page_no'];
+    //         }
+    //         if($request['per_page']){
+    //            $per_pg=$page=$request['per_page'];
+    //         }
+    //         $NewsAnnouncement=$NewsAnnouncement->orderBy('id', 'desc')
+    //                                 ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
 
-            $NewsAnnouncement = NewsAnnouncement::select('id','type','heading','body','image')
-                            ->where('status',1);
+    //         if(empty($NewsAnnouncement)) {
+    //             $return['result']=  "Empty marital status list ";
+    //             return $this->outputer->code(422)->error($return)->json();
+    //         }
 
-            if($request['search_word']){
-                $NewsAnnouncement->where('heading','like',$request['search_word'].'%')
-                                ->orwhere('body','like',$request['search_word'].'%');
-            }
-            if($request['page_no']){
-                $pg_no=$page=$request['page_no'];
-            }
-            if($request['per_page']){
-               $per_pg=$page=$request['per_page'];
-            }
-            $NewsAnnouncement=$NewsAnnouncement->orderBy('id', 'desc')
-                                    ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+    //         $metadata = array(
+    //             "total" => $NewsAnnouncement->total(),
+    //             "per_page" => $NewsAnnouncement->perPage(),
+    //             "current_page" => $NewsAnnouncement->currentPage(),
+    //             "last_page" => $NewsAnnouncement->lastPage(),
+    //             "next_page_url" => $NewsAnnouncement->nextPageUrl(),
+    //             "prev_page_url" => $NewsAnnouncement->previousPageUrl(),
+    //             "from" => $NewsAnnouncement->firstItem(),
+    //             "to" => $NewsAnnouncement->lastItem()
+    //         );
 
-            if(empty($NewsAnnouncement)) {
-                $return['result']=  "Empty marital status list ";
-                return $this->outputer->code(422)->error($return)->json();
-            }
+    //         return $this->outputer->code(200)->metadata($metadata)
+    //                     ->success($NewsAnnouncement->getCollection())->json();
 
-            $metadata = array(
-                "total" => $NewsAnnouncement->total(),
-                "per_page" => $NewsAnnouncement->perPage(),
-                "current_page" => $NewsAnnouncement->currentPage(),
-                "last_page" => $NewsAnnouncement->lastPage(),
-                "next_page_url" => $NewsAnnouncement->nextPageUrl(),
-                "prev_page_url" => $NewsAnnouncement->previousPageUrl(),
-                "from" => $NewsAnnouncement->firstItem(),
-                "to" => $NewsAnnouncement->lastItem()
-            );
+    //     }catch (\Exception $e) {
 
-            return $this->outputer->code(200)->metadata($metadata)
-                        ->success($NewsAnnouncement->getCollection())->json();
+    //         $return['result']=$e->getMessage();
+    //         return $this->outputer->code(422)->error($return)->json();
+    //     }
+    // }
 
-        }catch (\Exception $e) {
+    // public function Obituaries(Request $request){
 
-            $return['result']=$e->getMessage();
-            return $this->outputer->code(422)->error($return)->json();
-        }
-    }
+    //     try {
+
+    //         $pg_no='';
+    //         $per_pg='';
+
+    //         $obituaries = Obituary::select('*')->where('status',1);
+
+    //         if($request['search_word']){
+    //             $obituaries->where('name_of_member','like',$request['search_word'].'%');
+    //         }
+    //         if($request['page_no']){
+    //             $pg_no=$page=$request['page_no'];
+    //         }
+    //         if($request['per_page']){
+    //            $per_pg=$page=$request['per_page'];
+    //         }
+    //         $obituaries=$obituaries->orderBy('id', 'desc')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+    //         if(empty($obituaries)) {
+    //             $return['result']=  "Empty prayer group list ";
+    //             return $this->outputer->code(422)->error($return)->json();
+    //         }
+
+    //         $metadata = array(
+    //             "total" => $obituaries->total(),
+    //             "per_page" => $obituaries->perPage(),
+    //             "current_page" => $obituaries->currentPage(),
+    //             "last_page" => $obituaries->lastPage(),
+    //             "next_page_url" => $obituaries->nextPageUrl(),
+    //             "prev_page_url" => $obituaries->previousPageUrl(),
+    //             "from" => $obituaries->firstItem(),
+    //             "to" => $obituaries->lastItem()
+    //         );
+
+    //         return $this->outputer->code(200)->metadata($metadata)
+    //                     ->success($obituaries->getCollection())->json();
+
+    //     }catch (\Exception $e) {
+
+    //         $return['result']=$e->getMessage();
+    //         return $this->outputer->code(422)->error($return)->json();
+    //     }
+    // }
+
+    // public function Organizations(Request $request){
+
+    //     try {
+
+    //         $pg_no='';
+    //         $per_pg='';
+
+    //         $organizations=Organization::select('id','organization_name','coordinator','coordinator_phone_number')
+    //                         ->where('status',1);
+
+    //         if($request['search_word']){
+    //             $organizations->where('organization_name','like',$request['search_word'].'%')
+    //                         ->orwhere('coordinator','like',$request['search_word'].'%');
+
+    //         }
+    //         if($request['page_no']){
+    //             $pg_no=$page=$request['page_no'];
+    //         }
+    //         if($request['per_page']){
+    //            $per_pg=$page=$request['per_page'];
+    //         }
+    //         $organizations=$organizations->orderBy('id', 'desc')
+    //                             ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+    //         if(empty($organizations)) {
+    //             $return['result']=  "Empty prayer group list ";
+    //             return $this->outputer->code(422)->error($return)->json();
+    //         }
+
+    //         $metadata = array(
+    //             "total" => $organizations->total(),
+    //             "per_page" => $organizations->perPage(),
+    //             "current_page" => $organizations->currentPage(),
+    //             "last_page" => $organizations->lastPage(),
+    //             "next_page_url" => $organizations->nextPageUrl(),
+    //             "prev_page_url" => $organizations->previousPageUrl(),
+    //             "from" => $organizations->firstItem(),
+    //             "to" => $organizations->lastItem()
+    //         );
+
+    //         return $this->outputer->code(200)->metadata($metadata)
+    //                     ->success($organizations->getCollection())->json();
+
+    //     }catch (\Exception $e) {
+
+    //         $return['result']=$e->getMessage();
+    //         return $this->outputer->code(422)->error($return)->json();
+    //     }
+    // }
 
     public function Notifications(Request $request){
 
@@ -332,102 +418,6 @@ class HomeController extends Controller
 
             return $this->outputer->code(200)->metadata($metadata)
                         ->success($notification->getCollection())->json();
-
-        }catch (\Exception $e) {
-
-            $return['result']=$e->getMessage();
-            return $this->outputer->code(422)->error($return)->json();
-        }
-    }
-
-    public function Obituaries(Request $request){
-
-        try {
-
-            $pg_no='';
-            $per_pg='';
-
-            $obituaries = Obituary::select('*')->where('status',1);
-
-            if($request['search_word']){
-                $obituaries->where('name_of_member','like',$request['search_word'].'%');
-            }
-            if($request['page_no']){
-                $pg_no=$page=$request['page_no'];
-            }
-            if($request['per_page']){
-               $per_pg=$page=$request['per_page'];
-            }
-            $obituaries=$obituaries->orderBy('id', 'desc')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
-
-            if(empty($obituaries)) {
-                $return['result']=  "Empty prayer group list ";
-                return $this->outputer->code(422)->error($return)->json();
-            }
-
-            $metadata = array(
-                "total" => $obituaries->total(),
-                "per_page" => $obituaries->perPage(),
-                "current_page" => $obituaries->currentPage(),
-                "last_page" => $obituaries->lastPage(),
-                "next_page_url" => $obituaries->nextPageUrl(),
-                "prev_page_url" => $obituaries->previousPageUrl(),
-                "from" => $obituaries->firstItem(),
-                "to" => $obituaries->lastItem()
-            );
-
-            return $this->outputer->code(200)->metadata($metadata)
-                        ->success($obituaries->getCollection())->json();
-
-        }catch (\Exception $e) {
-
-            $return['result']=$e->getMessage();
-            return $this->outputer->code(422)->error($return)->json();
-        }
-    }
-
-    public function Organizations(Request $request){
-
-        try {
-
-            $pg_no='';
-            $per_pg='';
-
-            $organizations=Organization::select('id','organization_name','coordinator','coordinator_phone_number')
-                            ->where('status',1);
-
-            if($request['search_word']){
-                $organizations->where('organization_name','like',$request['search_word'].'%')
-                            ->orwhere('coordinator','like',$request['search_word'].'%');
-
-            }
-            if($request['page_no']){
-                $pg_no=$page=$request['page_no'];
-            }
-            if($request['per_page']){
-               $per_pg=$page=$request['per_page'];
-            }
-            $organizations=$organizations->orderBy('id', 'desc')
-                                ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
-
-            if(empty($organizations)) {
-                $return['result']=  "Empty prayer group list ";
-                return $this->outputer->code(422)->error($return)->json();
-            }
-
-            $metadata = array(
-                "total" => $organizations->total(),
-                "per_page" => $organizations->perPage(),
-                "current_page" => $organizations->currentPage(),
-                "last_page" => $organizations->lastPage(),
-                "next_page_url" => $organizations->nextPageUrl(),
-                "prev_page_url" => $organizations->previousPageUrl(),
-                "from" => $organizations->firstItem(),
-                "to" => $organizations->lastItem()
-            );
-
-            return $this->outputer->code(200)->metadata($metadata)
-                        ->success($organizations->getCollection())->json();
 
         }catch (\Exception $e) {
 
@@ -500,8 +490,8 @@ class HomeController extends Controller
             /*---------Family Details----------*/
 
                 $families = Family::select('id as id','family_name as item')
-                ->addSelect(DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS sub_item'))
-                ->where('status',1);
+                        ->addSelect(DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS sub_item'))
+                        ->where('status',1);
                 if($request['search_word']){
 
                     $families->where(function ($query) use ($request) {
@@ -509,7 +499,7 @@ class HomeController extends Controller
                             ->orWhere('family_code', 'like', $request['search_word'].'%');
                     })
                     ->orwhereHas('members', function ($query) use ($request) {
-                        $query->where('name', 'like', $request['search_word'].'%')
+                       $query->where('name', 'like', $request['search_word'].'%')
                               ->where('head_of_family', 1);
                     });
                 }
@@ -640,7 +630,6 @@ class HomeController extends Controller
                     "to" => $organizations->lastItem()
                 );
 
-
             /*---------type 1 result----------*/
 
             // $mergedData = [
@@ -711,53 +700,64 @@ class HomeController extends Controller
     }
 
     public function DailyDigest(Request $request){
-
         try {
 
             $per_pg='';
             $pg_no='';
             $today = now()->toDateString();
 
+            /*---------Daily Bible verse----------*/
+
+            if($request['date']){
+                $today=$page=$request['date'];
+            }
+            $cachedVerse = Cache::get('verse_for_' . $today);
+            if ($cachedVerse) {
+               $bible_verse = $cachedVerse;
+            }else{
+                $bible_verse = BibleVerse::select('id','verse as heading','ref as sub_heading')->inRandomOrder()->first();
+                Cache::put('verse_for_' . $today, $bible_verse, now()->addDay());
+            }
+
             /*---------Daily Schedules Details----------*/
 
-            $daiy_schedules = Event::select('id','event_name','date','venue','details','image')
-                            ->where('date',$today)
-                            ->where('status',1);
+            $memoryData = MemoryDay::select('id',DB::raw('"Orma" as heading'), 'title as sub_heading', 'date', DB::raw('"null" as image'))
+                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today', '%m-%d')")
+                ->where('status', 1);
 
-            if($request['search_word']){
-                $daiy_schedules->where('event_name','like',$request['search_word'].'%')
-                        ->orwhere('venue','like',$request['search_word'].'%')
-                        ->orwhere('details','like',$request['search_word'].'%');
-            }
-            if($request['page_no']){
-                $pg_no=$request['page_no'];
-            }
-            if($request['per_page']){
-               $per_pg=$request['per_page'];
-            }
-            
-            $daiy_schedules=$daiy_schedules->orderBy('id', 'desc')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+            $bibleCitationData = BiblicalCitation::select('id',DB::raw('"Vedha Bagangal" as heading'), 'reference as sub_heading', 'date', DB::raw('"null" as image'))
+                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today', '%m-%d')")
+                ->where('status', 1);
 
-            if(empty($daiy_schedules)) {
-                $return['result']=  "Empty daiy_schedules list ";
-                return $this->outputer->code(422)->error($return)->json();
-            }
+            $daily_schedules = $memoryData->union($bibleCitationData)
+                                ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+            $daily_schedules->getCollection()->transform(function ($item, $key) {
+
+                if ($item->image !== 'null') {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
             $daiy_schedules_metadata = array(
-                "total" => $daiy_schedules->total(),
-                "per_page" => $daiy_schedules->perPage(),
-                "current_page" => $daiy_schedules->currentPage(),
-                "last_page" => $daiy_schedules->lastPage(),
-                "next_page_url" => $daiy_schedules->nextPageUrl(),
-                "prev_page_url" => $daiy_schedules->previousPageUrl(),
-                "from" => $daiy_schedules->firstItem(),
-                "to" => $daiy_schedules->lastItem()
+                "total" => $daily_schedules->total(),
+                "per_page" => $daily_schedules->perPage(),
+                "current_page" => $daily_schedules->currentPage(),
+                "last_page" => $daily_schedules->lastPage(),
+                "next_page_url" => $daily_schedules->nextPageUrl(),
+                "prev_page_url" => $daily_schedules->previousPageUrl(),
+                "from" => $daily_schedules->firstItem(),
+                "to" => $daily_schedules->lastItem()
             );
+
 
             /*---------Events Details----------*/
 
-            $events = Event::select('id','event_name','date','venue','details','image')
-                            ->where('date',$today)
-                            ->where('status',1);
+            $events = Event::select('id','event_name as heading','venue as sub_heading','date','image',
+                        'details')
+                        ->where('date',$today)
+                        ->where('status',1);
 
             if($request['search_word']){
                 $events->where('event_name','like',$request['search_word'].'%')
@@ -772,6 +772,14 @@ class HomeController extends Controller
             }
             
             $events=$events->orderBy('id', 'desc')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+            $events->getCollection()->transform(function ($item, $key) {
+
+                if ($item->image !== null) {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
 
             if(empty($events)) {
                 $return['result']=  "Empty events list ";
@@ -793,7 +801,9 @@ class HomeController extends Controller
             $today_birth = now();
             $monthDay = $today_birth->format('m-d');
 
-            $birthdays = FamilyMember::select('*')
+            $birthdays = FamilyMember::select('id','name as heading')
+                        ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
+                        ->addSelect('dob as date','image','family_id')
                             ->whereRaw("DATE_FORMAT(dob, '%m-%d') = ?", [$monthDay])
                             ->where('status',1);
 
@@ -809,6 +819,14 @@ class HomeController extends Controller
             }
             $birthdays=$birthdays->orderBy('id', 'desc')
                                 ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+            $birthdays->getCollection()->transform(function ($item, $key) {
+
+                if ($item->image !== null) {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
 
             if(empty($birthdays)) {
                 $return['result']=  "Empty prayer group list ";
@@ -831,7 +849,15 @@ class HomeController extends Controller
             $today_ob = now();
             $monthDay = $today_ob->format('m-d');
 
-            $obituary = Obituary::select('*')
+            $obituary = Obituary::select('id','name_of_member as heading')
+                        ->selectSub(function ($query) {
+                            $query->select('families.family_name')
+                                ->from('family_members')
+                                ->join('families', 'family_members.family_id', '=', 'families.id')
+                                ->whereColumn('family_members.id', 'obituaries.member_id')
+                                ->limit(1);
+                        }, 'sub_heading')
+                        ->addSelect('date_of_death as date','photo as image','member_id')
                             ->whereRaw("DATE_FORMAT(date_of_death, '%m-%d') = ?", [$monthDay])
                             ->where('status',1);
 
@@ -848,6 +874,13 @@ class HomeController extends Controller
             }
             $obituary=$obituary->orderBy('id', 'desc')
                                 ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+            $obituary->getCollection()->transform(function ($item, $key) {
+
+                if ($item->image !== null) {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
 
             if(empty($obituary)) {
                 $return['result']=  "Empty prayer group list ";
@@ -865,17 +898,9 @@ class HomeController extends Controller
                 "to" => $obituary->lastItem()
             );
 
-
-            // $mergedData = [
-            //     'daiy_schedules' => $daiy_schedules->getCollection(),
-            //     'events' => $events->getCollection(),
-            //     'birthdays' => $birthdays->getCollection(),
-            //     'obituary' => $obituary->getCollection(),
-            // ];
-
             $mergedData = [
 
-                [ 'category' => 'Daiy Schedules', 'list' => $daiy_schedules->getCollection() ],
+                [ 'category' => 'Daiy Schedules', 'list' => $daily_schedules->getCollection() ],
 
                 [ 'category' => 'Events', 'list' => $events->getCollection() ],
 
@@ -892,8 +917,11 @@ class HomeController extends Controller
                 'obituary_metadata' => $obituary_metadata,
             ];
 
-            return $this->outputer->code(200)->metadata($metadata)
-                        ->success($mergedData)->json();
+            return $this->outputer->code(200)
+                        ->metadata($metadata)
+                        ->success($mergedData )
+                        ->DailyDigest($bible_verse)
+                        ->json();
 
         }catch (\Exception $e) {
 
@@ -1324,7 +1352,6 @@ class HomeController extends Controller
             if($request['date']){
                 $date = $request['date'];
             }
-
             /*---------Birthdays Details----------*/
 
                 $birthdays = FamilyMember::select('id','name as heading')

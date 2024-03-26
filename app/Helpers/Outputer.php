@@ -11,6 +11,7 @@ class Outputer
 	protected $data;
 	protected $count;
 	protected $metadata = [];
+	protected $DailyDigest = [];
 	protected $code = 200;
 	protected $success = true;
 	protected $attribute = null;
@@ -32,6 +33,11 @@ class Outputer
 	{
 		$this->metadata = $metadata;
 		return $this;
+	}
+	public function DailyDigest($DailyDigest)
+	{
+	    $this->DailyDigest = $DailyDigest;
+	    return $this;
 	}
 
 	public function code( $code)
@@ -122,6 +128,9 @@ class Outputer
 			!is_null($this->count) ? $res->count = $this->count : '';
 			$res->metadata = $this->metadata;
 			$res->data = $this->data;
+			if (!empty($this->DailyDigest)) {
+					$res->DailyDigest = $this->DailyDigest;
+			}
 
 			return new JsonResponse($res, $this->code);
 		}

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\HomeController;
 
 Route::post('login',[UserController::class, 'loginUser']);
 Route::post('verify_otp',[UserController::class, 'VerifyOtp']);
+Route::get('/clear',[SettingsController::class,'ClearCache']);
 
 Route::middleware('auth:sanctum')->group(function(){
 
@@ -24,15 +25,13 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('marital_statuses',[SettingsController::class, 'MaritatStatuses']);
     Route::get('relationships',[SettingsController::class, 'Relationships']);
     
-    Route::get('bible_verses',[HomeController::class, 'BibleVerses']);
-
     // Route::get('families',[HomeController::class, 'Families']);
     // Route::get('members',[HomeController::class, 'Members']);
     // Route::get('prayer_groups',[SettingsController::class, 'PrayerGroups']);
     // Route::get('organizations',[HomeController::class, 'Organizations']);
     Route::get('directory',[HomeController::class, 'Directory']);
 
-    
+    // Route::get('bible_verses',[HomeController::class, 'BibleVerses']);
     // Route::get('daily_schedules',[HomeController::class, 'DailySchedules']);
     // Route::get('event',[HomeController::class, 'BirthDay']);
     // Route::get('birth_day',[HomeController::class, 'BirthDay']);
@@ -41,13 +40,15 @@ Route::middleware('auth:sanctum')->group(function(){
 
     // Route::get('events',[HomeController::class, 'Events']);
     // Route::get('news_announcements',[HomeController::class, 'NewsAnnouncements']);
-    // Route::get('notifications',[HomeController::class, 'Notifications']);
     // Route::get('obituaries',[HomeController::class, 'Obituaries']);
-    // Route::get('vicar_messages',[HomeController::class, 'VicarMessages']);
+    Route::get('vicar_messages',[HomeController::class, 'VicarMessages']);
+    Route::get('notifications',[HomeController::class, 'Notifications']);
     Route::get('bulletin',[HomeController::class, 'Bulletin']);
-    Route::get('downloads',[HomeController::class, 'Downloads']);
-    Route::get('contributions',[HomeController::class, 'Contributions']);
+
     Route::get('yearly_calender_events',[HomeController::class, 'YearlyCalenderEvents']);
     Route::get('daily_calender_events',[HomeController::class, 'DailyCalenderEvents']);
+
+    Route::get('downloads',[HomeController::class, 'Downloads']);
+    Route::get('contributions',[HomeController::class, 'Contributions']);
 });
 

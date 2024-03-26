@@ -11,8 +11,8 @@ use App\Models\Family;
 use App\Models\FamilyMember;
 use App\Models\EmailVerification;
 
-use App\Http\Repositories\UserRepository;
 use App\Mail\UserVerificationMail;
+use App\Http\Repositories\UserRepository;
 
 use App\Helpers\Outputer;
 use Illuminate\Http\Request;
@@ -95,7 +95,6 @@ class UserController extends Controller
 
                     $return['messsage']  =  'OTP verified successfully';
                     $return['token']  = $token;
-                    //$return['user']  =  Auth::guard('member')->user();
 
                     return $this->outputer->code(200)->success($return)->json();
                 }else{
