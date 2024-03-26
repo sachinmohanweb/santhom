@@ -41,11 +41,9 @@ class DailyScheduleController extends Controller
             //         return $row->details;
             // })
             ->addColumn('details', function($row) {
-                    $details = $row->details;
-                    $extractedContent = substr($details, 0, 250) . '<span>......</span>';
-                    return $extractedContent;
-
-
+                    $details = strip_tags($row->details);
+                    $extractedContent = mb_substr($row->details, 0, 200, 'UTF-8').'......';
+                    return $extractedContent;       
             })
             ->addColumn('action', 'daily_schedule.daily-schedule-datatable-action')
             ->rawColumns(['details','action'])
