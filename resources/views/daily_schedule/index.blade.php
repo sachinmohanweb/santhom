@@ -65,7 +65,7 @@
                                 <thead>
                                     <tr>
                                         <th>Sl.No</th>
-                                        <th>Type</th>
+                                        <th>Day Type</th>
                                         <th>Details</th>
                                         <th>Action</th>
                                     </tr>
@@ -102,7 +102,7 @@
                 ],
                  columnDefs: [
                     { width: '5%', targets: 0 ,orderable: false, searchable: false},
-                    { width: '18%', targets: 1 },
+                    { width: '20%', targets: 1 },
                     { width: '50%', targets: 2 },
                     { width: '25%', targets: 3 ,searchable: false},
                 ],

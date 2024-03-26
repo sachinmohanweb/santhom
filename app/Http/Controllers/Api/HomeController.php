@@ -22,6 +22,7 @@ use App\Models\Download;
 use App\Models\PaymentDetail;
 use App\Models\MemoryDay;
 use App\Models\BiblicalCitation;
+use App\Models\DailySchedules;
 
 use App\Http\Repositories\UserRepository;
 
@@ -721,7 +722,8 @@ class HomeController extends Controller
 
             /*---------Daily Schedules Details----------*/
 
-            $memoryData = MemoryDay::select('id',DB::raw('"Orma" as heading'), 'title as sub_heading', 'date', DB::raw('"null" as image'))
+            $memoryData = MemoryDay::select('id',DB::raw('"Orma" as heading'), 'title as sub_heading', 
+                'date', DB::raw('"null" as image'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today', '%m-%d')")
                 ->where('status', 1);
 
@@ -729,7 +731,28 @@ class HomeController extends Controller
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today', '%m-%d')")
                 ->where('status', 1);
 
+            $church_activities = DailySchedules::select('id',DB::raw('"Church Activities" as heading'),'details as sub_heading','date', DB::raw('"null" as image'))
+                ->whereDate('date',$today)
+                ->where('status', 1);
+            if ($church_activities->count() == 0) {
+
+                $todayDayValue = date("N");
+
+                $church_activities = DailySchedules::select('id',DB::raw('"Church Activities" as heading'),'details as sub_heading','date', DB::raw('"null" as image'))
+                        ->where('status', 1);
+
+                if ($todayDayValue == 7) { 
+                       $church_activities = $church_activities->where('day_category', 2); 
+                } else {
+                    $church_activities = $church_activities->where('day_category', 1); 
+                }
+
+            }
+
+            $churchActivitiesData = $church_activities;
+
             $daily_schedules = $memoryData->union($bibleCitationData)
+                                ->union($churchActivitiesData)
                                 ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
 
             $daily_schedules->getCollection()->transform(function ($item, $key) {
@@ -900,7 +923,7 @@ class HomeController extends Controller
 
             $mergedData = [
 
-                [ 'category' => 'Daiy Schedules', 'list' => $daily_schedules->getCollection() ],
+                [ 'category' => 'Daily Schedules', 'list' => $daily_schedules->getCollection() ],
 
                 [ 'category' => 'Events', 'list' => $events->getCollection() ],
 

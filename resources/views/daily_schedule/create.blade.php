@@ -64,8 +64,8 @@
                         <label class="form-label">Schedule Type</label>
                         <select class="form-control" name="type" id="type" required>
                           <option value="">--Select--</option>
-                          <option value="1">Normal Day</option>
-                          <option value="2">Special Day</option>
+                          <option value="1">Default Days</option>
+                          <option value="2">Special Days</option>
                          
                         </select>  
                       </div>
@@ -73,8 +73,8 @@
                         <label class="form-label">Day Category</label>
                         <select class="form-control" name="day_category" id="day_category">
                           <option value="">--Select--</option>
-                          <option value="1">Monday to Saturday</option>
-                          <option value="2">Sunday</option>
+                          <option value="1">Default Monday to Saturday</option>
+                          <option value="2">Default Sunday</option>
                          
                         </select>  
                       </div>

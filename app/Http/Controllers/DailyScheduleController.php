@@ -29,12 +29,12 @@ class DailyScheduleController extends Controller
             ->addColumn('type', function($row) {
                 if ($row->type == 'Normal Day') {
                     if ($row->day_category == 'Mon-Sat') {
-                        return 'Normal Day Type  Monday to Saturday';
+                        return 'Default Monday to Saturday';
                     } else {
-                        return 'Normal Day Type  Sunday';
+                        return 'Default Sunday';
                     }
                 } else {
-                    return  'Special Day Type  ' . $row->date;
+                    return  'Special Day ' . $row->date;
                 }
             })
             // ->addColumn('details', function($row) {
@@ -42,15 +42,12 @@ class DailyScheduleController extends Controller
             // })
             ->addColumn('details', function($row) {
                     $details = $row->details;
-                    $pattern = '/<strong>(.*?)<\/strong>/';
-                    
-                    if (preg_match($pattern, $details, $matches)) {
-                        $extractedContent = strip_tags($matches[1]);
-                        return substr($extractedContent, 0, 100);
-                    }
-                    return '';
+                    $extractedContent = substr($details, 0, 250) . '<span>......</span>';
+                    return $extractedContent;
+
+
             })
-            ->addColumn('action', 'biblicalcitation.biblical-citation-datatable-action')
+            ->addColumn('action', 'daily_schedule.daily-schedule-datatable-action')
             ->rawColumns(['details','action'])
             ->addIndexColumn()
             
@@ -70,6 +67,24 @@ class DailyScheduleController extends Controller
 
         DB::beginTransaction();
         try {
+
+            if(($request->type==1) && ($request->day_category==1)){
+
+                $existingRecord1 = DailySchedules::where('type',1)->where('day_category',1)->first();
+                if($existingRecord1){
+                    $message1 = "Already added Default Monday to Saturday activities";
+                    return back()->withInput()->withErrors(['message' =>  $message1]);
+                }
+            }
+            if(($request->type==1) && ($request->day_category==2)){
+
+                $existingRecord2 = DailySchedules::where('type',1)->where('day_category',2)->first();
+                if($existingRecord2){
+                    $message2 = "Already added Default SundaY activities";
+                    return back()->withInput()->withErrors(['message' =>  $message2]);
+                }
+            }
+
             if($request->type==1){
                 $a =  $request->validate([
                     'type' => 'required',
@@ -112,21 +127,23 @@ class DailyScheduleController extends Controller
         try {
             
             $DailySchedules = DailySchedules::find($request->id);
-            if($request->type==1){
+            if($request->type =='Normal Day'){
+                $columnsToExclude = ['type', 'day_category'];
+                $requestData = $request->except($columnsToExclude);
+
                 $a =  $request->validate([
-                    'type' => 'required',
-                    'day_category' => 'required',
                     'details' => 'required',
                 ]);
             }else{
+                
+                $requestData = $request->except('type');
 
                  $a =  $request->validate([
-                    'type' => 'required',
                     'date' => 'required',
                     'details' => 'required',
                 ]);
             }
-            $DailySchedules->update($request->all());
+            $DailySchedules->update($requestData);
             DB::commit();
 
             return redirect()->back()

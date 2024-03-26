@@ -47,12 +47,13 @@
                  <div class="product-page-details">
                   @if($DailySchedules->type=='Normal Day')
                       @if($DailySchedules->day_category=='Mon-Sat')
-                          <h3>Monday-Saturday</h3>
+                          <h3>Default Monday to Saturday</h3>
                       @else
-                          <h3>Sunday</h3>
+                          <h3>Default Sunday</h3>
                       @endif
                   @else
                    <h3>Special Day</h3>
+                    Date : <span style="font-size:15px"><b>{{$DailySchedules->date}}</b></span>
                   @endif
                  </div>
                  
@@ -78,27 +79,16 @@
              <div class="row">
                 <div class="col-md-9">
 
-                   <table class="product-page-width"  style="border-collapse: separate;border-spacing: 20px;">
-                     <tbody>
-                        @if($DailySchedules->type=='Special Day')                      
-                         <tr>
-                         <td> <b>Date</b></td>
-                         <td> <b>&nbsp;:&nbsp;</b></td>
-                         <td>{{$DailySchedules->date}}
-                         
-                         </td>
-                       </tr>
-                       @endif
+                   <table class="product-page-width" style="border-collapse: separate; border-spacing: 20px; width: 100%; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; background-color: #f9f9f9;">
+                      <tbody>
                           <tr>
-                         <td> <b>Details</b></td>
-                         <td> <b>&nbsp;:&nbsp;</b></td>
-                         <td>{!! $DailySchedules->details !!}
-                         
-                         </td>
-                       </tr>
-                       
-                     </tbody>
-                   </table>
+                              <td style="padding: 10px; text-align: center; font-weight: bold; border-bottom: 1px solid #ddd;">Details</td>
+                          </tr>
+                          <tr>
+                              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{!! $DailySchedules->details !!}</td>
+                          </tr>
+                      </tbody>
+                  </table>
                 </div>
                
 
@@ -131,12 +121,9 @@
                     <div class="row">
                       <div class="col-md-6">
                         <label class="form-label">Schedule Type</label>
-                        <select class="form-control" name="type" id="type" required>
-                          <option value="">--Select--</option>
-                          <option value="1"  {{ $DailySchedules->type === 'Normal Day' ? 'selected' :'' }}>Normal Day</option>
-                          <option value="2"  {{ $DailySchedules->type === 'Special Day' ? 'selected' :'' }}>Special Day</option>
-                         
-                        </select>  
+
+                        <input class="form-control" type="text" placeholder="type" id="type" name="type"  value="{{$DailySchedules->type}}" readonly>
+
                       </div>
                       <div class="col-md-6" id="normal_day_options">
                         <label class="form-label">Day Category</label>
