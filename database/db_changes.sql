@@ -365,3 +365,19 @@ VALUES (NULL, 'Memorial Historical Days', '1', CURRENT_TIMESTAMP, CURRENT_TIMEST
  	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
  	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
  	`deleted_at` TIMESTAMP NULL DEFAULT NULL , PRIMARY KEY (`id`));
+
+-- 22/03/24----
+
+CREATE TABLE `daily_schedules` (
+	`id` INT NOT NULL AUTO_INCREMENT , 
+	`type` INT NOT NULL COMMENT '1-Normal_day,2-Special_day' , 
+	`day_category` INT NOT NULL COMMENT '1-Mon_to_Sat,2-Sunday' , 
+	`date` DATE NOT NULL , `details` TEXT NOT NULL , 
+	`status` INT NOT NULL DEFAULT '1' , 
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`deleted_at` TIMESTAMP NULL DEFAULT NULL , PRIMARY KEY (`id`));
+
+
+ALTER TABLE `day_category` CHANGE `day_category` `day_category` DATE NULL DEFAULT NULL;
+ALTER TABLE `daily_schedules` CHANGE `date` `date` DATE NULL DEFAULT NULL;

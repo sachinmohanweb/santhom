@@ -18,6 +18,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentDetailsController;
 use App\Http\Controllers\BiblicalCitationController;
 use App\Http\Controllers\MemoriesController;
+use App\Http\Controllers\DailyScheduleController;
 
 
 
@@ -285,8 +286,20 @@ Route::middleware('auth:admin')->group(function(){
     Route::post('/deletememory', [MemoriesController::class, 'admin_memories_delete'])
             ->name('admin.memories.delete');
 
-    Route::get('/dailyscheduleslist', [FamilyController::class, 'admin_daily_schedules_list'])
+    Route::get('/dailyscheduleslist', [DailyScheduleController::class, 'admin_daily_schedules_list'])
             ->name('admin.daily.schedules.list');
+    Route::get('/dailyschedulesDatatable',[DailyScheduleController::class,'admin_daily_schedules_Datatable'])
+            ->name('admin.daily.schedules.datatable');
+    Route::get('/createdailyschedule', [DailyScheduleController::class, 'admin_daily_schedules_create'])
+            ->name('admin.daily.schedules.create');
+    Route::post('/storedailyschedule', [DailyScheduleController::class, 'admin_daily_schedules_store'])
+            ->name('admin.daily.schedules.store');
+    Route::get('/showdailyschedule/{id}', [DailyScheduleController::class, 'admin_daily_schedules_show'])
+            ->name('admin.daily.schedules.show_details');
+    Route::post('/updatedailyschedule', [DailyScheduleController::class, 'admin_daily_schedules_update'])
+            ->name('admin.daily.schedules.update');   
+    Route::post('/deletedailyschedule', [DailyScheduleController::class, 'admin_daily_schedules_delete'])
+            ->name('admin.daily.schedules.delete');
   
 });
 

@@ -132,7 +132,7 @@
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('admin.biblical.citation.list')}}">Bible Citations</a></li>
                             <li><a href="{{ route('admin.memories.list') }}">Memories</a></li>
-                            <!-- <li><a href="{{ route('admin.daily.schedules.list') }}">Daily Schedules</a></li> -->
+                            <li><a href="{{ route('admin.daily.schedules.list') }}">Daily Schedules</a></li>
                         </ul>
                     </li>
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="{{route('admin.event.list')}}">
