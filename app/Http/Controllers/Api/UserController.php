@@ -119,6 +119,12 @@ class UserController extends Controller
 
         $member = FamilyMember::find(Auth::user()->id);
 
+        if ($member->image !== null) {
+            $member->image = asset('/') . $member->image;
+        } else {
+           $member->image = null; 
+        }
+
         $return['member']  =  $member;
 
         return $this->outputer->code(200)->success($return)->json();
@@ -163,8 +169,16 @@ class UserController extends Controller
         $family = Family::where('id',Auth::user()->family_id)->first();
         $members = FamilyMember::where('family_id',Auth::user()->family_id)->get();
 
+        foreach ($members as $member) {
+            if ($member->image !== null) {
+                $member->image = asset('/') . $member->image;
+            } else {
+                $member->image = null;
+            }
+        }
+
         $return['family']  =  $family;
-        $return['memebers']  =  $members;
+        $return['members']  =  $members;
 
         return $this->outputer->code(200)->success($return)->json();
     }

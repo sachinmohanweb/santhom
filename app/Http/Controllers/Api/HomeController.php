@@ -385,7 +385,7 @@ class HomeController extends Controller
             $pg_no='';
             $per_pg='';
 
-            $notification = Notification::select('id','title','content','type')
+            $notification = Notification::select('id','title','content','type','group_org_id')
                             ->where('status',1);
 
             if($request['search_word']){
@@ -455,6 +455,14 @@ class HomeController extends Controller
                 $return['result']=  "Empty prayer group list ";
                 return $this->outputer->code(422)->error($return)->json();
             }
+
+            $VicarMessages->getCollection()->transform(function ($item, $key) {
+
+                if ($item->image !== null) {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
 
             $metadata = array(
                 "total" => $VicarMessages->total(),
@@ -981,6 +989,15 @@ class HomeController extends Controller
                 $return['result']=  "Empty events list ";
                 return $this->outputer->code(422)->error($return)->json();
             }
+
+            $events->getCollection()->transform(function ($item, $key) {
+
+                if ($item->image !== null) {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
             $events_metadata = array(
                 "total" => $events->total(),
                 "per_page" => $events->perPage(),
@@ -1022,6 +1039,14 @@ class HomeController extends Controller
                 $return['result']=  "Empty marital status list ";
                 return $this->outputer->code(422)->error($return)->json();
             }
+
+            $newsAnnouncements->getCollection()->transform(function ($item, $key) {
+
+                if ($item->image !== null) {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
 
             $newsAnnouncements_metadata = array(
                 "total" => $newsAnnouncements->total(),
@@ -1104,6 +1129,14 @@ class HomeController extends Controller
                 $msg->sub_item = null;
                 return $msg;
             });
+            $VicarMessages->getCollection()->transform(function ($item, $key) {
+
+                if ($item->image !== null) {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
 
             if(empty($VicarMessages)) {
                 $return['result']=  "Empty prayer group list ";
@@ -1150,6 +1183,14 @@ class HomeController extends Controller
                 $return['result']=  "Empty prayer group list ";
                 return $this->outputer->code(422)->error($return)->json();
             }
+
+            $obituaries->getCollection()->transform(function ($item, $key) {
+
+                if ($item->image !== null) {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
 
             $obituaries_metadata = array(
                 "total" => $obituaries->total(),
@@ -1230,10 +1271,10 @@ class HomeController extends Controller
                 return $this->outputer->code(422)->error($return)->json();
             }
 
-            // $downloads->getCollection()->transform(function ($item, $key) {
-            //     $item->file = asset('/') . $item->file;
-            //     return $item;
-            // });
+            $downloads->getCollection()->transform(function ($item, $key) {
+                $item->file = asset('/') . $item->file;
+                return $item;
+            });
 
             $metadata = array(
                 "total" => $downloads->total(),
@@ -1398,6 +1439,14 @@ class HomeController extends Controller
                     return $this->outputer->code(422)->error($return)->json();
                 }
 
+                $birthdays->getCollection()->transform(function ($item, $key) {
+
+                    if ($item->image !== null) {
+                         $item->image = asset('/') . $item->image;
+                    }
+                    return $item;
+                });
+
                 $birthdays_metadata = array(
                     "total" => $birthdays->total(),
                     "per_page" => $birthdays->perPage(),
@@ -1441,6 +1490,14 @@ class HomeController extends Controller
                     $return['result']=  "Empty Death anniversary list ";
                     return $this->outputer->code(422)->error($return)->json();
                 }
+
+                $obituary->getCollection()->transform(function ($item, $key) {
+
+                    if ($item->image !== null) {
+                         $item->image = asset('/') . $item->image;
+                    }
+                    return $item;
+                });
 
                 $obituary_metadata = array(
                     "total" => $obituary->total(),
