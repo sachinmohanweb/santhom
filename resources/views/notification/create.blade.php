@@ -74,7 +74,7 @@
                             </div>
                            
                             <button class="btn btn-primary" type="submit">Save</button>
-                            <a class="btn btn-primary" onclick="window.location='{{ route('admin.news_announcement.list') }}'">Cancel</a>
+                            <a class="btn btn-primary" onclick="window.location='{{ route('admin.notification.list') }}'">Cancel</a>
                         </form>
                     </div>
                 </div>

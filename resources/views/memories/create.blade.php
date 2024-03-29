@@ -104,7 +104,7 @@
               <div class="form-footer">
                 <button class="btn btn-primary btn-block">Save</button>
 
-                <a class="btn btn-primary" onclick="window.location='{{ route('admin.biblical.citation.list') }}'">Cancel</a>
+                <a class="btn btn-primary" onclick="window.location='{{ route('admin.memories.list') }}'">Cancel</a>
               </div>
 
             </div>

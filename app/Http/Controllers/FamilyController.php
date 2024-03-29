@@ -201,7 +201,8 @@ class FamilyController extends Controller
         $relations = Relationship::all();
         $blood_groups = BloodGroup::all();
         $marital_statuses = MaritalStatus::all();
-        return view('user.members.create',compact('familys','blood_groups','marital_statuses','relations','family_id'));
+        $titles = ['Mr', 'Ms', 'Mrs', 'Fr', 'Sr', 'Dr', 'Adv', 'Engg'];
+        return view('user.members.create',compact('familys','blood_groups','marital_statuses','relations','family_id','titles'));
     }
 
     public function admin_family_member_store(Request $request): RedirectResponse
@@ -278,8 +279,10 @@ class FamilyController extends Controller
         $blood_groups = BloodGroup::all();
         $marital_statuses = MaritalStatus::all();
         $familymember = FamilyMember::where('id',$id)->first();
+        $titles = ['Mr', 'Ms', 'Mrs', 'Fr', 'Sr', 'Dr', 'Adv', 'Engg'];
 
-        return view('user.members.edit',compact('familymember','familys','relations','blood_groups','marital_statuses'));
+
+        return view('user.members.edit',compact('familymember','familys','relations','blood_groups','marital_statuses','titles'));
     }
 
     public function admin_family_member_update(Request $request): RedirectResponse

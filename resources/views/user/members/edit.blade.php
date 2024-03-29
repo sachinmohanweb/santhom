@@ -63,7 +63,16 @@
                     <div class="row">
                       <div class="col-md-2">
                         <label class="form-label">Title</label>
-                        <input class="form-control" placeholder="title" name="title" value="{{$familymember->title}}">
+                        <select class="form-control" name="title">
+                            <option value="">--Select--</option>
+                              @foreach($titles as $value)
+                                  @if($value==$familymember->title)
+                                      <option value="{{$value}}" selected>{{$value}}</option>
+                                  @else
+                                      <option value="{{$value}}">{{$value}}</option>
+                                  @endif
+                              @endforeach
+                          </select>
                       </div>
                       <div class="col-md-5 pd_left_zero">
 
@@ -224,6 +233,7 @@
               </div>  
               <div class="form-footer">
                 <button class="btn btn-primary btn-block">Update</button>
+                <a class="btn btn-primary" onclick="window.location='{{route('admin.family.member.show_details', ['id' => $familymember->id])}}}'">Cancel</a>
               </div>
 
             </div>

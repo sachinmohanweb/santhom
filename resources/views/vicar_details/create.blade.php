@@ -34,19 +34,29 @@
                         enctype="multipart/form-data">
                         	@csrf
                             <div class="row g-3 mb-3">
+
+                                <div class="col-md-2">
+                                    <label class="form-label">Title</label>
+                                      <select class="form-control" name="title">
+                                        <option value="">--Select--</option>
+                                          @foreach($titles as $value)
+                                            <option value="{{$value}}">{{$value}}</option>
+                                          @endforeach
+                                      </select>
+                                </div>
                                 <div class="col-md-4">
                                     <label class="form-label" for="validationCustom01">Name</label>
                                     <input class="form-control" id="validationCustom01" type="text" 
                                     value="{{ old('name') }}" required="" name='name'>
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label class="form-label" for="validationCustom02">Family Name</label>
                                     <input class="form-control" id="validationCustom02" type="text" value="{{ old('family_name') }}"  required="" name='family_name'>
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
 
-                                 <div class="col-md-4">
+                                 <div class="col-md-3">
                                     <label class="form-label" for="validationCustom02">Date of birth</label>
                                     <input class="form-control" id="validationCustom02" type="date" value="{{ old('dob') }}"  required="" name='dob'>
                                     <div class="valid-feedback">Looks good!</div>
@@ -94,7 +104,7 @@
                             </div>
 
                             <button class="btn btn-primary" type="submit">Save</button>
-                            <a class="btn btn-primary" onclick="window.location='{{ route('admin.family.list') }}'">Cancel</a>
+                            <a class="btn btn-primary" onclick="window.location='{{ route('admin.vicar.list') }}'">Cancel</a>
                         </form>
                     </div>
                 </div>

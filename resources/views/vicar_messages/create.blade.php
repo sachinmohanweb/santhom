@@ -66,7 +66,7 @@
               </div> 
               <div class="form-footer">
                 <button type="submit" class="btn btn-primary btn-block">Save</button>
-                <a class="btn btn-primary btn-block" href="{{route('admin.vicarmessages.create')}}">Cancel</a>
+                <a class="btn btn-primary btn-block" href="{{route('admin.vicarmessages.list')}}">Cancel</a>
 
               </div>
 

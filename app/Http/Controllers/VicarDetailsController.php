@@ -69,7 +69,8 @@ class VicarDetailsController extends Controller
 
     public function vicar_create() : View
     {
-        return view('vicar_details.create');
+        $titles = ['Fr', 'Rev', 'Dr'];
+        return view('vicar_details.create',compact('titles'));
     }
 
     public function vicar_store(Request $request): RedirectResponse
@@ -141,9 +142,11 @@ class VicarDetailsController extends Controller
 
     public function vicar_show($id) : View
     {
+        
+        $titles = ['Fr', 'Rev', 'Dr'];
         $VicarDetail = VicarDetail::where('id',$id)->first();
 
-        return view('vicar_details.details',compact('VicarDetail'));
+        return view('vicar_details.details',compact('VicarDetail','titles'));
     }
 
     public function vicar_update(Request $request): RedirectResponse

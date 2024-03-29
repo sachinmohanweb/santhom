@@ -62,8 +62,12 @@
                     <div class="row">
                       <div class="col-md-2">
                         <label class="form-label">Title</label>
-                        <input class="form-control" placeholder="title" name="title">
-                      </div>
+                          <select class="form-control" name="title">
+                            <option value="">--Select--</option>
+                              @foreach($titles as $value)
+                                <option value="{{$value}}">{{$value}}</option>
+                              @endforeach
+                          </select>                       </div>
                       <div class="col-md-5 pd_left_zero">
 
                         <label class="form-label">Name<span style="color:red">*</span></label>
@@ -202,6 +206,7 @@
               </div>  
               <div class="form-footer">
                 <button class="btn btn-primary btn-block">Save</button>
+                <a class="btn btn-primary" onclick="window.location='{{ route('admin.family.members.list') }}'">Cancel</a>
               </div>
 
             </div>

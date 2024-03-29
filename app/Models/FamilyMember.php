@@ -137,4 +137,12 @@ class FamilyMember extends Authenticatable
         return $obituary_id;
     }
 
+    public function FamilyHead()
+    {
+        $familyhead = FamilyMember::where('family_id',$this->family_id)->where('head_of_family',1)->first();
+        $family_head = $familyhead ? $familyhead : 'Null';
+
+        return $family_head;
+    }
+
 }

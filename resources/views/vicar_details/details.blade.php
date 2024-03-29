@@ -45,7 +45,11 @@
                                 <div class="col-md-9">
 
                                     <div class="product-page-details">
-                                        <h3>{{$VicarDetail->name}}</h3>
+                                        <h3>
+                                            @if($VicarDetail->title)
+                                                {{$VicarDetail->title}}.
+                                            @endif
+                                            {{$VicarDetail->name}}</h3>
                                     </div>
 
                                     <ul class="product-color">
@@ -138,19 +142,33 @@
                             <div class="modal-body">
                                 @csrf
                                 <div class="row g-3 mb-3">
+
+                                    <div class="col-md-2">
+                                        <label class="form-label">Title</label>
+                                        <select class="form-control" name="title">
+                                            <option value="">--Select--</option>
+                                            @foreach($titles as $value)
+                                                 @if($value==$VicarDetail->title)
+                                                      <option value="{{$value}}" selected>{{$value}}</option>
+                                                  @else
+                                                      <option value="{{$value}}">{{$value}}</option>
+                                                  @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="col-md-4">
                                         <label class="form-label" for="validationCustom01">Name</label>
                                         <input class="form-control" id="validationCustom01" type="text" 
                                         value="{{$VicarDetail['name'] }}" required="" name='name'>
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-label" for="validationCustom02">Family Name</label>
                                         <input class="form-control" id="validationCustom02" type="text" value="{{$VicarDetail['family_name'] }}"  required="" name='family_name'>
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-label" for="validationCustom02">Date of birth</label>
                                         <input class="form-control" id="validationCustom02" type="date" value="{{$VicarDetail['dob'] }}"  required="" name='dob'>
                                         <div class="valid-feedback">Looks good!</div>
@@ -197,7 +215,7 @@
                                 </div>                 
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.family.list') }}'">Close</button>
+                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.vicar.list') }}'">Close</button>
                                 <button class="btn btn-success" type="submit">Update</button>
                             </div>
                         </form>

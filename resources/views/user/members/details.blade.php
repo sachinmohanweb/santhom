@@ -37,7 +37,7 @@
               <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
             <div class="card-body">
-                <div class="row mb-2">
+                <div class="row">
                   <div class="profile-title">
                     <div class="media">      
                       @if($familymember->image) 
@@ -70,24 +70,28 @@
 
                       <div class="media-body">
                         <h5 class="mb-1">{{ $familymember->name}}</h5>
-                        <p>{{ $familymember->occupation ? $familymember->occupation : 'occupation-nill' }} </p>
+                        <p>{{ $familymember->occupation ? $familymember->occupation : 'occupation-nil' }} </p>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="mb-3 col-md-6">
-                    <label class="form-label">Family</label>
-                    <a href="{{ route('admin.family.show_details', ['id' => $familymember->family_id]) }}"><p><h6>{{ $familymember->family->family_name }} </h6></p></a>
+                  <div class="mb-3 col-md-12">
+                    <label class="form-label" style="margin-bottom: 0px;">Family</label>
+                    <a href="{{ route('admin.family.show_details', ['id' => $familymember->family_id]) }}">
+                      <h6>{{ $familymember->family->family_name }} </h6>
+                    </a>
                   </div>
-                  <div class="mb-3 col-md-6">
+                  <div class="mb-3 col-md-12">
                     <label class="form-label">Family head</label>
-                    <p><h6>-- <h6></p>
+                    <a href="{{ route('admin.family.member.show_details', ['id' => $familymember->FamilyHead()->id]) }}">
+                    <h6>{{$familymember->FamilyHead()->name}}<h6>
+                    </a>
                   </div>
                 </div>
                 <div class="row">
                   <div class="mb-3 col-md-6">
-                    <label class="form-label">Date of birth</label>
+                    <label class="form-label">Date of Birth</label>
                     <p><b>{{ $familymember->dob }}</b> </p>
                   </div>
 
@@ -106,8 +110,7 @@
                     @if($familymember->maritalstatus)
                     <p><b>{{ $familymember->maritalstatus->marital_status_name }}</b> </p>
                     @else
-                    <p><b>Nill</b> </p>
-
+                    <p><b>Nil</b> </p>
                     @endif
                   </div>
                 </div>
@@ -138,7 +141,7 @@
                 </div>
                 <div class="col-sm-6 col-md-3">
                   <div class="mb-3">
-                    <label class="form-label">Date_of_baptism</label>
+                    <label class="form-label">Date of Baptism</label>
                     <p class="p_l_5"><b>{{ $familymember->date_of_baptism ? $familymember->date_of_baptism : 'N/A'}} </b> </p>
                   </div>
                 </div>
@@ -148,15 +151,10 @@
                     <p class="p_l_5"><b>{{ $familymember->bloodgroup ? $familymember->bloodgroup->blood_group_name : 'N/A'}} </b> </p>
                   </div>
                 </div>
+                
                 <div class="col-sm-6 col-md-3">
                   <div class="mb-3">
-                    <label class="form-label">Head of the family</label>
-                    <p class="p_l_5"><b>{{ $familymember->family ? $familymember->family->head_of_family : 'N/A'}} </b> </p>
-                  </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                  <div class="mb-3">
-                    <label class="form-label">Date of marriage</label>
+                    <label class="form-label">Date of Marriage</label>
                     <p class="p_l_5"><b>{{ $familymember->dob ? $familymember->dob : 'N/A'}} </b> </p>
                   </div>
                 </div>
@@ -194,19 +192,19 @@
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <div class="mb-3">
-                      <label class="form-label">Alternat Mobile</label>
+                      <label class="form-label">Alternate Mobile</label>
                       <p class="p_l_5"><b>{{ $familymember->alt_contact_no ? $familymember->alt_contact_no : 'N/A'}} </b> </p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3">
                   <div class="mb-3">
-                    <label class="form-label">Date of death</label>
+                    <label class="form-label">Date of Death</label>
                     <p class="p_l_5"><b>{{ $familymember->date_of_death ? $familymember->date_of_death : 'N/A'}} </b> </p>
                   </div>
                 </div>
               <div class="card-footer text-end" style="padding:17px !important">
                 @if($familymember->user_type==1)
-                <a href="{{route('admin.family.member.edit', ['id' => $familymember->id])}}"><button class="btn btn-primary" type="button" >Update Details</button></a>
+                <a href="{{route('admin.family.member.edit', ['id' => $familymember->id])}}"><button class="btn btn-primary" type="button" >Edit Details</button></a>
                 @endif
               </div>
               </div>

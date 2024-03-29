@@ -10,6 +10,7 @@ class VicarDetail extends Model
     use HasFactory;
 
     protected $fillable = [
+        'title',
         'name',
         'family_name',
         'dob',

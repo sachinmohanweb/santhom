@@ -63,7 +63,7 @@
               </div>
             </div>
               <div class="card-footer text-end" style="padding:17px !important">
-                <a href="{{route('admin.vicarmessages.edit', ['id' => $message->id])}}"><button class="btn btn-primary" type="button" >Update Details</button></a>
+                <a href="{{route('admin.vicarmessages.edit', ['id' => $message->id])}}"><button class="btn btn-primary" type="button" >Edit Details</button></a>
               </div>
               </div>
             </div>
