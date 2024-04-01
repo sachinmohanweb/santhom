@@ -22,6 +22,9 @@
          background-position: center  !important;
          padding: 30px 12px  !important;
       }
+      .login-card .login-main .theme-form .show-hide {
+         top: 70% !important;
+      }
 </style>
 @endsection
 
@@ -65,9 +68,9 @@
                      </div>
                      <div class="form-group">
                         <label class="col-form-label">Password</label>
-                        <input class="form-control" type="password" name="password" required="" placeholder="*********">
+                        <input class="form-control" type="password" name="password" id="password" required="" placeholder="*********">
                         <div class="show-hide">
-                           <span class="show">
+                           <span class="show" id="ShowPassword">
                            </span></div>
                      </div>
                      <div class="form-group mb-0">
@@ -75,7 +78,7 @@
                            <input id="checkbox1" type="checkbox" name="remember_password">
                            <label class="text-muted" for="checkbox1">Remember password</label>
                         </div>
-                        <a class="link" href="">Forgot password?</a>
+                        <!-- <a class="link" href="">Forgot password?</a> -->
                         <button class="btn btn-primary btn-block" type="submit">Sign in</button>
                      </div>
                      
@@ -89,4 +92,18 @@
 @endsection
 
 @section('script')
+
+<script>
+   $(document).ready(function(){
+      $("#ShowPassword").click(function(){
+          var passwordField = $("#password");
+          var fieldType = passwordField.attr('type');
+          if (fieldType === 'password') {
+              passwordField.attr('type', 'text');
+          } else {
+              passwordField.attr('type', 'password');
+          }
+      });
+  });
+</script>
 @endsection
