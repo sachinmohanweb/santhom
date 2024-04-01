@@ -88,10 +88,18 @@
                   <select class="form-control" name="family_id" id="family_id" required>
                     <option value="">--Select--</option>
                     @foreach($familys as $key=>$value)
+                        <?php
+                          if($value->family_head_name !== 'Null'){
+                              $head = ' - '.$value->family_head_name;
+                          }else{
+                              $head = '';
+                          }
+                        ?>
+
                         @if(($family_id) && ($family_id==$value->id))
-                            <option value="{{$value->id}}" selected>{{$value->family_name}}</option>
+                            <option value="{{$value->id}}" selected>{{$value->family_name}}{{$head}}</option>
                         @else
-                          <option value="{{$value->id}}">{{$value->family_name}}</option>
+                          <option value="{{$value->id}}">{{$value->family_name}}{{$head}}</option>
                         @endif
                     @endforeach
                   </select>                        
@@ -198,10 +206,10 @@
                   </div>
                   <div class="col-md-4 mb-3">
                       <label class="form-label">Image</label>
-                      <input class="form-control" type="file"  name="image">
+                      <input class="form-control" type="file"  name="image" id="ImageFile">
                   </div>
-                  <div class="col-md-4 mb-3">
-                     <img class="img-fluid for-light" alt="Your Image" style="max-width: 100% !important;">
+                  <div class="col-md-4 mb-3" style="width:150px">
+                     <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;">
                   </div>
               </div>  
               <div class="form-footer">

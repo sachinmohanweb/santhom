@@ -40,13 +40,26 @@
                                     value="{{ old('event_name') }}" required="" name='event_name'>
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label class="form-label" for="validationCustom02">Date </label>
                                     <input class="form-control" id="validationCustom02" type="date" value="{{ old('date') }}"  required="" name='date'>
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
 
-                                <div class="col-md-4">
+                                 <div class="col-md-2">
+                                    <label class="form-label" for="validationCustom02">Time </label>
+
+                                    <div class="input-group clockpicker">
+                                    <input class="form-control" type="text" value="{{ old('venue') }}" data-bs-original-title="" name="time" required  title="hh:mm:ss">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                                </div>
+                                   
+                                    <div class="invalid-feedback">Enter a valid time as HH:MM AM/PM</div>
+                                </div>
+
+                                <div class="col-md-3">
                                     <label class="form-label" for="validationCustom02">Venue</label>
                                     <input class="form-control" id="validationCustom02" type="text" value="{{ old('venue') }}" name='venue'>
                                     <div class="valid-feedback">Looks good!</div>

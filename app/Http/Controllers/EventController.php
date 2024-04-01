@@ -32,6 +32,9 @@ class EventController extends Controller
             ->addColumn('DT_RowIndex', function () {
                 return '';
             })
+            ->addColumn('time', function ($event) {
+                 return $event->time_value;
+            })
             ->addColumn('action', 'events.event-datatable-action')
             ->rawColumns(['action','prayer_group'])
             ->addIndexColumn()
@@ -54,6 +57,7 @@ class EventController extends Controller
             $a =  $request->validate([
                 'event_name' => 'required',
                 'date' => 'required',
+                'time' => 'required',
             ]);
 
             $inputData = $request->all();
@@ -95,6 +99,7 @@ class EventController extends Controller
              $a =  $request->validate([
                 'event_name' => 'required',
                 'date' => 'required',
+                'time' => 'required',
             ]);
 
             $inputData = $request->all();

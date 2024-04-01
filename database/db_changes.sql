@@ -385,3 +385,7 @@ ALTER TABLE `daily_schedules` CHANGE `date` `date` DATE NULL DEFAULT NULL;
 -- 28/03/24----
 
 ALTER TABLE `vicar_details` ADD `title` VARCHAR(100) NULL DEFAULT NULL AFTER `member_id`;
+
+-- 30/03/24----
+
+ALTER TABLE `events` ADD `time` TIME NULL DEFAULT NULL AFTER `date`;

@@ -230,9 +230,10 @@
                       <div class="col-md-4 mb-3">
                           <label class="form-label" for="validationCustom05">Pincode
                            <span style="color:red">*</span></label>
-                          <input class="form-control" id="validationCustom05" type="text" 
-                              required="" name="pincode" value="{{$family->pincode}}">
-                          <div class="invalid-feedback">Please provide a valid zip.</div>
+                          <input class="form-control" id="validationCustom05" type="number" 
+                              required="" name="pincode" value="{{$family->pincode}}" oninput="javascript: if (this.value.length > 6) this.value = this.value.slice(0, 6);" min="100000" 
+                              max="999999">
+                          <div class="invalid-feedback">Please provide a valid 6 digit pincode.</div>
                       </div>
                        <div class="col-md-4 mb-3">
                           <label class="form-label" for="validationCustom05">Map Location</label>

@@ -8,6 +8,11 @@
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/owlcarousel.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/rating.css')}}">
+<style type="text/css">
+    .clockpicker-popover{
+        z-index: 1060 !important;
+    }
+</style>
 @endsection
 
 @section('breadcrumb-title')
@@ -79,6 +84,13 @@
                          
                          </td>
                        </tr>
+                       <tr>  
+                         <td> <b>Time</b></td>
+                         <td> <b>&nbsp;:&nbsp;</b></td>
+                         <td>{{$event->time_value}}
+                         
+                         </td>
+                       </tr>
                        <tr>
                          <td> <b>Venue  </b></td>
                           <td> <b> &nbsp;:&nbsp;</b></td>
@@ -93,9 +105,11 @@
                      </tbody>
                    </table>
                 </div>
-                <div class="col-md-3">
-                  <img src="{{asset($event->image)}}" width="100%">
-                </div>
+                @if($event->image)
+                    <div class="col-md-3">
+                        <img src="{{asset($event->image)}}" width="100%">
+                    </div>
+                @endif
 
              </div>
              <hr>
@@ -127,13 +141,23 @@
                             value="{{ $event['event_name'] }}" required="" name='event_name'>
                             <div class="valid-feedback">Looks good!</div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="form-label" for="validationCustom02">Date </label>
                             <input class="form-control" id="validationCustom02" type="date" value="{{$event['date'] }}"  required="" name='date'>
                             <div class="valid-feedback">Looks good!</div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-2">
+                            <label class="form-label" for="validationCustom02">Time </label>
+
+                            <div class="input-group">
+                            <input class="form-control" type="text" value="{{ $event['time'] }}" data-bs-original-title="" name="time" required title="hh:mm:ss"
+                            pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]">
+                            <div class="invalid-feedback">Time format hh:mm:ss</div>
+                        </div>
+                    </div>
+
+                        <div class="col-md-3">
                             <label class="form-label" for="validationCustom02">Venue</label>
                             <input class="form-control" id="validationCustom02" type="text" value="{{$event['venue']}}" name='venue'>
                             <div class="valid-feedback">Looks good!</div>
@@ -149,15 +173,17 @@
                              </textarea><br>
                             <div class="valid-feedback">Looks good!</div>
                         </div>
-                        <div class="col-md-4">
+                        @if($event['image'])
+                                <div class="col-md-4">
                                     <div style="height: 55px;">
                                         
                                     </div>
                                     <label class="form-label" for="validationCustom05">Image</label>
                                     <input class="form-control" id="validationCustom05" type="file" 
-                                         name="image" value="{{ old('image') }}">
+                                         name="image" value="{{ $event['image'] }}">
                                     <div class="invalid-feedback">Please provide a valid zip.</div>
                                 </div>
+                        @endif
                        
                     </div>      
           </div>
@@ -181,4 +207,5 @@
 <script src="{{asset('assets/js/owlcarousel/owl.carousel.js')}}"></script>
 <script src="{{asset('assets/js/ecommerce.js')}}"></script>
 <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+
 @endsection

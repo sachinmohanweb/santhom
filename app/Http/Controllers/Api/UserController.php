@@ -88,6 +88,11 @@ class UserController extends Controller
                     DB::commit();
 
                     $user = $this->userRepo->emailFamilyMember($request->email);
+                    if ($user->image !== null) {
+                        $user->image = asset('/') . $user->image;
+                    } else {
+                        $user->image = null;
+                    }
 
                     Auth::guard('member')->login($user);
 
@@ -95,6 +100,7 @@ class UserController extends Controller
 
                     $return['messsage']  =  'OTP verified successfully';
                     $return['token']  = $token;
+                    $return['user']  =  $user;
 
                     return $this->outputer->code(200)->success($return)->json();
                 }else{

@@ -66,6 +66,7 @@
                                         <th>Sl.No</th>
                                         <th>Event Name</th>
                                         <th>Event Date</th>
+                                        <th>Event Time</th>
                                         <th>Event Venue</th>
                                         <th>Action</th>
 
@@ -99,6 +100,7 @@
                     {  data: 'DT_RowIndex', name: 'Sl.No'},
                     { data: 'event_name', name: 'event_name' },
                     { data: 'date', name: 'date' },
+                    { data: 'time', name: 'time' },
                     { data: 'venue', name: 'venue' },
                     { data: 'action', name: 'action', orderable: false,width:'25%'},
                 ],
