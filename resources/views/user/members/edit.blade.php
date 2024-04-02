@@ -242,7 +242,7 @@
                   </div>
               </div>  
               <div class="form-footer">
-                <button class="btn btn-primary btn-block">Update</button>
+                <button class="btn btn-primary">Update</button>
                 <a class="btn btn-primary" onclick="window.location='{{route('admin.family.member.show_details', ['id' => $familymember->id])}}}'">Cancel</a>
               </div>
 

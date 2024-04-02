@@ -213,7 +213,7 @@
                   </div>
               </div>  
               <div class="form-footer">
-                <button class="btn btn-primary btn-block">Save</button>
+                <button class="btn btn-primary">Save</button>
                 <a class="btn btn-primary" onclick="window.location='{{ route('admin.family.members.list') }}'">Cancel</a>
               </div>
 
