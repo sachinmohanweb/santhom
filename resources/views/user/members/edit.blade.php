@@ -36,13 +36,13 @@
         <div class="col-xl-11">
           <div class="card">
             <div class="card-header">
-              @if (Session::has('success'))
+                @if(Session::has('success'))
                   <div class="alert alert-success">
                      <ul>
                         <li>{!! Session::get('success') !!}</li>
                      </ul>
                   </div>
-               @endif
+                @endif
                 @if (Session::has('error'))
                   <div class="alert alert-danger">
                      <ul>
@@ -244,6 +244,9 @@
               <div class="form-footer">
                 <button class="btn btn-primary">Update</button>
                 <a class="btn btn-primary" onclick="window.location='{{route('admin.family.member.show_details', ['id' => $familymember->id])}}}'">Cancel</a>
+              @if($familymember->image)
+                <a class="btn btn-danger" id="deleteImage" table_id ="{{$familymember->id}}" >Delete Image</a>
+              @endif
               </div>
 
             </div>
@@ -259,4 +262,26 @@
 
 @section('script')
     <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+    <script type="text/javascript">
+      $('#deleteImage').click(function() {
+
+          var table_id = $(this).attr('table_id');
+          var type = 'members';
+          var deleteUrl = '{{url("/deleteImage")}}'
+          var csrfToken = '{{csrf_token()}}' ;
+
+          $.ajax({
+              url: deleteUrl,
+              method: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify({ type: type, table_id: table_id,_token: csrfToken}),
+              success: function(response) {
+                location.reload();            
+              },
+              error: function(xhr, status, error) {
+                location.reload();
+              }
+          });
+      });
+    </script>
 @endsection

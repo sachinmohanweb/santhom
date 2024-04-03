@@ -173,22 +173,25 @@
                              </textarea><br>
                             <div class="valid-feedback">Looks good!</div>
                         </div>
+                        <div class="col-md-4">
                         @if($event['image'])
-                                <div class="col-md-4">
                                     <div style="height: 55px;">
                                         
                                     </div>
-                                    <label class="form-label" for="validationCustom05">Image</label>
-                                    <input class="form-control" id="validationCustom05" type="file" 
-                                         name="image" value="{{ $event['image'] }}">
-                                    <div class="invalid-feedback">Please provide a valid zip.</div>
-                                </div>
                         @endif
+                            <label class="form-label" for="validationCustom05">Image</label>
+                            <input class="form-control" id="validationCustom05" type="file" 
+                                 name="image" value="{{ $event['image'] }}">
+                            <div class="invalid-feedback">Please provide a valid zip.</div>
+                        </div>
                        
                     </div>      
           </div>
           <div class="modal-footer">
              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.event.list') }}'">Close</button>
+            @if($event->image)
+                <a class="btn btn-danger" id="deleteImage" table_id ="{{$event->id}}">Delete Image</a>
+            @endif
              <button class="btn btn-success" type="submit">Update</button>
           </div>
           </form>
@@ -207,5 +210,27 @@
 <script src="{{asset('assets/js/owlcarousel/owl.carousel.js')}}"></script>
 <script src="{{asset('assets/js/ecommerce.js')}}"></script>
 <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+<script type="text/javascript">
+  $('#deleteImage').click(function() {
+
+      var table_id = $(this).attr('table_id');
+      var type = 'events';
+      var deleteUrl = '{{url("/deleteImage")}}'
+      var csrfToken = '{{csrf_token()}}' ;
+
+      $.ajax({
+          url: deleteUrl,
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({ type: type, table_id: table_id,_token: csrfToken}),
+          success: function(response) {
+            location.reload();            
+          },
+          error: function(xhr, status, error) {
+            location.reload();
+          }
+      });
+  });
+</script>
 
 @endsection

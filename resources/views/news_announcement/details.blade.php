@@ -99,8 +99,6 @@
                            <div class="col-md-4">
                               @if($news->image) 
                                   <img src="{{asset($news->image)}} " width="100%">
-                              @else
-                                  <div style="height: 70px; width: 100px; background-color: #7366ff; color: white; line-height: 70px; font-size: 12px;">No Image</div>
                               @endif
                            </div>
                         </div>
@@ -167,6 +165,9 @@
                                  </div>
                                  <div class="modal-footer">
                                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.news_announcement.list') }}'">Close</button>
+                                    @if($news->image)
+                                        <a class="btn btn-danger" id="deleteImage" table_id ="{{$news->id}}">Delete Image</a>
+                                    @endif
                                     <button class="btn btn-success" type="submit">Update changes</button>
                                  </div>
                               </form>
@@ -254,6 +255,26 @@
                   }
               });
           }
+         $('#deleteImage').click(function() {
+
+             var table_id = $(this).attr('table_id');
+             var type = 'news';
+             var deleteUrl = '{{url("/deleteImage")}}'
+             var csrfToken = '{{csrf_token()}}' ;
+
+             $.ajax({
+                 url: deleteUrl,
+                 method: 'POST',
+                 contentType: 'application/json',
+                 data: JSON.stringify({ type: type, table_id: table_id,_token: csrfToken}),
+                 success: function(response) {
+                   location.reload();            
+                 },
+                 error: function(xhr, status, error) {
+                   location.reload();
+                 }
+             });
+         });
      });
 </script>
 @endsection

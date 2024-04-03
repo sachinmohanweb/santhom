@@ -100,10 +100,8 @@
                               </table>
                            </div>
                            <div class="col-md-4">
-                               @if($obituary->photo) 
+                              @if($obituary->photo) 
                                   <img src="{{asset($obituary->photo)}} " width="100%">
-                              @else
-                                  <div style="height: 70px; width: 100px; background-color: #7366ff; color: white; line-height: 70px; font-size: 12px;">No Image</div>
                               @endif
                            </div>
                         </div>
@@ -180,6 +178,9 @@
                                  </div>
                                  <div class="modal-footer">
                                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.obituary.list') }}'">Close</button>
+                                    @if($obituary->photo)
+                                        <a class="btn btn-danger" id="deleteImage" table_id ="{{$obituary->id}}">Delete Image</a>
+                                    @endif
                                     <button class="btn btn-success" type="submit">Update</button>
                                  </div>
                               </form>
@@ -229,6 +230,26 @@
           cache: true
       }
   });
+  $('#deleteImage').click(function() {
+
+       var table_id = $(this).attr('table_id');
+       var type = 'obituary';
+       var deleteUrl = '{{url("/deleteImage")}}'
+       var csrfToken = '{{csrf_token()}}' ;
+
+       $.ajax({
+           url: deleteUrl,
+           method: 'POST',
+           contentType: 'application/json',
+           data: JSON.stringify({ type: type, table_id: table_id,_token: csrfToken}),
+           success: function(response) {
+             location.reload();            
+           },
+           error: function(xhr, status, error) {
+             location.reload();
+           }
+       });
+   });
 
   
 

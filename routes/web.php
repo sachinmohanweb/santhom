@@ -301,6 +301,8 @@ Route::middleware('auth:admin')->group(function(){
     Route::post('/deletedailyschedule', [DailyScheduleController::class, 'admin_daily_schedules_delete'])
             ->name('admin.daily.schedules.delete');
   
+    Route::post('/deleteImage', [HomeController::class, 'admin_delete_image'])
+            ->name('admin.delete.image');
 });
 
 

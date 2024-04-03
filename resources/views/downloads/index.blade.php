@@ -70,6 +70,7 @@
                                         <th>Sl.No</th>
                                         <th>Title</th>
                                         <th>Type</th>
+                                        <th>File</th>
                                         <th>Details</th>
                                         <th>Action</th>
                                     </tr>
@@ -185,6 +186,7 @@
                     {  data: 'DT_RowIndex', name: 'Sl.No'},
                     { data: 'title', name: 'title' },
                     { data: 'type', name: 'type' },
+                    { data: 'file', name: 'file' },
                     { data: 'details', name: 'details' },
                     { data: 'action', name: 'action', orderable: false,width:'25%'},
                 ],
@@ -194,6 +196,7 @@
                     { width: '15%', targets: 2 },
                     { width: '15%', targets: 3 },
                     { width: '15%', targets: 4 },
+                    { width: '15%', targets: 5 },
                 ],
                 order: [[0, 'desc']]
             });

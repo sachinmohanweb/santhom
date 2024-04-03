@@ -28,6 +28,20 @@
   <div class="container-fluid">
     <div class="edit-profile">
       <div class="row">
+         @if (Session::has('success'))
+            <div class="alert alert-success">
+                <ul>
+                    <li>{!! Session::get('success') !!}</li>
+                </ul>
+            </div>
+        @endif
+        @if (Session::has('error'))
+        <div class="alert alert-danger">
+            <ul>
+                <li>{!! Session::get('error') !!}</li>
+            </ul>
+        </div>
+        @endif
        @if($message)   
       <form class="needs-validation" novalidate="" action="{{route('admin.vicarmessages.update')}}" 
           method="Post" enctype="multipart/form-data">
@@ -66,8 +80,11 @@
                 </div>
               </div> 
               <div class="form-footer">
-                <button type="submit" class="btn btn-primary btn-block">Update</button>
-                <a class="btn btn-primary btn-block" href="{{route('admin.vicarmessages.list')}}">Cancel</a>
+                <button type="submit" class="btn btn-primary">Update</button>
+                 @if($message->image)
+                    <a class="btn btn-danger" id="deleteImage" table_id ="{{$message->id}}">Delete Image</a>
+                @endif
+                <a class="btn btn-primary" href="{{route('admin.vicarmessages.list')}}">Cancel</a>
 
               </div>
 
@@ -84,4 +101,26 @@
 
 @section('script')
     <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+    <script type="text/javascript">
+      $('#deleteImage').click(function() {
+
+          var table_id = $(this).attr('table_id');
+          var type = 'vicar_messages';
+          var deleteUrl = '{{url("/deleteImage")}}'
+          var csrfToken = '{{csrf_token()}}' ;
+
+          $.ajax({
+              url: deleteUrl,
+              method: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify({ type: type, table_id: table_id,_token: csrfToken}),
+              success: function(response) {
+                location.reload();            
+              },
+              error: function(xhr, status, error) {
+                location.reload();
+              }
+          });
+      });
+    </script>
 @endsection

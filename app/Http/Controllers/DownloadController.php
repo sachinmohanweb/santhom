@@ -29,11 +29,25 @@ class DownloadController extends Controller
         if(request()->ajax()) {
 
             return datatables()
-            ->of(Download::select('id','title','type','details'))
+            ->of(Download::select('id','title','type','file','details'))
             ->addColumn('DT_RowIndex', function () {
                 return '';
             })
+            ->addColumn('file', function ($download) {
+
+                if($download->type == 'jpg' || $download->type == 'jpeg' || $download->type == 'png' || $download->type == 'gif') {
+                    return '<a href="' . asset($download->file) . '" target="_blank"><img  class="img-70 rounded-circle" src="' . asset($download->file) . '"  alt="file" style="height: 70px;"></a>';
+                }else {
+                    
+                    $nameLetters = $download->type;
+                    $backgroundColors = ['#ff7f0e', '#2ca02c', '#1f77b4', '#d62728', '#9467bd'];
+                    $backgroundColor = $backgroundColors[array_rand($backgroundColors)];
+
+                    return '<a href="' . asset($download->file) . '" target="_blank"><div class="img-70 rounded-circle text-center" style="height: 70px; width: 70px; background-color: ' . $backgroundColor . '; color: white; line-height: 70px; font-size: 24px;">' . $nameLetters . '</div></a>';
+                }
+            })
             ->addColumn('action', 'downloads.downloads-datatable-action')
+            ->rawColumns(['file','action'])
             ->addIndexColumn()
             ->make(true);
         }

@@ -51,12 +51,9 @@
                 </div>
                 <div class="col-sm-4 col-md-4">
                   <div class="mb-3">
-                    <label class="form-label">Image </label>
                       <div class="mb-3">
                         @if($message->image) 
-                            <img src="{{asset($message->image)}} " width="100%">
-                        @else
-                            <div style="height: 70px; width: 100px; background-color: #7366ff; color: white; line-height: 70px; font-size: 12px;">No Image</div>
+                            <img src="{{asset($message->image)}} " width="70%">
                         @endif
                       </div>
                 </div>                
