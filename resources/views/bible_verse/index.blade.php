@@ -14,8 +14,7 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Data Tables</li>
-    <li class="breadcrumb-item active">Bible Verse</li>
+    <li class="breadcrumb-item">Bible Verse</li>
 @endsection
 
 @section('content')

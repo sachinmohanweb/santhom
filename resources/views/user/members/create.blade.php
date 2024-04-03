@@ -20,7 +20,6 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Forms</li>
     <li class="breadcrumb-item active">Family Member Form</li>
 @endsection
 

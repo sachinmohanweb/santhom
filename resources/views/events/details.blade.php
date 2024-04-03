@@ -20,8 +20,7 @@
 @endsection
 
 @section('breadcrumb-items')
-<li class="breadcrumb-item">Event</li>
-<li class="breadcrumb-item active">Event Details</li>
+<li class="breadcrumb-item">Event Details</li>
 @endsection
 
 @section('content')

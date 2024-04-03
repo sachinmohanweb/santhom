@@ -20,8 +20,7 @@
 @endsection
 
 @section('breadcrumb-items')
-<li class="breadcrumb-item">Family</li>
-<li class="breadcrumb-item active">Family Members Details</li>
+<li class="breadcrumb-item">Family Members Details</li>
 @endsection
 
 @section('content')

@@ -15,8 +15,7 @@
 @endsection
 
 @section('breadcrumb-items')
-<li class="breadcrumb-item">Event</li>
-<li class="breadcrumb-item active">Biblical Citation Details</li>
+<li class="breadcrumb-item">Biblical Citation Details</li>
 @endsection
 
 @section('content')
@@ -153,7 +152,7 @@
               </div> 
  
               <div class="form-footer">
-                <button class="btn btn-primary btn-block">Save</button>
+                <button class="btn btn-primary">Save</button>
 
                 <a class="btn btn-primary" onclick="window.location='{{ route('admin.biblical.citation.list') }}'">Cancel</a>
               </div>

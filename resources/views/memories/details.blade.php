@@ -15,8 +15,7 @@
 @endsection
 
 @section('breadcrumb-items')
-<li class="breadcrumb-item">Event</li>
-<li class="breadcrumb-item active">Memories Details</li>
+<li class="breadcrumb-item ">Memories Details</li>
 @endsection
 
 @section('content')
@@ -173,7 +172,7 @@
               </div> 
  
               <div class="form-footer">
-                <button class="btn btn-primary btn-block">Save</button>
+                <button class="btn btn-primary">Save</button>
 
                 <a class="btn btn-primary" onclick="window.location='{{ route('admin.memories.list') }}'">Cancel</a>
               </div>

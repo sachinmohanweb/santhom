@@ -12,7 +12,6 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Forms</li>
     <li class="breadcrumb-item active">Vicar Details Form</li>
 @endsection
 

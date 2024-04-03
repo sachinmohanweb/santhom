@@ -41,8 +41,7 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Forms</li>
-    <li class="breadcrumb-item active">Import Family & Members</li>
+    <li class="breadcrumb-item">Import Family & Members</li>
 @endsection
 
 @section('content')

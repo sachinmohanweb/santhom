@@ -14,8 +14,7 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Data Tables</li>
-    <li class="breadcrumb-item active">Obituaries</li>
+    <li class="breadcrumb-item">Obituaries</li>
 @endsection
 
 @section('content')

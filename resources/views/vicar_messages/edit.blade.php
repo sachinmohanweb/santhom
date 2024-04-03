@@ -20,8 +20,7 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Forms</li>
-    <li class="breadcrumb-item active">Vicar message Form</li>
+    <li class="breadcrumb-item">Vicar message Form</li>
 @endsection
 
 @section('content')

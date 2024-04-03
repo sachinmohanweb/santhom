@@ -20,8 +20,7 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Forms</li>
-    <li class="breadcrumb-item active">Vicar Messages Form</li>
+    <li class="breadcrumb-item">Vicar Messages Form</li>
 @endsection
 
 @section('content')
@@ -65,8 +64,8 @@
                 </div>
               </div> 
               <div class="form-footer">
-                <button type="submit" class="btn btn-primary btn-block">Save</button>
-                <a class="btn btn-primary btn-block" href="{{route('admin.vicarmessages.list')}}">Cancel</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a class="btn btn-primary" href="{{route('admin.vicarmessages.list')}}">Cancel</a>
 
               </div>
 

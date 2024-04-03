@@ -20,8 +20,7 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Forms</li>
-    <li class="breadcrumb-item active">Daily Schedules Form</li>
+    <li class="breadcrumb-item">Daily Schedules Form</li>
 @endsection
 
 @section('content')
@@ -100,7 +99,7 @@
               </div> 
  
               <div class="form-footer">
-                <button class="btn btn-primary btn-block">Save</button>
+                <button class="btn btn-primary">Save</button>
 
                 <a class="btn btn-primary" onclick="window.location='{{ route('admin.daily.schedules.list') }}'">Cancel</a>
               </div>

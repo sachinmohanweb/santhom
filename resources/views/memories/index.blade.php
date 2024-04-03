@@ -14,7 +14,6 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Data Tables</li>
     <li class="breadcrumb-item active">Memories</li>
 @endsection
 
