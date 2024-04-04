@@ -417,7 +417,12 @@ class FamilyController extends Controller
         
         ->map(function ($member) {
 
-            $familyName = $member->Family->family_name;
+            if($member->Family){
+
+                $familyName = $member->Family->family_name;
+            }else{
+                $familyName = '';
+            }
 
             return ['id' => $member->id, 'text' => $member->name . ' (' . $familyName . ')'];
         });
