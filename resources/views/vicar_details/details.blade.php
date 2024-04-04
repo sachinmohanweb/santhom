@@ -22,7 +22,7 @@
     <div class="container-fluid">
         <div>
             <div class="row product-page-main p-0">
-                <div class="col-xxl-5 box-col-6 order-xxl-0 order-1">
+                <div class="col-xxl-12 box-col-6 order-xxl-0 order-1">
                     <div class="card">
                     @if($VicarDetail)
                         <div class="card-body">
