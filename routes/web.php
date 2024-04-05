@@ -167,6 +167,12 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.bibleverse.update');
     Route::post('/deletebibleverse', [BibleVerseController::class, 'bible_verse_delete'])
             ->name('admin.bibleverse.delete');
+    Route::get('/importbibleverse', [BibleVerseController::class, 'admin_bible_verse_import'])
+            ->name('admin.bibleverse.import');
+    Route::post('import/progress/bibleverse'  ,[BibleVerseController::class,'import_progress_bible_verse'])
+            ->name('import.progress.bibleverse');
+    Route::post('/storebibleverseimport', [BibleVerseController::class, 'admin_bible_verse_import_store'])
+            ->name('admin.bible.verse.Import.store');
 
     Route::get('/eventlist', [EventController::class, 'event_list'])
             ->name('admin.event.list');

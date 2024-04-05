@@ -111,15 +111,23 @@
                             <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                         </svg><span>Vicar's Message</span></a>
                     </li>
+
                     <li class="sidebar-list">
-                        <a class="sidebar-link sidebar-title link-nav" href="{{route('admin.bibleverse.list')}}">
-                        <svg class="stroke-icon">
-                            <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-knowledgebase') }}"></use>
-                        </svg>
-                        <svg class="fill-icon">
-                            <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
-                        </svg><span>Bible Verses</span></a>
+                        <label class="badge badge-light-secondary"></label><a class="sidebar-link sidebar-title"
+                            href="#">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-knowledgebase') }}">
+                                </use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"></use>
+                            </svg><span>Bible Verses</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{route('admin.bibleverse.list')}}">Bible Verses List</a></li>
+                            <li><a href="{{ route('admin.bibleverse.import') }}">Import Bible Verses </a></li>
+                        </ul>
                     </li>
+
                    <li class="sidebar-list">
                         <label class="badge badge-light-secondary"></label><a class="sidebar-link sidebar-title"
                             href="#">

@@ -15,6 +15,8 @@ use Exception;
 use Datatables;
 
 use App\Models\BibleVerse;
+use App\Imports\BibleVerseImport;
+
 
 class BibleVerseController extends Controller
 {
@@ -117,6 +119,29 @@ class BibleVerseController extends Controller
             Session::flash('error', 'Bible verse deletion not success.');
         }
         return response()->json($return);
+    }
+
+    public function admin_bible_verse_import() : View
+    {
+        return view('bible_verse.import');
+    }
+
+    public function import_progress_bible_verse(Request $request)
+    {
+        $progress = Cache::get('import_progress_bible', 0);
+        return response()->json([
+            'progress' => $progress,
+        ]);
+    }
+
+    public function admin_bible_verse_import_store(Request $request) : JsonResponse
+    {
+        $fileData=$request->file('excel_file');
+
+        $bible_verse_import = new BibleVerseImport();
+        Excel::import($bible_verse_import, $fileData);
+        $output = $bible_verse_import->getImportResult();
+        return response()->json([$output]);
     }
 
 }
