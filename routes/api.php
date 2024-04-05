@@ -20,6 +20,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('my_family',[UserController::class, 'myfamily']);
     Route::post('add_member',[UserController::class, 'addMember']);
     Route::post('update_member/{member_id}',[UserController::class, 'updateMember']);
+    Route::get('family',[UserController::class, 'family']);
+    Route::get('family_member',[UserController::class, 'familyMember']);
 
     Route::get('blood_groups',[SettingsController::class, 'BloodGroups']);
     Route::get('marital_statuses',[SettingsController::class, 'MaritatStatuses']);
