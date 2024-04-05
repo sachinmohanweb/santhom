@@ -713,34 +713,40 @@ class HomeController extends Controller
 
             $per_pg='';
             $pg_no='';
-            $today = now()->toDateString();
+
+            $today= now();
+            $day = $today->format('d');
+            $month = $today->format('m');
+            $monthDay = $today->format('m-d');
+            $today_string = now()->toDateString();
 
             /*---------Daily Bible verse----------*/
 
             if($request['date']){
                 $today=$page=$request['date'];
             }
-            $cachedVerse = Cache::get('verse_for_' . $today);
+            $cachedVerse = Cache::get('verse_for_' . $today_string);
             if ($cachedVerse) {
                $bible_verse = $cachedVerse;
             }else{
-                $bible_verse = BibleVerse::select('id','verse as heading','ref as sub_heading')->inRandomOrder()->first();
-                Cache::put('verse_for_' . $today, $bible_verse, now()->addDay());
+                $bible_verse = BibleVerse::select('id','verse as heading','ref as sub_heading')
+                                ->inRandomOrder()->first();
+                Cache::put('verse_for_' . $today_string, $bible_verse, now()->addDay());
             }
 
             /*---------Daily Schedules Details----------*/
 
             $memoryData = MemoryDay::select('id',DB::raw('"Orma" as heading'), 'title as sub_heading', 
                 'date', DB::raw('"null" as image'))
-                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today', '%m-%d')")
+                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1);
 
             $bibleCitationData = BiblicalCitation::select('id',DB::raw('"Vedha Bagangal" as heading'), 'reference as sub_heading', 'date', DB::raw('"null" as image'))
-                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today', '%m-%d')")
+                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1);
 
             $church_activities = DailySchedules::select('id',DB::raw('"Church Activities" as heading'),'details as sub_heading','date', DB::raw('"null" as image'))
-                ->whereDate('date',$today)
+                ->whereDate('date',$today_string)
                 ->where('status', 1);
             if ($church_activities->count() == 0) {
 
@@ -787,7 +793,8 @@ class HomeController extends Controller
 
             $events = Event::select('id','event_name as heading','venue as sub_heading','date','image',
                         'details')
-                        ->where('date',$today)
+                        ->whereMonth('date', '=', $month)
+                        ->whereDay('date', '>=', $day)
                         ->where('status',1);
 
             if($request['search_word']){
@@ -802,7 +809,7 @@ class HomeController extends Controller
                $per_pg=$request['per_page'];
             }
             
-            $events=$events->orderBy('id', 'desc')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+            $events=$events->orderByRaw('DAY(date)')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
 
             $events->getCollection()->transform(function ($item, $key) {
 
@@ -829,14 +836,12 @@ class HomeController extends Controller
 
             /*---------Birthdays Details----------*/
 
-            $today_birth = now();
-            $monthDay = $today_birth->format('m-d');
-
             $birthdays = FamilyMember::select('id','name as heading')
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
                         ->addSelect('dob as date','image','family_id')
-                            ->whereRaw("DATE_FORMAT(dob, '%m-%d') = ?", [$monthDay])
-                            ->where('status',1);
+                        ->whereMonth('dob', '=', $month)
+                        ->whereDay('dob', '>=', $day)
+                        ->where('status',1);
 
             if($request['search_word']){
                 $birthdays->where('title','like',$request['search_word'].'%')
@@ -848,7 +853,7 @@ class HomeController extends Controller
             if($request['per_page']){
                $per_pg=$page=$request['per_page'];
             }
-            $birthdays=$birthdays->orderBy('id', 'desc')
+            $birthdays=$birthdays->orderByRaw('DAY(dob)')
                                 ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
 
             $birthdays->getCollection()->transform(function ($item, $key) {
@@ -877,8 +882,6 @@ class HomeController extends Controller
 
             /*---------Obituaries Details----------*/
 
-            $today_ob = now();
-            $monthDay = $today_ob->format('m-d');
 
             $obituary = Obituary::select('id','name_of_member as heading')
                         ->selectSub(function ($query) {
@@ -889,8 +892,9 @@ class HomeController extends Controller
                                 ->limit(1);
                         }, 'sub_heading')
                         ->addSelect('date_of_death as date','photo as image','member_id')
-                            ->whereRaw("DATE_FORMAT(date_of_death, '%m-%d') = ?", [$monthDay])
-                            ->where('status',1);
+                        ->whereMonth('date_of_death', '=', $month)
+                        ->whereDay('date_of_death', '>=', $day)
+                        ->where('status',1);
 
             if($request['search_word']){
                 $obituary->where('subject','like',$request['search_word'].'%')
@@ -903,7 +907,7 @@ class HomeController extends Controller
             if($request['per_page']){
                $per_pg=$page=$request['per_page'];
             }
-            $obituary=$obituary->orderBy('id', 'desc')
+            $obituary=$obituary->orderByRaw('DAY(date_of_death)')
                                 ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
             $obituary->getCollection()->transform(function ($item, $key) {
 
