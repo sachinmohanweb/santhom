@@ -296,11 +296,13 @@ class UserController extends Controller
     public function familyMember(Request $request){
 
         $member = FamilyMember::find($request['id']);
+        if($member){
 
-        if ($member->image !== null) {
-            $member->image = asset('/') . $member->image;
-        } else {
-           $member->image = null; 
+            if ($member->image !== null) {
+                $member->image = asset('/') . $member->image;
+            } else {
+               $member->image = null; 
+            }
         }
 
         $return['member']  =  $member;
