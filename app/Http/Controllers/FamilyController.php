@@ -22,6 +22,8 @@ use App\Models\PrayerGroup;
 use App\Models\FamilyMember;
 use App\Models\Relationship;
 use App\Models\MaritalStatus;
+use App\Models\VicarDetail;
+use App\Models\PaymentDetail;
 
 use App\Imports\FamilyMemberImport;
 
@@ -124,10 +126,16 @@ class FamilyController extends Controller
     {
         DB::beginTransaction();
         try{
-            $family = Family::where('id',$request->id)->delete();
-            DB::commit();
-            Session::flash('success', 'Family successfully deleted.');
-            $return['status'] = "success";
+            $family_members =FamilyMember::where('family_id',$request->id)->first();
+            if($family_members){
+                $return['status'] = 'failed';
+                Session::flash('error', 'This family has family members and cannot be deleted.');
+            }else{
+                $family = Family::where('id',$request->id)->delete();
+                DB::commit();
+                Session::flash('success', 'Family successfully deleted.');
+                $return['status'] = "success";
+            }
 
          }catch (Exception $e) {
 
@@ -354,6 +362,25 @@ class FamilyController extends Controller
     {
         DB::beginTransaction();
         try{
+            $vicar =VicarDetail::where('member_id',$request->id)->first();
+            if($vicar){
+                $return['status'] = 'failed';
+                Session::flash('error', 'Cannot delete this member because it is associated with a family member.');
+                return response()->json($return);
+
+            }
+            $obituary =Obituary::where('member_id',$request->id)->first();
+            if($obituary){
+                $return['status'] = 'failed';
+                Session::flash('error','Cannot delete member because it is associated with a family member.');
+                return response()->json($return);
+            }
+            $payment =PaymentDetail::where('member_id',$request->id)->first();
+            if($payment){
+                $return['status'] = 'failed';
+                Session::flash('error','Cannot delete this member because member have payment details associated.');
+                return response()->json($return);
+            }
             $family = FamilyMember::where('id',$request->id)->delete();
             DB::commit();
             Session::flash('success', 'Family member successfully deleted.');

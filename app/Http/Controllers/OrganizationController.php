@@ -16,6 +16,8 @@ use Datatables;
 
 use App\Models\Organization;
 use App\Models\PrayerGroup;
+use App\Models\Notification;
+use App\Models\NewsAnnouncement;
 
 class OrganizationController extends Controller
 {
@@ -104,6 +106,19 @@ class OrganizationController extends Controller
     {
         DB::beginTransaction();
         try{
+            $notification =Notification::where('type',4)->where('group_org_id',$request->id)->first();
+            if($notification){
+                $return['status'] = 'failed';
+                Session::flash('error','Cannot delete this Organization because it is associated with a notification.');
+                return response()->json($return);
+            }
+            $news =NewsAnnouncement::where('type',4)->where('group_org_id',$request->id)->first();
+            if($news){
+                $return['status'] = 'failed';
+                Session::flash('error','Cannot delete this Organization because it is associated with a news announcement.');
+                return response()->json($return);
+            }
+
             $group = Organization::where('id',$request->id)->delete();
             DB::commit();
             Session::flash('success', 'Organization successfully deleted.');

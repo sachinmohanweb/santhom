@@ -14,7 +14,10 @@ use Session;
 use Exception;
 use Datatables;
 
+use App\Models\Family;
 use App\Models\PrayerGroup;
+use App\Models\Notification;
+use App\Models\NewsAnnouncement;
 
 class PrayerGroupController extends Controller
 {
@@ -69,6 +72,25 @@ class PrayerGroupController extends Controller
     {
         DB::beginTransaction();
         try{
+            $family =family::where('prayer_group_id',$request->id)->first();
+            if($family){
+                $return['status'] = 'failed';
+                Session::flash('error', 'Cannot delete prayer group because it is associated with a family.');
+                return response()->json($return);
+            }
+            $notification =Notification::where('type',3)->where('group_org_id',$request->id)->first();
+            if($notification){
+                $return['status'] = 'failed';
+                Session::flash('error','Cannot delete prayer group because it is associated with a notification.');
+                return response()->json($return);
+            }
+            $news =NewsAnnouncement::where('type',3)->where('group_org_id',$request->id)->first();
+            if($news){
+                $return['status'] = 'failed';
+                Session::flash('error','Cannot delete prayer group because it is associated with a news announcement.');
+                return response()->json($return);
+            }
+
             $group = PrayerGroup::where('id',$request->id)->delete();
             DB::commit();
             Session::flash('success', 'Prayer Group successfully deleted.');
