@@ -276,6 +276,12 @@ Route::middleware('auth:admin')->group(function(){
                 'admin_biblical_citation_update'])->name('admin.biblical.citation.update');   
     Route::post('/deletebiblicalcitation', [BiblicalCitationController::class, 
                 'admin_biblical_citation_delete'])->name('admin.biblical.citation.delete');
+    Route::get('/importbiblicalcitation', [BiblicalCitationController::class, 
+            'admin_biblical_citation_import'])->name('admin.biblicalcitation.import');
+    Route::post('import/progress/biblicalcitation'  ,[BiblicalCitationController::class,
+            'import_progress_biblical_citation'])->name('import.progress.biblical.citation');
+    Route::post('/storebiblicalcitationimport', [BiblicalCitationController::class, 
+                'admin_biblical_citation_import_store'])->name('admin.biblical.citation.Import.store');
 
     Route::get('/memorieslist', [MemoriesController::class, 'admin_memories_list'])
             ->name('admin.memories.list');

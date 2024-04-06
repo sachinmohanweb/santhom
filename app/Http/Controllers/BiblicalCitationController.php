@@ -8,11 +8,14 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 
 use DB;
+use Excel;
+use Cache;
 use Session;
 use Exception;
 use Datatables;
 
 use App\Models\BiblicalCitation;
+use App\Imports\BibleCitationsImport;
 
 class BiblicalCitationController extends Controller
 {
@@ -109,5 +112,28 @@ class BiblicalCitationController extends Controller
             Session::flash('error', 'Biblical Citation deletion not success.');
         }
         return response()->json($return);
+    }
+
+    public function admin_biblical_citation_import() : View
+    {
+        return view('biblicalcitation.import');
+    }
+
+    public function import_progress_biblical_citation(Request $request)
+    {
+        $progress = Cache::get('import_progress_bible_citations', 0);
+        return response()->json([
+            'progress' => $progress,
+        ]);
+    }
+
+    public function admin_biblical_citation_import_store(Request $request) : JsonResponse
+    {
+        $fileData=$request->file('excel_file');
+
+        $bible_citations_import = new BibleCitationsImport();
+        Excel::import($bible_citations_import, $fileData);
+        $output = $bible_citations_import->getImportResult();
+        return response()->json([$output]);
     }
 }

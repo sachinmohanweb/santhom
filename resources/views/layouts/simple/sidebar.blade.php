@@ -139,6 +139,8 @@
                             </svg><span>Daily Digest</span></a>
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('admin.biblical.citation.list')}}">Bible Citations</a></li>
+                            <li><a href="{{ route('admin.biblicalcitation.import')}}">Import Bible Citations
+                            </a></li>
                             <li><a href="{{ route('admin.memories.list') }}">Memories</a></li>
                             <li><a href="{{ route('admin.daily.schedules.list') }}">Daily Schedules</a></li>
                         </ul>
