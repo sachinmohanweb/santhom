@@ -1364,40 +1364,50 @@ class HomeController extends Controller
             $data = [];
 
             for ($month = 1; $month <= 12; $month++) {
-                $birthdays = FamilyMember::select('id', 'name', 'dob')
-                    ->whereMonth('dob', $month)
-                    ->orderBy('dob')
-                    ->get();
-                $obituaries = Obituary::select('id', 'member_id', 'name_of_member', 'date_of_death')
-                    ->whereMonth('date_of_death', $month)
-                    ->orderBy('date_of_death')
-                    ->get();
-
-                $date_results = [];
-
                 for ($day = 1; $day <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $day++) {
+                    $birthdays = FamilyMember::select('id', 'name', 'dob')
+                        ->whereMonth('dob', $month)
+                        ->whereDay('dob', $day)
+                        ->orderBy('dob')
+                        ->get();
+                    $obituaries = Obituary::select('id', 'member_id', 'name_of_member', 'date_of_death')
+                        ->whereMonth('date_of_death', $month)
+                        ->whereDay('date_of_death', $day)
+                        ->orderBy('date_of_death')
+                        ->get();
 
-                    $birthdaysForDay = $birthdays->filter(function ($birthday) use ($day) {
-                        return date('d', strtotime($birthday->dob)) == $day;
-                    });
-                    $bday_count = $birthdaysForDay->count();
+                    // $date_results = [];
+                    //     $birthdaysForDay = $birthdays->filter(function ($birthday) use ($day) {
+                    //         return date('d', strtotime($birthday->dob)) == $day;
+                    //     });
+                    //     $bday_count = $birthdaysForDay->count();
 
-                    $obituariesForDay = $obituaries->filter(function ($obituary) use ($day) {
-                        return date('d', strtotime($obituary->date_of_death)) == $day;
-                    });
-                    $obituary_count = $birthdaysForDay->count();
+                    //     $obituariesForDay = $obituaries->filter(function ($obituary) use ($day) {
+                    //         return date('d', strtotime($obituary->date_of_death)) == $day;
+                    //     });
+                    //     $obituary_count = $birthdaysForDay->count();
 
+                    //     $total_events = $bday_count + $obituary_count;
+
+                    //     $date_results[] = [
+                    //         'date' => sprintf('%02d-%02d-%02d', $day, $month, $year),
+                    //         'total_events' => $total_events,
+                    //         'birthday_events'=>$bday_count,
+                    //         'death_anniversary_events'=>$obituary_count,
+                    //     ];
+
+                    $bday_count = $birthdays->count();
+                    $obituary_count = $obituaries->count();
                     $total_events = $bday_count + $obituary_count;
 
-                    $date_results[] = [
+                    $data[] = [
                         'date' => sprintf('%02d-%02d-%02d', $day, $month, $year),
                         'total_events' => $total_events,
-                        'birthday_events'=>$bday_count,
-                        'death_anniversary_events'=>$obituary_count,
+                        'birthday_events' => $bday_count,
+                        'death_anniversary_events' => $obituary_count,
                     ];
                 }
 
-                $data[] = $date_results;
             }
 
             return $this->outputer->code(200)->success($data)->json();
