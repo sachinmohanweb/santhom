@@ -499,7 +499,8 @@ class HomeController extends Controller
             /*---------Family Details----------*/
 
                 $families = Family::select('id as id','family_name as item')
-                        ->addSelect(DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS sub_item'))
+                        ->addSelect(DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS sub_item')
+                            ,DB::raw('"null" as image'))
                         ->where('status',1);
                 if($request['search_word']){
 
@@ -539,7 +540,7 @@ class HomeController extends Controller
             /*---------Members Details----------*/
 
                 $members = FamilyMember::select('id as id','name as item')
-                        ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'))
+                        ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'),'image')
                         ->addSelect('family_id')
                         ->where('status',1);
                 if($request['search_word']){
@@ -564,6 +565,13 @@ class HomeController extends Controller
                     $return['result']=  "Empty bible verse list ";
                     return $this->outputer->code(422)->error($return)->json();
                 }
+                $members->getCollection()->transform(function ($item, $key) {
+
+                    if ($item->image !== null) {
+                         $item->image = asset('/') . $item->image;
+                    }
+                    return $item;
+                });
                 $members_metadata = array(
                     "total" => $members->total(),
                     "per_page" => $members->perPage(),
@@ -577,7 +585,8 @@ class HomeController extends Controller
 
             /*---------Prayer Group Details----------*/
 
-                $prayer_group = PrayerGroup::select('id as id','group_name as item','leader as sub_item')
+                $prayer_group = PrayerGroup::select('id as id','group_name as item','leader as sub_item',
+                    DB::raw('"null" as image'))
                                 ->where('status',1);
                 if($request['search_word']){
                     $prayer_group->where('group_name','like',$request['search_word'].'%')
@@ -608,7 +617,7 @@ class HomeController extends Controller
 
             /*---------Organizations Details----------*/
 
-                $organizations=Organization::select('id as id','organization_name as item','coordinator as sub_item')
+                $organizations=Organization::select('id as id','organization_name as item','coordinator as sub_item',DB::raw('"null" as image'))
                         ->where('status',1);
                 if($request['search_word']){
                     $organizations->where('organization_name','like',$request['search_word'].'%')
