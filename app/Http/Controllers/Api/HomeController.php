@@ -1384,6 +1384,11 @@ class HomeController extends Controller
                         ->whereDay('date_of_death', $day)
                         ->orderBy('date_of_death')
                         ->get();
+                    $anniversary = MemoryDay::select('*')
+                        ->whereMonth('date', $month)
+                        ->whereDay('date', $day)
+                        ->orderBy('date')
+                        ->get();
 
                     // $date_results = [];
                     //     $birthdaysForDay = $birthdays->filter(function ($birthday) use ($day) {
@@ -1407,13 +1412,15 @@ class HomeController extends Controller
 
                     $bday_count = $birthdays->count();
                     $obituary_count = $obituaries->count();
-                    $total_events = $bday_count + $obituary_count;
+                    $anniversary_count = $anniversary->count();
+                    $total_events = $bday_count + $obituary_count+$anniversary_count;
 
                     $data[] = [
                         'date' => sprintf('%02d-%02d-%02d', $day, $month, $year),
                         'total_events' => $total_events,
                         'birthday_events' => $bday_count,
                         'death_anniversary_events' => $obituary_count,
+                        'anniversaries' => $anniversary_count,
                     ];
                 }
 
@@ -1533,9 +1540,41 @@ class HomeController extends Controller
                     "to" => $obituary->lastItem()
                 );
 
+            /*---------Memories Details----------*/
+
+                $anniversary = MemoryDay::select('id','title as heading','note1 as sub_heading','date',
+                    DB::raw('"null" as image'))
+                                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
+                                ->where('status', 1)
+                                ->orderBy('title', 'asc');
+
+                if($request['page_no']){
+                    $pg_no=$page=$request['page_no'];
+                }
+                if($request['per_page']){
+                   $per_pg=$page=$request['per_page'];
+                }
+                $anniversary=$anniversary->orderBy('id', 'desc')
+                                    ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+                if(empty($anniversary)) {
+                    $return['result']=  "Empty anniversary list ";
+                    return $this->outputer->code(422)->error($return)->json();
+                }
+
+                $anniversary_metadata = array(
+                    "total" => $anniversary->total(),
+                    "per_page" => $anniversary->perPage(),
+                    "current_page" => $anniversary->currentPage(),
+                    "last_page" => $anniversary->lastPage(),
+                    "next_page_url" => $anniversary->nextPageUrl(),
+                    "prev_page_url" => $anniversary->previousPageUrl(),
+                    "from" => $anniversary->firstItem(),
+                    "to" => $anniversary->lastItem()
+                );
 
 
-            $total = $birthdays->total() + $obituary->total();
+            $total = $birthdays->total() + $obituary->total()+$anniversary->total();
 
             $mergedData = [
                 'number_of_events' => $total,
@@ -1547,6 +1586,10 @@ class HomeController extends Controller
                     [
                         'type' => 'Death Anniversary',
                         'list' => $obituary->items()
+                    ],
+                    [
+                        'type' => 'Anniversary',
+                        'list' => $anniversary->items()
                     ]
                 ]
             ];
@@ -1554,6 +1597,7 @@ class HomeController extends Controller
             $metadata = [
                 'birthdays_metadata' => $birthdays_metadata,
                 'obituary_metadata' => $obituary_metadata,
+                'anniversary_metadata' => $anniversary_metadata,
             ];
 
             return $this->outputer->code(200) ->metadata($metadata)->success($mergedData)->json();
