@@ -8,10 +8,12 @@ use Auth;
 use Artisan;
 use Carbon\Carbon;
 
+use App\Models\Family;
 use App\Models\BloodGroup;
 use App\Models\PrayerGroup;
 use App\Models\Relationship;
 use App\Models\MaritalStatus;
+use App\Models\FamilyMember;
 
 use App\Http\Repositories\UserRepository;
 
@@ -169,6 +171,36 @@ class SettingsController extends Controller
             $return['result']=$e->getMessage();
             return $this->outputer->code(422)->error($return)->json();
         }
+    }
+
+    public function PrayerGroupDetails(Request $request){
+
+        try {
+
+            $prayer_group = PrayerGroup::select('id','group_name','leader','leader_phone_number')
+                            ->where('id',$request['id'])->first();
+
+            $members = FamilyMember::select('family_members.id','family_members.name','family_members.image','family_members.family_id')
+                        ->join('families', 'family_members.family_id', '=', 'families.id')
+                        ->where('families.prayer_group_id',$request['id'])->get();
+                        
+            $members->transform(function ($item, $key) {
+                if ($item->image !== null) {
+                    $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
+            $return['prayer_group']  =  $prayer_group;
+            $return['members']  =  $members;
+
+            return $this->outputer->code(200)->success($return)->json();    
+
+            }catch (\Exception $e) {
+
+                $return['result']=$e->getMessage();
+                return $this->outputer->code(422)->error($return)->json();
+            }
     }
 
     public function Relationships(Request $request){

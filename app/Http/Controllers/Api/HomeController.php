@@ -500,7 +500,7 @@ class HomeController extends Controller
 
                 $families = Family::select('id as id','family_name as item')
                         ->addSelect(DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS sub_item')
-                            ,DB::raw('"null" as image'))
+                            ,DB::raw('"null" as image'),DB::raw('"Families" as type'))
                         ->where('status',1);
                 if($request['search_word']){
 
@@ -540,7 +540,7 @@ class HomeController extends Controller
             /*---------Members Details----------*/
 
                 $members = FamilyMember::select('id as id','name as item')
-                        ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'),'image')
+                        ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'),'image',DB::raw('"Members" as type'))
                         ->addSelect('family_id')
                         ->where('status',1);
                 if($request['search_word']){
@@ -586,7 +586,7 @@ class HomeController extends Controller
             /*---------Prayer Group Details----------*/
 
                 $prayer_group = PrayerGroup::select('id as id','group_name as item','leader as sub_item',
-                    DB::raw('"null" as image'))
+                    DB::raw('"null" as image'),DB::raw('"Prayer Groups" as type'))
                                 ->where('status',1);
                 if($request['search_word']){
                     $prayer_group->where('group_name','like',$request['search_word'].'%')
@@ -617,7 +617,7 @@ class HomeController extends Controller
 
             /*---------Organizations Details----------*/
 
-                $organizations=Organization::select('id as id','organization_name as item','coordinator as sub_item',DB::raw('"null" as image'))
+                $organizations=Organization::select('id as id','organization_name as item','coordinator as sub_item',DB::raw('"null" as image'),DB::raw('"Organizations" as type'))
                         ->where('status',1);
                 if($request['search_word']){
                     $organizations->where('organization_name','like',$request['search_word'].'%')

@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function(){
     // Route::get('families',[HomeController::class, 'Families']);
     // Route::get('members',[HomeController::class, 'Members']);
     Route::get('prayer_groups',[SettingsController::class, 'PrayerGroups']);
+    Route::get('prayer_group_details',[SettingsController::class, 'PrayerGroupDetails']);
     // Route::get('organizations',[HomeController::class, 'Organizations']);
     Route::get('directory',[HomeController::class, 'Directory']);
 
