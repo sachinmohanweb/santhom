@@ -395,3 +395,6 @@ ALTER TABLE `events` ADD `time` TIME NULL DEFAULT NULL AFTER `date`;
 ALTER TABLE `bible_verses` ADD `date` DATE NOT NULL DEFAULT '2024-11-15' AFTER `id`;
 ALTER TABLE `bible_verses` DROP `deleted_at`;
 
+ALTER TABLE `family_members` ADD `remark` INT NULL DEFAULT NULL AFTER `marital_status_id`, 
+ADD `marr_memb_id` INT NULL DEFAULT NULL AFTER `remark`;
+

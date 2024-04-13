@@ -296,9 +296,9 @@ class FamilyController extends Controller
         $marital_statuses = MaritalStatus::all();
         $familymember = FamilyMember::where('id',$id)->first();
         $titles = ['Mr', 'Ms', 'Mrs', 'Fr', 'Sr', 'Dr', 'Adv', 'Engg'];
+        $members = FamilyMember::select('id','name','family_id')->orderBy('name')->get();
 
-
-        return view('user.members.edit',compact('familymember','familys','relations','blood_groups','marital_statuses','titles'));
+        return view('user.members.edit',compact('familymember','familys','relations','blood_groups','marital_statuses','titles','members'));
     }
 
     public function admin_family_member_update(Request $request): RedirectResponse
@@ -340,6 +340,9 @@ class FamilyController extends Controller
                                 ->where('email',$request['email'])->first();
             if($member_same_mail){
                 $inputData['email'] = null;
+            }
+            if($request['remark']==null){
+                $inputData['marr_memb_id'] = null;
             }
 
             $familymember->update($inputData);

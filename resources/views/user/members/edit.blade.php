@@ -12,6 +12,16 @@
   .pd_right_15{
     padding-right: 15px;
   }
+  .select2-container .select2-selection--single {
+      height: 40px!important;
+  }
+  .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 20px !important;
+  }
+  .error_div{
+        padding-left: 20px !important;
+        color: red !important;
+  }
 </style>
 @endsection
 
@@ -157,25 +167,34 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-4 mb-3">
-                  <label class="form-label">Marital Status</label>
-                  <select class="form-control" name="marital_status_id">
+                <div class="col-md-3 mb-3">
+                  <label class="form-label">Remark</label>
+                  <select class="form-control" name="remark" id='remark'>
                     <option value="">--Select--</option>
-                      @foreach($marital_statuses as $key=>$value)
-                          @if($value->id==$familymember->marital_status_id)
-                            <option value="{{$value->id}}" selected>{{$value->marital_status_name}}</option>
-                          @else
-                              <option value="{{$value->id}}">{{$value->marital_status_name}}</option>
-                          @endif
-                      @endforeach
+                        <option value="1" {{ $familymember->remark == '1' ? 'selected' : '' }}>mariied within parish</option>
                   </select> 
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label" for="validationCustom04">Married to</label>
+                    <select class="js-data-example-ajax form-select" id="marr_memb_id" name="marr_memb_id">
+                          @foreach($members as $member)
+                            @if($familymember->marr_memb_id == $member->id)
+                                  <option value="{{ $familymember->marr_memb_id }}" selected>
+                                    {{ $member->name }}</option>
+                            @else
+                                  <option value="{{ $familymember->marr_memb_id }}">
+                                    {{ $member->name }}</option>
+                            @endif
+                          @endforeach
+                    </select>
+                     <div class="invalid-feedback error_div">Please select a valid type.</div>
+                </div>
+                <div class="col-md-3 mb-3">
                    <label class="form-label">If married , date of marriage</label>
                   <input class="form-control digits" type="date" value="{{$familymember->date_of_marriage}}"  name="date_of_marriage">
                 </div>
 
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
                   <label class="form-label">Relation with Head of family <span style="color:red">*</span></label>
                   <select class="form-control" name="relationship_id" required>
                     <option value="">--Select--</option>
@@ -281,6 +300,40 @@
                 location.reload();
               }
           });
+      });
+      $('#marr_memb_id').select2({
+            placeholder: "Select member",
+            ajax: {
+
+                url: "<?= url('get_family_members_list') ?>",
+                dataType: 'json',
+                method: 'post',
+                delay: 250,
+
+                 data: function(data) {
+                    return {
+                        _token    : "<?= csrf_token() ?>",
+                        search_tag: data.term,
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.results,
+                        pagination: { more: (params.page * 30) < data.total_count }
+                    };
+                },
+                cache: true
+            }
+        });
+
+      $('#remark').change(function() {
+
+          if($(this).val() === "1") {
+              $('#marr_memb_id').prop('required', true);
+          }else{
+            $('#marr_memb_id').prop('required', false);
+          }
       });
     </script>
 @endsection

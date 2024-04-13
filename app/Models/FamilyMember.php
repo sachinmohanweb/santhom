@@ -28,6 +28,8 @@ class FamilyMember extends Authenticatable
         'date_of_baptism',
         'blood_group_id',
         'marital_status_id',
+        'remark',
+        'marr_memb_id',
         'date_of_marriage',
         'relationship_id',
         'qualification',
@@ -143,6 +145,16 @@ class FamilyMember extends Authenticatable
         $family_head = $familyhead ? $familyhead : 'Null';
 
         return $family_head;
+    }
+    public function MarriedTo()
+    {
+        $member = FamilyMember::where('id',$this->id)->first();
+        if($member['remark']==1){
+            $married_to = FamilyMember::where('id',$member['marr_memb_id'])->first();
+        }else{
+            $married_to ='';    
+        }
+        return $married_to;
     }
 
 }
