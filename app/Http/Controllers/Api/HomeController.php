@@ -751,22 +751,22 @@ class HomeController extends Controller
             /*---------Daily Schedules Details----------*/
 
             $memoryData = MemoryDay::select('id',DB::raw('"Orma" as heading'), 'title as sub_heading', 
-                'date', DB::raw('"null" as image'))
+                'date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1);
 
-            $bibleCitationData = BiblicalCitation::select('id',DB::raw('"Vedha Bagangal" as heading'), 'reference as sub_heading', 'date', DB::raw('"null" as image'))
+            $bibleCitationData = BiblicalCitation::select('id',DB::raw('"Vedha Bagangal" as heading'), 'reference as sub_heading', 'date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1);
 
-            $church_activities = DailySchedules::select('id',DB::raw('"Church Activities" as heading'),'details as sub_heading','date', DB::raw('"null" as image'))
+            $church_activities = DailySchedules::select('id',DB::raw('"Church Activities" as heading'),'details as sub_heading','date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"False" as color'))
                 ->whereDate('date',$today_string)
                 ->where('status', 1);
             if ($church_activities->count() == 0) {
 
                 $todayDayValue = date("N");
 
-                $church_activities = DailySchedules::select('id',DB::raw('"Church Activities" as heading'),'details as sub_heading','date', DB::raw('"null" as image'))
+                $church_activities = DailySchedules::select('id',DB::raw('"Church Activities" as heading'),'details as sub_heading','date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"False" as color'))
                         ->where('status', 1);
 
                 if ($todayDayValue == 7) { 
@@ -806,7 +806,7 @@ class HomeController extends Controller
             /*---------Events Details----------*/
 
             $events = Event::select('id','event_name as heading','venue as sub_heading','date','image',
-                        'details')
+                        'details',DB::raw('"Events" as type'),DB::raw('"False" as color'))
                         ->whereMonth('date', '=', $month)
                         ->whereDay('date', '>=', $day)
                         ->where('status',1);
@@ -852,7 +852,7 @@ class HomeController extends Controller
 
             $birthdays = FamilyMember::select('id','name as heading')
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
-                        ->addSelect('dob as date','image','family_id')
+                        ->addSelect('dob as date','image',DB::raw('"Birthdays" as type'),DB::raw('"False" as color'),'family_id')
                         ->whereMonth('dob', '=', $month)
                         ->whereDay('dob', '>=', $day)
                         ->where('status',1);
@@ -905,7 +905,7 @@ class HomeController extends Controller
                                 ->whereColumn('family_members.id', 'obituaries.member_id')
                                 ->limit(1);
                         }, 'sub_heading')
-                        ->addSelect('date_of_death as date','photo as image','member_id')
+                        ->addSelect('date_of_death as date','photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'),'member_id')
                         ->whereMonth('date_of_death', '=', $month)
                         ->whereDay('date_of_death', '>=', $day)
                         ->where('status',1);
@@ -988,7 +988,8 @@ class HomeController extends Controller
 
             /*---------Events Details----------*/
 
-            $events = Event::select('id','date','event_name as item','venue as sub_item','details','image')
+            $events = Event::select('id','date','event_name as item','venue as sub_item','details','image',
+                DB::raw('"Events" as type_value'),DB::raw('"False" as color'))
                             ->where('status',1);
             if($request['search_word']){
                 $events->where('event_name','like',$request['search_word'].'%')
@@ -1038,7 +1039,8 @@ class HomeController extends Controller
                     ELSE 'Organization'
                 END AS sub_item
             "))
-            ->addSelect('body as details','image','type' ,'group_org_id')
+            ->addSelect('body as details','image','type' ,'group_org_id',
+                DB::raw('"News & Announcements" as type_value'),DB::raw('"False" as color'))
             ->where('status',1);
             if($request['search_word']){
                 $newsAnnouncements->where('heading','like',$request['search_word'].'%')
@@ -1088,7 +1090,8 @@ class HomeController extends Controller
                     ELSE 'Organization'
                 END AS sub_item
             "))
-            ->addSelect('content as details','group_org_id','type')
+            ->addSelect('content as details','group_org_id','type',
+                DB::raw('"Notifications" as type_value'),DB::raw('"False" as color'))
             ->where('status',1);
 
             if($request['search_word']){
@@ -1124,9 +1127,10 @@ class HomeController extends Controller
                 "to" => $notifications->lastItem()
             );
 
-            /*---------Obituaries Details----------*/
+            /*---------Vicar Messages Details----------*/
 
-            $VicarMessages=VicarMessage::select('id','updated_at as date','subject as item','message_body as details','image')
+            $VicarMessages=VicarMessage::select('id','updated_at as date','subject as item','message_body as details','image',
+                DB::raw('"Vicar Messages" as type_value'),DB::raw('"False" as color'))
                             ->where('status',1);
 
             if($request['search_word']){
@@ -1183,7 +1187,8 @@ class HomeController extends Controller
                         ->whereColumn('family_members.id', 'obituaries.member_id')
                         ->limit(1);
                 }, 'sub_item')
-            ->addSelect('notes as details','photo as image')
+            ->addSelect('notes as details','photo as image',
+                DB::raw('"Obituaries" as type_value'),DB::raw('"False" as color'))
             ->where('status',1);
 
             if($request['search_word']){
