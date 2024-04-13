@@ -48,6 +48,7 @@ class BibleVerseController extends Controller
         DB::beginTransaction();
         try {
             $a =  $request->validate([
+                'date'            => 'required',
                 'verse'            => 'required',
                 'ref'                => 'required',
             ]);
@@ -82,6 +83,7 @@ class BibleVerseController extends Controller
             
             $bibleVerse = BibleVerse::find($request->id);
              $a =  $request->validate([
+                'date'            => 'required',
                 'verse'            => 'required',
                 'ref'                => 'required',
             ]);

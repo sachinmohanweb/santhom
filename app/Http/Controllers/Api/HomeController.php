@@ -729,18 +729,23 @@ class HomeController extends Controller
             $monthDay = $today->format('m-d');
             $today_string = now()->toDateString();
 
-            /*---------Daily Bible verse----------*/
 
             if($request['date']){
                 $today=$page=$request['date'];
             }
-            $cachedVerse = Cache::get('verse_for_' . $today_string);
-            if ($cachedVerse) {
-               $bible_verse = $cachedVerse;
-            }else{
-                $bible_verse = BibleVerse::select('id','verse as heading','ref as sub_heading')
-                                ->inRandomOrder()->first();
-                Cache::put('verse_for_' . $today_string, $bible_verse, now()->addDay());
+
+            /*---------Daily Bible verse----------*/
+
+            $bible_verse = BibleVerse::select('id','verse as heading','ref as sub_heading')
+                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
+                ->where('status', 1)->first();
+            if (!$bible_verse) {
+                $random_verse = BibleVerse::select('id', 'verse as heading', 'ref as sub_heading')
+                        ->where('status', 1)
+                        ->inRandomOrder()
+                        ->first();
+    
+                $bible_verse = $random_verse ?? ['id' => null, 'heading' => 'Default Heading', 'sub_heading' => 'Default Subheading'];
             }
 
             /*---------Daily Schedules Details----------*/

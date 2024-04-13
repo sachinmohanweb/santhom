@@ -62,6 +62,7 @@
                                 <thead>
                                     <tr>
                                         <th>Sl.No</th>
+                                        <th>Date</th>
                                         <th>Ref</th>
                                         <th>Bible Verse</th>
                                         <th>Status</th>
@@ -87,10 +88,15 @@
                     <div class="modal-body">
                     @csrf
                     <div class="row g-3 mb-3">
-                        <div class="col-md-12">
+                        <div class="col-md-8">
                           <label class="form-label" for="validationCustom01">Reference</label>
                           <input class="form-control" id="reference" type="text" 
                           required="" name='ref'>
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        <div class="col-md-4">
+                          <label class="form-label" for="validationCustom01">Date</label>
+                          <input class="form-control" type="date" placeholder="date" name="date" required>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="col-md-12">
@@ -121,12 +127,19 @@
                     <div class="modal-body">
                     @csrf
                     <div class="row g-3 mb-3">
-                        <div class="col-md-12">
+                        <div class="col-md-8">
                           <label class="form-label" for="validationCustom01">Reference</label>
                           <input class="form-control" id="reference_edit" type="text" 
                           required="" name='ref'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
+                        <div class="col-md-4">
+                          <label class="form-label" for="validationCustom01">Date</label>
+                          <input class="form-control" type="date" placeholder="date" id="date_edit" 
+                          name="date" required>
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+
                         <div class="col-md-12">
                           <label class="form-label" for="validationCustom02">Bible Verse</label>
                            <textarea class="form-control" id="verse_edit" name="verse" rows="8" cols="50" required></textarea><br>
@@ -162,6 +175,7 @@
                 ajax: "{{ route('admin.bibleverse.datatable') }}",
                 columns: [
                     {  data: 'DT_RowIndex', name: 'Sl.No'},
+                    { data: 'date', name: 'date' },
                     { data: 'ref', name: 'ref' },
                     { data: 'verse', name: 'verse' },
                     { data: 'status', name: 'status' },
@@ -169,8 +183,9 @@
                 ],
                 columnDefs: [
                     { width: '5%', targets: 0 ,orderable: false, searchable: false},
+                    { width: '15%', targets: 1},
                 ],
-                order: [[0, 'desc']]
+                order: [[1, 'asc']]
             });
         });
               
@@ -213,6 +228,7 @@
                 success: function(res){
                     $('#reference_edit').attr('value', res.ref);
                     $('#verse_edit').val(res.verse);
+                    $('#date_edit').val(res.date);
                     $('#EditBibleVerseForm').attr('action', "{{ url('updatebibleverse') }}/" + id);
 
 

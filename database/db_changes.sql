@@ -389,3 +389,9 @@ ALTER TABLE `vicar_details` ADD `title` VARCHAR(100) NULL DEFAULT NULL AFTER `me
 -- 30/03/24----
 
 ALTER TABLE `events` ADD `time` TIME NULL DEFAULT NULL AFTER `date`;
+
+-- 13/04/24----
+
+ALTER TABLE `bible_verses` ADD `date` DATE NOT NULL DEFAULT '2024-11-15' AFTER `id`;
+ALTER TABLE `bible_verses` DROP `deleted_at`;
+

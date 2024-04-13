@@ -35,6 +35,8 @@ class BibleVerseImport implements ToCollection,WithHeadingRow,WithValidation,Wit
 
             foreach ($rows as $key=>$row) {
 
+                $unixTimestampDOB = ($row['date'] - 25569) * 86400;
+                $bible_verse_details['date']   = date('Y-m-d', $unixTimestampDOB);
                 $bible_verse_details['verse']  =$row['verse'];
                 $bible_verse_details['ref']    =$row['ref'];
 
@@ -75,6 +77,7 @@ class BibleVerseImport implements ToCollection,WithHeadingRow,WithValidation,Wit
     public function rules(): array
     {
         return [
+            'date'   => 'required',
             'verse'   => 'required',
             'ref'   => 'required',           
         ];
@@ -82,6 +85,7 @@ class BibleVerseImport implements ToCollection,WithHeadingRow,WithValidation,Wit
     public function customValidationMessages()
     {
         return [
+            'date.required'        => 'Date should not be empty',
             'verse.required'        => 'Verse should not be empty',
             'ref.required'          => 'Reference should not be empty',
         ];
