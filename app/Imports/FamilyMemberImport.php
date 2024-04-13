@@ -165,10 +165,16 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
                     $member_details['company_name']    =null;
                 }
 
+                $member_details['email']    =null;
+
                 if(isset($row['email'])){
-                    $member_details['email']    =$row['email'];
-                }else{
-                    $member_details['email']    =null;
+                    $member_same_mail = FamilyMember::where('family_id',$family_id)
+                                ->where('email',$row['email'])->first();
+                    if($member_same_mail){
+                        $member_details['email'] = null;
+                    }else{
+                        $member_details['email']    =$row['email'];
+                    }
                 }
 
                 if(isset($row['mobile'])){

@@ -241,6 +241,14 @@ class FamilyController extends Controller
                     $inputData['image'] = 'storage/members/'.$fileName;
                 }
             }
+            if($request['relationship_id']==1){ 
+                $inputData['head_of_family'] = '1';
+            }
+            $member_same_mail = FamilyMember::where('family_id',$request['family_id'])
+                                ->where('email',$request['email'])->first();
+            if($member_same_mail){
+                $inputData['email'] = null;
+            }
 
             $member = FamilyMember::create($inputData);
 
@@ -321,6 +329,17 @@ class FamilyController extends Controller
                     $request->image->storeAs('members', $fileName);
                     $inputData['image'] = 'storage/members/'.$fileName;
                 }
+            }
+            if($request['relationship_id']==1){ 
+                $inputData['head_of_family'] = '1';
+            }else{
+                $inputData['head_of_family'] = '0';
+            }
+            
+            $member_same_mail = FamilyMember::where('family_id',$request['family_id'])
+                                ->where('email',$request['email'])->first();
+            if($member_same_mail){
+                $inputData['email'] = null;
             }
 
             $familymember->update($inputData);
