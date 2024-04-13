@@ -83,7 +83,7 @@
                   </div>
                   <div class="mb-3 col-md-12">
                     <label class="form-label">Family head</label>
-                  @if(is_null($familymember->FamilyHead()))
+                  @if($familymember->FamilyHead() !== 'Null')
                       <a href="{{ route('admin.family.member.show_details', ['id' => $familymember->FamilyHead()->id]) }}">
                       <h6>{{$familymember->FamilyHead()->name}}<h6>
                   @else
