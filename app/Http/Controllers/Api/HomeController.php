@@ -1274,8 +1274,9 @@ class HomeController extends Controller
             $pg_no='';
             $per_pg='';
 
-            $downloads = Download::select('id','title','file','type','details')
-                            ->where('status',1);
+            $downloads = Download::select('id','title','file','type','details',
+                        DB::raw('DATE(created_at) as date' ))
+                        ->where('status',1);
 
             if($request['search_word']){
                 $downloads->where('title','like','%'.$request['search_word'].'%')
