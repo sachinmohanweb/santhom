@@ -619,10 +619,16 @@ class HomeController extends Controller
 
                 $organizations=Organization::select('id as id','organization_name as item','coordinator as sub_item',DB::raw('"null" as image'),DB::raw('"Organizations" as type'))
                         ->where('status',1);
-                if($request['search_word']){
-                    $organizations->where('organization_name','like',$request['search_word'].'%')
-                                ->orwhere('coordinator','like',$request['search_word'].'%');
 
+                // $organizations=FamilyMember::select(DB::raw('"1" as id'),'company_name as item',
+                //     DB::raw('COUNT(*) as sub_item'),DB::raw('"null" as image'),
+                //     DB::raw('"Organizations" as type'))
+                //     ->groupBy('company_name')
+                //     ->whereNotNull('company_name') 
+                //     ->where('status',1);
+
+                if($request['search_word']){
+                    $organizations->where('organization_name','like',$request['search_word'].'%');
                 }
                 if($request['organization_page_no']){
                     $organization_pg_no=$page=$request['organization_page_no'];
@@ -637,6 +643,8 @@ class HomeController extends Controller
                     $return['result']=  "Empty prayer group list ";
                     return $this->outputer->code(422)->error($return)->json();
                 }
+
+
                 $organization_metadata = array(
                     "total" => $organizations->total(),
                     "per_page" => $organizations->perPage(),
@@ -648,6 +656,10 @@ class HomeController extends Controller
                     "to" => $organizations->lastItem()
                 );
 
+                // $organizations->getCollection()->transform(function ($item) {
+                //     return $item->makeHidden('family_name','family_head_name','prayer_group_name',
+                //         'blood_group_name','marital_status_name','relationship_name','obituary_id');
+                // });
             /*---------type 1 result----------*/
 
             // $mergedData = [
