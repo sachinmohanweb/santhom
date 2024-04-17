@@ -60,14 +60,20 @@
                 <div class="profile-title">
                   <div class="media-body">
                     <div class="row">
-                      <div class="col-md-8">
+                      <div class="col-md-6">
                         <label class="form-label">Subject</label>
                         <input class="form-control" placeholder="Subject" name="subject" value="{{$message['subject']}}" required >
                       </div>
                       <div class="col-md-4 pd_left_zero">
 
                         <label class="form-label">Image</label>
-                        <input class="form-control" type="file" name="image">
+                        <input class="form-control" type="file" name="image" id="ImageFile">
+                      </div>
+                      <div class="col-md-2 mb-3" id="OldImage">
+                         <img class="img-fluid for-light" src="{{ asset($message->image) }}" alt="" style="max-width: 40% !important;">
+                      </div>
+                      <div class="col-md-2 mb-3" style="width:150px">
+                        <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;">
                       </div>
                       <div class="col-md-12">
                         <label class="form-label">Message</label>

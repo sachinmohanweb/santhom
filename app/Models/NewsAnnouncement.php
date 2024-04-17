@@ -14,6 +14,7 @@ class NewsAnnouncement extends Model
         'group_org_id',
         'heading',
         'body',
+        'link',
         'designation',
         'image',
     ];

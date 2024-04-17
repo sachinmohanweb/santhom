@@ -68,10 +68,25 @@
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label class="form-label" for="validationCustom05">Image</label>
-                                    <input class="form-control" id="validationCustom05" type="file" 
-                                         name="image" value="{{ old('image') }}">
-                                    <div class="invalid-feedback">Please provide a valid zip.</div>
+                                    <div class="row">
+                                        <label class="form-label" for="validationCustom05">Media Link</label>
+                                        <input class="form-control" id="validationCustom05" type="text" 
+                                             name="link" value="{{ old('link') }}">
+                                        <div class="invalid-feedback">Please provide a valid link</div>
+                                    </div>
+                                    <div class="row">
+                                        <div style="height: 120px;">
+                                            <div class="col-md-4 mb-3" style="width:150px">
+                                                <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;">
+                                            </div>
+                                        </div>
+                                        <label class="form-label" for="validationCustom05">Image</label>
+                                        <input class="form-control" id="ImageFile" type="file" 
+                                             name="image" value="{{ old('image') }}">
+                                        <div class="invalid-feedback">Please provide a valid Image.</div>
+                                    </div>
+                                
+
                                 </div>
                                 
                                

@@ -250,7 +250,7 @@
                   </div>
                   <div class="col-md-4 mb-3">
                       <label class="form-label">Image</label>
-                      <input class="form-control" type="file"  id="ImageFile"name="image">
+                      <input class="form-control" type="file"  id="ImageFile" name="image">
                   </div>
                   <div class="col-md-4 mb-3" id="OldImage">
                      <img class="img-fluid for-light" src="{{ asset($familymember->image) }}" alt="" style="max-width: 40% !important;">

@@ -39,13 +39,13 @@
                                     value="{{ old('event_name') }}" required="" name='event_name'>
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label class="form-label" for="validationCustom02">Date </label>
                                     <input class="form-control" id="validationCustom02" type="date" value="{{ old('date') }}"  required="" name='date'>
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
 
-                                 <div class="col-md-2">
+                                 <div class="col-md-4">
                                     <label class="form-label" for="validationCustom02">Time </label>
 
                                     <div class="input-group clockpicker">
@@ -58,9 +58,14 @@
                                     <div class="invalid-feedback">Enter a valid time as HH:MM AM/PM</div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label class="form-label" for="validationCustom02">Venue</label>
                                     <input class="form-control" id="validationCustom02" type="text" value="{{ old('venue') }}" name='venue'>
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
+                                 <div class="col-md-8">
+                                    <label class="form-label" for="validationCustom02">Media Link</label>
+                                    <input class="form-control" id="validationCustom02" type="text" value="{{ old('link') }}" name='link'>
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
                                 
@@ -73,12 +78,14 @@
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div style="height: 145px;">
-                                        
+                                    <div style="height: 120px;">
+                                        <div class="col-md-4 mb-3" style="width:150px">
+                                            <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;">
+                                        </div>
                                     </div>
                                     <label class="form-label" for="validationCustom05">Image</label>
-                                    <input class="form-control" id="validationCustom05" type="file" 
-                                         name="image" value="{{ old('image') }}">
+                                    <input class="form-control" type="file" 
+                                         name="image" value="{{ old('image') }}" id="ImageFile">
                                     <div class="invalid-feedback">Please provide a valid zip.</div>
                                 </div>
                             </div>

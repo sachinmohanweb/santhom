@@ -398,3 +398,11 @@ ALTER TABLE `bible_verses` DROP `deleted_at`;
 ALTER TABLE `family_members` ADD `remark` INT NULL DEFAULT NULL AFTER `marital_status_id`, 
 ADD `marr_memb_id` INT NULL DEFAULT NULL AFTER `remark`;
 
+-- 16/04/24----
+
+ALTER TABLE `events` ADD `link` VARCHAR(256) NULL DEFAULT NULL AFTER `venue`;
+
+ALTER TABLE `news_announcements` DROP `deleted_at`;
+
+ALTER TABLE `news_announcements` ADD `link` VARCHAR(256) NULL DEFAULT NULL AFTER `body`;
+

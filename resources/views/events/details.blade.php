@@ -97,6 +97,11 @@
                        </tr>
                       
                        <tr>
+                         <td> <b>Media Link  </b></td>
+                          <td> <b> &nbsp;:&nbsp;</b></td>
+                         <td><a href="{{$event->link}}" target="_blank">click here</a></td>
+                       </tr>
+                       <tr>
                          <td> <b>Details  </b></td>
                           <td> <b> &nbsp;:&nbsp;</b></td>
                          <td>{{$event->details}}</td>
@@ -140,13 +145,13 @@
                             value="{{ $event['event_name'] }}" required="" name='event_name'>
                             <div class="valid-feedback">Looks good!</div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label class="form-label" for="validationCustom02">Date </label>
                             <input class="form-control" id="validationCustom02" type="date" value="{{$event['date'] }}"  required="" name='date'>
                             <div class="valid-feedback">Looks good!</div>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <label class="form-label" for="validationCustom02">Time </label>
 
                             <div class="input-group">
@@ -156,7 +161,13 @@
                         </div>
                     </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
+                            <label class="form-label" for="validationCustom02">Media Link</label>
+                            <input class="form-control" id="validationCustom02" type="text" value="{{$event['link']}}" name='link'>
+                            <div class="valid-feedback">Looks good!</div>
+                        </div>
+
+                        <div class="col-md-8">
                             <label class="form-label" for="validationCustom02">Venue</label>
                             <input class="form-control" id="validationCustom02" type="text" value="{{$event['venue']}}" name='venue'>
                             <div class="valid-feedback">Looks good!</div>
@@ -173,13 +184,20 @@
                             <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="col-md-4">
-                        @if($event['image'])
-                                    <div style="height: 55px;">
-                                        
+                            <div class="row g-3">
+                            @if($event['image'])
+
+                                    <div class="col-md-4 mb-3" id="OldImage">
+                                        <img class="img-fluid for-light" src="{{ asset($event->image) }}" alt="" style="max-width:100px !important;">
                                     </div>
-                        @endif
+                            @endif
+                            <div style="height: 55px;">
+                                 <div class="col-md-4 mb-3" style="width:150px">
+                                     <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100px !important;">
+                                  </div>
+                            </div>
                             <label class="form-label" for="validationCustom05">Image</label>
-                            <input class="form-control" id="validationCustom05" type="file" 
+                            <input class="form-control" id="ImageFile" type="file" 
                                  name="image" value="{{ $event['image'] }}">
                             <div class="invalid-feedback">Please provide a valid zip.</div>
                         </div>

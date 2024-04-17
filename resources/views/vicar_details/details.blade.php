@@ -129,7 +129,7 @@
             @if($VicarDetail)
 
             <div class="modal fade" id="EditFamilyModal" tabindex="-1" role="dialog" aria-labelledby="EditFamilyModalArea" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
+                <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 750px !important;"> 
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Vicars Details</h5>
@@ -197,16 +197,23 @@
                                         required="" name="email" value="{{$VicarDetail['email'] }}">
                                         <div class="invalid-feedback">Please provide a valid email.</div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-label" for="validationCustom03">mobile</label>
                                         <input class="form-control" id="validationCustom03" type="text" 
                                         name="mobile"value="{{$VicarDetail['mobile'] }}">
                                         <div class="invalid-feedback">Please provide a valid mobile.</div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-label" for="validationCustom03">Image</label>
-                                        <input class="form-control" type="file"  name="image">
+                                        <input class="form-control" type="file"  name="image" id="ImageFile">
                                         <div class="invalid-feedback">Please provide a valid image.</div>
+                                    </div>
+                                    <div class="col-md-2" id="OldImage">
+                                     <img class="img-fluid for-light" src="{{ asset($VicarDetail->photo) }}" alt="" style="max-width: 100% !important;">
+                                  </div>
+                                    <div class="col-md-2">
+                                        <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;">
+
                                     </div>
                                 </div>                 
                             </div>

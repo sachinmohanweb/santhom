@@ -88,17 +88,20 @@
                                         required="" name="email" value="{{ old('email') }}">
                                     <div class="invalid-feedback">Please provide a valid email.</div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label class="form-label" for="validationCustom03">mobile</label>
                                     <input class="form-control" id="validationCustom03" type="text" 
                                      name="mobile" value="{{ old('mobile') }}">
                                     <div class="invalid-feedback">Please provide a valid mobile.</div>
                                 </div>
-                                 <div class="col-md-4">
+                                 <div class="col-md-3">
                                     <label class="form-label" for="validationCustom03">Image</label>
                                       <label class="form-label" for="validationCustom03">Image</label>
-                                      <input class="form-control" type="file"  name="image">
+                                      <input class="form-control" type="file"  name="image" id="ImageFile">
                                     <div class="invalid-feedback">Please provide a valid Image.</div>
+                                </div>
+                                 <div class="col-md-2">
+                                    <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;">
                                 </div>
                             </div>
 

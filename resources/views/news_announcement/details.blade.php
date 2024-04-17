@@ -89,12 +89,19 @@
                            <br>
 
                            <div class="col-md-8">
-                              <p class="p_l_5">
+                              <p class="p_l_5">Body:
                                  <b>
                                     {{$news['body']}}
                                  </b>
                               </p>
                            </div>
+                           <div class="col-md-8">
+                              <p class="p_l_5">Media LInk : 
+                                 <b>
+                                   <a href="{{$news['link']}}" target="_blank">{{$news['heading']}}</a>
+                                 </b>
+                              </p>
+                           </div><br>
                            <div class="col-md-4">
                               @if($news->image) 
                                   <img src="{{asset($news->image)}} " width="100%">
@@ -152,10 +159,30 @@
                                           <div class="valid-feedback">Looks good!</div>
                                        </div>
                                        <div class="col-md-4 mb-3">
-                                          <label class="form-label" for="validationCustom05">Image</label>
-                                          <input class="form-control" id="validationCustom05" type="file" 
-                                          name="image" value="{{ old('image') }}">
-                                          <div class="invalid-feedback">Please provide a valid zip.</div>
+                                          <div class="row">
+                                                <label class="form-label" for="validationCustom05">Image
+                                                Media Link</label>
+                                                <input class="form-control" id="validationCustom05" type="text" name="link" value="{{$news['link']}}">
+                                                <div class="invalid-feedback">Please provide a valid image.</div>
+                                          </div>
+                                          <div class="row">
+                                             <div class="row g-3">
+                                              @if($news['image'])
+
+                                                      <div class="col-md-4 mb-3" id="OldImage">
+                                                          <img class="img-fluid for-light" src="{{ asset($news->image) }}" alt="" style="max-width:100px !important;">
+                                                      </div>
+                                              @endif
+                                              <div style="height: 55px;">
+                                                   <div class="col-md-4 mb-3" style="width:150px">
+                                                       <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100px !important;">
+                                                    </div>
+                                              </div>
+                                             <label class="form-label" for="validationCustom05">Image</label>
+                                             <input class="form-control" id="ImageFile" type="file" 
+                                             name="image" value="{{ old('image') }}">
+                                             <div class="invalid-feedback">Please provide a valid image.</div>
+                                          </div>
                                        </div>
 
 
