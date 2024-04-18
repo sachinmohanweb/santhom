@@ -765,21 +765,21 @@ class HomeController extends Controller
             $memoryData = MemoryDay::select('id',DB::raw('"Orma" as heading'), 'title as sub_heading', 
                 'date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
-                ->where('status', 1);
+                ->where('status', 1)->take(1); 
 
             $bibleCitationData = BiblicalCitation::select('id',DB::raw('"Vedha Bagangal" as heading'), 'reference as sub_heading', 'date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
-                ->where('status', 1);
+                ->where('status', 1)->take(1); 
 
             $church_activities = DailySchedules::select('id',DB::raw('"Church Activities" as heading'),'details as sub_heading','date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"False" as color'))
                 ->whereDate('date',$today_string)
-                ->where('status', 1);
+                ->where('status', 1)->take(1); 
             if ($church_activities->count() == 0) {
 
                 $todayDayValue = date("N");
 
                 $church_activities = DailySchedules::select('id',DB::raw('"Church Activities" as heading'),'details as sub_heading','date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"False" as color'))
-                        ->where('status', 1);
+                        ->where('status', 1)->take(1); 
 
                 if ($todayDayValue == 7) { 
                        $church_activities = $church_activities->where('day_category', 2); 
