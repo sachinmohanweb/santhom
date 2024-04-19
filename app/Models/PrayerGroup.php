@@ -11,8 +11,12 @@ class PrayerGroup extends Model
 
     protected $fillable = [
         'group_name',
+        'leader_id',
         'leader',
         'leader_phone_number',
+        'coordinator_id',
+        'coordinator_name',
+        'coordinator_phone',
         'status',
     ];
 

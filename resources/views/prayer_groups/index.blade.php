@@ -70,6 +70,8 @@
                                         <th>Group Name</th>
                                         <th>Leader</th>
                                         <th>Leader's Phone</th>
+                                        <th>Coordinator</th>
+                                        <th>Coordinator's Phone</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -93,21 +95,38 @@
                     <div class="modal-body">
                     @csrf
                     <div class="row g-3 mb-3">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                           <label class="form-label" for="validationCustom01">Group Name</label>
                           <input class="form-control" id="group_name" type="text" 
                           required="" name='group_name'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
-                        <div class="col-md-4">
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
                           <label class="form-label" for="validationCustom02">Group Leader</label>
                           <input class="form-control" id="leader" type="text" name='leader'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                           <label class="form-label" for="validationCustom02">Leader's Phone</label>
                           <input class="form-control" id="leader_phone_number" type="text" name='leader_phone_number'>
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                          <label class="form-label" for="validationCustom02">Group Coordinator</label>
+                          <input class="form-control" id="coordinator_name" type="text" 
+                          name='coordinator_name'>
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <label class="form-label" for="validationCustom02">Coordinator's Phone</label>
+                          <input class="form-control" id="coordinator_phone" type="text" 
+                          name='coordinator_phone'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                     </div>
@@ -133,25 +152,42 @@
                     <div class="modal-body">
                     @csrf
                     <div class="row g-3 mb-3">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                           <label class="form-label" for="validationCustom01">Group Name</label>
                           <input class="form-control" id="group_name_edit" type="text" 
                           required="" name='group_name'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
-                        <div class="col-md-4">
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
                           <label class="form-label" for="validationCustom02">Group Leader</label>
                           <input class="form-control" id="leader_edit" type="text" name='leader'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                           <label class="form-label" for="validationCustom02">Leader's Phone</label>
                           <input class="form-control" id="leader_phone_number_edit" type="text" 
                           name='leader_phone_number'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                     </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                          <label class="form-label" for="validationCustom02">Group Coordinator</label>
+                          <input class="form-control" id="coordinator_name_edit" type="text" name='coordinator_name'>
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <label class="form-label" for="validationCustom02">coordinator's Phone</label>
+                          <input class="form-control" id="coordinator_phone_edit" type="text" 
+                          name='coordinator_phone'>
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+                    </div>
+
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.prayergroup.list') }}'">Close</button>
@@ -184,6 +220,8 @@
                     { data: 'group_name', name: 'group_name' },
                     { data: 'leader', name: 'leader' },
                     { data: 'leader_phone_number', name: 'leader_phone_number' },
+                    { data: 'coordinator_name', name: 'coordinator_name' },
+                    { data: 'coordinator_phone', name: 'coordinator_phone' },
                     { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false,width:'25%'},
                 ],
@@ -192,8 +230,10 @@
                     { width: '10%', targets: 1 },
                     { width: '15%', targets: 2 },
                     { width: '15%', targets: 3 },
-                    { width: '15%', targets: 4 ,searchable: false},
+                    { width: '15%', targets: 4 },
                     { width: '15%', targets: 5 },
+                    { width: '15%', targets: 6 ,searchable: false},
+                    { width: '15%', targets: 7 },
                 ],
                 order: [[0, 'desc']]
             });
@@ -239,6 +279,8 @@
                     $('#group_name_edit').attr('value', res.group_name);
                     $('#leader_edit').val(res.leader);
                     $('#leader_phone_number_edit').val(res.leader_phone_number);
+                    $('#coordinator_name_edit').val(res.coordinator_name);
+                    $('#coordinator_phone_edit').val(res.coordinator_phone);
                     $('#EditPrayerGroupForm').attr('action', "{{ url('updateprayergroup') }}/" + id);
 
 

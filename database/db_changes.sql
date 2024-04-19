@@ -406,3 +406,11 @@ ALTER TABLE `news_announcements` DROP `deleted_at`;
 
 ALTER TABLE `news_announcements` ADD `link` VARCHAR(256) NULL DEFAULT NULL AFTER `body`;
 
+
+-- 19/04/24----
+
+ALTER TABLE `prayer_groups` ADD `leader_id` INT NULL DEFAULT NULL AFTER `group_name`;
+
+ALTER TABLE `prayer_groups` ADD `coordinator_id` INT NULL DEFAULT NULL AFTER `leader_phone_number`, 
+ADD `coordinator_name` VARCHAR(256) NULL DEFAULT NULL AFTER `coordinator_id`, 
+ADD `coordinator_phone` VARCHAR(256) NULL DEFAULT NULL AFTER `coordinator_name`;
