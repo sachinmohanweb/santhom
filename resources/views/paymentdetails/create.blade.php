@@ -39,7 +39,8 @@
                                     
                                     <select class="js-data-example-ajax form-select" id="member_id" name="member_id" required></select>
 
-                                    <div class="invalid-feedback">Please select a valid type.</div>
+                                    <div class="invalid-feedback" style="color:red">Please select a member.
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="validationCustom01">Purpose</label>

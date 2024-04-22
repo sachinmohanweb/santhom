@@ -17,6 +17,7 @@ use Datatables;
 use App\Models\Family;
 use App\Models\PrayerGroup;
 use App\Models\Notification;
+use App\Models\FamilyMember;
 use App\Models\NewsAnnouncement;
 
 class PrayerGroupController extends Controller
@@ -53,6 +54,18 @@ class PrayerGroupController extends Controller
             ]);
 
             $inputData = $request->all();
+
+            if($request['leader_id']){
+
+                $member= FamilyMember::find($request['leader_id']);
+                $inputData['leader'] = $member['name'];
+            }
+            if($request['coordinator_id']){
+
+                $member1= FamilyMember::find($request['coordinator_id']);
+                $inputData['coordinator_name'] = $member1['name'];
+            }
+
             $inputData['status'] = 1;
 
             PrayerGroup::create($inputData);
@@ -125,6 +138,18 @@ class PrayerGroupController extends Controller
             ]);
 
             $inputData = $request->all();
+
+            if($request['leader_id']){
+
+                $member= FamilyMember::find($request['leader_id']);
+                $inputData['leader'] = $member['name'];
+            }
+            if($request['coordinator_id']){
+
+                $member1= FamilyMember::find($request['coordinator_id']);
+                $inputData['coordinator_name'] = $member1['name'];
+            }
+
             $inputData['status'] = 1;
 
             $group->update($inputData);

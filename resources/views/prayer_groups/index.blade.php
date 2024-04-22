@@ -105,8 +105,10 @@
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
                           <label class="form-label" for="validationCustom02">Group Leader</label>
-                          <input class="form-control" id="leader" type="text" name='leader'>
+                           <select class="js-data-example-ajax form-select leader_id"  name="leader_id">
+                           </select>
                           <div class="valid-feedback">Looks good!</div>
+                          <div class="invalid-feedback" style="color:red">Please select a member</div>
                         </div>
 
                         <div class="col-md-6">
@@ -118,9 +120,10 @@
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
                           <label class="form-label" for="validationCustom02">Group Coordinator</label>
-                          <input class="form-control" id="coordinator_name" type="text" 
-                          name='coordinator_name'>
+                          <select class="js-data-example-ajax form-select coordinator_id"  name="coordinator_id"></select>
                           <div class="valid-feedback">Looks good!</div>
+                          <div class="invalid-feedback" style="color:red">Please select a member</div>
+
                         </div>
 
                         <div class="col-md-6">
@@ -162,7 +165,10 @@
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
                           <label class="form-label" for="validationCustom02">Group Leader</label>
-                          <input class="form-control" id="leader_edit" type="text" name='leader'>
+                          <select class="js-data-example-ajax form-select leader_id"  id="leader_name_edit"  
+                          name="leader_id">
+
+                           </select>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
 
@@ -176,7 +182,7 @@
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
                           <label class="form-label" for="validationCustom02">Group Coordinator</label>
-                          <input class="form-control" id="coordinator_name_edit" type="text" name='coordinator_name'>
+                          <select class="js-data-example-ajax form-select coordinator_id"  name="coordinator_id" id="coordinator_name_edit" ></select>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
 
@@ -205,6 +211,62 @@
 
     <script>
         $(document).ready( function () {
+
+            $('.leader_id').select2({
+                placeholder: "Select Leader",
+                ajax: {
+
+                    url: "<?= url('get_family_members_list') ?>",
+                    dataType: 'json',
+                    method: 'post',
+                    delay: 250,
+
+                     data: function(data) {
+                        return {
+                            _token    : "<?= csrf_token() ?>",
+                            search_tag: data.term,
+                            page: 'obituary',
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.results,
+                            pagination: { more: (params.page * 30) < data.total_count }
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+            $('.coordinator_id').select2({
+                placeholder: "Select coordinator",
+                ajax: {
+
+                    url: "<?= url('get_family_members_list') ?>",
+                    dataType: 'json',
+                    method: 'post',
+                    delay: 250,
+
+                     data: function(data) {
+                        return {
+                            _token    : "<?= csrf_token() ?>",
+                            search_tag: data.term,
+                            page: 'obituary',
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.results,
+                            pagination: { more: (params.page * 30) < data.total_count }
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+
             $.ajaxSetup({
                 headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -277,10 +339,24 @@
                 dataType: 'json',
                 success: function(res){
                     $('#group_name_edit').attr('value', res.group_name);
-                    $('#leader_edit').val(res.leader);
+
+                    if(res.leader_id){
+                        var leaderId = res.leader_id;
+                        var leaderName = res.leader;
+                        var newOption = new Option(leaderName, leaderId, true, true);
+                        $('#leader_name_edit').append(newOption).trigger('change');
+                    }
                     $('#leader_phone_number_edit').val(res.leader_phone_number);
-                    $('#coordinator_name_edit').val(res.coordinator_name);
+
+                    if(res.coordinator_id){
+                        var co_Id = res.coordinator_id;
+                        var co_Name = res.coordinator_name;
+                        var newOption1 = new Option(co_Name, co_Id, true, true);
+
+                        $('#coordinator_name_edit').append(newOption1).trigger('change');
+                    }
                     $('#coordinator_phone_edit').val(res.coordinator_phone);
+
                     $('#EditPrayerGroupForm').attr('action', "{{ url('updateprayergroup') }}/" + id);
 
 
