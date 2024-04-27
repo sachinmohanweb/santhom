@@ -132,7 +132,8 @@ class SettingsController extends Controller
             $pg_no='';
             $per_pg='';
 
-            $prayer_group = PrayerGroup::select('id','group_name','leader','leader_phone_number')
+            $prayer_group = PrayerGroup::select('id','group_name','leader_id','leader',
+                'leader_phone_number','coordinator_id','coordinator_name','coordinator_phone')
                             ->where('status',1);
 
             if($request['search_word']){
@@ -177,7 +178,8 @@ class SettingsController extends Controller
 
         try {
 
-            $prayer_group = PrayerGroup::select('id','group_name','leader','leader_phone_number')
+            $prayer_group = PrayerGroup::select('id','group_name','leader_id','leader',
+                'leader_phone_number','coordinator_id','coordinator_name','coordinator_phone')
                             ->where('id',$request['id'])->first();
 
             $members = FamilyMember::select('family_members.id','family_members.name','family_members.image','family_members.family_id')
