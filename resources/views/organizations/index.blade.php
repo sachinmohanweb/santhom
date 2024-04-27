@@ -100,8 +100,9 @@
                         </div>
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom02">Coordinator</label>
-                          <input class="form-control" id="coordinator" type="text" name='coordinator'>
+                            <select class="js-data-example-ajax form-select coordinator_id"  name="coordinator_id"></select>
                           <div class="valid-feedback">Looks good!</div>
+                          <div class="invalid-feedback" style="color:red">Please select a member</div>
                         </div>
 
                         <div class="col-md-4">
@@ -187,6 +188,32 @@
         function viewFunc(id){
             window.location.href = "{{ url('/showorganization') }}"+'/' + id;
         } 
+
+        $('.coordinator_id').select2({
+            placeholder: "Select coordinator",
+            ajax: {
+
+                url: "<?= url('get_family_members_list') ?>",
+                dataType: 'json',
+                method: 'post',
+                delay: 250,
+
+                 data: function(data) {
+                    return {
+                        _token    : "<?= csrf_token() ?>",
+                        search_tag: data.term,
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.results,
+                        pagination: { more: (params.page * 30) < data.total_count }
+                    };
+                },
+                cache: true
+            }
+        });
         
     </script>
 @endsection

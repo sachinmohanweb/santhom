@@ -57,6 +57,12 @@ class OrganizationController extends Controller
             $inputData = $request->all();
             $inputData['status'] = 1;
 
+            if($request['coordinator_id']){
+
+                $member1= FamilyMember::find($request['coordinator_id']);
+                $inputData['coordinator'] = $member1['name'];
+            }
+
             Organization::create($inputData);
             DB::commit();
              
@@ -95,6 +101,12 @@ class OrganizationController extends Controller
 
             $inputData = $request->all();
             $inputData['status'] = 1;
+
+             if($request['coordinator_id']){
+
+                $member1= FamilyMember::find($request['coordinator_id']);
+                $inputData['coordinator'] = $member1['name'];
+            }
 
             $group->update($inputData);
             DB::commit();

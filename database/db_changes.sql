@@ -416,7 +416,7 @@ ADD `coordinator_name` VARCHAR(256) NULL DEFAULT NULL AFTER `coordinator_id`,
 ADD `coordinator_phone` VARCHAR(256) NULL DEFAULT NULL AFTER `coordinator_name`;
 
 
--- 19/04/24----
+-- 27/04/24----
 
 
 CREATE TABLE `organization_officers` (
@@ -428,3 +428,8 @@ CREATE TABLE `organization_officers` (
 	`status` INT NOT NULL DEFAULT '1' , 
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`));
+
+
+ALTER TABLE `organizations` ADD `coordinator_id` INT NOT NULL AFTER `organization_name`;
+ALTER TABLE `organizations` CHANGE `coordinator_id` `coordinator_id` INT NULL DEFAULT NULL;
+

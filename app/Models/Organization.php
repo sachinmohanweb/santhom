@@ -11,6 +11,7 @@ class Organization extends Model
 
     protected $fillable = [
         'organization_name',
+        'coordinator_id',
         'coordinator',
         'coordinator_phone_number',
         'status',

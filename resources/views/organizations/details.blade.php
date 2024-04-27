@@ -166,8 +166,9 @@
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="col-md-4">
-                          <label class="form-label" for="validationCustom02">Group Leader</label>
-                          <input class="form-control" id="coordinator_edit" type="text" name='coordinator'>
+                          <label class="form-label" for="validationCustom02">Coordinator</label>
+                          <select class="js-data-example-ajax form-select coordinator_edit"  
+                          id="coordinator_id_edit"  name="coordinator_id">                           </select>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
 
@@ -191,7 +192,7 @@
 @endif
 
 
-  <div class="modal fade" id="EditOrganizationsModal" tabindex="-1" role="dialog" aria-labelledby="EditOrganizationsModalArea" aria-hidden="true">
+ <!--  <div class="modal fade" id="EditOrganizationsModal" tabindex="-1" role="dialog" aria-labelledby="EditOrganizationsModalArea" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
             <div class="modal-content">
                 <div class="modal-header">
@@ -209,8 +210,9 @@
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="col-md-4">
-                          <label class="form-label" for="validationCustom02">Group Leader</label>
-                          <input class="form-control" id="coordinator_edit" type="text" name='coordinator'>
+                          <label class="form-label" for="validationCustom02">Coordinator</label>
+                          <select class="js-data-example-ajax form-select coordinator_edit"  
+                          id="coordinator_id_edit"  name="coordinator_id">
                           <div class="valid-feedback">Looks good!</div>
                         </div>
 
@@ -229,7 +231,7 @@
                 </form>
             </div>
         </div>
-    </div>
+  </div> -->
 
 
     <div class="modal fade" id="AddOrganizationOfficerModal" tabindex="-1" role="dialog" aria-labelledby="AddOrganizationOfficerModalArea" aria-hidden="true">
@@ -296,7 +298,16 @@
             dataType: 'json',
             success: function(res){
                 $('#organization_name_edit').attr('value', res.organization_name);
-                $('#coordinator_edit').val(res.coordinator);
+
+                if(res.coordinator_id){
+                    var leaderId = res.coordinator_id;
+                    var leaderName = res.coordinator;
+                    var newOption = new Option(leaderName, leaderId, true, true);
+
+                    $('#coordinator_id_edit').append(newOption).trigger('change');
+                }
+                $('#leader_phone_number_edit').val(res.leader_phone_number);
+
                 $('#coordinator_phone_number_edit').val(res.coordinator_phone_number);
                 $('#EditOrganizationsForm').attr('action', "{{ url('updateorganizations') }}/" + id);
 
@@ -317,6 +328,32 @@
 
     $('.member_id').select2({
         placeholder: "Select Member",
+        ajax: {
+
+            url: "<?= url('get_family_members_list') ?>",
+            dataType: 'json',
+            method: 'post',
+            delay: 250,
+
+             data: function(data) {
+                return {
+                    _token    : "<?= csrf_token() ?>",
+                    search_tag: data.term,
+                };
+            },
+            processResults: function(data, params) {
+                params.page = params.page || 1;
+                return {
+                    results: data.results,
+                    pagination: { more: (params.page * 30) < data.total_count }
+                };
+            },
+            cache: true
+        }
+    });
+
+    $('.coordinator_edit').select2({
+        placeholder: "Select coordinator",
         ajax: {
 
             url: "<?= url('get_family_members_list') ?>",
@@ -365,6 +402,6 @@
               }
           });
       }
-  }
+    }
 </script>
 @endsection
