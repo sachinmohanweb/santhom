@@ -17,7 +17,9 @@ use Datatables;
 use App\Models\Organization;
 use App\Models\PrayerGroup;
 use App\Models\Notification;
+use App\Models\FamilyMember;
 use App\Models\NewsAnnouncement;
+use App\Models\OrganizationOfficer;
 
 class OrganizationController extends Controller
 {
@@ -68,7 +70,7 @@ class OrganizationController extends Controller
         }
 
     }
-
+    
     public function Organization_show($id) : View
     {
         $organization = Organization::where('id',$id)->first();
@@ -177,4 +179,55 @@ class OrganizationController extends Controller
         return response()->json(['results' => $results]);
 
     }
+
+    public function store_organization_officers(Request $request): RedirectResponse
+    {
+
+        DB::beginTransaction();
+        try {
+            $a =  $request->validate([
+                'organization_id'            => 'required',
+                'member_id'            => 'required',
+                'position'            => 'required',
+            ]);
+
+            $inputData = $request->all();
+
+            if($request['member_id']){
+
+                $member= FamilyMember::find($request['member_id']);
+                $inputData['member_name'] = $member['name'];
+            }
+
+            OrganizationOfficer::create($inputData);
+            DB::commit();
+             
+            return redirect()->route('admin.organizations.show_details',[$request['organization_id']])
+                            ->with('success','Organization officer added successfully.');
+        }catch (Exception $e) {
+
+            DB::rollBack();
+            $message = $e->getMessage();
+            return back()->withInput()->withErrors(['message' =>  $e->getMessage()]);;
+        }
+    }
+
+    public function organization_officer_delete(Request $request) : JsonResponse
+    {
+        DB::beginTransaction();
+        try{
+            $member = OrganizationOfficer::where('id',$request->id)->delete();
+            DB::commit();
+            Session::flash('success', 'Successfully deleted officer details.');
+            $return['status'] = "success";
+
+         }catch (Exception $e) {
+
+            DB::rollBack();
+            $return['status'] = $e->getMessage();
+            Session::flash('error', 'Officer deletion not success.');
+        }
+        return response()->json($return);
+    }
+
 }

@@ -125,6 +125,11 @@ Route::middleware('auth:admin')->group(function(){
     Route::post('/get_current_group_org', [OrganizationController::class, 'getCurrentGroupOrg'])
             ->name('admin.group.organization.current');
 
+    Route::post('/storeorganizationofficers', [OrganizationController::class,
+            'store_organization_officers'])->name('admin.organization.officer.store');
+    Route::post('/deleteorganizationofficer', [OrganizationController::class, 
+            'organization_officer_delete'])->name('admin.organization.officer.delete');
+
     Route::get('/vicarlist', [VicarDetailsController::class, 'vicars_list'])
             ->name('admin.vicar.list');
     Route::get('/vicarDatatable', [VicarDetailsController::class, 'vicars_Datatable'])

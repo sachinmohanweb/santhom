@@ -14,6 +14,7 @@ class OrganizationOfficer extends Model
         'member_id',
         'member_name',
         'position',
+        'officer_phone_number',
         'status',
     ];
 
