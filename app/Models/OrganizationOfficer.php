@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Organization extends Model
+class OrganizationOfficer extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'organization_name',
-        'coordinator',
-        'coordinator_phone_number',
+        'organization_id',
+        'member_id',
+        'member_name',
+        'position',
         'status',
     ];
 
@@ -21,8 +22,4 @@ class Organization extends Model
         return $value == 1 ? 'Active' : 'Suspended';
     }
 
-    public function Officers(){
-
-        return $this->hasMany(OrganizationOfficer::class);
-    }
 }

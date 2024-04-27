@@ -414,3 +414,17 @@ ALTER TABLE `prayer_groups` ADD `leader_id` INT NULL DEFAULT NULL AFTER `group_n
 ALTER TABLE `prayer_groups` ADD `coordinator_id` INT NULL DEFAULT NULL AFTER `leader_phone_number`, 
 ADD `coordinator_name` VARCHAR(256) NULL DEFAULT NULL AFTER `coordinator_id`, 
 ADD `coordinator_phone` VARCHAR(256) NULL DEFAULT NULL AFTER `coordinator_name`;
+
+
+-- 19/04/24----
+
+
+CREATE TABLE `organization_officers` (
+	`id` INT NOT NULL AUTO_INCREMENT , 
+	`organization_id` INT NOT NULL , 
+	`member_id` INT NOT NULL , 
+	`member_name` VARCHAR(256) NOT NULL , 
+	`position` VARCHAR(256) NOT NULL , 
+	`status` INT NOT NULL DEFAULT '1' , 
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`));

@@ -112,6 +112,8 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.organizations.datatable');
     Route::post('/storeorganizations', [OrganizationController::class, 'organizations_store'])
             ->name('admin.organizations.store');
+    Route::get('/showorganization/{id}', [OrganizationController::class, 'Organization_show'])
+            ->name('admin.organizations.show_details');
     Route::post('/getorganizations', [OrganizationController::class, 'organizations_get'])
             ->name('admin.get.organizations');
     Route::post('/updateorganizations/{id}', [OrganizationController::class, 'organizations_update'])

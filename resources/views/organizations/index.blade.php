@@ -120,46 +120,6 @@
         </div>
     </div>
 
-
-    <div class="modal fade" id="EditOrganizationsModal" tabindex="-1" role="dialog" aria-labelledby="EditOrganizationsModalArea" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Organizations Details</h5>
-                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form class="needs-validation" id="EditOrganizationsForm" novalidate="" method="Post">
-                    <div class="modal-body">
-                    @csrf
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-4">
-                          <label class="form-label" for="validationCustom01">Group Name</label>
-                          <input class="form-control" id="organization_name_edit" type="text" 
-                          required="" name='organization_name'>
-                          <div class="valid-feedback">Looks good!</div>
-                        </div>
-                        <div class="col-md-4">
-                          <label class="form-label" for="validationCustom02">Group Leader</label>
-                          <input class="form-control" id="coordinator_edit" type="text" name='coordinator'>
-                          <div class="valid-feedback">Looks good!</div>
-                        </div>
-
-                        <div class="col-md-4">
-                          <label class="form-label" for="validationCustom02">Leader's Phone</label>
-                          <input class="form-control" id="coordinator_phone_number_edit" type="text" 
-                          name='coordinator_phone_number'>
-                          <div class="valid-feedback">Looks good!</div>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.organizations.list') }}'">Close</button>
-                        <button class="btn btn-success" type="submit">Update</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('script')
@@ -224,29 +184,9 @@
         }
 
 
-        function EditFunc(id){
-            $.ajax({
-                type:"post",
-                url: "{{ route('admin.get.organizations') }}",
-                data: { _token : "<?= csrf_token() ?>",
-                        id     : id
-                },
-                dataType: 'json',
-                success: function(res){
-                    $('#organization_name_edit').attr('value', res.organization_name);
-                    $('#coordinator_edit').val(res.coordinator);
-                    $('#coordinator_phone_number_edit').val(res.coordinator_phone_number);
-                    $('#EditOrganizationsForm').attr('action', "{{ url('updateorganizations') }}/" + id);
-
-
-                    $('#EditOrganizationsModal').modal('show');
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX request failed:', status, error);
-                    alert('Failed get data. Please try again later.');
-                }
-            });
+        function viewFunc(id){
+            window.location.href = "{{ url('/showorganization') }}"+'/' + id;
+        } 
         
-        }  
     </script>
 @endsection

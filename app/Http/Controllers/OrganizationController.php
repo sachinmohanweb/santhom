@@ -69,6 +69,12 @@ class OrganizationController extends Controller
 
     }
 
+    public function Organization_show($id) : View
+    {
+        $organization = Organization::where('id',$id)->first();
+        return view('organizations.details',compact('organization'));
+    }
+
     public function organizations_get(Request $request) : JsonResponse
     {
         $organization = Organization::find($request['id']);
