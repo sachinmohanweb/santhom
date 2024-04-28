@@ -429,7 +429,8 @@ CREATE TABLE `organization_officers` (
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`));
 
+ALTER TABLE `organization_officers` ADD `officer_phone_number` VARCHAR(11) NOT NULL AFTER `position`;
 
-ALTER TABLE `organizations` ADD `coordinator_id` INT NOT NULL AFTER `organization_name`;
+ALTER TABLE `organizations` CHANGE `coordinator_id` `coordinator_id` INT NULL DEFAULT NULL;
 ALTER TABLE `organizations` CHANGE `coordinator_id` `coordinator_id` INT NULL DEFAULT NULL;
 
