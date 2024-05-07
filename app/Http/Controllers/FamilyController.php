@@ -177,7 +177,8 @@ class FamilyController extends Controller
                     }
 
                     if(strlen($nameLetters) == 1) {
-                        $nameLetters = substr($this->name, 0, 2);
+                        //$nameLetters = substr($this->name, 0, 2);
+                        $nameLetters = $nameLetters;
                     }
 
                     $backgroundColors = ['#ff7f0e', '#2ca02c', '#1f77b4', '#d62728', '#9467bd'];
@@ -586,7 +587,8 @@ class FamilyController extends Controller
                     }
 
                     if(strlen($nameLetters) == 1) {
-                        $nameLetters = substr($this->name, 0, 2);
+                        //$nameLetters = substr($this->name, 0, 2);
+                        $nameLetters = $nameLetters;
                     }
 
                     $backgroundColors = ['#ff7f0e', '#2ca02c', '#1f77b4', '#d62728', '#9467bd'];
