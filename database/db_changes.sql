@@ -434,3 +434,8 @@ ALTER TABLE `organization_officers` ADD `officer_phone_number` VARCHAR(11) NOT N
 ALTER TABLE `organizations` CHANGE `coordinator_id` `coordinator_id` INT NULL DEFAULT NULL;
 ALTER TABLE `organizations` CHANGE `coordinator_id` `coordinator_id` INT NULL DEFAULT NULL;
 
+
+-- 7/05/24----
+
+INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `updated_at`) 
+VALUES (NULL, 'Others', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

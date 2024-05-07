@@ -62,6 +62,7 @@
                             <table class="display" id="family_data" style="width:100%">
                                 <thead>
                                     <tr>
+                                        <th>Sl.No</th>
                                         <th>Family code</th>
                                         <th>Family Name</th>
                                         <th>Prayer Group</th>
@@ -101,13 +102,17 @@
                     }
                 },
                 columns: [
+                    { data: 'DT_RowIndex', name: 'Sl.No'},
                     { data: 'family_code', name: 'family_code' },
                     { data: 'family_name', name: 'family_name' },
                     { data: 'prayer_group', name: 'prayer_group' },
                     { data: 'address1', name: 'address1' },
                     { data: 'action', name: 'action', orderable: false,width:'25%'},
                 ],
-                order: [[0, 'asc']]
+                 columnDefs: [
+                    { width: '5%', targets: 0 ,orderable: false, searchable: false},
+                ],
+                order: [[1, 'asc']]
             });
         });
               

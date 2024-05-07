@@ -28,6 +28,21 @@
   <div class="edit-profile">
     <div class="row">
 
+      @if(Session::has('success'))
+        <div class="alert alert-success">
+           <ul>
+              <li>{!! Session::get('success') !!}</li>
+           </ul>
+        </div>
+      @endif
+      @if (Session::has('error'))
+        <div class="alert alert-danger">
+           <ul>
+              <li>{!! Session::get('error') !!}</li>
+           </ul>
+        </div>
+      @endif
+
        @if($familymember)
         <div class="col-xl-4">
           <div class="card">

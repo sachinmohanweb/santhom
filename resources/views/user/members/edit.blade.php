@@ -100,7 +100,7 @@
                 </div>
               </div> 
               <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-4">
                   <label class="form-label">Family <span style="color:red">*</span></label>
                   <select class="form-control" name="family_id" required>
                     <option value="">--Select--</option>
@@ -121,29 +121,32 @@
                   </select>                        
                 </div>
 
-                <div class="col-md-5 p-4">
-                  <label class="form-label pd_right_15">Are you head of the family</label>
-                  <div class="form-check form-check-inline radio radio-primary">
-                    @if( $familymember->head_of_family == 1)
-                    <input class="form-check-input" id="radioinline1" type="radio" name="head_of_family" value="1"  {{ $familymember->head_of_family == '1' ? 'checked' : '' }}>
-                    <label class="form-check-label mb-0" for="radioinline1">Yes<span class="digits"></span></label>
-                    @else
-                     No
-                    @endif
-                  </div>
+                 <div class="col-md-4 ">
+                  <label class="form-label">Relation with Head of family <span style="color:red">*</span></label>
+                  <select class="form-control" name="relationship_id" required>
+                    <option value="">--Select--</option>
+                      @foreach($relations as $key=>$value)
+                          @if($value->id==$familymember->relationship_id)
+                            <option value="{{$value->id}}" selected>{{$value->relation_name}}</option>
+                          @else
+                              <option value="{{$value->id}}">{{$value->relation_name}}</option>
+                          @endif
+                      @endforeach
+                  </select>                        
                 </div>
-                <div class="col-md-2">
-                  <label class="form-label">Blood Group</label>
-                      <select class="form-control" name="blood_group_id">
-                        <option value="">--Select--</option>
-                          @foreach($blood_groups as $key=>$value)
-                            @if($value->id==$familymember->blood_group_id)
-                              <option value="{{$value->id}}" selected>{{$value->blood_group_name}}</option>
-                            @else
-                              <option value="{{$value->id}}">{{$value->blood_group_name}}</option>
-                            @endif
-                          @endforeach
-                      </select> 
+
+
+                <div class="col-md-3 p-4">
+                  <label class="form-label pd_right_15">Head of the family ?</label>
+                  <!-- <div class="form-check form-check-inline radio radio-primary"> -->
+                    @if( $familymember->head_of_family == 1)
+                    <!-- <input class="form-check-input" id="radioinline1" type="radio" name="head_of_family" value="1"  {{ $familymember->head_of_family == '1' ? 'checked' : '' }}>
+                    <label class="form-check-label mb-0" for="radioinline1">Yes<span class="digits"></span></label> -->
+                    <a class="btn btn-primary" style="padding: 2px 10px !important;">Yes</a>
+                    @else
+                    <a class="btn btn-primary"  style="padding: 2px 10px !important;" >No</a>
+                    @endif
+                  <!-- </div> -->
                 </div>
 
               </div>
@@ -171,7 +174,7 @@
                   <label class="form-label">Remark</label>
                   <select class="form-control" name="remark" id='remark'>
                     <option value="">--Select--</option>
-                        <option value="1" {{ $familymember->remark == '1' ? 'selected' : '' }}>mariied within parish</option>
+                        <option value="1" {{ $familymember->remark == '1' ? 'selected' : '' }}>married within parish</option>
                   </select> 
                 </div>
                 <div class="col-md-3 mb-3">
@@ -194,18 +197,18 @@
                   <input class="form-control digits" type="date" value="{{$familymember->date_of_marriage}}"  name="date_of_marriage">
                 </div>
 
-                <div class="col-md-3 mb-3">
-                  <label class="form-label">Relation with Head of family <span style="color:red">*</span></label>
-                  <select class="form-control" name="relationship_id" required>
-                    <option value="">--Select--</option>
-                      @foreach($relations as $key=>$value)
-                          @if($value->id==$familymember->relationship_id)
-                            <option value="{{$value->id}}" selected>{{$value->relation_name}}</option>
-                          @else
-                              <option value="{{$value->id}}">{{$value->relation_name}}</option>
-                          @endif
-                      @endforeach
-                  </select>                        
+                 <div class="col-md-3 mb-3 ">
+                  <label class="form-label">Blood Group</label>
+                      <select class="form-control" name="blood_group_id">
+                        <option value="">--Select--</option>
+                          @foreach($blood_groups as $key=>$value)
+                            @if($value->id==$familymember->blood_group_id)
+                              <option value="{{$value->id}}" selected>{{$value->blood_group_name}}</option>
+                            @else
+                              <option value="{{$value->id}}">{{$value->blood_group_name}}</option>
+                            @endif
+                          @endforeach
+                      </select> 
                 </div>
               </div>
               <div class="row">
@@ -221,8 +224,8 @@
                     name="occupation" value="{{$familymember->occupation}}">
                 </div>
                 <div class="col-md-4 mb-3">
-                    <label class="form-label">Comapany Name</label>
-                    <input class="form-control" type="text" title="" placeholder="Comapany Name" name="company_name" value="{{$familymember->company_name}}">
+                    <label class="form-label">Company Name</label>
+                    <input class="form-control" type="text" title="" placeholder="Company Name" name="company_name" value="{{$familymember->company_name}}">
                 </div>
               </div> 
               <div class="row">
@@ -250,14 +253,14 @@
                   </div>
                   <div class="col-md-4 mb-3">
                       <label class="form-label">Image</label>
-                      <input class="form-control" type="file"  id="ImageFile" name="image">
+                      <input class="form-control" type="file"  id="ImageFile" name="image" accept="image/*">
                   </div>
                   <div class="col-md-4 mb-3" id="OldImage">
                      <img class="img-fluid for-light" src="{{ asset($familymember->image) }}" alt="" style="max-width: 40% !important;">
                   </div>
-                  <div class="col-md-4 mb-3" style="width:150px">
+                  <!-- <div class="col-md-4 mb-3" style="width:150px">
                      <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;">
-                  </div>
+                  </div> -->
               </div>  
               <div class="form-footer">
                 <button class="btn btn-primary">Update</button>

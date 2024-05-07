@@ -65,7 +65,7 @@
               @if($errors->any())
                 <h6 style="color:red;padding: 20px 0px 0px 30px;">{{$errors->first()}}</h6>
              @endif
-              <div class="row mb-2">
+              <div class="row" style="margin-bottom: 20px;">
                 <div class="profile-title">
                   <div class="media-body">
                     <div class="row">
@@ -114,23 +114,25 @@
                   </select>                        
                 </div>
 
-                <div class="col-md-5 p-4">
-                  <label class="form-label pd_right_15">Are you head of the family</label>
+                <div class="col-md-3 p-4">
+                  <label class="form-label pd_right_15">Head of the family ?</label>
                   <div class="form-check form-check-inline radio radio-primary">
-                    <input class="form-check-input" id="radioinline1" type="radio" name="head_of_family" value="1" data-bs-original-title="" title="">
-                    <label class="form-check-label mb-0" for="radioinline1" id="head_of_family_lable">Yes
-                    </label>
+                    <input type="radio" id="0" name="head_of_family" value="0">
+                    <label for="0">No</label>
+                    <input type="radio" id="1" name="head_of_family" value="1">
+                    <label for="1">Yes</label><br>
                   </div>
                 </div>
-                <div class="col-md-2">
-                  <label class="form-label">Blood Group</label>
-                      <select class="form-control" name="blood_group_id">
-                        <option value="">--Select--</option>
-                          @foreach($blood_groups as $key=>$value)
-                            <option value="{{$value->id}}">{{$value->blood_group_name}}</option>
-                          @endforeach
-                      </select> 
+                <div class="col-md-3">
+                  <label class="form-label">Relation with Head of family <span style="color:red">*</span></label>
+                  <select class="form-control" name="relationship_id" id="relationship_id" required>
+                    <option value="">--Select--</option>
+                      @foreach($relations as $key=>$value)
+                        <option value="{{$value->id}}">{{$value->relation_name}}</option>
+                      @endforeach
+                  </select>                        
                 </div>
+
 
               </div>
               <div class="row">
@@ -166,7 +168,7 @@
                   <label class="form-label">Remark</label>
                   <select class="form-control" name="remark" id='remark'>
                     <option value="">--Select--</option>
-                        <option value="1">mariied within parish</option>
+                        <option value="1">married within parish</option>
                   </select> 
                 </div>
                 <div class="col-md-3 mb-3">
@@ -180,14 +182,14 @@
                   <input class="form-control digits" type="date" value="" data-bs-original-title="" title="" name="date_of_marriage">
                 </div>
 
-                <div class="col-md-3 mb-3">
-                  <label class="form-label">Relation with Head of family <span style="color:red">*</span></label>
-                  <select class="form-control" name="relationship_id" id="relationship_id" required>
-                    <option value="">--Select--</option>
-                      @foreach($relations as $key=>$value)
-                        <option value="{{$value->id}}">{{$value->relation_name}}</option>
-                      @endforeach
-                  </select>                        
+                <div class="col-md-3">
+                  <label class="form-label">Blood Group</label>
+                      <select class="form-control" name="blood_group_id">
+                        <option value="">--Select--</option>
+                          @foreach($blood_groups as $key=>$value)
+                            <option value="{{$value->id}}">{{$value->blood_group_name}}</option>
+                          @endforeach
+                      </select> 
                 </div>
               </div>
               <div class="row">
@@ -201,8 +203,8 @@
                     <input class="form-control" type="text" title="" placeholder="Occupation" name="occupation">
                 </div>
                 <div class="col-md-4 mb-3">
-                    <label class="form-label">Comapany Name</label>
-                    <input class="form-control" type="text" title="" placeholder="Comapany Name" name="company_name">
+                    <label class="form-label">Company Name</label>
+                    <input class="form-control" type="text" title="" placeholder="Company Name" name="company_name">
                 </div>
               </div> 
               <div class="row">
@@ -228,11 +230,11 @@
                   </div>
                   <div class="col-md-4 mb-3">
                       <label class="form-label">Image</label>
-                      <input class="form-control" type="file"  name="image" id="ImageFile">
+                      <input class="form-control" type="file"  name="image" id="ImageFile" accept="image/*">
                   </div>
-                  <div class="col-md-4 mb-3" style="width:150px">
+                  <!-- <div class="col-md-4 mb-3" style="width:150px">
                      <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;">
-                  </div>
+                  </div> -->
               </div>  
               <div class="form-footer">
                 <button class="btn btn-primary">Save</button>
@@ -332,6 +334,20 @@
               $('#marr_memb_id').prop('required', true);
           }else{
             $('#marr_memb_id').prop('required', false);
+          }
+      });
+
+      var optionOne = $('#relationship_id option[value="1"]').detach();
+      $('input[name="head_of_family"]').change(function(){
+           if($(this).val() == '1') {
+            $('#relationship_id').prepend(optionOne); 
+            $('#relationship_id').val('1');
+            $('#relationship_id option:not(:selected)').prop('disabled', true);
+
+          } else {
+            $('#relationship_id option[value="1"]').detach();
+            $('#relationship_id option:not(:selected)').prop('disabled', false);
+            $('#relationship_id').val('');
           }
       });
   });

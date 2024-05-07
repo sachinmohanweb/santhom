@@ -39,6 +39,9 @@ class FamilyController extends Controller
         if(request()->ajax()) {
             return datatables()
             ->of(Family::select('*')->where('status',1))
+            ->addColumn('DT_RowIndex', function () {
+                return '';
+            })
             ->addColumn('prayer_group', function ($family) {
                 return $family->PrayerGroup->group_name;
             })
@@ -74,7 +77,6 @@ class FamilyController extends Controller
             $family = Family::create($request->all());
             DB::commit();
              
-            //return redirect()->route('admin.family.list')
             return redirect()->route('admin.family.member.create.family_id',['family_id' => $family['id']])
                             ->with('success',"Success! Your family has been successfully added. Now, let's create a member profile for the head of the family.");
         }catch (Exception $e) {
@@ -225,8 +227,14 @@ class FamilyController extends Controller
                 'dob'       => 'required',
                 'relationship_id'   => 'required',
             ]);
-
             $inputData = $request->all();
+
+            $head = FamilyMember::where('family_id',$request['family_id'])
+                                ->where('head_of_family',1)->first();
+            if($head && $request['relationship_id']==1){
+
+                return back()->withInput()->withErrors(['message' =>  "Already added head of the family"]);;
+            }
 
             if($request['image']){
 
@@ -270,7 +278,6 @@ class FamilyController extends Controller
 
             DB::commit();
              
-            //return redirect()->route('admin.family.members.list')
             return redirect()->route('admin.family.show_details',['id'=>$request['family_id']])
                             ->with('success','Family member added successfully.');
         }catch (Exception $e) {
@@ -330,7 +337,18 @@ class FamilyController extends Controller
                     $inputData['image'] = 'storage/members/'.$fileName;
                 }
             }
+
             if($request['relationship_id']==1){ 
+                $prev_head = FamilyMember::where('family_id',$request['family_id'])
+                                ->where('head_of_family',1)->first();
+                if($prev_head){
+                    if($familymember->id !== $prev_head->id){
+
+                        $prev_head->head_of_family=0;
+                        $prev_head->relationship_id=15;
+                        $prev_head->save();
+                    }    
+                }
                 $inputData['head_of_family'] = '1';
             }else{
                 $inputData['head_of_family'] = '0';
@@ -369,8 +387,8 @@ class FamilyController extends Controller
 
             DB::commit();
 
-            return redirect()->back()
-                    ->with('success','Family member details successfully updated.');
+            return redirect()->route('admin.family.member.show_details',['id'=>$familymember->id])
+                            ->with('success','Family member details successfully updated.');
         }catch (Exception $e) {
 
             DB::rollBack();
@@ -496,6 +514,9 @@ class FamilyController extends Controller
         if(request()->ajax()) {
             return datatables()
             ->of(Family::select('*')->where('status',2))
+            ->addColumn('DT_RowIndex', function () {
+                return '';
+            })
             ->addColumn('prayer_group', function ($family) {
                 return $family->PrayerGroup->group_name;
             })
@@ -524,7 +545,7 @@ class FamilyController extends Controller
             $family->save();;
             DB::commit();
 
-            return redirect()->back()
+            return redirect()->route('admin.family.list')
                     ->with('success','Family details successfully Approved.');
         }catch (Exception $e) {
 
