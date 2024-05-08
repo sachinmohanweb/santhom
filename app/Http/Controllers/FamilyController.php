@@ -107,9 +107,14 @@ class FamilyController extends Controller
                 'prayer_group_id' => 'required',
                 'address1' => 'required',
                 'pincode' => 'required',
-            ], [
-                'family_code.unique' => 'The :attribute already exists.',
             ]);
+
+            $family_with_same_code = Family::where('id', '!=', $request->id)
+                                    ->where('family_code',$request->family_code)->first();
+            if($family_with_same_code){
+                return back()->with('error','You can not use existing family code');
+
+            }
             $family->update($request->all());
             DB::commit();
 

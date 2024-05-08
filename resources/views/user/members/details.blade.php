@@ -165,7 +165,7 @@
                 <div class="col-sm-6 col-md-3">
                   <div class="mb-3">
                     <label class="form-label">Date of Marriage</label>
-                    <p class="p_l_5"><b>{{ $familymember->dob ? $familymember->dob : 'N/A'}} </b> </p>
+                    <p class="p_l_5"><b>{{ $familymember->date_of_marriage ? $familymember->date_of_marriage : 'N/A'}} </b> </p>
                   </div>
                 </div>
                 <div class="col-sm-6 col-md-3">
