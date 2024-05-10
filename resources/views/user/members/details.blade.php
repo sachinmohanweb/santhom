@@ -208,23 +208,28 @@
                 </div>
                 <div class="col-sm-6 col-md-3">
                   <div class="mb-3">
-                    <label class="form-label">Married To</label>
-                    <p class="p_l_5"><b>{{ $familymember->date_of_death ? $familymember->date_of_death : 'N/A'}} </b> </p>
+                    @if($familymember->date_of_death)
+                    <label class="form-label">Date Of death</label>
+                    <p class="p_l_5"><b>{{ $familymember->date_of_death }}</b> </p>
+                    @endif
                   </div>
                 </div>
                 <div class="col-sm-12 col-md-12">
                   <div class="mb-3">
-                    @if($familymember->remark == 1)
-                    <label class="form-label">Married To</label>
-                    <p class="p_l_5"><b>
-                        <a href="{{ route('admin.family.member.show_details', 
-                        ['id' => $familymember->MarriedTo()->id]) }}">{{ $familymember->MarriedTo()->name}}
-                        </a>|
-                        <a href="{{ route('admin.family.show_details', 
-                        ['id' => $familymember->MarriedTo()->family_id]) }}">{{ $familymember->MarriedTo()->family_name}}
-                        </a>
-                        </b> 
-                      </p>
+                    @if($familymember->MarriedTo())
+                        <label class="form-label">Married To</label>
+                        <p class="p_l_5"><b>
+                            <a href="{{ route('admin.family.member.show_details', 
+                            ['id' => $familymember->MarriedTo()->id]) }}">{{ $familymember->MarriedTo()->name}}
+                            </a>
+                        @if($familymember->remark == 1)
+                            |
+                            <a href="{{ route('admin.family.show_details', 
+                            ['id' => $familymember->MarriedTo()->family_id]) }}">{{ $familymember->MarriedTo()->family_name}}
+                            </a>
+                        @endif
+                            </b> 
+                          </p>
                     @endif
                   </div>
                 </div>

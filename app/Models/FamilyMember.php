@@ -149,11 +149,8 @@ class FamilyMember extends Authenticatable
     public function MarriedTo()
     {
         $member = FamilyMember::where('id',$this->id)->first();
-        if($member['remark']==1){
-            $married_to = FamilyMember::where('id',$member['marr_memb_id'])->first();
-        }else{
-            $married_to ='';    
-        }
+        $married_to = FamilyMember::where('id',$member['marr_memb_id'])->first();
+        
         return $married_to;
     }
 

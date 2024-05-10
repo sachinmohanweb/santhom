@@ -241,6 +241,12 @@ class FamilyController extends Controller
 
                 return back()->withInput()->withErrors(['message' =>  "Already added head of the family"]);;
             }
+            if($request['marr_memb_id']){
+                $married_person = FamilyMember::where('marr_memb_id',$request['marr_memb_id'])->first();
+                if($married_person){
+                    return back()->withInput()->withErrors(['message' =>  "Invalid option for married-to field."]);;
+                }
+            }
 
             if($request['image']){
 
@@ -265,6 +271,14 @@ class FamilyController extends Controller
             }
 
             $member = FamilyMember::create($inputData);
+
+            if($request['marr_memb_id']){
+
+                $updat_married_to = FamilyMember::where('id',$request['marr_memb_id'])->first();
+                $details['remark'] = 1;
+                $details['marr_memb_id'] = $member->id;
+                $updat_married_to->update($details);
+            }
 
             if($request['date_of_death']){
                 $inputData1['member_id'] = $member->id;
@@ -329,7 +343,6 @@ class FamilyController extends Controller
             ]);
 
             $inputData = $request->all();
-
             if($request['image']){
 
                 $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
@@ -365,10 +378,27 @@ class FamilyController extends Controller
             if($member_same_mail){
                 $inputData['email'] = null;
             }
-            if($request['remark']==null){
-                $inputData['marr_memb_id'] = null;
-            }
 
+            if($request['marr_memb_id']){
+                $married_person = FamilyMember::where('marr_memb_id',$request['marr_memb_id'])
+                            ->where('id','!=',$request->id)->first();
+                if($married_person){
+                    return back()->withInput()->withErrors(['message' =>  "Invalid option for married-to field."]);;
+                }else{
+                    $updat_married_to = FamilyMember::where('id',$request['marr_memb_id'])->first();
+
+                    if($familymember['marr_memb_id'] !== $request['marr_memb_id']){
+                        $old_married_to = FamilyMember::where('id',$familymember['marr_memb_id'])->first();
+                        $details1['remark'] = null;
+                        $details1['marr_memb_id'] = null;
+                        $old_married_to->update($details1);
+                    }
+                    $details['remark'] = 1;
+                    $details['marr_memb_id'] = $familymember['id'];
+                    $updat_married_to->update($details);
+                }
+            }
+            
             $familymember->update($inputData);
 
             if($request['date_of_death']){

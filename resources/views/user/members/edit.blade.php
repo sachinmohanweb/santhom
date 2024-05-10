@@ -190,7 +190,7 @@
                             @endif
                           @endforeach
                     </select>
-                     <div class="invalid-feedback error_div">Please select a valid type.</div>
+                     <div class="invalid-feedback error_div">Please select a member.</div>
                 </div>
                 <div class="col-md-3 mb-3">
                    <label class="form-label">If married , date of marriage</label>
@@ -337,6 +337,10 @@
           }else{
             $('#marr_memb_id').prop('required', false);
           }
+      });
+
+      $('#marr_memb_id').change(function(){
+          $('#remark option[value="1"]').prop('selected', true);
       });
     </script>
 @endsection

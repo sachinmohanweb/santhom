@@ -175,7 +175,7 @@
                     <label class="form-label" for="validationCustom04">Married to</label>
                     <select class="js-data-example-ajax form-select" id="marr_memb_id" name="marr_memb_id">
                     </select>
-                     <div class="invalid-feedback error_div">Please select a valid type.</div>
+                     <div class="invalid-feedback error_div">Please select member.</div>
                 </div>
                 <div class="col-md-3 mb-3">
                    <label class="form-label">If married , date of marriage</label>
@@ -327,6 +327,10 @@
                 cache: true
             }
         });
+      
+      $('#marr_memb_id').change(function(){
+          $('#remark option[value="1"]').prop('selected', true);
+      });
 
       $('#remark').change(function() {
 
