@@ -175,7 +175,8 @@
                     <label class="form-label" for="validationCustom04">Married to</label>
                     <select class="js-data-example-ajax form-select" id="marr_memb_id" name="marr_memb_id">
                     </select>
-                     <div class="invalid-feedback error_div">Please select member.</div>
+                     <div class="invalid-feedback error_div" >Please select member.</div>
+                     <div id="married_to_member" style="color:red"></div>
                 </div>
                 <div class="col-md-3 mb-3">
                    <label class="form-label">If married , date of marriage</label>
@@ -327,9 +328,28 @@
                 cache: true
             }
         });
-      
+
       $('#marr_memb_id').change(function(){
           $('#remark option[value="1"]').prop('selected', true);
+
+          $('#married_to_member').text('');
+          $.ajax({
+            url: '<?= url('check_married_to_person_valid') ?>',
+            type: 'post',
+            data: {
+                _token: "<?= csrf_token() ?>",
+                marr_memb_id:$('#marr_memb_id').val(),
+            },
+            dataType: 'JSON',
+            success: function (data) {
+                if(data.status == 'Invalid') {
+                    alert('This member is already related to another member. If you want to continue with this, please save the details.')
+                    $('#married_to_member').text('Releted to another member');
+                    
+                }
+            }
+        });   
+
       });
 
       $('#remark').change(function() {
@@ -354,6 +374,20 @@
             $('#relationship_id').val('');
           }
       });
+
+      $('#relationship_id').change(function() {
+            var selectedOption = $(this).val();
+            var disableInputs = [4, 5, 8, 11];
+            if ($.inArray(parseInt(selectedOption), disableInputs) !== -1) {
+                $('#remark').prop('disabled', true);
+                $('#remark').val('');
+                $('#marr_memb_id').empty();
+                $('#marr_memb_id').prop('disabled', true);
+            } else {
+                $('#remark').prop('disabled', false);
+                $('#marr_memb_id').prop('disabled', false);
+            }
+        });
   });
 
 </script>

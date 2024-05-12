@@ -242,9 +242,11 @@ class FamilyController extends Controller
                 return back()->withInput()->withErrors(['message' =>  "Already added head of the family"]);;
             }
             if($request['marr_memb_id']){
-                $married_person = FamilyMember::where('marr_memb_id',$request['marr_memb_id'])->first();
-                if($married_person){
-                    return back()->withInput()->withErrors(['message' =>  "Invalid option for married-to field."]);;
+                $old_married_person = FamilyMember::where('marr_memb_id',$request['marr_memb_id'])->first();
+                if($old_married_person){
+                    $details['remark'] = null;
+                    $details['marr_memb_id'] = null;
+                    $old_married_person->update($details);
                 }
             }
 
@@ -380,25 +382,40 @@ class FamilyController extends Controller
             }
 
             if($request['marr_memb_id']){
-                $married_person = FamilyMember::where('marr_memb_id',$request['marr_memb_id'])
+                $old_married_person_diff = FamilyMember::where('marr_memb_id',$request['marr_memb_id'])
                             ->where('id','!=',$request->id)->first();
-                if($married_person){
-                    return back()->withInput()->withErrors(['message' =>  "Invalid option for married-to field."]);;
-                }else{
-                    $updat_married_to = FamilyMember::where('id',$request['marr_memb_id'])->first();
+                if($old_married_person_diff){
+                    $details1['remark'] = null;
+                    $details1['marr_memb_id'] = null;
+                    $old_married_person_diff->update($details1);
 
-                    if($familymember['marr_memb_id'] !== $request['marr_memb_id']){
-                        $old_married_to = FamilyMember::where('id',$familymember['marr_memb_id'])->first();
-                        $details1['remark'] = null;
-                        $details1['marr_memb_id'] = null;
-                        $old_married_to->update($details1);
+                    if($familymember['marr_memb_id'] != null){
+                        $old_spouse = FamilyMember::where('id',$familymember['marr_memb_id'])->first();
+
+                        $details['remark'] = null;
+                        $details['marr_memb_id'] = null;
+                        $old_spouse->update($details);
                     }
-                    $details['remark'] = 1;
-                    $details['marr_memb_id'] = $familymember['id'];
-                    $updat_married_to->update($details);
+
                 }
+                $updat_married_to = FamilyMember::where('id',$request['marr_memb_id'])->first();
+
+                $details['remark'] = 1;
+                $details['marr_memb_id'] = $familymember['id'];
+                $updat_married_to->update($details);
+
             }
-            
+            if(($request['remark'] ==null) &&($familymember->remark==1)){
+
+                $married_person = FamilyMember::where('id',$familymember['marr_memb_id'])->first();
+
+                $married_person_data['remark'] = null;
+                $married_person_data['marr_memb_id'] = null;
+                $married_person->update($married_person_data);
+
+                $inputData['remark'] = null;
+                $inputData['marr_memb_id'] = null;
+            }
             $familymember->update($inputData);
 
             if($request['date_of_death']){
@@ -471,6 +488,29 @@ class FamilyController extends Controller
         return response()->json($return);
     }
 
+    public function CheckMarriedToPersonValid(Request $request) : JsonResponse
+    {
+        try{
+            $married_person = FamilyMember::where('marr_memb_id',$request['marr_memb_id']);
+            if($request['user_id']){
+                $married_person = $married_person->where('id' != $request['user_id']);
+            }
+            $married_person = $married_person->count();
+
+            if($married_person == 0) {
+                $return['status'] = "Valid";
+            }else{
+                $return['status'] = "Invalid";
+            }
+
+         }catch (Exception $e) {
+
+            $return['status'] = $e->getMessage();
+        }
+
+        return response()->json($return);
+    }
+
     public function admin_family_member_import() : View
     {
         return view('user.import');
@@ -509,6 +549,8 @@ class FamilyController extends Controller
 
            
         });
+        $relationshipIds = [4,5,8,11];
+        $familyMembersQuery->whereNotIn('relationship_id',$relationshipIds);
 
         if($page) {
             
@@ -516,7 +558,6 @@ class FamilyController extends Controller
         }
         
         $familyMembers = $familyMembersQuery->orderBy('name')->get()
-
         
         ->map(function ($member) {
 

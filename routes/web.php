@@ -60,9 +60,11 @@ Route::middleware('auth:admin')->group(function(){
     Route::get('/editfamilymember/{id}', [FamilyController::class, 'admin_family_member_edit'])
             ->name('admin.family.member.edit');
     Route::post('/updatefamilymember', [FamilyController::class, 'admin_family_member_update'])
-            ->name('admin.family.member.update');   
+            ->name('admin.family.member.update');
     Route::post('/deletefamilymember', [FamilyController::class, 'admin_family_member_delete'])
             ->name('admin.family.member.delete');
+    Route::post('/check_married_to_person_valid', [FamilyController::class, 'CheckMarriedToPersonValid'])
+            ->name('admin.check.married.valid');   
 
     Route::get('/importfamilymember', [FamilyController::class, 'admin_family_member_import'])
             ->name('admin.family.members.import');

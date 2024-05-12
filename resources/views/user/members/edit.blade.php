@@ -123,7 +123,7 @@
 
                  <div class="col-md-4 ">
                   <label class="form-label">Relation with Head of family <span style="color:red">*</span></label>
-                  <select class="form-control" name="relationship_id" required>
+                  <select class="form-control" name="relationship_id" id="relationship_id" required>
                     <option value="">--Select--</option>
                       @foreach($relations as $key=>$value)
                           @if($value->id==$familymember->relationship_id)
@@ -191,6 +191,8 @@
                           @endforeach
                     </select>
                      <div class="invalid-feedback error_div">Please select a member.</div>
+                      <div id="married_to_member" style="color:red"></div>
+
                 </div>
                 <div class="col-md-3 mb-3">
                    <label class="form-label">If married , date of marriage</label>
@@ -341,6 +343,40 @@
 
       $('#marr_memb_id').change(function(){
           $('#remark option[value="1"]').prop('selected', true);
+          
+          $('#married_to_member').text('');
+
+          $.ajax({
+            url: '<?= url('check_married_to_person_valid') ?>',
+            type: 'post',
+            data: {
+                _token: "<?= csrf_token() ?>",
+                marr_memb_id:$('#marr_memb_id').val(),
+            },
+            dataType: 'JSON',
+            success: function (data) {
+                if(data.status == 'Invalid') {
+                    alert('This member is already related to another member. If you want to continue with this, please save the details.')
+                    $('#married_to_member').text('Releted to another member');
+                    
+                }
+            }
+          });   
       });
+
+      $('#relationship_id').change(function() {
+        alert("kkkk")
+            var selectedOption = $(this).val();
+            var disableInputs = [4, 5, 8, 11];
+            if ($.inArray(parseInt(selectedOption), disableInputs) !== -1) {
+                $('#remark').prop('disabled', true);
+                $('#remark').val('');
+                $('#marr_memb_id').empty();
+                $('#marr_memb_id').prop('disabled', true);
+            } else {
+                $('#remark').prop('disabled', false);
+                $('#marr_memb_id').prop('disabled', false);
+            }
+        });
     </script>
 @endsection
