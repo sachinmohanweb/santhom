@@ -365,7 +365,6 @@
       });
 
       $('#relationship_id').change(function() {
-        alert("kkkk")
             var selectedOption = $(this).val();
             var disableInputs = [4, 5, 8, 11];
             if ($.inArray(parseInt(selectedOption), disableInputs) !== -1) {

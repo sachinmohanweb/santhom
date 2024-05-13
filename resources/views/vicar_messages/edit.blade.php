@@ -68,9 +68,13 @@
 
                         <label class="form-label">Image</label>
                         <input class="form-control" type="file" name="image" id="ImageFile">
+                        <span>
+                          <?php $file_name = basename($message->image); ?>
+                          {{$file_name}}
+                        </span>
                       </div>
-                      <div class="col-md-2 mb-3" id="OldImage">
-                         <img class="img-fluid for-light" src="{{ asset($message->image) }}" alt="" style="max-width: 40% !important;">
+                      <div class="col-md-2 mb-3 mt-3" id="OldImage">
+                         <img class="img-fluid for-light" src="{{ asset($message->image) }}" alt="" style="max-width: 50% !important;">
                       </div>
                       <div class="col-md-2 mb-3" style="width:150px">
                         <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;">

@@ -154,24 +154,28 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <label class="form-label" for="validationCustom01">Name</label>
+                                        <label class="form-label" for="validationCustom01">Name
+                                        <span style="color:red">*</span></label>
                                         <input class="form-control" id="validationCustom01" type="text" 
                                         value="{{$VicarDetail['name'] }}" required="" name='name'>
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-3">
-                                        <label class="form-label" for="validationCustom02">Family Name</label>
+                                        <label class="form-label" for="validationCustom02">Family Name
+                                        <span style="color:red">*</span></label>
                                         <input class="form-control" id="validationCustom02" type="text" value="{{$VicarDetail['family_name'] }}"  required="" name='family_name'>
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
 
                                     <div class="col-md-3">
-                                        <label class="form-label" for="validationCustom02">Date of birth</label>
+                                        <label class="form-label" for="validationCustom02">Date of birth
+                                        <span style="color:red">*</span></label>
                                         <input class="form-control" id="validationCustom02" type="date" value="{{$VicarDetail['dob'] }}"  required="" name='dob'>
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-4">
-                                        <label class="form-label" for="validationCustom02">Designation</label>
+                                        <label class="form-label" for="validationCustom02">Designation
+                                        <span style="color:red">*</span></label>
                                         <select class="form-control" name="designation" required>
                                             <option value="">--Select--</option>
                                             <option value="1" {{ $VicarDetail->designation === 'Vicar' ? 'selected' :'' }}>Vicar</option>
@@ -180,7 +184,8 @@
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-4">
-                                        <label class="form-label" for="validationCustom02">Date of Joining</label>
+                                        <label class="form-label" for="validationCustom02">Date of Joining
+                                        <span style="color:red">*</span></label>
                                         <input class="form-control" id="validationCustom02" type="date" value="{{$VicarDetail['date_of_joining'] }}"  required="" name='date_of_joining'>
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
@@ -192,7 +197,8 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label class="form-label" for="validationCustom03">Email</label>
+                                        <label class="form-label" for="validationCustom03">Email
+                                        <span style="color:red">*</span></label>
                                         <input class="form-control" id="validationCustom03" type="email" 
                                         required="" name="email" value="{{$VicarDetail['email'] }}">
                                         <div class="invalid-feedback">Please provide a valid email.</div>

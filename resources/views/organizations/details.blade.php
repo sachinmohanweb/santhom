@@ -87,7 +87,7 @@
              <hr>
              <div class="row">
                <div class="col-md-9">
-                 <h6 class="product-title">Organizations Officers</h6>
+                 <h6 class="product-title">Organization's Officers</h6>
                </div>
                <div class="col-md-3">
                  <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500"data-bs-original-title="" onClick="AddOfficerFunc()">Add New officer</a>

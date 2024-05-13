@@ -88,7 +88,6 @@ class VicarDetailsController extends Controller
             ]);
             $inputData = $request->all();
             $inputData['status'] = 1;
-
             if($request['image']){
 
                 $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
