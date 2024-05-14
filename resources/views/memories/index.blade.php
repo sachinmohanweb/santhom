@@ -104,8 +104,8 @@
                  columnDefs: [
                     { width: '5%', targets: 0 ,orderable: false, searchable: false},
                     { width: '10%', targets: 1 },
-                    { width: '15%', targets: 2 },
-                    { width: '15%', targets: 3 },
+                    { width: '15%', targets: 2,searchable: false },
+                    { width: '15%', targets: 3 ,searchable: false,orderable: false,},
                     { width: '15%', targets: 4 ,searchable: false},
                 ],
                 order: [[2, 'desc']]

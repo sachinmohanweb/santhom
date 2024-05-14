@@ -98,7 +98,7 @@
                            <div class="col-md-8">
                               <p class="p_l_5">Media LInk : 
                                  <b>
-                                   <a href="{{$news['link']}}" target="_blank">{{$news['heading']}}</a>
+                                   <a href="{{$news['link']}}" target="_blank">click here</a>
                                  </b>
                               </p>
                            </div><br>
@@ -206,6 +206,7 @@
             </div>
          </div>
       </div>
+   </div>
    </div>
 @endsection
 
