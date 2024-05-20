@@ -762,23 +762,23 @@ class HomeController extends Controller
 
             /*---------Daily Schedules Details----------*/
 
-            $memoryData = MemoryDay::select('id',DB::raw('"Orma" as heading'), 'title as sub_heading', 
-                'date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'))
+            $memoryData = MemoryDay::select('id',DB::raw('"ഓർമ" as heading'), 'title as sub_heading', 
+                'date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'))
+                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
+                ->where('status', 1)->take(2); 
+
+            $bibleCitationData = BiblicalCitation::select('id',DB::raw('"വേദഭാഗങ്ങൾ" as heading'), 'reference as sub_heading', 'date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1)->take(1); 
 
-            $bibleCitationData = BiblicalCitation::select('id',DB::raw('"Vedha Bagangal" as heading'), 'reference as sub_heading', 'date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'))
-                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
-                ->where('status', 1)->take(1); 
-
-            $church_activities = DailySchedules::select('id',DB::raw('"Church Activities" as heading'),'details as sub_heading','date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"False" as color'))
+            $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading','date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"False" as color'), DB::raw('"null" as link'))
                 ->whereDate('date',$today_string)
                 ->where('status', 1)->take(1); 
             if ($church_activities->count() == 0) {
 
                 $todayDayValue = date("N");
 
-                $church_activities = DailySchedules::select('id',DB::raw('"Church Activities" as heading'),'details as sub_heading','date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"False" as color'))
+                $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading','date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"False" as color'), DB::raw('"null" as link'))
                         ->where('status', 1)->take(1); 
 
                 if ($todayDayValue == 7) { 
@@ -818,7 +818,7 @@ class HomeController extends Controller
             /*---------Events Details----------*/
 
             $events = Event::select('id','event_name as heading','venue as sub_heading','date','image',
-                        'details',DB::raw('"Events" as type'),DB::raw('"False" as color'))
+                        'details',DB::raw('"Events" as type'),DB::raw('"False" as color'),'link')
                         ->whereMonth('date', '=', $month)
                         ->whereDay('date', '>=', $day)
                         ->where('status',1);
@@ -864,7 +864,7 @@ class HomeController extends Controller
 
             $birthdays = FamilyMember::select('id','name as heading')
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
-                        ->addSelect('dob as date','image',DB::raw('"Birthdays" as type'),DB::raw('"False" as color'),'family_id')
+                        ->addSelect('dob as date','image',DB::raw('"Birthdays" as type'),DB::raw('"False" as color'),'family_id', DB::raw('"null" as link'))
                         ->whereMonth('dob', '=', $month)
                         ->whereDay('dob', '>=', $day)
                         ->where('status',1);
@@ -917,9 +917,10 @@ class HomeController extends Controller
                                 ->whereColumn('family_members.id', 'obituaries.member_id')
                                 ->limit(1);
                         }, 'sub_heading')
-                        ->addSelect('date_of_death as date','photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'),'member_id')
-                        ->whereMonth('date_of_death', '=', $month)
-                        ->whereDay('date_of_death', '>=', $day)
+                        ->addSelect('date_of_death as date','photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'),'member_id', DB::raw('"null" as link'),'display_till_date')
+                        //->whereMonth('date_of_death', '=', $month)
+                        //->whereDay('date_of_death', '>=', $day)
+                        ->whereRaw("DATE_FORMAT(date_of_death, '%m-%d-%Y') = DATE_FORMAT('$today_string', '%m-%d-%Y')")
                         ->where('status',1);
 
             if($request['search_word']){
