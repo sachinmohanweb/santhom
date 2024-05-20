@@ -12,8 +12,9 @@ use App\Models\Family;
 use App\Models\BloodGroup;
 use App\Models\PrayerGroup;
 use App\Models\Relationship;
-use App\Models\MaritalStatus;
+use App\Models\Organization;
 use App\Models\FamilyMember;
+use App\Models\MaritalStatus;
 
 use App\Http\Repositories\UserRepository;
 
@@ -194,6 +195,85 @@ class SettingsController extends Controller
             });
 
             $return['prayer_group']  =  $prayer_group;
+            $return['members']  =  $members;
+
+            return $this->outputer->code(200)->success($return)->json();    
+
+            }catch (\Exception $e) {
+
+                $return['result']=$e->getMessage();
+                return $this->outputer->code(422)->error($return)->json();
+            }
+    }
+
+    public function Organizations(Request $request){
+
+        try {
+
+            $pg_no='';
+            $per_pg='';
+
+            $organizations=Organization::select('id','organization_name','coordinator','coordinator_phone_number')
+                            ->where('status',1);
+
+            if($request['search_word']){
+                $organizations->where('organization_name','like','%' . $request['search_word'].'%')
+                            ->orwhere('coordinator','like',$request['search_word'].'%');
+
+            }
+            if($request['page_no']){
+                $pg_no=$page=$request['page_no'];
+            }
+            if($request['per_page']){
+               $per_pg=$page=$request['per_page'];
+            }
+            $organizations=$organizations->orderBy('id', 'desc')
+                                ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+            if(empty($organizations)) {
+                $return['result']=  "Empty prayer group list ";
+                return $this->outputer->code(422)->error($return)->json();
+            }
+
+            $metadata = array(
+                "total" => $organizations->total(),
+                "per_page" => $organizations->perPage(),
+                "current_page" => $organizations->currentPage(),
+                "last_page" => $organizations->lastPage(),
+                "next_page_url" => $organizations->nextPageUrl(),
+                "prev_page_url" => $organizations->previousPageUrl(),
+                "from" => $organizations->firstItem(),
+                "to" => $organizations->lastItem()
+            );
+
+            return $this->outputer->code(200)->metadata($metadata)
+                        ->success($organizations->getCollection())->json();
+
+        }catch (\Exception $e) {
+
+            $return['result']=$e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
+    public function OrganizationDetails(Request $request){
+
+        try {
+
+            $organization = Organization::select('id','organization_name','coordinator','coordinator_phone_number')
+                            ->where('id',$request['id'])->first();
+
+            $members = FamilyMember::select('family_members.id','family_members.name','family_members.image','family_members.family_id','organization_officers.position','organization_officers.officer_phone_number')
+                        ->join('organization_officers', 'family_members.id', '=', 'organization_officers.member_id')
+                        ->where('organization_officers.organization_id',$request['id'])->get();
+                        
+            $members->transform(function ($item, $key) {
+                if ($item->image !== null) {
+                    $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
+            $return['organization']  =  $organization;
             $return['members']  =  $members;
 
             return $this->outputer->code(200)->success($return)->json();    

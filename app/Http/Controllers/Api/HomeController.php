@@ -328,56 +328,6 @@ class HomeController extends Controller
     //     }
     // }
 
-    // public function Organizations(Request $request){
-
-    //     try {
-
-    //         $pg_no='';
-    //         $per_pg='';
-
-    //         $organizations=Organization::select('id','organization_name','coordinator','coordinator_phone_number')
-    //                         ->where('status',1);
-
-    //         if($request['search_word']){
-    //             $organizations->where('organization_name','like',$request['search_word'].'%')
-    //                         ->orwhere('coordinator','like',$request['search_word'].'%');
-
-    //         }
-    //         if($request['page_no']){
-    //             $pg_no=$page=$request['page_no'];
-    //         }
-    //         if($request['per_page']){
-    //            $per_pg=$page=$request['per_page'];
-    //         }
-    //         $organizations=$organizations->orderBy('id', 'desc')
-    //                             ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
-
-    //         if(empty($organizations)) {
-    //             $return['result']=  "Empty prayer group list ";
-    //             return $this->outputer->code(422)->error($return)->json();
-    //         }
-
-    //         $metadata = array(
-    //             "total" => $organizations->total(),
-    //             "per_page" => $organizations->perPage(),
-    //             "current_page" => $organizations->currentPage(),
-    //             "last_page" => $organizations->lastPage(),
-    //             "next_page_url" => $organizations->nextPageUrl(),
-    //             "prev_page_url" => $organizations->previousPageUrl(),
-    //             "from" => $organizations->firstItem(),
-    //             "to" => $organizations->lastItem()
-    //         );
-
-    //         return $this->outputer->code(200)->metadata($metadata)
-    //                     ->success($organizations->getCollection())->json();
-
-    //     }catch (\Exception $e) {
-
-    //         $return['result']=$e->getMessage();
-    //         return $this->outputer->code(422)->error($return)->json();
-    //     }
-    // }
-
     public function Notifications(Request $request){
 
         try {

@@ -31,7 +31,8 @@ Route::middleware('auth:sanctum')->group(function(){
     // Route::get('members',[HomeController::class, 'Members']);
     Route::get('prayer_groups',[SettingsController::class, 'PrayerGroups']);
     Route::get('prayer_group_details',[SettingsController::class, 'PrayerGroupDetails']);
-    // Route::get('organizations',[HomeController::class, 'Organizations']);
+    Route::get('organizations',[SettingsController::class, 'Organizations']);
+    Route::get('organization_details',[SettingsController::class, 'OrganizationDetails']);
     Route::get('directory',[HomeController::class, 'Directory']);
 
     // Route::get('bible_verses',[HomeController::class, 'BibleVerses']);
