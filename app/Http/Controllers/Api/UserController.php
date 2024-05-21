@@ -8,6 +8,7 @@ use Auth;
 use Carbon\Carbon;
 
 use App\Models\Family;
+use App\Models\VicarDetail;
 use App\Models\FamilyMember;
 use App\Models\EmailVerification;
 
@@ -334,6 +335,84 @@ class UserController extends Controller
             $return['result']=$e->getMessage();
             return $this->outputer->code(422)->error($return)->json();
         }
+    }
+
+    public function VicarsList(Request $request){
+
+        try {
+
+            $pg_no='';
+            $per_pg='';
+
+            $vicars = VicarDetail::select('*')->where('status',1);
+
+            if($request['search_word']){
+                $vicars->where('name','like',$request['search_word'].'%')
+                            ->orwhere('title','like',$request['search_word'].'%')
+                            ->orwhere('family_name','like',$request['search_word'].'%');
+            }
+            if($request['page_no']){
+                $pg_no=$page=$request['page_no'];
+            }
+            if($request['per_page']){
+               $per_pg=$page=$request['per_page'];
+            }
+            $vicars=$vicars->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+            if(empty($vicars)) {
+                $return['result']=  "Empty Vicars list ";
+                return $this->outputer->code(422)->error($return)->json();
+            }
+
+            $metadata = array(
+                "total" => $vicars->total(),
+                "per_page" => $vicars->perPage(),
+                "current_page" => $vicars->currentPage(),
+                "last_page" => $vicars->lastPage(),
+                "next_page_url" => $vicars->nextPageUrl(),
+                "prev_page_url" => $vicars->previousPageUrl(),
+                "from" => $vicars->firstItem(),
+                "to" => $vicars->lastItem()
+            );
+
+            return $this->outputer->code(200)->metadata($metadata)
+                        ->success($vicars->getCollection())->json();
+
+        }catch (\Exception $e) {
+
+            $return['result']=$e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
+
+    public function VicarDetails(Request $request){
+
+        try {
+
+            $vicar = VicarDetail::select('*')->where('id',$request['id'])->first();
+            $personal_details = FamilyMember::select('family_members.id as member_id','family_members.gender','family_members.dob','family_members.email','family_members.image','families.family_code','families.family_name','families.address1','families.id as family_id')
+                ->join('families', 'family_members.family_id', '=', 'families.id')
+                ->where('family_members.id',$vicar['member_id'])->get();
+                        
+            $personal_details->transform(function ($item, $key) {
+                if ($item->image !== null) {
+                    $item->image = asset('/') . $item->image;
+                }else {
+                    $item->image = null; 
+                }
+                return $item;
+            });
+
+            $return['vicar']  =  $vicar;
+            $return['personal_details']  =  $personal_details;
+
+            return $this->outputer->code(200)->success($return)->json();    
+
+            }catch (\Exception $e) {
+
+                $return['result']=$e->getMessage();
+                return $this->outputer->code(422)->error($return)->json();
+            }
     }
 
 }
