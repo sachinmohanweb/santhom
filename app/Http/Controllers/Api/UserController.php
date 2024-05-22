@@ -137,11 +137,11 @@ class UserController extends Controller
         return $this->outputer->code(200)->success($return)->json();
     }
 
-    public function updateFamily(Request $request,$family_id){
+    public function updateFamily(Request $request){
         DB::beginTransaction();
 
         try {
-
+            $family_id = $request['family_id'];
             $family = Family::find($family_id);
             
             $a =  $request->validate([
@@ -151,8 +151,13 @@ class UserController extends Controller
                 'pincode' => 'required',
                 ]);
 
-            $inputData = $request->all();
-            $inputData['status'] = 2;
+            $inputData['family_name'] = $request['family_name'];
+            $inputData['prayer_group_id'] = $request['prayer_group_id'];
+            $inputData['address1'] = $request['address1'];
+            $inputData['address2'] = $request['address2'];
+            $inputData['post_office'] = $request['post_office'];
+            $inputData['pincode'] = $request['pincode'];
+            $inputData['map_location'] = $request['map_location'];
 
 
             $family->update($inputData);
@@ -202,10 +207,41 @@ class UserController extends Controller
                 'gender'    => 'required',
                 'dob'       => 'required',
                 'relationship_id'   => 'required',
-
                 ]);
 
-            $inputData = $request->all();
+
+            $inputData['name'] = $request['name'];
+            $inputData['family_id'] = $request['family_id'];
+            $inputData['gender'] = $request['gender'];
+            $inputData['dob'] = $request['dob'];
+
+            if($request['relationship_id']==1){
+                $family_head = FamilyMember::where('family_id',$request['family_id'])
+                                ->where('relationship_id',1)->first();
+                if($family_head){
+                    $return['result']="You can not add another memeber as family head";
+                    return $this->outputer->code(422)->error($return)->json();
+                }
+                $inputData['head_of_family'] = 1;
+            }
+            $inputData['relationship_id'] = $request['relationship_id'];
+
+            $family_same_email = FamilyMember::where('family_id',$request['family_id'])
+                            ->where('email',$request['email'])->first();
+            if(!$family_same_email){
+                $inputData['email'] = $request['email'];
+            }
+            $inputData['title'] = $request['title'];
+            $inputData['nickname'] = $request['nickname'];
+            $inputData['date_of_baptism'] = $request['date_of_baptism'];
+            $inputData['blood_group_id'] = $request['blood_group_id'];
+            $inputData['marital_status_id'] = $request['marital_status_id'];
+            $inputData['date_of_marriage'] = $request['date_of_marriage'];
+            $inputData['qualification'] = $request['qualification'];
+            $inputData['occupation'] = $request['occupation'];
+            $inputData['company_name'] = $request['company_name'];
+            $inputData['mobile'] = $request['mobile'];
+            $inputData['date_of_death'] = $request['date_of_death'];
             $inputData['status'] = 2;
 
             if($request['image']){
@@ -231,12 +267,12 @@ class UserController extends Controller
         }
     }
 
-    public function updateMember(Request $request,$member_id){
+    public function updateMember(Request $request){
         DB::beginTransaction();
 
         try {
 
-            $member = FamilyMember::find($member_id);
+            $member = FamilyMember::find($request['member_id']);
 
             $a =  $request->validate([
                 'name'      => 'required',
@@ -247,15 +283,41 @@ class UserController extends Controller
 
                 ]);
 
-            $inputData = $request->all();
+            $inputData['name'] = $request['name'];
+            $inputData['family_id'] = $request['family_id'];
+            $inputData['gender'] = $request['gender'];
+            $inputData['dob'] = $request['dob'];
+
+            if($request['relationship_id']==1){
+                $family_head = FamilyMember::where('family_id',$request['family_id'])
+                                ->where('relationship_id',1)
+                                ->where('id','!=',$request['member_id'])->first();
+                if($family_head){
+                    $return['result']="You can not add another memeber as family head";
+                    return $this->outputer->code(422)->error($return)->json();
+                }
+                $inputData['head_of_family'] = 1;
+            }
+            $inputData['relationship_id'] = $request['relationship_id'];
+
+            $family_same_email = FamilyMember::where('family_id',$request['family_id'])
+                            ->where('email',$request['email'])->first();
+            if(!$family_same_email){
+                $inputData['email'] = $request['email'];
+            }
+            $inputData['title'] = $request['title'];
+            $inputData['nickname'] = $request['nickname'];
+            $inputData['date_of_baptism'] = $request['date_of_baptism'];
+            $inputData['blood_group_id'] = $request['blood_group_id'];
+            $inputData['marital_status_id'] = $request['marital_status_id'];
+            $inputData['date_of_marriage'] = $request['date_of_marriage'];
+            $inputData['qualification'] = $request['qualification'];
+            $inputData['occupation'] = $request['occupation'];
+            $inputData['company_name'] = $request['company_name'];
+            $inputData['mobile'] = $request['mobile'];
+            $inputData['date_of_death'] = $request['date_of_death'];
             $inputData['status'] = 2;
 
-            if($request['image']){
-
-                $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
-                $request->image->storeAs('members', $fileName);
-                $inputData['image'] = 'storage/members/'.$fileName;
-            }
 
 
             $member->update($inputData);

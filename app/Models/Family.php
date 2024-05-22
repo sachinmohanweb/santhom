@@ -15,7 +15,6 @@ class Family extends Model
     protected $fillable = [
         'family_code',
         'family_name',
-        'family_email',
         'prayer_group_id',
         'address1',
         'address2',

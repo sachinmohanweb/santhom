@@ -1353,6 +1353,17 @@ class HomeController extends Controller
                         ->whereDay('dob', $day)
                         ->orderBy('dob')
                         ->get();
+                    $wedding_anniversaries = FamilyMember::select('id', 'name', 'date_of_marriage')
+                        ->whereMonth('date_of_marriage', $month)
+                        ->whereDay('date_of_marriage', $day)
+                        ->orderBy('date_of_marriage')
+                        ->get();
+
+                    $daily_readings = BiblicalCitation::select('id', 'reference', 'date')
+                        ->whereMonth('date', $month)
+                        ->whereDay('date', $day)
+                        ->orderBy('date')
+                        ->get();
                     $obituaries = Obituary::select('id', 'member_id', 'name_of_member', 'date_of_death')
                         ->whereMonth('date_of_death', $month)
                         ->whereDay('date_of_death', $day)
@@ -1385,16 +1396,20 @@ class HomeController extends Controller
                     //     ];
 
                     $bday_count = $birthdays->count();
+                    $wedding_count = $wedding_anniversaries->count();
+                    $daily_readings_count = $daily_readings->count();
                     $obituary_count = $obituaries->count();
                     $anniversary_count = $anniversary->count();
-                    $total_events = $bday_count + $obituary_count+$anniversary_count;
+                    $total_events = $bday_count+$wedding_count+$daily_readings_count+$obituary_count+$anniversary_count;
 
                     $data[] = [
                         'date' => sprintf('%02d-%02d-%02d', $day, $month, $year),
                         'total_events' => $total_events,
                         'birthday_events' => $bday_count,
+                        'wedding_anniversary_events' => $wedding_count,
+                        'daily_readings' => $daily_readings_count,
+                        'memmory_anniversaries' => $anniversary_count,
                         'death_anniversary_events' => $obituary_count,
-                        'anniversaries' => $anniversary_count,
                     ];
                 }
 
@@ -1462,6 +1477,116 @@ class HomeController extends Controller
                     "to" => $birthdays->lastItem()
                 );
 
+            /*---------Wedding Anniversary Details----------*/
+
+                $weddings = FamilyMember::select('id','name as heading')
+                        ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
+                        ->addSelect('date_of_marriage as date','image as image','family_id')
+                                ->whereRaw("DATE_FORMAT(date_of_marriage, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
+                                ->where('status', 1)
+                                ->orderBy('name', 'asc');
+
+                if($request['page_no']){
+                    $pg_no=$page=$request['page_no'];
+                }
+                if($request['per_page']){
+                   $per_pg=$page=$request['per_page'];
+                }
+                $weddings=$weddings->orderBy('id', 'desc')
+                                    ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+                if(empty($weddings)) {
+                    $return['result']=  "Empty birthday list ";
+                    return $this->outputer->code(422)->error($return)->json();
+                }
+
+                $weddings->getCollection()->transform(function ($item, $key) {
+
+                    if ($item->image !== null) {
+                         $item->image = asset('/') . $item->image;
+                    }
+                    return $item;
+                });
+
+                $weddings_metadata = array(
+                    "total" => $weddings->total(),
+                    "per_page" => $weddings->perPage(),
+                    "current_page" => $weddings->currentPage(),
+                    "last_page" => $weddings->lastPage(),
+                    "next_page_url" => $weddings->nextPageUrl(),
+                    "prev_page_url" => $weddings->previousPageUrl(),
+                    "from" => $weddings->firstItem(),
+                    "to" => $weddings->lastItem()
+                );
+
+
+            /*---------Memories Details----------*/
+
+                $daily_readings = BiblicalCitation::select('id','reference as heading','note1 as sub_heading','date',
+                    DB::raw('"null" as image'))
+                                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
+                                ->where('status', 1)
+                                ->orderBy('reference', 'asc');
+
+                if($request['page_no']){
+                    $pg_no=$page=$request['page_no'];
+                }
+                if($request['per_page']){
+                   $per_pg=$page=$request['per_page'];
+                }
+                $daily_readings=$daily_readings->orderBy('id', 'desc')
+                                    ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+                if(empty($daily_readings)) {
+                    $return['result']=  "Empty daily_readings list ";
+                    return $this->outputer->code(422)->error($return)->json();
+                }
+
+                $daily_readings_metadata = array(
+                    "total" => $daily_readings->total(),
+                    "per_page" => $daily_readings->perPage(),
+                    "current_page" => $daily_readings->currentPage(),
+                    "last_page" => $daily_readings->lastPage(),
+                    "next_page_url" => $daily_readings->nextPageUrl(),
+                    "prev_page_url" => $daily_readings->previousPageUrl(),
+                    "from" => $daily_readings->firstItem(),
+                    "to" => $daily_readings->lastItem()
+                );
+
+                /*---------Memories Details----------*/
+
+                $anniversary = MemoryDay::select('id','title as heading','note1 as sub_heading','date',
+                    DB::raw('"null" as image'))
+                                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
+                                ->where('status', 1)
+                                ->orderBy('title', 'asc');
+
+                if($request['page_no']){
+                    $pg_no=$page=$request['page_no'];
+                }
+                if($request['per_page']){
+                   $per_pg=$page=$request['per_page'];
+                }
+                $anniversary=$anniversary->orderBy('id', 'desc')
+                                    ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+                if(empty($anniversary)) {
+                    $return['result']=  "Empty anniversary list ";
+                    return $this->outputer->code(422)->error($return)->json();
+                }
+
+                $anniversary_metadata = array(
+                    "total" => $anniversary->total(),
+                    "per_page" => $anniversary->perPage(),
+                    "current_page" => $anniversary->currentPage(),
+                    "last_page" => $anniversary->lastPage(),
+                    "next_page_url" => $anniversary->nextPageUrl(),
+                    "prev_page_url" => $anniversary->previousPageUrl(),
+                    "from" => $anniversary->firstItem(),
+                    "to" => $anniversary->lastItem()
+                );
+
+
 
             /*---------Death Anniversary Details----------*/
 
@@ -1514,41 +1639,7 @@ class HomeController extends Controller
                     "to" => $obituary->lastItem()
                 );
 
-            /*---------Memories Details----------*/
-
-                $anniversary = MemoryDay::select('id','title as heading','note1 as sub_heading','date',
-                    DB::raw('"null" as image'))
-                                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
-                                ->where('status', 1)
-                                ->orderBy('title', 'asc');
-
-                if($request['page_no']){
-                    $pg_no=$page=$request['page_no'];
-                }
-                if($request['per_page']){
-                   $per_pg=$page=$request['per_page'];
-                }
-                $anniversary=$anniversary->orderBy('id', 'desc')
-                                    ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
-
-                if(empty($anniversary)) {
-                    $return['result']=  "Empty anniversary list ";
-                    return $this->outputer->code(422)->error($return)->json();
-                }
-
-                $anniversary_metadata = array(
-                    "total" => $anniversary->total(),
-                    "per_page" => $anniversary->perPage(),
-                    "current_page" => $anniversary->currentPage(),
-                    "last_page" => $anniversary->lastPage(),
-                    "next_page_url" => $anniversary->nextPageUrl(),
-                    "prev_page_url" => $anniversary->previousPageUrl(),
-                    "from" => $anniversary->firstItem(),
-                    "to" => $anniversary->lastItem()
-                );
-
-
-            $total = $birthdays->total() + $obituary->total()+$anniversary->total();
+            $total = $birthdays->total() + $weddings->total() + $daily_readings->total() + $obituary->total()+$anniversary->total();
 
             $mergedData = [
                 'number_of_events' => $total,
@@ -1558,20 +1649,30 @@ class HomeController extends Controller
                         'list' => $birthdays->items()
                     ],
                     [
+                        'type' => 'Wedding Anniversary',
+                        'list' => $weddings->items()
+                    ],
+                    [
+                        'type' => 'Daily Readings',
+                        'list' => $daily_readings->items()
+                    ],
+                    [
+                        'type' => 'Memory Anniversary',
+                        'list' => $anniversary->items()
+                    ],
+                    [
                         'type' => 'Death Anniversary',
                         'list' => $obituary->items()
                     ],
-                    [
-                        'type' => 'Anniversary',
-                        'list' => $anniversary->items()
-                    ]
                 ]
             ];
 
             $metadata = [
                 'birthdays_metadata' => $birthdays_metadata,
+                'wedding_anniversary_metadata' => $weddings_metadata,
+                'daily_readings_metadata' => $daily_readings_metadata,
+                'memory_anniversary_metadata' => $anniversary_metadata,
                 'obituary_metadata' => $obituary_metadata,
-                'anniversary_metadata' => $anniversary_metadata,
             ];
 
             return $this->outputer->code(200) ->metadata($metadata)->success($mergedData)->json();

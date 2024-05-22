@@ -16,10 +16,10 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('logout',[UserController::class, 'logoutuser']);
 
     Route::get('my_profile',[UserController::class, 'myprofile']);
-    Route::post('update_family/{family_id}',[UserController::class, 'updateFamily']);
+    Route::post('update_family',[UserController::class, 'updateFamily']);
     Route::get('my_family',[UserController::class, 'myfamily']);
     Route::post('add_member',[UserController::class, 'addMember']);
-    Route::post('update_member/{member_id}',[UserController::class, 'updateMember']);
+    Route::post('update_member',[UserController::class, 'updateMember']);
     Route::get('family',[UserController::class, 'family']);
     Route::get('family_member',[UserController::class, 'familyMember']);
     Route::get('vicars_list',[UserController::class, 'VicarsList']);
