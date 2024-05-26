@@ -27,9 +27,10 @@ class UserRepository {
         }   
     }
 
-    function emailFamilyMember($email){
+    function emailFamilyMember($email,$family_code){
 
-        $user=FamilyMember::where('email',$email)->first();
+        $family = Family::where('family_code',$family_code)->first();
+        $user=FamilyMember::where('email',$email)->where('family_id',$family['id'])->first();
         if($user)
         {
             return $user;

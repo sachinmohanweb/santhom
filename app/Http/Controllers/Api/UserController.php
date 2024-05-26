@@ -49,7 +49,12 @@ class UserController extends Controller
                 EmailVerification::create($inputData);
                 DB::commit();
 
-                $member = FamilyMember::where('email',$request->input('email'))->first();
+               // $member = FamilyMember::where('email',$request->input('email'))->first();
+
+                $family = Family::where('family_code',$request['family_code'])->first();
+
+                $member = FamilyMember::where('email',$request->input('email'))->where('family_id',$family['id'])->first();
+
                 
                 $mailData = [
                     'member' => $member,
@@ -88,7 +93,7 @@ class UserController extends Controller
                     $otp->save();
                     DB::commit();
 
-                    $user = $this->userRepo->emailFamilyMember($request->email);
+                    $user = $this->userRepo->emailFamilyMember($request->email,$request->family_code);
                     if ($user->image !== null) {
                         $user->image = asset('/') . $user->image;
                     } else {
