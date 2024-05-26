@@ -53,6 +53,10 @@ class BibleVerseController extends Controller
                 'ref'                => 'required',
             ]);
 
+            $existingVerse = BibleVerse::where('date', $request['date'])->first();
+            if ($existingVerse) {
+                return redirect()->route('admin.bibleverse.list')->with('error','Bible verse already updated for this date.');
+            }
             $inputData = $request->all();
             $inputData['status'] = 1;
 
@@ -87,6 +91,12 @@ class BibleVerseController extends Controller
                 'verse'            => 'required',
                 'ref'                => 'required',
             ]);
+
+            $existingVerse = BibleVerse::where('date', $request['date'])
+                                ->where('id','!=',$request->id)->first();
+            if ($existingVerse) {
+                return redirect()->route('admin.bibleverse.list')->with('error','Bible verse already updated for this date.');
+            }
 
             $inputData = $request->all();
             $inputData['status'] = 1;

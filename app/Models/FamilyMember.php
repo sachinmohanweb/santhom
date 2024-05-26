@@ -67,8 +67,13 @@ class FamilyMember extends Authenticatable
     public function getFamilyNameAttribute()
     {
         $family = Family::where('id',$this->family_id)->first();
-        return $family->family_name;
+        if($family){
+            return $family->family_name;
+        }else{
+            return "Nill";
+        }
     }
+    
 
     public function getFamilyHeadNameAttribute()
     {

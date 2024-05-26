@@ -52,6 +52,12 @@ class BiblicalCitationController extends Controller
                 'reference' => 'required',
             ]);
 
+            $existing = BiblicalCitation::where('date', $request['date'])->first();
+
+            if ($existing) {
+                return back()->withInput()->withErrors(['message' => "Bible citation is already added for this date"]);
+            }
+
             $BiblicalCitation = BiblicalCitation::create($request->all());
             DB::commit();
              
@@ -82,6 +88,13 @@ class BiblicalCitationController extends Controller
                 'date' => 'required',
                 'reference' => 'required',
             ]);
+
+            $existing = BiblicalCitation::where('date', $request['date'])
+                                ->where('id','!=',$request->id)->first();
+            if ($existing) {
+                return redirect()->route('admin.biblical.citation.list')->with('error','Bible Citation is already updated for this date.');
+            }
+
             $BiblicalCitation->update($request->all());
             DB::commit();
 

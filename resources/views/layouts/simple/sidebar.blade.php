@@ -185,7 +185,7 @@
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
-                            </svg><span>Payments</span></a>
+                            </svg><span>Contributions</span></a>
                         </li>
                         <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" 
                             href="{{route('admin.notification.list')}}">

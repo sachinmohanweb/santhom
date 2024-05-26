@@ -813,18 +813,19 @@ class HomeController extends Controller
 
             /*---------Organizations Details----------*/
 
-                $organizations=Organization::select('id as id','organization_name as item','coordinator as sub_item',DB::raw('"null" as image'),DB::raw('"Organizations" as type'))
-                        ->where('status',1);
+                // $organizations=Organization::select('id as id','organization_name as item','coordinator as sub_item',DB::raw('"null" as image'),DB::raw('"Organizations" as type'))
+                //         ->where('status',1);
 
-                // $organizations=FamilyMember::select(DB::raw('"1" as id'),'company_name as item',
-                //     DB::raw('COUNT(*) as sub_item'),DB::raw('"null" as image'),
-                //     DB::raw('"Organizations" as type'))
-                //     ->groupBy('company_name')
-                //     ->whereNotNull('company_name') 
-                //     ->where('status',1);
+                $organizations=FamilyMember::select(DB::raw('"1" as id'),'company_name as item',
+                    DB::raw('COUNT(*) as sub_item'),DB::raw('"null" as image'),
+                    DB::raw('"Organizations" as type'))
+                    ->groupBy('company_name')
+                    ->whereNotNull('company_name') 
+                    ->where('status',1);
 
                 if($request['search_word']){
-                    $organizations->where('organization_name','like',$request['search_word'].'%');
+                    //$organizations->where('organization_name','like',$request['search_word'].'%');
+                    $organizations->where('company_name','like',$request['search_word'].'%');
                 }
                 if($request['organization_page_no']){
                     $organization_pg_no=$page=$request['organization_page_no'];
@@ -852,10 +853,11 @@ class HomeController extends Controller
                     "to" => $organizations->lastItem()
                 );
 
-                // $organizations->getCollection()->transform(function ($item) {
-                //     return $item->makeHidden('family_name','family_head_name','prayer_group_name',
-                //         'blood_group_name','marital_status_name','relationship_name','obituary_id');
-                // });
+                $organizations->getCollection()->transform(function ($item) {
+                    $item->setAppends([]);
+                    $item->setRelations([]);
+                    return $item;
+                });
             /*---------type 1 result----------*/
 
             // $mergedData = [
@@ -1581,10 +1583,13 @@ class HomeController extends Controller
             $pg_no='';
             $per_pg='';
             $family_id = Auth::user()->family_id;
+            $member_id = Auth::user()->id;
+
 
             $payments = PaymentDetail::select('payment_details.*')
                     ->join('family_members', 'payment_details.member_id', '=', 'family_members.id')
                     ->where('family_members.family_id', $family_id)
+                    ->where('family_members.id', $member_id)
                     ->where('payment_details.status', 1);
             $payments_sum = $payments->sum('payment_details.amount');
 
