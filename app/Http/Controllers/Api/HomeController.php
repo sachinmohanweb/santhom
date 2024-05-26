@@ -1307,6 +1307,294 @@ class HomeController extends Controller
         }
     }
 
+    // public function Bulletin(Request $request){
+
+    //     try {
+
+    //         $per_pg='';
+    //         $pg_no='';
+
+    //         /*---------Events Details----------*/
+
+    //         $events = Event::select('id','date','event_name as item','venue as sub_item','details','image',
+    //             DB::raw('"Events" as type_value'),DB::raw('"False" as color'))
+    //                         ->where('status',1);
+    //         if($request['search_word']){
+    //             $events->where('event_name','like',$request['search_word'].'%')
+    //                     ->orwhere('venue','like',$request['search_word'].'%')
+    //                     ->orwhere('details','like',$request['search_word'].'%');
+    //         }
+    //         if($request['page_no']){
+    //             $pg_no=$request['page_no'];
+    //         }
+    //         if($request['per_page']){
+    //            $per_pg=$request['per_page'];
+    //         }
+    //         $events=$events->orderBy('id', 'desc')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+    //         if(empty($events)) {
+    //             $return['result']=  "Empty events list ";
+    //             return $this->outputer->code(422)->error($return)->json();
+    //         }
+
+    //         $events->getCollection()->transform(function ($item, $key) {
+
+    //             if ($item->image !== null) {
+    //                  $item->image = asset('/') . $item->image;
+    //             }
+    //             return $item;
+    //         });
+
+    //         $events_metadata = array(
+    //             "total" => $events->total(),
+    //             "per_page" => $events->perPage(),
+    //             "current_page" => $events->currentPage(),
+    //             "last_page" => $events->lastPage(),
+    //             "next_page_url" => $events->nextPageUrl(),
+    //             "prev_page_url" => $events->previousPageUrl(),
+    //             "from" => $events->firstItem(),
+    //             "to" => $events->lastItem()
+    //         );
+
+    //         /*---------News & Announcements Details----------*/
+
+    //         $newsAnnouncements = NewsAnnouncement::select('id','updated_at as date','heading as item')
+    //         ->addSelect(DB::raw("
+    //             CASE
+    //                 WHEN type = 1 THEN 'Trustee'
+    //                 WHEN type = 2 THEN 'Secretary'
+    //                 WHEN type = 3 THEN 'Prayer Group'
+    //                 ELSE 'Organization'
+    //             END AS sub_item
+    //         "))
+    //         ->addSelect('body as details','image','type' ,'group_org_id',
+    //             DB::raw('"News & Announcements" as type_value'),DB::raw('"False" as color'))
+    //         ->where('status',1);
+    //         if($request['search_word']){
+    //             $newsAnnouncements->where('heading','like',$request['search_word'].'%')
+    //                             ->orwhere('body','like',$request['search_word'].'%');
+    //         }
+    //         if($request['page_no']){
+    //             $pg_no=$page=$request['page_no'];
+    //         }
+    //         if($request['per_page']){
+    //            $per_pg=$page=$request['per_page'];
+    //         }
+    //         $newsAnnouncements=$newsAnnouncements->orderBy('id', 'desc')
+    //                                 ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+    //         if(empty($newsAnnouncements)) {
+    //             $return['result']=  "Empty marital status list ";
+    //             return $this->outputer->code(422)->error($return)->json();
+    //         }
+
+    //         $newsAnnouncements->getCollection()->transform(function ($item, $key) {
+
+    //             if ($item->image !== null) {
+    //                  $item->image = asset('/') . $item->image;
+    //             }
+    //             return $item;
+    //         });
+
+    //         $newsAnnouncements_metadata = array(
+    //             "total" => $newsAnnouncements->total(),
+    //             "per_page" => $newsAnnouncements->perPage(),
+    //             "current_page" => $newsAnnouncements->currentPage(),
+    //             "last_page" => $newsAnnouncements->lastPage(),
+    //             "next_page_url" => $newsAnnouncements->nextPageUrl(),
+    //             "prev_page_url" => $newsAnnouncements->previousPageUrl(),
+    //             "from" => $newsAnnouncements->firstItem(),
+    //             "to" => $newsAnnouncements->lastItem()
+    //         );
+
+    //         /*---------Notifications Details----------*/
+
+    //         $notifications = Notification::select('id','updated_at as date','title as item')
+    //          ->addSelect(DB::raw("
+    //             CASE
+    //                 WHEN type = 1 THEN 'Trustee'
+    //                 WHEN type = 2 THEN 'Secretary'
+    //                 WHEN type = 3 THEN 'Prayer Group'
+    //                 ELSE 'Organization'
+    //             END AS sub_item
+    //         "))
+    //         ->addSelect('content as details','group_org_id','type',
+    //             DB::raw('"Notifications" as type_value'),DB::raw('"False" as color'))
+    //         ->where('status',1);
+
+    //         if($request['search_word']){
+    //             $notifications->where('title','like',$request['search_word'].'%')
+    //                         ->orwhere('content','like',$request['search_word'].'%');
+    //         }
+    //         if($request['page_no']){
+    //             $pg_no=$page=$request['page_no'];
+    //         }
+    //         if($request['per_page']){
+    //            $per_pg=$page=$request['per_page'];
+    //         }
+    //         $notifications=$notifications->orderBy('id', 'desc')
+    //                             ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+    //         $notifications->getCollection()->transform(function ($notif) {
+    //             $notif->image = null;
+    //             return $notif;
+    //         });
+    //         if(empty($notifications)) {
+    //             $return['result']=  "Empty prayer group list ";
+    //             return $this->outputer->code(422)->error($return)->json();
+    //         }
+
+    //         $notifications_metadata = array(
+    //             "total" => $notifications->total(),
+    //             "per_page" => $notifications->perPage(),
+    //             "current_page" => $notifications->currentPage(),
+    //             "last_page" => $notifications->lastPage(),
+    //             "next_page_url" => $notifications->nextPageUrl(),
+    //             "prev_page_url" => $notifications->previousPageUrl(),
+    //             "from" => $notifications->firstItem(),
+    //             "to" => $notifications->lastItem()
+    //         );
+
+    //         /*---------Vicar Messages Details----------*/
+
+    //         $VicarMessages=VicarMessage::select('id','updated_at as date','subject as item','message_body as details','image',
+    //             DB::raw('"Vicar Messages" as type_value'),DB::raw('"False" as color'))
+    //                         ->where('status',1);
+
+    //         if($request['search_word']){
+    //             $VicarMessages->where('subject','like',$request['search_word'].'%')
+    //                         ->orwhere('message_body','like',$request['search_word'].'%');
+
+    //         }
+    //         if($request['page_no']){
+    //             $pg_no=$page=$request['page_no'];
+    //         }
+    //         if($request['per_page']){
+    //            $per_pg=$page=$request['per_page'];
+    //         }
+    //         $VicarMessages=$VicarMessages->orderBy('id', 'desc')
+    //                             ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+            
+    //         $VicarMessages->getCollection()->transform(function ($msg) {
+    //             $msg->sub_item = null;
+    //             return $msg;
+    //         });
+    //         $VicarMessages->getCollection()->transform(function ($item, $key) {
+
+    //             if ($item->image !== null) {
+    //                  $item->image = asset('/') . $item->image;
+    //             }
+    //             return $item;
+    //         });
+
+
+    //         if(empty($VicarMessages)) {
+    //             $return['result']=  "Empty prayer group list ";
+    //             return $this->outputer->code(422)->error($return)->json();
+    //         }
+
+    //         $VicarMessages_metadata = array(
+    //             "total" => $VicarMessages->total(),
+    //             "per_page" => $VicarMessages->perPage(),
+    //             "current_page" => $VicarMessages->currentPage(),
+    //             "last_page" => $VicarMessages->lastPage(),
+    //             "next_page_url" => $VicarMessages->nextPageUrl(),
+    //             "prev_page_url" => $VicarMessages->previousPageUrl(),
+    //             "from" => $VicarMessages->firstItem(),
+    //             "to" => $VicarMessages->lastItem()
+    //         );
+
+
+    //         /*---------Obituaries Details----------*/
+
+    //         $obituaries = Obituary::select('id','date_of_death as date','name_of_member as item')
+    //             ->selectSub(function ($query) {
+    //                 $query->select('families.family_name')
+    //                     ->from('family_members')
+    //                     ->join('families', 'family_members.family_id', '=', 'families.id')
+    //                     ->whereColumn('family_members.id', 'obituaries.member_id')
+    //                     ->limit(1);
+    //             }, 'sub_item')
+    //         ->addSelect('notes as details','photo as image',
+    //             DB::raw('"Obituaries" as type_value'),DB::raw('"False" as color'))
+    //         ->where('status',1);
+
+    //         if($request['search_word']){
+    //             $obituaries->where('name_of_member','like',$request['search_word'].'%');
+    //         }
+    //         if($request['page_no']){
+    //             $pg_no=$page=$request['page_no'];
+    //         }
+    //         if($request['per_page']){
+    //            $per_pg=$page=$request['per_page'];
+    //         }
+    //         $obituaries=$obituaries->orderBy('id', 'desc')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+    //         if(empty($obituaries)) {
+    //             $return['result']=  "Empty prayer group list ";
+    //             return $this->outputer->code(422)->error($return)->json();
+    //         }
+
+    //         $obituaries->getCollection()->transform(function ($item, $key) {
+
+    //             if ($item->image !== null) {
+    //                  $item->image = asset('/') . $item->image;
+    //             }
+    //             return $item;
+    //         });
+
+    //         $obituaries_metadata = array(
+    //             "total" => $obituaries->total(),
+    //             "per_page" => $obituaries->perPage(),
+    //             "current_page" => $obituaries->currentPage(),
+    //             "last_page" => $obituaries->lastPage(),
+    //             "next_page_url" => $obituaries->nextPageUrl(),
+    //             "prev_page_url" => $obituaries->previousPageUrl(),
+    //             "from" => $obituaries->firstItem(),
+    //             "to" => $obituaries->lastItem()
+    //         );
+
+
+    //         // $mergedData = [
+    //         //     'events' => $events->getCollection(),
+    //         //     'newsAnnouncements' => $newsAnnouncements->getCollection(),
+    //         //     'notifications' => $notifications->getCollection(),
+    //         //     'VicarMessages' => $VicarMessages->getCollection(),
+    //         //     'obituaries' => $obituaries->getCollection(),
+    //         // ];
+
+    //         $mergedData = [
+
+    //             [ 'category' => 'Events', 'list' => $events->getCollection() ],
+
+    //             [ 'category' => 'News & Announcements', 'list' => $newsAnnouncements->getCollection() ],
+
+    //             [ 'category' => 'Notifications', 'list' => $notifications->getCollection() ],
+
+    //             [ 'category' => 'Vicar Messages', 'list' => $VicarMessages->getCollection() ],
+
+    //             // [ 'category' => 'Obituaries', 'list' => $obituaries->getCollection() ],
+               
+    //         ];
+
+    //         $metadata = [
+    //             'events_metadata' => $events_metadata,
+    //             'newsAnnouncements_metadata' => $newsAnnouncements_metadata,
+    //             'notifications_metadata' => $notifications_metadata,
+    //             'VicarMessages_metadata' => $VicarMessages_metadata,
+    //             // 'obituaries_metadata' => $obituaries_metadata,
+    //         ];
+
+    //         return $this->outputer->code(200)->metadata($metadata)
+    //                     ->success($mergedData)->json();
+
+    //     }catch (\Exception $e) {
+
+    //         $return['result']=$e->getMessage();
+    //         return $this->outputer->code(422)->error($return)->json();
+    //     }
+    // }
+
     public function Bulletin(Request $request){
 
         try {
@@ -1324,20 +1612,22 @@ class HomeController extends Controller
                         ->orwhere('venue','like',$request['search_word'].'%')
                         ->orwhere('details','like',$request['search_word'].'%');
             }
-            if($request['page_no']){
-                $pg_no=$request['page_no'];
-            }
-            if($request['per_page']){
-               $per_pg=$request['per_page'];
-            }
-            $events=$events->orderBy('id', 'desc')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+            // if($request['page_no']){
+            //     $pg_no=$request['page_no'];
+            // }
+            // if($request['per_page']){
+            //    $per_pg=$request['per_page'];
+            // }
+            $events=$events->orderBy('id', 'desc')
+                //->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+                ->get();
 
             if(empty($events)) {
                 $return['result']=  "Empty events list ";
                 return $this->outputer->code(422)->error($return)->json();
             }
 
-            $events->getCollection()->transform(function ($item, $key) {
+            $events->transform(function ($item, $key) {
 
                 if ($item->image !== null) {
                      $item->image = asset('/') . $item->image;
@@ -1345,16 +1635,16 @@ class HomeController extends Controller
                 return $item;
             });
 
-            $events_metadata = array(
-                "total" => $events->total(),
-                "per_page" => $events->perPage(),
-                "current_page" => $events->currentPage(),
-                "last_page" => $events->lastPage(),
-                "next_page_url" => $events->nextPageUrl(),
-                "prev_page_url" => $events->previousPageUrl(),
-                "from" => $events->firstItem(),
-                "to" => $events->lastItem()
-            );
+            // $events_metadata = array(
+            //     "total" => $events->total(),
+            //     "per_page" => $events->perPage(),
+            //     "current_page" => $events->currentPage(),
+            //     "last_page" => $events->lastPage(),
+            //     "next_page_url" => $events->nextPageUrl(),
+            //     "prev_page_url" => $events->previousPageUrl(),
+            //     "from" => $events->firstItem(),
+            //     "to" => $events->lastItem()
+            // );
 
             /*---------News & Announcements Details----------*/
 
@@ -1374,21 +1664,22 @@ class HomeController extends Controller
                 $newsAnnouncements->where('heading','like',$request['search_word'].'%')
                                 ->orwhere('body','like',$request['search_word'].'%');
             }
-            if($request['page_no']){
-                $pg_no=$page=$request['page_no'];
-            }
-            if($request['per_page']){
-               $per_pg=$page=$request['per_page'];
-            }
+            // if($request['page_no']){
+            //     $pg_no=$page=$request['page_no'];
+            // }
+            // if($request['per_page']){
+            //    $per_pg=$page=$request['per_page'];
+            // }
             $newsAnnouncements=$newsAnnouncements->orderBy('id', 'desc')
-                                    ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+                                   // ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+                                ->get();
 
             if(empty($newsAnnouncements)) {
                 $return['result']=  "Empty marital status list ";
                 return $this->outputer->code(422)->error($return)->json();
             }
 
-            $newsAnnouncements->getCollection()->transform(function ($item, $key) {
+            $newsAnnouncements->transform(function ($item, $key) {
 
                 if ($item->image !== null) {
                      $item->image = asset('/') . $item->image;
@@ -1396,16 +1687,16 @@ class HomeController extends Controller
                 return $item;
             });
 
-            $newsAnnouncements_metadata = array(
-                "total" => $newsAnnouncements->total(),
-                "per_page" => $newsAnnouncements->perPage(),
-                "current_page" => $newsAnnouncements->currentPage(),
-                "last_page" => $newsAnnouncements->lastPage(),
-                "next_page_url" => $newsAnnouncements->nextPageUrl(),
-                "prev_page_url" => $newsAnnouncements->previousPageUrl(),
-                "from" => $newsAnnouncements->firstItem(),
-                "to" => $newsAnnouncements->lastItem()
-            );
+            // $newsAnnouncements_metadata = array(
+            //     "total" => $newsAnnouncements->total(),
+            //     "per_page" => $newsAnnouncements->perPage(),
+            //     "current_page" => $newsAnnouncements->currentPage(),
+            //     "last_page" => $newsAnnouncements->lastPage(),
+            //     "next_page_url" => $newsAnnouncements->nextPageUrl(),
+            //     "prev_page_url" => $newsAnnouncements->previousPageUrl(),
+            //     "from" => $newsAnnouncements->firstItem(),
+            //     "to" => $newsAnnouncements->lastItem()
+            // );
 
             /*---------Notifications Details----------*/
 
@@ -1426,16 +1717,17 @@ class HomeController extends Controller
                 $notifications->where('title','like',$request['search_word'].'%')
                             ->orwhere('content','like',$request['search_word'].'%');
             }
-            if($request['page_no']){
-                $pg_no=$page=$request['page_no'];
-            }
-            if($request['per_page']){
-               $per_pg=$page=$request['per_page'];
-            }
+            // if($request['page_no']){
+            //     $pg_no=$page=$request['page_no'];
+            // }
+            // if($request['per_page']){
+            //    $per_pg=$page=$request['per_page'];
+            // }
             $notifications=$notifications->orderBy('id', 'desc')
-                                ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+                                //->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+                            ->get();
 
-            $notifications->getCollection()->transform(function ($notif) {
+            $notifications->transform(function ($notif) {
                 $notif->image = null;
                 return $notif;
             });
@@ -1444,16 +1736,16 @@ class HomeController extends Controller
                 return $this->outputer->code(422)->error($return)->json();
             }
 
-            $notifications_metadata = array(
-                "total" => $notifications->total(),
-                "per_page" => $notifications->perPage(),
-                "current_page" => $notifications->currentPage(),
-                "last_page" => $notifications->lastPage(),
-                "next_page_url" => $notifications->nextPageUrl(),
-                "prev_page_url" => $notifications->previousPageUrl(),
-                "from" => $notifications->firstItem(),
-                "to" => $notifications->lastItem()
-            );
+            // $notifications_metadata = array(
+            //     "total" => $notifications->total(),
+            //     "per_page" => $notifications->perPage(),
+            //     "current_page" => $notifications->currentPage(),
+            //     "last_page" => $notifications->lastPage(),
+            //     "next_page_url" => $notifications->nextPageUrl(),
+            //     "prev_page_url" => $notifications->previousPageUrl(),
+            //     "from" => $notifications->firstItem(),
+            //     "to" => $notifications->lastItem()
+            // );
 
             /*---------Vicar Messages Details----------*/
 
@@ -1466,20 +1758,21 @@ class HomeController extends Controller
                             ->orwhere('message_body','like',$request['search_word'].'%');
 
             }
-            if($request['page_no']){
-                $pg_no=$page=$request['page_no'];
-            }
-            if($request['per_page']){
-               $per_pg=$page=$request['per_page'];
-            }
+            // if($request['page_no']){
+            //     $pg_no=$page=$request['page_no'];
+            // }
+            // if($request['per_page']){
+            //    $per_pg=$page=$request['per_page'];
+            // }
             $VicarMessages=$VicarMessages->orderBy('id', 'desc')
-                                ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+                                //->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+                                ->get();
             
-            $VicarMessages->getCollection()->transform(function ($msg) {
+            $VicarMessages->transform(function ($msg) {
                 $msg->sub_item = null;
                 return $msg;
             });
-            $VicarMessages->getCollection()->transform(function ($item, $key) {
+            $VicarMessages->transform(function ($item, $key) {
 
                 if ($item->image !== null) {
                      $item->image = asset('/') . $item->image;
@@ -1493,16 +1786,16 @@ class HomeController extends Controller
                 return $this->outputer->code(422)->error($return)->json();
             }
 
-            $VicarMessages_metadata = array(
-                "total" => $VicarMessages->total(),
-                "per_page" => $VicarMessages->perPage(),
-                "current_page" => $VicarMessages->currentPage(),
-                "last_page" => $VicarMessages->lastPage(),
-                "next_page_url" => $VicarMessages->nextPageUrl(),
-                "prev_page_url" => $VicarMessages->previousPageUrl(),
-                "from" => $VicarMessages->firstItem(),
-                "to" => $VicarMessages->lastItem()
-            );
+            // $VicarMessages_metadata = array(
+            //     "total" => $VicarMessages->total(),
+            //     "per_page" => $VicarMessages->perPage(),
+            //     "current_page" => $VicarMessages->currentPage(),
+            //     "last_page" => $VicarMessages->lastPage(),
+            //     "next_page_url" => $VicarMessages->nextPageUrl(),
+            //     "prev_page_url" => $VicarMessages->previousPageUrl(),
+            //     "from" => $VicarMessages->firstItem(),
+            //     "to" => $VicarMessages->lastItem()
+            // );
 
 
             /*---------Obituaries Details----------*/
@@ -1522,20 +1815,22 @@ class HomeController extends Controller
             if($request['search_word']){
                 $obituaries->where('name_of_member','like',$request['search_word'].'%');
             }
-            if($request['page_no']){
-                $pg_no=$page=$request['page_no'];
-            }
-            if($request['per_page']){
-               $per_pg=$page=$request['per_page'];
-            }
-            $obituaries=$obituaries->orderBy('id', 'desc')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+            // if($request['page_no']){
+            //     $pg_no=$page=$request['page_no'];
+            // }
+            // if($request['per_page']){
+            //    $per_pg=$page=$request['per_page'];
+            // }
+            $obituaries=$obituaries->orderBy('id', 'desc')
+                //->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+                ->get();
 
             if(empty($obituaries)) {
                 $return['result']=  "Empty prayer group list ";
                 return $this->outputer->code(422)->error($return)->json();
             }
 
-            $obituaries->getCollection()->transform(function ($item, $key) {
+            $obituaries->transform(function ($item, $key) {
 
                 if ($item->image !== null) {
                      $item->image = asset('/') . $item->image;
@@ -1543,16 +1838,16 @@ class HomeController extends Controller
                 return $item;
             });
 
-            $obituaries_metadata = array(
-                "total" => $obituaries->total(),
-                "per_page" => $obituaries->perPage(),
-                "current_page" => $obituaries->currentPage(),
-                "last_page" => $obituaries->lastPage(),
-                "next_page_url" => $obituaries->nextPageUrl(),
-                "prev_page_url" => $obituaries->previousPageUrl(),
-                "from" => $obituaries->firstItem(),
-                "to" => $obituaries->lastItem()
-            );
+            // $obituaries_metadata = array(
+            //     "total" => $obituaries->total(),
+            //     "per_page" => $obituaries->perPage(),
+            //     "current_page" => $obituaries->currentPage(),
+            //     "last_page" => $obituaries->lastPage(),
+            //     "next_page_url" => $obituaries->nextPageUrl(),
+            //     "prev_page_url" => $obituaries->previousPageUrl(),
+            //     "from" => $obituaries->firstItem(),
+            //     "to" => $obituaries->lastItem()
+            // );
 
 
             // $mergedData = [
@@ -1563,29 +1858,66 @@ class HomeController extends Controller
             //     'obituaries' => $obituaries->getCollection(),
             // ];
 
-            $mergedData = [
+            // $mergedData = [
 
-                [ 'category' => 'Events', 'list' => $events->getCollection() ],
+            //     [ 'category' => 'Events', 'list' => $events->getCollection() ],
 
-                [ 'category' => 'News & Announcements', 'list' => $newsAnnouncements->getCollection() ],
+            //     [ 'category' => 'News & Announcements', 'list' => $newsAnnouncements->getCollection() ],
 
-                [ 'category' => 'Notifications', 'list' => $notifications->getCollection() ],
+            //     [ 'category' => 'Notifications', 'list' => $notifications->getCollection() ],
 
-                [ 'category' => 'Vicar Messages', 'list' => $VicarMessages->getCollection() ],
+            //     [ 'category' => 'Vicar Messages', 'list' => $VicarMessages->getCollection() ],
 
-                // [ 'category' => 'Obituaries', 'list' => $obituaries->getCollection() ],
+            //     // [ 'category' => 'Obituaries', 'list' => $obituaries->getCollection() ],
                
-            ];
+            // ];
 
-            $metadata = [
-                'events_metadata' => $events_metadata,
-                'newsAnnouncements_metadata' => $newsAnnouncements_metadata,
-                'notifications_metadata' => $notifications_metadata,
-                'VicarMessages_metadata' => $VicarMessages_metadata,
-                // 'obituaries_metadata' => $obituaries_metadata,
-            ];
+            // $metadata = [
+            //     'events_metadata' => $events_metadata,
+            //     'newsAnnouncements_metadata' => $newsAnnouncements_metadata,
+            //     'notifications_metadata' => $notifications_metadata,
+            //     'VicarMessages_metadata' => $VicarMessages_metadata,
+            //     // 'obituaries_metadata' => $obituaries_metadata,
+            // ];
 
-            return $this->outputer->code(200)->metadata($metadata)
+
+
+
+            if ($request['search_word']) {
+                $search_results = $events
+                    ->merge($newsAnnouncements)
+                    ->merge($notifications)
+                    ->merge($VicarMessages);
+
+
+                $search_results_metadata = [
+                    "total" => $search_results->count(),
+                ];
+            }
+
+
+            $mergedData = [];
+            //$metadata = [];
+
+            if ($request['search_word']) {
+                $mergedData[] = ['category' => 'Search Results', 'list' => $search_results];
+                //$metadata['search_results_metadata'] = $search_results_metadata;
+            }
+
+            $mergedData[] = ['category' => 'Events', 'list' => $events];
+            //$metadata['events_metadata'] = $events_metadata;
+
+            $mergedData[] = ['category' => 'News & Announcements', 'list' => $newsAnnouncements];
+            //$metadata['newsAnnouncements_metadata'] = $newsAnnouncements_metadata;
+
+            $mergedData[] = ['category' => 'Notifications', 'list' => $notifications];
+            //$metadata['notifications_metadata'] = $notifications_metadata;
+
+            $mergedData[] = ['category' => 'Vicar Messages', 'list' => $VicarMessages];
+            //$metadata['VicarMessages_metadata'] = $VicarMessages_metadata;
+
+            return $this->outputer->code(200)
+            //->metadata($metadata)
                         ->success($mergedData)->json();
 
         }catch (\Exception $e) {
