@@ -431,6 +431,14 @@ class UserController extends Controller
                 return $this->outputer->code(422)->error($return)->json();
             }
 
+            $vicars->getCollection()->transform(function ($item, $key) {
+
+                if ($item->photo !== null) {
+                     $item->photo = asset('/') . $item->photo;
+                }
+                return $item;
+            });
+
             $metadata = array(
                 "total" => $vicars->total(),
                 "per_page" => $vicars->perPage(),
@@ -457,6 +465,11 @@ class UserController extends Controller
         try {
 
             $vicar = VicarDetail::select('*')->where('id',$request['id'])->first();
+
+            if ($vicar->photo !== null) {
+                $vicar->photo = asset('/') . $vicar->photo;
+            }
+
             $personal_details = FamilyMember::select('family_members.id as member_id','family_members.gender','family_members.dob','family_members.email','family_members.image','families.family_code','families.family_name','families.address1','families.id as family_id')
                 ->join('families', 'family_members.family_id', '=', 'families.id')
                 ->where('family_members.id',$vicar['member_id'])->get();

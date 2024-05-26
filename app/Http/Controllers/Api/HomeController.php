@@ -708,29 +708,32 @@ class HomeController extends Controller
                     //           ->where('head_of_family', 1);
                     // });
                 }
-                if($request['family_page_no']){
-                    $family_pg_no=$request['family_page_no'];
-                }
-                if($request['per_page']){
-                   $per_pg=$page=$request['per_page'];
-                }
+
+                // if($request['family_page_no']){
+                //     $family_pg_no=$request['family_page_no'];
+                // }
+                // if($request['per_page']){
+                //    $per_pg=$page=$request['per_page'];
+                // }
+
                 $families=$families->orderBy('family_name','asc')
-                    ->paginate($perPage=$per_pg,[],'',$page =$family_pg_no);
+                    //->paginate($perPage=$per_pg,[],'',$page =$family_pg_no);
+                    ->get();
 
                 if(empty($families)) {
                     $return['result']=  "Empty family list ";
                     return $this->outputer->code(422)->error($return)->json();
                 }
-                $family_metadata = array(
-                    "total" => $families->total(),
-                    "per_page" => $families->perPage(),
-                    "current_page" => $families->currentPage(),
-                    "last_page" => $families->lastPage(),
-                    "next_page_url" => $families->nextPageUrl(),
-                    "prev_page_url" => $families->previousPageUrl(),
-                    "from" => $families->firstItem(),
-                    "to" => $families->lastItem()
-                );
+                // $family_metadata = array(
+                //     "total" => $families->total(),
+                //     "per_page" => $families->perPage(),
+                //     "current_page" => $families->currentPage(),
+                //     "last_page" => $families->lastPage(),
+                //     "next_page_url" => $families->nextPageUrl(),
+                //     "prev_page_url" => $families->previousPageUrl(),
+                //     "from" => $families->firstItem(),
+                //     "to" => $families->lastItem()
+                // );
 
 
             /*---------Members Details----------*/
@@ -749,35 +752,37 @@ class HomeController extends Controller
                     //     $query->where('blood_group_name', 'like', $request['search_word'].'%');
                     // });
                 }
-                if($request['member_page_no']){
-                    $member_pg_no=$request['member_page_no'];
-                }
-                if($request['per_page']){
-                   $per_pg=$page=$request['per_page'];
-                }
-                $members=$members->orderBy('name', 'asc')->paginate($perPage=$per_pg,[],'',$page =$member_pg_no);
+                // if($request['member_page_no']){
+                //     $member_pg_no=$request['member_page_no'];
+                // }
+                // if($request['per_page']){
+                //    $per_pg=$page=$request['per_page'];
+                // }
+                $members=$members->orderBy('name', 'asc')
+                //->paginate($perPage=$per_pg,[],'',$page =$member_pg_no);
+                ->get();
 
                 if(empty($members)) {
                     $return['result']=  "Empty bible verse list ";
                     return $this->outputer->code(422)->error($return)->json();
                 }
-                $members->getCollection()->transform(function ($item, $key) {
+                $members->transform(function ($item, $key) {
 
                     if ($item->image !== null) {
                          $item->image = asset('/') . $item->image;
                     }
                     return $item;
                 });
-                $members_metadata = array(
-                    "total" => $members->total(),
-                    "per_page" => $members->perPage(),
-                    "current_page" => $members->currentPage(),
-                    "last_page" => $members->lastPage(),
-                    "next_page_url" => $members->nextPageUrl(),
-                    "prev_page_url" => $members->previousPageUrl(),
-                    "from" => $members->firstItem(),
-                    "to" => $members->lastItem()
-                );
+                // $members_metadata = array(
+                //     "total" => $members->total(),
+                //     "per_page" => $members->perPage(),
+                //     "current_page" => $members->currentPage(),
+                //     "last_page" => $members->lastPage(),
+                //     "next_page_url" => $members->nextPageUrl(),
+                //     "prev_page_url" => $members->previousPageUrl(),
+                //     "from" => $members->firstItem(),
+                //     "to" => $members->lastItem()
+                // );
 
             /*---------Prayer Group Details----------*/
 
@@ -788,28 +793,30 @@ class HomeController extends Controller
                     $prayer_group->where('group_name','like',$request['search_word'].'%');
                                 //->orwhere('leader','like',$request['search_word'].'%');
                 }
-                if($request['prayer_group_page_no']){
-                    $prayer_group_pg_no=$request['prayer_group_page_no'];
-                }
-                if($request['per_page']){
-                   $per_pg=$page=$request['per_page'];
-                }
-                $prayer_group=$prayer_group->paginate($perPage=$per_pg,[],'',$page = $prayer_group_pg_no);
+                // if($request['prayer_group_page_no']){
+                //     $prayer_group_pg_no=$request['prayer_group_page_no'];
+                // }
+                // if($request['per_page']){
+                //    $per_pg=$page=$request['per_page'];
+                // }
+                $prayer_group=$prayer_group
+                //->paginate($perPage=$per_pg,[],'',$page = $prayer_group_pg_no);
+                ->get();
 
                 if(empty($prayer_group)) {
                     $return['result']=  "Empty prayer group list ";
                     return $this->outputer->code(422)->error($return)->json();
                 }
-                $prayer_group_metadata = array(
-                    "total" => $prayer_group->total(),
-                    "per_page" => $prayer_group->perPage(),
-                    "current_page" => $prayer_group->currentPage(),
-                    "last_page" => $prayer_group->lastPage(),
-                    "next_page_url" => $prayer_group->nextPageUrl(),
-                    "prev_page_url" => $prayer_group->previousPageUrl(),
-                    "from" => $prayer_group->firstItem(),
-                    "to" => $prayer_group->lastItem()
-                );
+                // $prayer_group_metadata = array(
+                //     "total" => $prayer_group->total(),
+                //     "per_page" => $prayer_group->perPage(),
+                //     "current_page" => $prayer_group->currentPage(),
+                //     "last_page" => $prayer_group->lastPage(),
+                //     "next_page_url" => $prayer_group->nextPageUrl(),
+                //     "prev_page_url" => $prayer_group->previousPageUrl(),
+                //     "from" => $prayer_group->firstItem(),
+                //     "to" => $prayer_group->lastItem()
+                // );
 
             /*---------Organizations Details----------*/
 
@@ -817,7 +824,8 @@ class HomeController extends Controller
                 //         ->where('status',1);
 
                 $organizations=FamilyMember::select(DB::raw('"1" as id'),'company_name as item',
-                    DB::raw('COUNT(*) as sub_item'),DB::raw('"null" as image'),
+                    DB::raw('CONCAT("No. of employees: ", COUNT(*)) as sub_item'),
+                    DB::raw('"null" as image'),
                     DB::raw('"Organizations" as type'))
                     ->groupBy('company_name')
                     ->whereNotNull('company_name') 
@@ -827,14 +835,15 @@ class HomeController extends Controller
                     //$organizations->where('organization_name','like',$request['search_word'].'%');
                     $organizations->where('company_name','like',$request['search_word'].'%');
                 }
-                if($request['organization_page_no']){
-                    $organization_pg_no=$page=$request['organization_page_no'];
-                }
-                if($request['per_page']){
-                   $per_pg=$page=$request['per_page'];
-                }
+                // if($request['organization_page_no']){
+                //     $organization_pg_no=$page=$request['organization_page_no'];
+                // }
+                // if($request['per_page']){
+                //    $per_pg=$page=$request['per_page'];
+                // }
                 $organizations=$organizations->orderBy('id', 'desc')
-                                    ->paginate($perPage=$per_pg,[],'',$page = $organization_pg_no);
+                        //->paginate($perPage=$per_pg,[],'',$page = $organization_pg_no);
+                        ->get();
 
                 if(empty($organizations)) {
                     $return['result']=  "Empty prayer group list ";
@@ -842,18 +851,18 @@ class HomeController extends Controller
                 }
 
 
-                $organization_metadata = array(
-                    "total" => $organizations->total(),
-                    "per_page" => $organizations->perPage(),
-                    "current_page" => $organizations->currentPage(),
-                    "last_page" => $organizations->lastPage(),
-                    "next_page_url" => $organizations->nextPageUrl(),
-                    "prev_page_url" => $organizations->previousPageUrl(),
-                    "from" => $organizations->firstItem(),
-                    "to" => $organizations->lastItem()
-                );
+                // $organization_metadata = array(
+                //     "total" => $organizations->total(),
+                //     "per_page" => $organizations->perPage(),
+                //     "current_page" => $organizations->currentPage(),
+                //     "last_page" => $organizations->lastPage(),
+                //     "next_page_url" => $organizations->nextPageUrl(),
+                //     "prev_page_url" => $organizations->previousPageUrl(),
+                //     "from" => $organizations->firstItem(),
+                //     "to" => $organizations->lastItem()
+                // );
 
-                $organizations->getCollection()->transform(function ($item) {
+                $organizations->transform(function ($item) {
                     $item->setAppends([]);
                     $item->setRelations([]);
                     return $item;
@@ -899,10 +908,14 @@ class HomeController extends Controller
 
 
             if ($request['search_word']) {
-                $search_results = $families->getCollection()
-                    ->merge($members->getCollection())
-                    ->merge($prayer_group->getCollection())
-                    ->merge($organizations->getCollection());
+                // $search_results = $families->getCollection()
+                //     ->merge($members->getCollection())
+                //     ->merge($prayer_group->getCollection())
+                //     ->merge($organizations->getCollection());
+                $search_results = $families
+                    ->merge($members)
+                    ->merge($prayer_group)
+                    ->merge($organizations);
 
 
                 $search_results_metadata = [
@@ -946,22 +959,23 @@ class HomeController extends Controller
 
         if ($request['search_word']) {
              $mergedData[] = ['category' => 'Search Results', 'list' => $search_results];
-            $metadata['search_results_metadata'] = $search_results_metadata;
+            //$metadata['search_results_metadata'] = $search_results_metadata;
         }
 
-        $mergedData[] = ['category' => 'Families', 'list' => $families->getCollection()];
-        $metadata['family_metadata'] = $family_metadata;
+        $mergedData[] = ['category' => 'Families', 'list' => $families];
+        //$metadata['family_metadata'] = $family_metadata;
 
-        $mergedData[] = ['category' => 'Members', 'list' => $members->getCollection()];
-        $metadata['members_metadata'] = $members_metadata;
+        $mergedData[] = ['category' => 'Members', 'list' => $members];
+        //$metadata['members_metadata'] = $members_metadata;
 
-        $mergedData[] = ['category' => 'Prayer Groups', 'list' => $prayer_group->getCollection()];
-        $metadata['prayer_group_metadata'] = $prayer_group_metadata;
+        $mergedData[] = ['category' => 'Prayer Groups', 'list' => $prayer_group];
+        //$metadata['prayer_group_metadata'] = $prayer_group_metadata;
 
-        $mergedData[] = ['category' => 'Organizations', 'list' => $organizations->getCollection()];
-        $metadata['organization_metadata'] = $organization_metadata;
+        $mergedData[] = ['category' => 'Organizations', 'list' => $organizations];
+        //$metadata['organization_metadata'] = $organization_metadata;
 
-            return $this->outputer->code(200)->metadata($metadata)
+            return $this->outputer->code(200)
+                        //->metadata($metadata)
                         ->success($mergedData)->json();
 
         }catch (\Exception $e) {
@@ -982,6 +996,8 @@ class HomeController extends Controller
             $month = $today->format('m');
             $monthDay = $today->format('m-d');
             $today_string = now()->toDateString();
+
+            $todayFormatted = date('d/m/Y');
 
 
             if($request['date']){
@@ -1005,22 +1021,29 @@ class HomeController extends Controller
             /*---------Daily Schedules Details----------*/
 
             $memoryData = MemoryDay::select('id',DB::raw('"ഓർമ" as heading'), 'title as sub_heading', 
-                'date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'))
+                DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'), 
+                DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1)->take(2); 
 
-            $bibleCitationData = BiblicalCitation::select('id',DB::raw('"വേദഭാഗങ്ങൾ" as heading'), 'reference as sub_heading', 'date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'))
+            $bibleCitationData = BiblicalCitation::select('id',DB::raw('"വേദഭാഗങ്ങൾ" as heading'), 'reference as sub_heading',
+              DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'),
+               DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1)->take(1); 
 
-            $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading','date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"False" as color'), DB::raw('"null" as link'))
+
+            $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading', DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
+                 DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"False" as color'), DB::raw('"null" as link'))
                 ->whereDate('date',$today_string)
                 ->where('status', 1)->take(1); 
             if ($church_activities->count() == 0) {
 
                 $todayDayValue = date("N");
 
-                $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading','date', DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"False" as color'), DB::raw('"null" as link'))
+                $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading',
+                    DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'),
+                    DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"False" as color'), DB::raw('"null" as link'))
                         ->where('status', 1)->take(1); 
 
                 if ($todayDayValue == 7) { 
@@ -1059,7 +1082,9 @@ class HomeController extends Controller
 
             /*---------Events Details----------*/
 
-            $events = Event::select('id','event_name as heading','venue as sub_heading','date','image',
+            $events = Event::select('id','event_name as heading','venue as sub_heading',
+                 DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'), 
+                 'image',
                         'details',DB::raw('"Events" as type'),DB::raw('"False" as color'),'link')
                         ->whereMonth('date', '=', $month)
                         ->whereDay('date', '>=', $day)
@@ -1148,6 +1173,51 @@ class HomeController extends Controller
                 "to" => $birthdays->lastItem()
             );
 
+             /*---------Vicar Messages----------*/
+
+            $Vic_messages = VicarMessage::select('id','subject as heading','message_body as sub_heading',
+                           DB::raw('DATE_FORMAT(NOW(), "%d/%m/%Y") as date'))
+                        ->addSelect('image',DB::raw('"Vicar Messages" as type'),DB::raw('"False" as color'),
+                         DB::raw('"null" as link'))
+                        ->where('status',1);
+
+            if($request['search_word']){
+                $Vic_messages->where('subject','like',$request['search_word'].'%')
+                            ->orwhere('message_body','like',$request['search_word'].'%');
+            }
+            if($request['page_no']){
+                $pg_no=$page=$request['page_no'];
+            }
+            if($request['per_page']){
+               $per_pg=$page=$request['per_page'];
+            }
+            $Vic_messages=$Vic_messages->orderBy('updated_at','desc')
+                                ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+            $Vic_messages->getCollection()->transform(function ($item, $key) {
+
+                if ($item->image !== null) {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
+            if(empty($Vic_messages)) {
+                $return['result']=  "Empty messages list ";
+                return $this->outputer->code(422)->error($return)->json();
+            }
+
+            $Vic_messages_metadata = array(
+                "total" => $Vic_messages->total(),
+                "per_page" => $Vic_messages->perPage(),
+                "current_page" => $Vic_messages->currentPage(),
+                "last_page" => $Vic_messages->lastPage(),
+                "next_page_url" => $Vic_messages->nextPageUrl(),
+                "prev_page_url" => $Vic_messages->previousPageUrl(),
+                "from" => $Vic_messages->firstItem(),
+                "to" => $Vic_messages->lastItem()
+            );
+
             /*---------Obituaries Details----------*/
 
 
@@ -1208,7 +1278,9 @@ class HomeController extends Controller
 
                 [ 'category' => 'Events', 'list' => $events->getCollection() ],
 
-                [ 'category' => 'Birthdays', 'list' => $birthdays->getCollection() ],
+                // [ 'category' => 'Birthdays', 'list' => $birthdays->getCollection() ],
+
+                [ 'category' => 'Vicar Messages', 'list' => $Vic_messages->getCollection() ],
 
                 [ 'category' => 'Obituary', 'list' => $obituary->getCollection() ],
                
@@ -1217,7 +1289,8 @@ class HomeController extends Controller
             $metadata = [
                 'daiy_schedules_metadata' => $daiy_schedules_metadata,
                 'events_metadata' => $events_metadata,
-                'birthdays_metadata' => $birthdays_metadata,
+                // 'birthdays_metadata' => $birthdays_metadata,
+                'Vic_messages_metadata' => $Vic_messages_metadata,
                 'obituary_metadata' => $obituary_metadata,
             ];
 
