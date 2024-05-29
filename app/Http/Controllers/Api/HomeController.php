@@ -1018,8 +1018,9 @@ class HomeController extends Controller
             /*---------Events Details----------*/
 
             $events = Event::select('id','date','event_name as item','venue as sub_item','details','image',
-                DB::raw('"Events" as type_value'),DB::raw('"False" as color'),DB::raw('"Events" as hash_value'))
-                            ->where('status',1);
+                DB::raw('"Events" as type_value'),DB::raw('"False" as color'),DB::raw('"Events" as hash_value'),
+                'link')
+                ->where('status',1);
             if($request['search_word']){
                 $events->where('event_name','like',$request['search_word'].'%')
                         ->orwhere('venue','like',$request['search_word'].'%')
@@ -1079,7 +1080,7 @@ class HomeController extends Controller
                     WHEN type = 3 THEN 'Prayer Group'
                     ELSE 'Organization'
                 END AS hash_value
-            "))
+            "),'link')
             ->where('status',1);
             if($request['search_word']){
                 $newsAnnouncements->where('heading','like',$request['search_word'].'%')
@@ -1139,7 +1140,7 @@ class HomeController extends Controller
                     WHEN type = 3 THEN 'Prayer Group'
                     ELSE 'Organization'
                 END AS hash_value
-            "))
+            "),DB::raw('"null" as link'))
             ->where('status',1);
 
             if($request['search_word']){

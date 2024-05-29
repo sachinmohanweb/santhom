@@ -376,6 +376,7 @@ class FamilyController extends Controller
             }
             
             $member_same_mail = FamilyMember::where('family_id',$request['family_id'])
+                                ->where('id','!=',$request->id)
                                 ->where('email',$request['email'])->first();
             if($member_same_mail){
                 $inputData['email'] = null;
