@@ -89,7 +89,7 @@
                            <br>
 
                            <div class="col-md-8">
-                              <p class="p_l_5">Body:
+                              <p class="p_l_5">Description:
                                  <b>
                                     {{$news['body']}}
                                  </b>
@@ -154,7 +154,7 @@
                                     <div class="row g-3">
 
                                        <div class="col-md-8">
-                                          <label class="form-label" for="validationCustom03">Post Office</label>
+                                          <label class="form-label" for="validationCustom03">Description</label>
                                           <textarea class="form-control" id="body" name="body" rows="8" cols="50" required>{{$news['body']}}</textarea><br>
                                           <div class="valid-feedback">Looks good!</div>
                                        </div>
