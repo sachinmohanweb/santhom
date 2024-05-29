@@ -384,3 +384,15 @@ $('#ImageFile').change(function () {
         $('#ImagePreview').attr('src', '');
     }
 });
+
+function removeReadonlyFromAllInputs() {
+    $('.form-control').each(function() {
+        if ($(this).attr('readonly')) {
+          $(this).removeAttr('readonly');
+          $(this).removeAttr('title');
+        }
+    });
+}
+removeReadonlyFromAllInputs();
+
+
