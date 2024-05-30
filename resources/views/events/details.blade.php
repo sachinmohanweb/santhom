@@ -191,12 +191,10 @@
                                         <img class="img-fluid for-light" src="{{ asset($event->image) }}" alt="" style="max-width:100px !important;">
                                     </div>
                             @endif
-                            <div style="height: 55px;">
-                                 <div class="col-md-4 mb-3" style="width:150px">
-                                     <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100px !important;">
-                                  </div>
-                            </div>
-                            <label class="form-label" for="validationCustom05">Image</label>
+                            
+                            <label class="form-label" for="validationCustom05">Image
+                            <span style="color:#95937f;font-size: 12px;">(400px W X 300px H)</span>
+                            </label>
                             <input class="form-control" id="ImageFile" type="file" 
                                  name="image" value="{{ $event['image'] }}">
                             <div class="invalid-feedback">Please provide a valid zip.</div>

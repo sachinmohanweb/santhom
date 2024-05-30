@@ -254,7 +254,9 @@
                       <input class="form-control digits" type="date" data-bs-original-title="" title="" name="date_of_death" value="{{$familymember->date_of_death}}">
                   </div>
                   <div class="col-md-4 mb-3">
-                      <label class="form-label">Image</label>
+                      <label class="form-label">Image
+                      <span style="color:#95937f;font-size: 12px;">(400px W X 400px H)</span>
+                    </label>
                       <input class="form-control" type="file"  id="ImageFile" name="image" accept="image/*">
                   </div>
                   <div class="col-md-4 mb-3" id="OldImage">

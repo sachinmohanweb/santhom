@@ -51,7 +51,9 @@
                       </div>
                       <div class="col-md-4 pd_left_zero">
 
-                        <label class="form-label">Image</label>
+                        <label class="form-label">Image
+                        <span style="color:#95937f;font-size: 12px;">(400px W X 300px H)</span>
+                        </label>
                         <input class="form-control" type="file" name="image" id="ImageFile">
                       </div>
                       <div class="col-md-2 mb-3" style="width:150px">

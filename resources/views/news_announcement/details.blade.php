@@ -160,6 +160,8 @@
                                        </div>
                                        <div class="col-md-4 mb-3">
                                           <div class="row">
+                                             <div style="height: 50px;">
+                                        </div>
                                                 <label class="form-label" for="validationCustom05">Image
                                                 Media Link</label>
                                                 <input class="form-control" id="validationCustom05" type="text" name="link" value="{{$news['link']}}">
@@ -169,16 +171,18 @@
                                              <div class="row g-3">
                                               @if($news['image'])
 
-                                                      <div class="col-md-4 mb-3" id="OldImage">
+                                                     <!--  <div class="col-md-4 mb-3" id="OldImage">
                                                           <img class="img-fluid for-light" src="{{ asset($news->image) }}" alt="" style="max-width:100px !important;">
-                                                      </div>
+                                                      </div> -->
                                               @endif
-                                              <div style="height: 55px;">
+                                              <!-- <div style="height: 55px;">
                                                    <div class="col-md-4 mb-3" style="width:150px">
                                                        <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100px !important;">
                                                     </div>
-                                              </div>
-                                             <label class="form-label" for="validationCustom05">Image</label>
+                                              </div> -->
+                                             <label class="form-label" for="validationCustom05">Image
+                                             <span style="color:#95937f;font-size: 12px;">(400px W X 300px H)</span>
+                                             </label>
                                              <input class="form-control" id="ImageFile" type="file" 
                                              name="image" value="{{ old('image') }}">
                                              <div class="invalid-feedback">Please provide a valid image.</div>

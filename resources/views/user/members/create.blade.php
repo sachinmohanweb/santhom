@@ -230,7 +230,9 @@
                       <input class="form-control digits" type="date" value="" data-bs-original-title="" title="" name="date_of_death">
                   </div>
                   <div class="col-md-4 mb-3">
-                      <label class="form-label">Image</label>
+                      <label class="form-label">Image
+                        <span style="color:#95937f;font-size: 12px;">(400px W X 400px H)</span>
+                      </label>
                       <input class="form-control" type="file"  name="image" id="ImageFile" accept="image/*">
                   </div>
                   <!-- <div class="col-md-4 mb-3" style="width:150px">

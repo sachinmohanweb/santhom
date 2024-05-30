@@ -79,11 +79,13 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div style="height: 120px;">
-                                        <div class="col-md-4 mb-3" style="width:150px">
+                                        <!-- <div class="col-md-4 mb-3" style="width:150px">
                                             <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;">
-                                        </div>
+                                        </div> -->
                                     </div>
-                                    <label class="form-label" for="validationCustom05">Image</label>
+                                    <label class="form-label" for="validationCustom05">Image
+                                    <span style="color:#95937f;font-size: 12px;">(400px W X 300px H)</span>
+                                    </label>
                                     <input class="form-control" type="file" 
                                          name="image" value="{{ old('image') }}" id="ImageFile">
                                     <div class="invalid-feedback">Please provide a valid zip.</div>

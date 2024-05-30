@@ -101,13 +101,13 @@
                                     <div class="invalid-feedback">Please provide a valid mobile.</div>
                                 </div>
                                  <div class="col-md-3">
-                                    <label class="form-label" for="validationCustom03">Image</label>
-                                      <label class="form-label" for="validationCustom03">Image</label>
+                                    <label class="form-label" for="validationCustom03">Image
+                                    <span style="color:#95937f;font-size: 12px;">(400px W X 400px H)</span></label>
                                       <input class="form-control" type="file"  name="image" id="ImageFile">
                                     <div class="invalid-feedback">Please provide a valid Image.</div>
                                 </div>
                                  <div class="col-md-2">
-                                    <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;">
+                                    <!-- <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;"> -->
                                 </div>
                             </div>
 

@@ -66,7 +66,9 @@
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label class="form-label" for="validationCustom05">Image</label>
+                                    <label class="form-label" for="validationCustom05">Image
+                                    <span style="color:#95937f;font-size: 12px;">(400px W X 400px H)</span>
+                                    </label>
                                     <input class="form-control" id="validationCustom05" type="file" 
                                          name="photo" value="{{ old('photo') }}">
                                     <div class="invalid-feedback">Please provide a valid zip.</div>

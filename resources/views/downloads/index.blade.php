@@ -100,13 +100,13 @@
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="col-md-6">
-                          <label class="form-label" for="validationCustom02">file</label>
+                          <label class="form-label" for="validationCustom02">File</label>
                           <input class="form-control" id="coordinator" type="file" name='file' required>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
 
                         <div class="col-md-12">
-                          <label class="form-label" for="validationCustom02">details</label>
+                          <label class="form-label" for="validationCustom02">Details</label>
                           <input class="form-control" id="coordinator_phone_number" type="text"
                            name='details'>
                           <div class="valid-feedback">Looks good!</div>
@@ -141,14 +141,14 @@
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="col-md-6">
-                          <label class="form-label" for="validationCustom02">file</label>
+                          <label class="form-label" for="validationCustom02">File</label>
                           <input class="form-control" id="file_edit" type="file" name='file'>
                           <div class="valid-feedback" >Looks good!</div>
                           <div class="" id="filediv">Looks good!</div>
                         </div>
 
                         <div class="col-md-12">
-                          <label class="form-label" for="validationCustom02">details</label>
+                          <label class="form-label" for="validationCustom02">Details</label>
                           <input class="form-control" id="details_edit" type="text"
                            name='details'>
                         <div class="valid-feedback">Looks good!</div>

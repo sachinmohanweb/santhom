@@ -111,7 +111,7 @@
                                     @csrf
                                     <div class="row g-3 mb-3">
                                       <div class="col-md-5">
-                                          <label class="form-label" for="validationCustom01">title</label>
+                                          <label class="form-label" for="validationCustom01">Title</label>
                                           <input class="form-control" id="validationCustom01" type="text" 
                                           value="{{$Notification['title']}}" required="" name='title'>
                                           <div class="valid-feedback">Looks good!</div>

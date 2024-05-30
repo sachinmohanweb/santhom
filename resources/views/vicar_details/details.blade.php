@@ -209,19 +209,20 @@
                                         name="mobile"value="{{$VicarDetail['mobile'] }}">
                                         <div class="invalid-feedback">Please provide a valid mobile.</div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <label class="form-label" for="validationCustom03">Image</label>
+                                    <div class="col-md-5">
+                                        <label class="form-label" for="validationCustom03">Image
+                                        <span style="color:#95937f;font-size: 12px;">(400px W X 400px H)</span>
+                                    </label>
                                         <input class="form-control" type="file"  name="image" id="ImageFile">
                                         <div class="invalid-feedback">Please provide a valid image.</div>
                                     </div>
-                                    <div class="col-md-2" id="OldImage">
+                                    <!-- <div class="col-md-2" id="OldImage">
                                      <img class="img-fluid for-light" src="{{ asset($VicarDetail->photo) }}" alt="" style="max-width: 100% !important;">
-                                  </div>
-                                    <div class="col-md-2">
+                                  </div> -->
+                                    <!-- <div class="col-md-2">
                                         <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;">
-
                                     </div>
-                                </div>                 
+                                </div>  -->                
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.vicar.list') }}'">Close</button>

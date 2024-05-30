@@ -448,9 +448,9 @@ class HomeController extends Controller
 
             /*---------Family Details----------*/
 
-                $families = Family::select('id as id','family_name as item')
-                        ->addSelect(DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS sub_item')
-                            ,DB::raw('"null" as image'),DB::raw('"Families" as type'))
+                $families = Family::select('id as id')
+                        ->addSelect(DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS item')
+                            ,'family_name as sub_item',DB::raw('"null" as image'),DB::raw('"Families" as type'))
                         ->where('status',1);
                 if($request['search_word']){
 
@@ -471,7 +471,7 @@ class HomeController extends Controller
                 //    $per_pg=$page=$request['per_page'];
                 // }
 
-                $families=$families->orderBy('family_name','asc')
+                $families=$families->orderBy('item','asc')
                     //->paginate($perPage=$per_pg,[],'',$page =$family_pg_no);
                     ->get();
 
@@ -789,7 +789,7 @@ class HomeController extends Controller
 
 
             $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading', DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
-                 DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"False" as color'), DB::raw('"null" as link'))
+                 DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'))
                 ->whereDate('date',$today_string)
                 ->where('status', 1)->take(1); 
             if ($church_activities->count() == 0) {
