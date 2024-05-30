@@ -111,8 +111,8 @@ class VicarMessageController extends Controller
             $inputData['status'] = 1;
             if($request['image']){
 
-                //$fileName = str_replace(' ', '_', $request->subject).'.'.$request['image']->extension();
-                $fileName = 'vicar_message_'.time().'.'.$request['image']->extension();
+                //$fileName = 'vicar_message_'.time().'.'.$request['image']->extension();
+                $fileName = 'vicar_message_'.time().'_'.$request->id.'.'.$request['image']->extension();
                 $request->image->storeAs('vicar_messages', $fileName);
                 $inputData['image'] = 'storage/vicar_messages/'.$fileName;
             }

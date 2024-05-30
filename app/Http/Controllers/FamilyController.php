@@ -252,7 +252,7 @@ class FamilyController extends Controller
 
             if($request['image']){
 
-                $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                $fileName = str_replace(' ', '_', $request->name).'_'.time().'.'.$request['image']->extension();
 
                 if($request['date_of_death']){
                     $request->image->storeAs('obituary', $fileName);
@@ -290,9 +290,10 @@ class FamilyController extends Controller
 
                 if($request['image']){
 
-                    $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
-                    $request->image->storeAs('obituary', $fileName);
-                    $inputData1['photo'] = 'storage/obituary/'.$fileName;
+                    //$fileName = str_replace(' ', '_', $request->name).'_'.time().'.'.$request['image']->extension();
+                    //$request->image->storeAs('obituary', $fileName);
+                    //$inputData1['photo'] = 'storage/obituary/'.$fileName;
+                    $inputData1['photo'] = $inputData['image'];
                 }
 
                 Obituary::create($inputData1);
@@ -347,7 +348,8 @@ class FamilyController extends Controller
             $inputData = $request->all();
             if($request['image']){
 
-                $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                //$fileName1 = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                $fileName = str_replace(' ', '_', $request->name).'_'.$request->id.'_'.time().'.'.$request['image']->extension();
 
                 if($request['date_of_death']){
                     $request->image->storeAs('obituary', $fileName);
@@ -427,9 +429,9 @@ class FamilyController extends Controller
 
                 if($request['image']){
 
-                    $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
-                    $request->image->storeAs('obituary', $fileName);
-                    $inputData1['photo'] = 'storage/obituary/'.$fileName;
+                    //$fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                    //$request->image->storeAs('obituary', $fileName);
+                    $inputData1['photo'] = $inputData['image'];
                 }else{
                     $inputData1['photo'] = $familymember->image;
 

@@ -90,7 +90,8 @@ class VicarDetailsController extends Controller
             $inputData['status'] = 1;
             if($request['image']){
 
-                $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                $fileName = str_replace(' ', '_', $request->name).'_'.time().'.'.$request['image']->extension();
+
                 $request->image->storeAs('vicars', $fileName);
                 $inputData['photo'] = 'storage/vicars/'.$fileName;
             }
@@ -118,8 +119,8 @@ class VicarDetailsController extends Controller
 
             if($request['image']){
 
-                $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
-                $inputData1['image'] = 'storage/vicars/'.$fileName;
+                //$fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                $inputData1['image'] = $inputData['photo'];
             }
 
             $member = FamilyMember::create($inputData1);
@@ -168,7 +169,10 @@ class VicarDetailsController extends Controller
 
             if($request['image']){
 
-                $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                //$fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+
+                $fileName = str_replace(' ', '_', $request->name).'_'.$request->id.'_'.time().'.'.$request['image']->extension();
+
                 $request->image->storeAs('vicars', $fileName);
                 $inputData['photo'] = 'storage/vicars/'.$fileName;
             }
@@ -181,8 +185,8 @@ class VicarDetailsController extends Controller
 
             if($request['image']){
 
-                $fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
-                $inputData1['image'] = 'storage/vicars/'.$fileName;
+                //$fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                $inputData1['image'] = $inputData['photo'];
             }
 
             $familymember = FamilyMember::where('id',$VicarDetail->member_id)->first();

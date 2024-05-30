@@ -67,7 +67,9 @@ class DownloadController extends Controller
 
             $inputData = $request->all();
 
-            $fileName = str_replace(' ', '_', $request->title).'.'.$request['file']->extension();
+            //$fileName = str_replace(' ', '_', $request->title).'.'.$request['file']->extension();
+            $fileName = 'downloads_'.time().'.'.$request['file']->extension();
+
             $request->file->storeAs('downloads', $fileName);
 
             $inputData['file'] = 'storage/downloads/'.$fileName;
@@ -107,7 +109,9 @@ class DownloadController extends Controller
 
             $inputData = $request->all();
             if($request['file']){
-                $fileName = str_replace(' ', '_', $request->title).'.'.$request['file']->extension();
+                //$fileName = str_replace(' ', '_', $request->title).'.'.$request['file']->extension();
+                $fileName = 'downloads_'.time().'_'.$request->id.'.'.$request['file']->extension();
+
                 $request->file->storeAs('downloads', $fileName);
 
                 $inputData['file'] = 'storage/downloads/'.$fileName;

@@ -95,7 +95,7 @@ class ObituaryController extends Controller
 
             if($request['photo']){
 
-                $fileName = str_replace(' ', '_', $member_name).'.'.$request['photo']->extension();
+                $fileName = str_replace(' ', '_', $member_name).'_'.time().'.'.$request['photo']->extension();
                 $request->photo->storeAs('obituary', $fileName);
                 $inputData['photo'] = 'storage/obituary/'.$fileName;
             }else{
@@ -148,7 +148,7 @@ class ObituaryController extends Controller
 
             if($request['photo']){
 
-                $fileName = str_replace(' ', '_', $member_name).'.'.$request['photo']->extension();
+                $fileName = str_replace(' ', '_', $member_name).'_'.$request->id.'_'.time().'.'.$request['photo']->extension();
                 $request->photo->storeAs('obituary', $fileName);
                 $inputData['photo'] = 'storage/obituary/'.$fileName;
             }else{

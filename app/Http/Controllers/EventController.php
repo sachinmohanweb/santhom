@@ -64,7 +64,9 @@ class EventController extends Controller
 
             if($request['image']){
 
-                $fileName = str_replace(' ', '_', $request->event_name).'.'.$request['image']->extension();
+                //$fileName = str_replace(' ', '_', $request->event_name).'.'.$request['image']->extension();
+                $fileName = 'events_'.time().'.'.$request['image']->extension();
+
                 $request->image->storeAs('events', $fileName);
                 $inputData['image'] = 'storage/events/'.$fileName;
             }
@@ -106,7 +108,8 @@ class EventController extends Controller
 
             if($request['image']){
 
-                $fileName = str_replace(' ', '_', $request->event_name).'.'.$request['image']->extension();
+                //$fileName = str_replace(' ', '_', $request->event_name).'.'.$request['image']->extension();
+                $fileName = 'events_'.time().'_'.$request->id.'.'.$request['image']->extension();
                 $request->image->storeAs('events', $fileName);
                 $inputData['image'] = 'storage/events/'.$fileName;
             }

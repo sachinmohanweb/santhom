@@ -74,7 +74,9 @@ class NewsAnnouncementController extends Controller
 
             if($request['image']){
 
-                $fileName = str_replace(' ', '_', $request->heading).'.'.$request['image']->extension();
+                //$fileName = str_replace(' ', '_', $request->heading).'.'.$request['image']->extension();
+                $fileName = 'news_'.time().'.'.$request['image']->extension();
+
                 $request->image->storeAs('news', $fileName);
                 $inputData['image'] = 'storage/news/'.$fileName;
             }
@@ -121,7 +123,9 @@ class NewsAnnouncementController extends Controller
             }
             if($request['image']){
 
-                $fileName = str_replace(' ', '_', $request->heading).'.'.$request['image']->extension();
+                //$fileName = str_replace(' ', '_', $request->heading).'.'.$request['image']->extension();
+                $fileName = 'news_'.time().'_'.$request->id.'.'.$request['image']->extension();
+
 
                 $request->image->storeAs('news', $fileName);
                 $inputData['image'] = 'storage/news/'.$fileName;
