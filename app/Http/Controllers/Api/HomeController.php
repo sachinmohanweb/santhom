@@ -761,35 +761,43 @@ class HomeController extends Controller
 
             /*---------Daily Bible verse----------*/
 
-            $bible_verse = BibleVerse::select('id','verse as heading','ref as sub_heading')
+            $login_user = FamilyMember::select('id','name','image','family_id')
+                            ->where('id',Auth::user()->id)->first();
+            if ($login_user) {
+                if ($login_user->image !== null) {
+                    $login_user->image = asset('/') . $login_user->image;
+                }
+            }
+
+            $bible_verse = BibleVerse::select('id','verse as heading','ref as sub_heading',DB::raw('"Bible Verse" as hash_value'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1)->first();
             if (!$bible_verse) {
-                $random_verse = BibleVerse::select('id', 'verse as heading', 'ref as sub_heading')
+                $random_verse = BibleVerse::select('id', 'verse as heading', 'ref as sub_heading',DB::raw('"Bible Verse" as hash_value'))
                         ->where('status', 1)
                         ->inRandomOrder()
                         ->first();
     
-                $bible_verse = $random_verse ?? ['id' => null, 'heading' => 'Default Heading', 'sub_heading' => 'Default Subheading'];
+                $bible_verse = $random_verse ?? ['id' => null, 'heading' => 'Default Heading', 'sub_heading' => 'Default Subheading','hash_value'=>'Bible Verse'];
             }
 
             /*---------Daily Schedules Details----------*/
 
             $memoryData = MemoryDay::select('id',DB::raw('"ഓർമ" as heading'), 'title as sub_heading', 
                 DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'), 
-                DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'))
+                DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"ഓർമ" as hash_value'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1)->take(2); 
 
             $bibleCitationData = BiblicalCitation::select('id',DB::raw('"വേദഭാഗങ്ങൾ" as heading'), 'reference as sub_heading',
               DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'),
-               DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'))
+               DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"വേദഭാഗങ്ങൾ" as hash_value'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1)->take(1); 
 
 
             $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading', DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
-                 DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'))
+                 DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as hash_value'))
                 ->whereDate('date',$today_string)
                 ->where('status', 1)->take(1); 
             if ($church_activities->count() == 0) {
@@ -798,7 +806,7 @@ class HomeController extends Controller
 
                 $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading',
                     DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'),
-                    DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"False" as color'), DB::raw('"null" as link'))
+                    DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as hash_value'))
                         ->where('status', 1)->take(1); 
 
                 if ($todayDayValue == 7) { 
@@ -838,7 +846,7 @@ class HomeController extends Controller
 
             $birthdays = FamilyMember::select('id','name as heading')
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
-                        ->addSelect('dob as date','image',DB::raw('"Birthdays" as type'),DB::raw('"False" as color'),'family_id', DB::raw('"null" as link'))
+                        ->addSelect('dob as date','image',DB::raw('"Birthdays" as type'),DB::raw('"False" as color'),'family_id', DB::raw('"null" as link'),DB::raw('"Birthdays" as hash_value'))
                         ->whereMonth('dob', '=', $month)
                         ->whereDay('dob', '>=', $day)
                         ->where('status',1);
@@ -885,7 +893,7 @@ class HomeController extends Controller
             $Vic_messages = VicarMessage::select('id','subject as heading','message_body as sub_heading',
                            DB::raw('DATE_FORMAT(NOW(), "%d/%m/%Y") as date'))
                         ->addSelect('image',DB::raw('"Vicar Messages" as type'),DB::raw('"False" as color'),
-                         DB::raw('"null" as link'))
+                         DB::raw('"null" as link'),DB::raw('"Vicar messages" as hash_value'))
                         ->where('status',1);
 
             if($request['search_word']){
@@ -936,7 +944,7 @@ class HomeController extends Controller
                                 ->whereColumn('family_members.id', 'obituaries.member_id')
                                 ->limit(1);
                         }, 'sub_heading')
-                        ->addSelect('date_of_death as date','photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'),'member_id', DB::raw('"null" as link'),'display_till_date')
+                        ->addSelect('date_of_death as date','photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'),'member_id', DB::raw('"null" as link'),'display_till_date',DB::raw('"Obituaries" as hash_value'))
                         //->whereMonth('date_of_death', '=', $month)
                         //->whereDay('date_of_death', '>=', $day)
                         ->whereRaw("DATE_FORMAT(date_of_death, '%m-%d-%Y') = DATE_FORMAT('$today_string', '%m-%d-%Y')")
@@ -999,6 +1007,7 @@ class HomeController extends Controller
                         ->metadata($metadata)
                         ->success($mergedData )
                         ->DailyDigest($bible_verse)
+                        ->LoginUser($login_user)
                         ->json();
 
         }catch (\Exception $e) {
@@ -1484,7 +1493,7 @@ class HomeController extends Controller
             /*---------Daily reading Details----------*/
 
                 $daily_readings = BiblicalCitation::select('id','reference as heading','note1 as sub_heading','date',
-                    DB::raw('"null" as image'))
+                    DB::raw('"null" as image'),DB::raw('"Daily Readings" as hash_value'))
                                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
                                 ->where('status', 1)
                                 ->orderBy('reference', 'asc');
@@ -1518,7 +1527,7 @@ class HomeController extends Controller
 
                 $birthdays = FamilyMember::select('id','name as heading')
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
-                        ->addSelect('dob as date','image as image','family_id')
+                        ->addSelect('dob as date','image as image','family_id',DB::raw('"Birthdays" as hash_value'))
                                 ->whereRaw("DATE_FORMAT(dob, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
                                 ->where('status', 1)
                                 ->orderBy('name', 'asc');
@@ -1560,7 +1569,7 @@ class HomeController extends Controller
 
                 $weddings = FamilyMember::select('id','name as heading')
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
-                        ->addSelect('date_of_marriage as date','image as image','family_id')
+                        ->addSelect('date_of_marriage as date','image as image','family_id',DB::raw('"Wedding Anniversary" as hash_value'))
                                 ->whereRaw("DATE_FORMAT(date_of_marriage, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
                                 ->where('status', 1)
                                 ->orderBy('name', 'asc');
@@ -1646,7 +1655,8 @@ class HomeController extends Controller
                             ->whereColumn('family_members.id', 'obituaries.member_id')
                             ->limit(1);
                     }, 'sub_heading')
-                    ->addSelect('date_of_death as date','photo as image')
+                    ->addSelect('date_of_death as date','photo as image',
+                        DB::raw('"Death Anniversary" as hash_value'))
 
                     ->whereRaw("DATE_FORMAT(date_of_death, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
                     ->where('status',1)

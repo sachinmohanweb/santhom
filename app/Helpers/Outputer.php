@@ -12,6 +12,7 @@ class Outputer
 	protected $count;
 	protected $metadata = [];
 	protected $DailyDigest = [];
+	protected $LoginUser = [];
 	protected $code = 200;
 	protected $success = true;
 	protected $attribute = null;
@@ -37,6 +38,11 @@ class Outputer
 	public function DailyDigest($DailyDigest)
 	{
 	    $this->DailyDigest = $DailyDigest;
+	    return $this;
+	}
+	public function LoginUser($LoginUser)
+	{
+	    $this->LoginUser = $LoginUser;
 	    return $this;
 	}
 
@@ -130,6 +136,9 @@ class Outputer
 			$res->data = $this->data;
 			if (!empty($this->DailyDigest)) {
 					$res->DailyDigest = $this->DailyDigest;
+			}
+			if (!empty($this->LoginUser)) {
+					$res->LoginUser = $this->LoginUser;
 			}
 
 			return new JsonResponse($res, $this->code);
