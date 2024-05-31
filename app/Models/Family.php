@@ -64,12 +64,16 @@ class Family extends Model
     public function getFamilyHeadImageAttribute()
     {
         $familyhead = FamilyMember::where('family_id',$this->id)->where('head_of_family',1)->first();
-        $family_head_image = $familyhead ? $familyhead->image : 'Null';
+        if($familyhead){
+            $family_head_image = $familyhead ? $familyhead->image : 'Null';
 
-        if($family_head_image !== null) {
-                $family_head_image = asset('/') . $family_head_image;
+            if($family_head_image !== null) {
+                    $family_head_image = asset('/') . $family_head_image;
+            }else{
+                    $family_head_image = null;
+            }
         }else{
-                $family_head_image = null;
+            $family_head_image = null;
         }
 
         return $family_head_image;

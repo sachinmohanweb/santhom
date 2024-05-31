@@ -449,8 +449,8 @@ class HomeController extends Controller
             /*---------Family Details----------*/
 
                 $families = Family::select('id as id')
-                        ->addSelect(DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS item')
-                            ,'family_name as sub_item',DB::raw('"null" as image'),DB::raw('"Families" as type'))
+                        ->addSelect('family_name as item',DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS sub_item')
+                            ,DB::raw('"null" as image'),DB::raw('"Families" as type'))
                         ->where('status',1);
                 if($request['search_word']){
 
@@ -471,10 +471,13 @@ class HomeController extends Controller
                 //    $per_pg=$page=$request['per_page'];
                 // }
 
-                $families=$families->orderBy('item','asc')
+                $families=$families->orderBy('sub_item','asc')
                     //->paginate($perPage=$per_pg,[],'',$page =$family_pg_no);
                     ->get();
 
+                $families->each(function ($family) {
+                    $family->image = $family->family_head_image;
+                });
                 if(empty($families)) {
                     $return['result']=  "Empty family list ";
                     return $this->outputer->code(422)->error($return)->json();
