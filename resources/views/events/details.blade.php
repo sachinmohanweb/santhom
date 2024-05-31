@@ -99,7 +99,11 @@
                        <tr>
                          <td> <b>Media Link  </b></td>
                           <td> <b> &nbsp;:&nbsp;</b></td>
-                         <td><a href="{{$event->link}}" target="_blank">click here</a></td>
+                         <td>
+                            @if($event->link)
+                            <a href="{{$event->link}}" target="_blank">click here</a>
+                            @endif
+                        </td>
                        </tr>
                        <tr>
                          <td> <b>Details  </b></td>

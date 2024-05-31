@@ -98,7 +98,9 @@
                            <div class="col-md-8">
                               <p class="p_l_5">Media LInk : 
                                  <b>
-                                   <a href="{{$news['link']}}" target="_blank">click here</a>
+                                  @if($news['link'])  
+                                       <a href="{{$news['link']}}" target="_blank">click here</a>
+                                  @endif  
                                  </b>
                               </p>
                            </div><br>
