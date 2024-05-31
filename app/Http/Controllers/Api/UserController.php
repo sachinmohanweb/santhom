@@ -205,18 +205,16 @@ class UserController extends Controller
 
         try {
 
-
             $a =  $request->validate([
                 'name'      => 'required',
-                'family_id' => 'required',
+                //'family_id' => 'required',
                 'gender'    => 'required',
                 'dob'       => 'required',
                 'relationship_id'   => 'required',
                 ]);
 
-
             $inputData['name'] = $request['name'];
-            $inputData['family_id'] = $request['family_id'];
+            $inputData['family_id'] = Auth::user()->family_id;
             $inputData['gender'] = $request['gender'];
             $inputData['dob'] = $request['dob'];
 
@@ -278,23 +276,23 @@ class UserController extends Controller
         try {
 
             $member = FamilyMember::find($request['member_id']);
+            $family_id = Auth::user()->family_id;
 
             $a =  $request->validate([
                 'name'      => 'required',
-                'family_id' => 'required',
+                //'family_id' => 'required',
                 'gender'    => 'required',
                 'dob'       => 'required',
                 'relationship_id'   => 'required',
 
                 ]);
-
             $inputData['name'] = $request['name'];
-            $inputData['family_id'] = $request['family_id'];
+            //$inputData['family_id'] = $request['family_id'];
             $inputData['gender'] = $request['gender'];
             $inputData['dob'] = $request['dob'];
 
             if($request['relationship_id']==1){
-                $family_head = FamilyMember::where('family_id',$request['family_id'])
+                $family_head = FamilyMember::where('family_id',$family_id)
                                 ->where('relationship_id',1)
                                 ->where('id','!=',$request['member_id'])->first();
                 if($family_head){
@@ -305,7 +303,7 @@ class UserController extends Controller
             }
             $inputData['relationship_id'] = $request['relationship_id'];
 
-            $family_same_email = FamilyMember::where('family_id',$request['family_id'])
+            $family_same_email = FamilyMember::where('family_id',$family_id)
                             ->where('email',$request['email'])->first();
             if(!$family_same_email){
                 $inputData['email'] = $request['email'];
