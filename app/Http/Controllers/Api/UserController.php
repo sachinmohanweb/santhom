@@ -146,7 +146,7 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
-            $family_id = $request['family_id'];
+            $family_id = Auth::user()->family_id;
             $family = Family::find($family_id);
             
             $a =  $request->validate([
@@ -163,6 +163,7 @@ class UserController extends Controller
             $inputData['post_office'] = $request['post_office'];
             $inputData['pincode'] = $request['pincode'];
             $inputData['map_location'] = $request['map_location'];
+            $inputData['status'] =2;
 
 
             $family->update($inputData);

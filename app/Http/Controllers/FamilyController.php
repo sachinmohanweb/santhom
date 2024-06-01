@@ -544,6 +544,7 @@ class FamilyController extends Controller
 
         $familyMembersQuery = FamilyMember::query()
 
+        ->where('status',1)
         ->where(function ($query) use ($searchTag) {
             $query->whereHas('Family', function ($subquery) use ($searchTag) {
                 $subquery->where('family_name', 'like', '%' . $searchTag . '%');

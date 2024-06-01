@@ -1411,22 +1411,26 @@ class HomeController extends Controller
                         ->whereMonth('date', $month)
                         ->whereDay('date', $day)
                         ->orderBy('date')
+                        ->where('status',1)
                         ->get();
                     $birthdays = FamilyMember::select('id', 'name', 'dob')
                         ->whereMonth('dob', $month)
                         ->whereDay('dob', $day)
                         ->orderBy('dob')
+                        ->where('status',1)
                         ->get();
                     $wedding_anniversaries = FamilyMember::select('id', 'name', 'date_of_marriage')
                         ->whereMonth('date_of_marriage', $month)
                         ->whereDay('date_of_marriage', $day)
                         ->orderBy('date_of_marriage')
+                        ->where('status',1)
                         ->get();
 
                     $obituaries = Obituary::select('id', 'member_id', 'name_of_member', 'date_of_death')
                         ->whereMonth('date_of_death', $month)
                         ->whereDay('date_of_death', $day)
                         ->orderBy('date_of_death')
+                        ->where('status',1)
                         ->get();
                     // $anniversary = MemoryDay::select('*')
                     //     ->whereMonth('date', $month)
