@@ -213,13 +213,15 @@ class UserController extends Controller
                 'relationship_id'   => 'required',
                 ]);
 
+            $family_id = Auth::user()->family_id;
+            
             $inputData['name'] = $request['name'];
             $inputData['family_id'] = Auth::user()->family_id;
             $inputData['gender'] = $request['gender'];
             $inputData['dob'] = $request['dob'];
 
             if($request['relationship_id']==1){
-                $family_head = FamilyMember::where('family_id',$request['family_id'])
+                $family_head = FamilyMember::where('family_id',$family_id)
                                 ->where('relationship_id',1)->first();
                 if($family_head){
                     $return['result']="You can not add another memeber as family head";
@@ -229,7 +231,7 @@ class UserController extends Controller
             }
             $inputData['relationship_id'] = $request['relationship_id'];
 
-            $family_same_email = FamilyMember::where('family_id',$request['family_id'])
+            $family_same_email = FamilyMember::where('family_id',$family_id)
                             ->where('email',$request['email'])->first();
             if(!$family_same_email){
                 $inputData['email'] = $request['email'];

@@ -471,7 +471,8 @@ class HomeController extends Controller
                 //    $per_pg=$page=$request['per_page'];
                 // }
 
-                $families=$families->orderBy('sub_item','asc')
+                $families=$families->orderByRaw('sub_item IS NULL, sub_item ASC')
+                    ->orderBy('sub_item','asc')
                     //->paginate($perPage=$per_pg,[],'',$page =$family_pg_no);
                     ->get();
 
