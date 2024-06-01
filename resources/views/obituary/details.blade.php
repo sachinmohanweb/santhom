@@ -42,7 +42,7 @@
                         @endif
 
                          <div class="row">
-                           <div class="col-md-9">
+                           <div class="col-md-6">
 
                               <div class="product-page-details">
                                  <h3></h3>
@@ -66,8 +66,12 @@
                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" data-bs-toggle="modal" data-bs-target="#EditObituaryModal">
                                  Edit Obituary details
                               </a>
-
                            </div>
+                              <div class="col-md-3 "> 
+                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" 
+                                 href="{{url('showfamilymember/'.$obituary->member_id)}}" data-bs-original-title="" title="">View Profile</a>
+
+                            </div>
                         </div>
                         <hr>
                         <div class="row">

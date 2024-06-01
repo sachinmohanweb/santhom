@@ -443,3 +443,6 @@ VALUES (NULL, 'Others', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 -- 1/06/24----
 
 ALTER TABLE `email_verifications` ADD `family_code` VARCHAR(256) NULL DEFAULT NULL AFTER `id`;
+
+ALTER TABLE `family_members` DROP `deleted_at`;
+

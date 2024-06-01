@@ -178,7 +178,13 @@ class ObituaryController extends Controller
     {
         DB::beginTransaction();
         try{
-            $obituary = Obituary::where('id',$request->id)->delete();
+            $obituary = Obituary::where('id',$request->id)->first();
+
+            $member = FamilyMember::find($obituary['member_id']);
+            $member->date_of_death = null;
+            $member->save();
+
+            $obituary->delete();
             DB::commit();
             Session::flash('success', 'Obituary deleted.');
             $return['status'] = "success";

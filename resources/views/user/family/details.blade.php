@@ -1,3 +1,7 @@
+<?php
+use App\Models\Obituary;
+
+?>
 @extends('layouts.simple.master')
 @section('title', 'Family')
 
@@ -134,10 +138,15 @@
 
                                   @if($value->date_of_death)
                                   <?php
-                                    //$member_obituary = Obituary::where('member_id',$value->id)->first();
+                                    $member_obituary = Obituary::where('member_id',$value->id)->first();
 
                                   ?>
-                                  <a href="{{ route('admin.obituary.show_details', ['id' => $value->obituary_id]) }}">{{$value->name}}</a>
+                                  @if($member_obituary)
+
+                                      <a href="{{ route('admin.obituary.show_details', ['id' => $member_obituary->id]) }}">{{$value->name}}</a>
+                                  @else
+                                      {{$value->name}}
+                                  @endif
                                    -  <span style="color:green"> Died on - {{$value->date_of_death}}</span>
 
                                   @else

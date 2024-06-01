@@ -422,22 +422,34 @@ class FamilyController extends Controller
             $familymember->update($inputData);
 
             if($request['date_of_death']){
-                $inputData1['member_id'] = $familymember->id;
-                $inputData1['name_of_member'] = $familymember->name;
-                $inputData1['date_of_death'] = $familymember->date_of_death;
-                $inputData1['display_till_date'] = $familymember->date_of_death;
 
-                if($request['image']){
+                $member_obituary = Obituary::where('member_id',$familymember->id)->first();
+                if($member_obituary){
 
-                    //$fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
-                    //$request->image->storeAs('obituary', $fileName);
-                    $inputData1['photo'] = $inputData['image'];
+                    $member_obituary->name_of_member = $familymember->name;
+                    $member_obituary->date_of_death = $familymember->date_of_death;
+                    $member_obituary->save();
+
                 }else{
-                    $inputData1['photo'] = $familymember->image;
 
+                    $inputData1['member_id'] = $familymember->id;
+                    $inputData1['name_of_member'] = $familymember->name;
+                    $inputData1['date_of_death'] = $familymember->date_of_death;
+                    $inputData1['display_till_date'] = $familymember->date_of_death;
+
+                    if($request['image']){
+
+                        //$fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                        //$request->image->storeAs('obituary', $fileName);
+                        $inputData1['photo'] = $inputData['image'];
+                    }else{
+                        $inputData1['photo'] = $familymember->image;
+
+                    }
+                    
+                    Obituary::create($inputData1);
                 }
 
-                Obituary::create($inputData1);
             }
 
 

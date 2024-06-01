@@ -297,14 +297,16 @@ class UserController extends Controller
             $inputData['dob'] = $request['dob'];
 
             if($request['relationship_id']==1){
-                $family_head = FamilyMember::where('family_id',$family_id)
-                                ->where('relationship_id',1)
-                                ->where('id','!=',$request['member_id'])->first();
-                if($family_head){
-                    $return['result']="You can not add another memeber as family head";
-                    return $this->outputer->code(422)->error($return)->json();
-                }
-                $inputData['head_of_family'] = 1;
+                // $family_head = FamilyMember::where('family_id',$family_id)
+                //                 ->where('relationship_id',1)
+                //                 ->where('id','!=',$request['member_id'])->first();
+                // if($family_head){
+                //     $return['result']="You can not add another memeber as family head";
+                //     return $this->outputer->code(422)->error($return)->json();
+                // }
+                // $inputData['head_of_family'] = 1;
+                $return['result']="You can not add another memeber as family head";
+                return $this->outputer->code(422)->error($return)->json();
             }
             $inputData['relationship_id'] = $request['relationship_id'];
 
