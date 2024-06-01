@@ -500,6 +500,7 @@ class HomeController extends Controller
                 $members = FamilyMember::select('id as id','name as item')
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'),'image',DB::raw('"Members" as type'))
                         ->addSelect('family_id')
+                        ->whereNull('date_of_death')
                         ->where('status',1);
                 if($request['search_word']){
 
@@ -1096,8 +1097,28 @@ class HomeController extends Controller
             "),'link')
             ->where('status',1);
             if($request['search_word']){
-                $newsAnnouncements->where('heading','like',$request['search_word'].'%')
-                                ->orwhere('body','like',$request['search_word'].'%');
+                // $newsAnnouncements->where('heading','like',$request['search_word'].'%')
+                //                 ->orwhere('body','like',$request['search_word'].'%');
+
+                $searchTerm = strtolower($request['search_word']);
+                $newsAnnouncements->where(function ($query) use ($searchTerm) {
+                    $query->where('heading', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('body', 'like', '%' . $searchTerm . '%');
+                });
+                switch ($searchTerm) {
+                    case 'trustee':
+                        $newsAnnouncements->where('type', 1);
+                        break;
+                    case 'secretary':
+                        $newsAnnouncements->where('type', 2);
+                        break;
+                    case 'prayer group':
+                        $newsAnnouncements->where('type', 3);
+                        break;
+                    case 'organization':
+                        $newsAnnouncements->where('type', 4);
+                        break;
+                }
             }
             // if($request['page_no']){
             //     $pg_no=$page=$request['page_no'];
@@ -1157,8 +1178,28 @@ class HomeController extends Controller
             ->where('status',1);
 
             if($request['search_word']){
-                $notifications->where('title','like',$request['search_word'].'%')
-                            ->orwhere('content','like',$request['search_word'].'%');
+                // $notifications->where('title','like',$request['search_word'].'%')
+                //             ->orwhere('content','like',$request['search_word'].'%');
+
+                $searchTerm = strtolower($request['search_word']);
+                $notifications->where(function ($query) use ($searchTerm) {
+                    $query->where('title', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('content', 'like', '%' . $searchTerm . '%');
+                });
+                switch ($searchTerm) {
+                    case 'trustee':
+                        $notifications->where('type', 1);
+                        break;
+                    case 'secretary':
+                        $notifications->where('type', 2);
+                        break;
+                    case 'prayer group':
+                        $notifications->where('type', 3);
+                        break;
+                    case 'organization':
+                        $newsAnnouncements->where('type', 4);
+                        break;
+                }
             }
             // if($request['page_no']){
             //     $pg_no=$page=$request['page_no'];
@@ -1244,8 +1285,8 @@ class HomeController extends Controller
             if ($request['search_word']) {
                 $search_results = $events
                     ->merge($newsAnnouncements)
-                    ->merge($notifications)
-                    ->merge($VicarMessages);
+                    //->merge($VicarMessages)
+                    ->merge($notifications);
 
 
                 $search_results_metadata = [
@@ -1417,12 +1458,14 @@ class HomeController extends Controller
                         ->whereMonth('dob', $month)
                         ->whereDay('dob', $day)
                         ->orderBy('dob')
+                        ->whereNull('date_of_death')
                         ->where('status',1)
                         ->get();
                     $wedding_anniversaries = FamilyMember::select('id', 'name', 'date_of_marriage')
                         ->whereMonth('date_of_marriage', $month)
                         ->whereDay('date_of_marriage', $day)
                         ->orderBy('date_of_marriage')
+                        ->whereNull('date_of_death')
                         ->where('status',1)
                         ->get();
 
@@ -1538,6 +1581,7 @@ class HomeController extends Controller
                         ->addSelect('dob as date','image as image','family_id',DB::raw('"Birthdays" as hash_value'))
                                 ->whereRaw("DATE_FORMAT(dob, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
                                 ->where('status', 1)
+                                ->whereNull('date_of_death')
                                 ->orderBy('name', 'asc');
 
                 if($request['page_no']){
@@ -1580,6 +1624,7 @@ class HomeController extends Controller
                         ->addSelect('date_of_marriage as date','image as image','family_id',DB::raw('"Wedding Anniversary" as hash_value'))
                                 ->whereRaw("DATE_FORMAT(date_of_marriage, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
                                 ->where('status', 1)
+                                ->whereNull('date_of_death')
                                 ->orderBy('name', 'asc');
 
                 if($request['page_no']){
