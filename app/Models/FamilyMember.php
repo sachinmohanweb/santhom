@@ -74,7 +74,6 @@ class FamilyMember extends Authenticatable
         }
     }
     
-
     public function getFamilyHeadNameAttribute()
     {
         $familyhead = FamilyMember::where('family_id',$this->family_id)->where('head_of_family',1)->first();
@@ -158,5 +157,4 @@ class FamilyMember extends Authenticatable
         
         return $married_to;
     }
-
 }

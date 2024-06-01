@@ -10,6 +10,7 @@ class EmailVerification extends Model
     use HasFactory;
 
     protected $fillable = [
+        'family_code',
         'email',
         'otp',
         'otp_expiry',

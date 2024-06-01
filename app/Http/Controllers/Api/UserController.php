@@ -42,6 +42,7 @@ class UserController extends Controller
             }else{
                 $otp = mt_rand(1000, 9999);
 
+                $inputData['family_code'] = $request['family_code'];
                 $inputData['email'] = $request['email'];
                 $inputData['otp'] = $otp;
                 $inputData['otp_expiry'] = Carbon::now()->addMinutes(5);
@@ -82,6 +83,7 @@ class UserController extends Controller
         try {
             
             $otp = EmailVerification::where('email', $request->email)
+                ->where('family_code', $request->family_code)
                 ->where('otp', $request->otp)
                 ->where('otp_used', false)
                 ->first();

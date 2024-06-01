@@ -439,3 +439,7 @@ ALTER TABLE `organizations` CHANGE `coordinator_id` `coordinator_id` INT NULL DE
 
 INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `updated_at`) 
 VALUES (NULL, 'Others', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 1/06/24----
+
+ALTER TABLE `email_verifications` ADD `family_code` VARCHAR(256) NULL DEFAULT NULL AFTER `id`;
