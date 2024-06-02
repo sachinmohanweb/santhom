@@ -317,6 +317,20 @@ class UserController extends Controller
             if(!$family_same_email){
                 $inputData['email'] = $request['email'];
             }
+            if($request['image']){
+
+                $fileName = str_replace(' ', '_', $request->name).'_'.$request->member_id.'_'.time().'.'.$request['image']->extension();
+
+                if($request['date_of_death']){
+                    $request->image->storeAs('obituary', $fileName);
+                    $inputData['image'] = 'storage/obituary/'.$fileName;
+                }else{
+
+                    $request->image->storeAs('members', $fileName);
+                    $inputData['image'] = 'storage/members/'.$fileName;
+                }
+            }
+
             $inputData['title'] = $request['title'];
             $inputData['nickname'] = $request['nickname'];
             $inputData['date_of_baptism'] = $request['date_of_baptism'];
@@ -327,7 +341,8 @@ class UserController extends Controller
             $inputData['occupation'] = $request['occupation'];
             $inputData['company_name'] = $request['company_name'];
             $inputData['mobile'] = $request['mobile'];
-            $inputData['date_of_death'] = $request['date_of_death'];
+            $inputData['email'] = $request['email'];
+            //$inputData['date_of_death'] = $request['date_of_death'];
             $inputData['status'] = 2;
 
 
