@@ -446,3 +446,6 @@ ALTER TABLE `email_verifications` ADD `family_code` VARCHAR(256) NULL DEFAULT NU
 
 ALTER TABLE `family_members` DROP `deleted_at`;
 
+-- 2/06/24----
+
+ALTER TABLE `family_members` ADD `deleted_at` TIMESTAMP NULL DEFAULT NULL AFTER `updated_at`;

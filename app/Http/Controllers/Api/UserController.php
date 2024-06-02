@@ -8,8 +8,10 @@ use Auth;
 use Carbon\Carbon;
 
 use App\Models\Family;
+use App\Models\Obituary;
 use App\Models\VicarDetail;
 use App\Models\FamilyMember;
+use App\Models\PaymentDetail;
 use App\Models\EmailVerification;
 
 use App\Mail\UserVerificationMail;
@@ -498,6 +500,55 @@ class UserController extends Controller
                 $return['result']=$e->getMessage();
                 return $this->outputer->code(422)->error($return)->json();
             }
+    }
+
+    public function DeleteMember(Request $request)
+    {
+        DB::beginTransaction();
+        try{
+            $vicar =VicarDetail::where('member_id',$request->member_id)->first();
+
+            if($vicar){
+                $return['status'] = 'failed';
+                $return['message'] = 'Cannot delete this member because it is associated with a family member.';
+                return response()->json($return);
+
+            }
+
+            $obituary =Obituary::where('member_id',$request->member_id)->first();
+            if($obituary){
+                $return['status'] = 'failed';
+                $return['message'] = 'Cannot delete member because it is associated with a obituary member details.';
+                return response()->json($return);
+
+            }
+            $payment =PaymentDetail::where('member_id',$request->member_id)->first();
+            if($payment){
+                $return['status'] = 'failed';
+                $return['message'] = 'Cannot delete this member because member have payment details associated.';
+                return response()->json($return);
+
+            }
+            $member = FamilyMember::find($request->member_id);
+            if($member){
+                $member->delete();
+                $return['status'] = "success";
+                $return['message'] = 'Family member successfully deleted.';
+            }else{
+                $return['status'] = 'failed';
+                $return['message'] = 'Member not found out.Check your member id.';
+            }
+
+            DB::commit();
+            return response()->json($return);
+
+
+         }catch (Exception $e) {
+
+            DB::rollBack();
+            $return['status'] = $e->getMessage();
+            $return['message'] = 'Failed.';
+        }
     }
 
 }

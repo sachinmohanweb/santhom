@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('family_member',[UserController::class, 'familyMember']);
     Route::get('vicars_list',[UserController::class, 'VicarsList']);
     Route::get('vicar_details',[UserController::class, 'VicarDetails']);
+    Route::post('delete_member', [UserController::class, 'DeleteMember']);
 
     Route::get('blood_groups',[SettingsController::class, 'BloodGroups']);
     Route::get('marital_statuses',[SettingsController::class, 'MaritatStatuses']);
