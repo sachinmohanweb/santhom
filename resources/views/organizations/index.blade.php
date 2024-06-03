@@ -190,6 +190,7 @@
         } 
 
         $('.coordinator_id').select2({
+            dropdownParent: $('#AddOrganizationModal'),
             placeholder: "Select coordinator",
             ajax: {
 

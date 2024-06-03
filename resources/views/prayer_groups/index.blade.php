@@ -213,6 +213,7 @@
         $(document).ready( function () {
 
             $('.leader_id').select2({
+                dropdownParent: $('#AddPrayerGroupModal'),
                 placeholder: "Select Leader",
                 ajax: {
 
@@ -240,6 +241,7 @@
             });
 
             $('.coordinator_id').select2({
+                dropdownParent: $('#AddPrayerGroupModal'),
                 placeholder: "Select coordinator",
                 ajax: {
 
@@ -328,6 +330,62 @@
             }
         }
 
+        function reinitializeSelect2ForEdit() {
+            $('.leader_id').select2('destroy').select2({
+                dropdownParent: $('#EditPrayerGroupModal'),
+                placeholder: "Select Leader",
+                ajax: {
+                    url: "<?= url('get_family_members_list') ?>",
+                    dataType: 'json',
+                    method: 'post',
+                    delay: 250,
+                    data: function(data) {
+                        return {
+                            _token    : "<?= csrf_token() ?>",
+                            search_tag: data.term,
+                            page: 'obituary',
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.results,
+                            pagination: { more: (params.page * 30) < data.total_count }
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+            $('.coordinator_id').select2('destroy').select2({
+                dropdownParent: $('#EditPrayerGroupModal'),
+                placeholder: "Select coordinator",
+                ajax: {
+
+                    url: "<?= url('get_family_members_list') ?>",
+                    dataType: 'json',
+                    method: 'post',
+                    delay: 250,
+
+                     data: function(data) {
+                        return {
+                            _token    : "<?= csrf_token() ?>",
+                            search_tag: data.term,
+                            page: 'obituary',
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.results,
+                            pagination: { more: (params.page * 30) < data.total_count }
+                        };
+                    },
+                    cache: true
+                }
+            });
+        }
+
 
         function EditFunc(id){
             $.ajax({
@@ -359,7 +417,7 @@
 
                     $('#EditPrayerGroupForm').attr('action', "{{ url('updateprayergroup') }}/" + id);
 
-
+                    reinitializeSelect2ForEdit();
                     $('#EditPrayerGroupModal').modal('show');
                 },
                 error: function(xhr, status, error) {

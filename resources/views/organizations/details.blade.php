@@ -118,10 +118,10 @@
 
                               <td>{{$value->officer_phone_number}} </td>
                               <td>
-                                <a href="javascript:void(0)" data-toggle="tooltip" 
+                               <!--  <a href="javascript:void(0)" data-toggle="tooltip" 
                                 data-original-title="View" class="edit btn btn-primary btn-sm view">
                                   <i class="fa fa-edit"></i>Edit
-                                </a>
+                                </a> -->
 
                                 <a href="javascript:void(0);" id="delete-compnay" 
                                 onClick="deleteFunc({{ $value['id'] }})" data-toggle="tooltip" data-original-title="Delete" class="delete btn btn-danger btn-sm">
@@ -327,6 +327,7 @@
     }
 
     $('.member_id').select2({
+        dropdownParent: $('#AddOrganizationOfficerModal'),
         placeholder: "Select Member",
         ajax: {
 
@@ -353,6 +354,7 @@
     });
 
     $('.coordinator_edit').select2({
+        dropdownParent: $('#EditOrganizationsModal'),
         placeholder: "Select coordinator",
         ajax: {
 
