@@ -164,6 +164,7 @@
 
 <script type="text/javascript">
   $('#member_id').select2({
+      dropdownParent: $('#EditPaymentDetailsModal'),
       placeholder: "Select member",
       ajax: {
 
@@ -176,6 +177,7 @@
               return {
                   _token    : "<?= csrf_token() ?>",
                   search_tag: data.term,
+                  page: 'obituary',
               };
           },
           processResults: function(data, params) {

@@ -90,6 +90,7 @@
                     return {
                         _token    : "<?= csrf_token() ?>",
                         search_tag: data.term,
+                        page: 'obituary',
                     };
                 },
                 processResults: function(data, params) {
