@@ -292,7 +292,7 @@ class SettingsController extends Controller
             $pg_no='';
             $per_pg='';
 
-            $relationships = Relationship::select('id','relation_name')->where('status',1);
+            $relationships = Relationship::select('id','relation_name')->where('status',1)->where('id','!=',1);
 
             if($request['search_word']){
                 $relationships->where('relation_name','like',$request['search_word'].'%');
