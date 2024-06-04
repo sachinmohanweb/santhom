@@ -92,10 +92,19 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
                 if(!$relationship){
                     throw new \Exception("Relationship unidentified Row-".$key+2);
                 } 
-                $member_details['relationship_id']    =$relationship['id'];
                 if($relationship['id']==1){
-                    $member_details['head_of_family']    =1;
+                    $family_head = FamilyMember::where('family_id',$family_id)
+                                ->where('relationship_id',1)->first();
+                    if($family_head){
+                        $member_details['relationship_id']   =15;
+                        $member_details['head_of_family']    =0;
+
+                    }else{
+                        $member_details['relationship_id']   =$relationship['id'];
+                        $member_details['head_of_family']    =1;
+                    }
                 }else{
+                    $member_details['relationship_id']   =$relationship['id'];
                     $member_details['head_of_family']    =0;
                 }
 
