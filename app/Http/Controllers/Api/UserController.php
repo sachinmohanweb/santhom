@@ -544,9 +544,17 @@ class UserController extends Controller
             }
             $member = FamilyMember::find($request->member_id);
             if($member){
-                $member->delete();
-                $return['status'] = "success";
-                $return['message'] = 'Family member successfully deleted.';
+                if($member['relationship_id'] == 1){
+                    $return['status'] = 'failed';
+                    $return['message'] = 'Cannot delete head of the family.';
+                    return response()->json($return);
+
+                }else{
+
+                    $member->delete();
+                    $return['status'] = "success";
+                    $return['message'] = 'Family member successfully deleted.';
+                }
             }else{
                 $return['status'] = 'failed';
                 $return['message'] = 'Member not found out.Check your member id.';
