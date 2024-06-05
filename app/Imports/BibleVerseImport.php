@@ -36,6 +36,11 @@ class BibleVerseImport implements ToCollection,WithHeadingRow,WithValidation,Wit
             foreach ($rows as $key=>$row) {
 
                 $unixTimestampDOB = ($row['date'] - 25569) * 86400;
+                $date_value = date('Y-m-d', $unixTimestampDOB);
+                $rept_date=BibleVerse::where('date',$date_value)->first();
+                if($rept_date){
+                    throw new \Exception("date  already exist-");
+                }
                 $bible_verse_details['date']   = date('Y-m-d', $unixTimestampDOB);
                 $bible_verse_details['verse']  =$row['verse'];
                 $bible_verse_details['ref']    =$row['ref'];

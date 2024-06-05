@@ -36,6 +36,11 @@ class BibleCitationsImport implements ToCollection,WithHeadingRow,WithValidation
             foreach ($rows as $key=>$row) {
 
                 $unixTimestampDOB = ($row['date'] - 25569) * 86400;
+                $date_value = date('Y-m-d', $unixTimestampDOB);
+                $rept_date=BiblicalCitation::where('date',$date_value)->first();
+                if($rept_date){
+                    throw new \Exception("date  already exist-");
+                }  
                 $bible_citation_details['date']        = date('Y-m-d', $unixTimestampDOB);
                 $bible_citation_details['reference']    =$row['ref'];
 
