@@ -67,7 +67,19 @@ class NotificationController extends Controller
                 ]);
             }
 
+            if($request->type==1){
+                $type_name = 'Trustee';
+            }elseif($request->type==2){
+                $type_name = 'Secretary';
+            }elseif($request->type==3){
+                $type_name = 'Prayer Group';
+            }else{
+                $type_name = 'Organization';
+            }
+
+
             $inputData = $request->all();
+            $inputData['type_name'] = $type_name; 
 
             Notification::create($inputData);
             DB::commit();
@@ -108,6 +120,19 @@ class NotificationController extends Controller
 
                 $inputData['group_org_id'] =Null;
             }
+
+            if($request->type==1){
+                $type_name = 'Trustee';
+            }elseif($request->type==2){
+                $type_name = 'Secretary';
+            }elseif($request->type==3){
+                $type_name = 'Prayer Group';
+            }else{
+                $type_name = 'Organization';
+            }
+
+            $inputData['type_name'] = $type_name; 
+
            
             $notification->update($inputData);
             DB::commit();

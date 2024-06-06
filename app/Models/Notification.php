@@ -15,6 +15,7 @@ class Notification extends Model
         'title',
         'content',
         'type',
+        'type_name',
         'group_org_id',
         'status',
     ];

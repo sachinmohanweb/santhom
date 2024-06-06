@@ -449,3 +449,8 @@ ALTER TABLE `family_members` DROP `deleted_at`;
 -- 2/06/24----
 
 ALTER TABLE `family_members` ADD `deleted_at` TIMESTAMP NULL DEFAULT NULL AFTER `updated_at`;
+
+-- 06/06/24----
+
+ALTER TABLE `news_announcements` ADD `type_name` VARCHAR(256) NULL DEFAULT NULL AFTER `type`;
+ALTER TABLE `notifications` ADD `type_name` VARCHAR(256) NOT NULL AFTER `type`;

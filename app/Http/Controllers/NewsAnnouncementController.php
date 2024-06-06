@@ -72,6 +72,18 @@ class NewsAnnouncementController extends Controller
 
             $inputData = $request->all();
 
+            if($request->type==1){
+                $type_name = 'Trustee';
+            }elseif($request->type==2){
+                $type_name = 'Secretary';
+            }elseif($request->type==3){
+                $type_name = 'Prayer Group';
+            }else{
+                $type_name = 'Organization';
+            }
+
+            $inputData['type_name'] = $type_name;
+
             if($request['image']){
 
                 //$fileName = str_replace(' ', '_', $request->heading).'.'.$request['image']->extension();
@@ -121,6 +133,19 @@ class NewsAnnouncementController extends Controller
 
                 $inputData['group_org_id'] =Null;
             }
+            
+            if($request->type==1){
+                $type_name = 'Trustee';
+            }elseif($request->type==2){
+                $type_name = 'Secretary';
+            }elseif($request->type==3){
+                $type_name = 'Prayer Group';
+            }else{
+                $type_name = 'Organization';
+            }
+
+            $inputData['type_name'] = $type_name;
+
             if($request['image']){
 
                 //$fileName = str_replace(' ', '_', $request->heading).'.'.$request['image']->extension();

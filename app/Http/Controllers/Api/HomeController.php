@@ -1076,25 +1076,9 @@ class HomeController extends Controller
 
             /*---------News & Announcements Details----------*/
 
-            $newsAnnouncements = NewsAnnouncement::select('id','updated_at as date','heading as item')
-            ->addSelect(DB::raw("
-                CASE
-                    WHEN type = 1 THEN 'Trustee'
-                    WHEN type = 2 THEN 'Secretary'
-                    WHEN type = 3 THEN 'Prayer Group'
-                    ELSE 'Organization'
-                END AS sub_item
-            "))
+            $newsAnnouncements = NewsAnnouncement::select('id','updated_at as date','heading as sub_item','type_name as item')
             ->addSelect('body as details','image','type' ,'group_org_id',
-                DB::raw('"News & Announcements" as type_value'),DB::raw('"False" as color'))
-            ->addSelect(DB::raw("
-                CASE
-                    WHEN type = 1 THEN 'Trustee'
-                    WHEN type = 2 THEN 'Secretary'
-                    WHEN type = 3 THEN 'Prayer Group'
-                    ELSE 'Organization'
-                END AS hash_value
-            "),'link')
+                DB::raw('"News & Announcements" as type_value'),DB::raw('"False" as color'),'type_name as hash_value','link')
             ->where('status',1);
             if($request['search_word']){
                 // $newsAnnouncements->where('heading','like',$request['search_word'].'%')
@@ -1103,22 +1087,9 @@ class HomeController extends Controller
                 $searchTerm = strtolower($request['search_word']);
                 $newsAnnouncements->where(function ($query) use ($searchTerm) {
                     $query->where('heading', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('type_name', 'like', '%' . $searchTerm . '%')
                         ->orWhere('body', 'like', '%' . $searchTerm . '%');
                 });
-                switch ($searchTerm) {
-                    case 'trustee':
-                        $newsAnnouncements->where('type', 1);
-                        break;
-                    case 'secretary':
-                        $newsAnnouncements->where('type', 2);
-                        break;
-                    case 'prayer group':
-                        $newsAnnouncements->where('type', 3);
-                        break;
-                    case 'organization':
-                        $newsAnnouncements->where('type', 4);
-                        break;
-                }
             }
             // if($request['page_no']){
             //     $pg_no=$page=$request['page_no'];
@@ -1156,25 +1127,26 @@ class HomeController extends Controller
 
             /*---------Notifications Details----------*/
 
-            $notifications = Notification::select('id','updated_at as date','title as item')
-            ->addSelect(DB::raw("
-                CASE
-                    WHEN type = 1 THEN 'Trustee'
-                    WHEN type = 2 THEN 'Secretary'
-                    WHEN type = 3 THEN 'Prayer Group'
-                    ELSE 'Organization'
-                END AS sub_item
-            "))
+            $notifications = Notification::select('id','updated_at as date','title as sub_item','type_name as item')
+            // ->addSelect(DB::raw("
+            //     CASE
+            //         WHEN type = 1 THEN 'Trustee'
+            //         WHEN type = 2 THEN 'Secretary'
+            //         WHEN type = 3 THEN 'Prayer Group'
+            //         ELSE 'Organization'
+            //     END AS sub_item
+            // "))
             ->addSelect('content as details','group_org_id','type',
-                DB::raw('"Notifications" as type_value'),DB::raw('"False" as color'))
-            ->addSelect(DB::raw("
-                CASE
-                    WHEN type = 1 THEN 'Trustee'
-                    WHEN type = 2 THEN 'Secretary'
-                    WHEN type = 3 THEN 'Prayer Group'
-                    ELSE 'Organization'
-                END AS hash_value
-            "),DB::raw('"null" as link'))
+                DB::raw('"Notifications" as type_value'),DB::raw('"False" as color'),'type_name as hash_value',
+                DB::raw('"null" as link'))
+            // ->addSelect(DB::raw("
+            //     CASE
+            //         WHEN type = 1 THEN 'Trustee'
+            //         WHEN type = 2 THEN 'Secretary'
+            //         WHEN type = 3 THEN 'Prayer Group'
+            //         ELSE 'Organization'
+            //     END AS hash_value
+            // "),DB::raw('"null" as link'))
             ->where('status',1);
 
             if($request['search_word']){
@@ -1184,6 +1156,7 @@ class HomeController extends Controller
                 $searchTerm = strtolower($request['search_word']);
                 $notifications->where(function ($query) use ($searchTerm) {
                     $query->where('title', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('type_name', 'like', '%' . $searchTerm . '%')
                         ->orWhere('content', 'like', '%' . $searchTerm . '%');
                 });
                 switch ($searchTerm) {
@@ -1576,7 +1549,7 @@ class HomeController extends Controller
 
             /*---------Birthdays Details----------*/
 
-                $birthdays = FamilyMember::select('id','name as heading')
+                $birthdays = FamilyMember::select('id',DB::raw('CONCAT("Happy Birthday ", name) as heading'),)
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
                         ->addSelect('dob as date','image as image','family_id',DB::raw('"Birthdays" as hash_value'))
                                 ->whereRaw("DATE_FORMAT(dob, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
@@ -1619,7 +1592,7 @@ class HomeController extends Controller
 
             /*---------Wedding Anniversary Details----------*/
 
-                $weddings = FamilyMember::select('id','name as heading')
+                $weddings = FamilyMember::select('id',DB::raw('CONCAT("Happy wedding anniversary ", name) as heading'),)
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
                         ->addSelect('date_of_marriage as date','image as image','family_id',DB::raw('"Wedding Anniversary" as hash_value'))
                                 ->whereRaw("DATE_FORMAT(date_of_marriage, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")

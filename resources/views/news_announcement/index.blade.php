@@ -98,7 +98,7 @@
                     {  data: 'DT_RowIndex', name: 'Sl.No'},
                     { data: 'heading', name: 'heading' },
                     { data: 'created', name: 'created' },
-                    { data: 'type', name: 'type' },
+                    { data: 'type_name', name: 'type_name' },
                     { data: 'action', name: 'action', orderable: false,width:'25%'},
                 ],
                 columnDefs: [

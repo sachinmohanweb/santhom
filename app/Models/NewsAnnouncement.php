@@ -11,6 +11,7 @@ class NewsAnnouncement extends Model
 
     protected $fillable = [
         'type',
+        'type_name',
         'group_org_id',
         'heading',
         'body',

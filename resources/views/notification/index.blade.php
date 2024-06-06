@@ -96,7 +96,7 @@
                 columns: [
                     {  data: 'DT_RowIndex', name: 'Sl.No'},
                     { data: 'title', name: 'title' },
-                    { data: 'type', name: 'type' },
+                    { data: 'type_name', name: 'type_name' },
                     { data: 'action', name: 'action', orderable: false,width:'25%'},
                 ],
                 columnDefs: [
