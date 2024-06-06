@@ -81,7 +81,12 @@
                   </div>
                   <div class="mb-3 col-md-6">
                     <label class="form-label">Family head</label>
-                    <p><h6>-- <h6></p>
+                      @if($familymember->FamilyHead() !== 'Null')
+                          <a href="{{ route('admin.family.member.show_details', ['id' => $familymember->FamilyHead()->id]) }}">
+                          <h6>{{$familymember->FamilyHead()->name}}</h6></a>
+                      @else
+                          <br><span style="color:red;font-size:12px">Not updated</span>
+                      @endif
                   </div>
                 </div>
                 <div class="row">

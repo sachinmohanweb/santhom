@@ -60,6 +60,11 @@ use App\Models\Obituary;
                    <li class="bg-info"></li>
                    <li class="bg-warning"></li>
                  </ul>
+                 @if($family->status==1)
+                    <span class="btn btn-success">Approved</span>
+                  @else
+                    <span class="btn btn-danger">Pending</span>
+                  @endif
                 
               </div>
               <div class="col-md-3">         
@@ -81,7 +86,7 @@ use App\Models\Obituary;
                      <td> <b>&nbsp;:&nbsp;</b></td>
                      <td>
                       @if($family->headOfFamily)
-                        {{$family->headOfFamily->name}}
+                        <h5>{{$family->headOfFamily->name}}</h5>
                       @else
                         nill
                       @endif
@@ -127,6 +132,7 @@ use App\Models\Obituary;
                             <tr>
                               <th scope="col">Id</th>
                               <th scope="col">Name</th>
+                              <th scope="col">Status</th>
                               <th scope="col">Relation</th>
                             </tr>
                           </thead>
@@ -143,15 +149,22 @@ use App\Models\Obituary;
                                   ?>
                                   @if($member_obituary)
 
-                                      <a href="{{ route('admin.obituary.show_details', ['id' => $member_obituary->id]) }}">{{$value->name}}</a>
+                                      <a href="{{ route('admin.obituary.show_details', ['id' => $member_obituary->id]) }}"><h6>{{$value->name}}</h6></a>
                                   @else
-                                      {{$value->name}}
+                                      <h6>{{$value->name}}</h6>
                                   @endif
                                    -  <span style="color:green"> Died on - {{$value->date_of_death}}</span>
 
                                   @else
-                                      <a href="{{ route('admin.family.member.show_details', ['id' => $value->id]) }}">{{$value->name}}</a>
+                                      <a href="{{ route('admin.family.member.show_details', ['id' => $value->id]) }}"><h6>{{$value->name}}</h6></a>
                                   @endif
+                              </td>
+                              <td>
+                                @if($value->status==1)
+                                  <span class="btn-success p-1">Approved</span>
+                                @else
+                                  <span class="btn-danger p-1">Pending</span>
+                                @endif
                               </td>
                               <td>{{$value->relationship->relation_name}} </td>
                               

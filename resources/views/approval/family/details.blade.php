@@ -56,6 +56,11 @@
                    <li class="bg-info"></li>
                    <li class="bg-warning"></li>
                  </ul>
+                  @if($family->status==1)
+                    <span class="btn btn-success">Approved</span>
+                  @else
+                    <span class="btn btn-danger">Pending</span>
+                  @endif
                 
               </div>
               <div class="col-md-3"> 
@@ -83,7 +88,7 @@
                      <td> <b>&nbsp;:&nbsp;</b></td>
                      <td>
                       @if($family->headOfFamily)
-                        {{$family->headOfFamily->name}}
+                        <h6>{{$family->headOfFamily->name}}</h6>
                       @else
                         nill
                       @endif
@@ -127,6 +132,7 @@
                             <tr>
                               <th scope="col">Id</th>
                               <th scope="col">Name</th>
+                              <th scope="col">Status</th>
                               <th scope="col">Relation</th>
                             </tr>
                           </thead>
@@ -135,8 +141,16 @@
                             <tr>
                               <th scope="row">{{$key+1}}</th>
                               <td>
-                                <a href="{{ route('admin.family.member.show_details', ['id' => $value->id]) }}">{{$value->name}}
+                                <a href="{{ route('admin.family.member.show_details', ['id' => $value->id]) }}">
+                                  <h6>{{$value->name}}</h6>
                                 </a>
+                              </td>
+                              <td>
+                                @if($value->status==1)
+                                  <span class="btn-success p-1">Approved</span>
+                                @else
+                                  <span class="btn-danger p-1">Pending</span>
+                                @endif
                               </td>
                               <td>{{$value->relationship->relation_name}} </td>
                             </tr>
