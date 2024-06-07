@@ -95,7 +95,6 @@ class UserController extends Controller
                 if (Carbon::now()->lt($otp->otp_expiry)) {
                     $otp->otp_used = true;
                     $otp->save();
-                    DB::commit();
 
                     $user = $this->userRepo->emailFamilyMember($request->email,$request->family_code);
                     if ($user->image !== null) {
@@ -106,8 +105,17 @@ class UserController extends Controller
 
                     Auth::guard('member')->login($user);
 
+                    if($request->device_id){
+
+                        $user->device_id = $request->device_id;
+                        $user->refresh_token = $request->refresh_token;
+                        $user->save();
+                    }
+
                     $token = $user->createToken('santhom-mobile-app')->plainTextToken;
 
+                    DB::commit();
+                    
                     $return['messsage']  =  'OTP verified successfully';
                     $return['token']  = $token;
                     $return['user']  =  $user;
@@ -124,6 +132,36 @@ class UserController extends Controller
             }
 
         }catch (\Exception $e) {
+
+            DB::rollBack();
+            $return['result']=$e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
+
+    public function updateToken(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            
+            // $family_id = Auth::user()->family_id;
+            // $member_id = Auth::user()->id;
+
+            $a =  $request->validate([
+                'refresh_token' => 'required',
+            ]);
+
+            $member = FamilyMember::find(Auth::user()->id);
+
+            $member->refresh_token = $request->refresh_token;
+            $member->save();
+
+            DB::commit();
+
+            $return['messsage']  =  'Refresh_token successfully updated';
+            return $this->outputer->code(200)->success($return)->json();
+
+        }catch (Exception $e) {
 
             DB::rollBack();
             $return['result']=$e->getMessage();

@@ -14,6 +14,7 @@ Route::get('/clear',[SettingsController::class,'ClearCache']);
 Route::middleware('auth:sanctum')->group(function(){
 
     Route::get('logout',[UserController::class, 'logoutuser']);
+    Route::post('update_token',[UserController::class, 'updateToken']);
 
     Route::get('my_profile',[UserController::class, 'myprofile']);
     Route::post('update_family',[UserController::class, 'updateFamily']);

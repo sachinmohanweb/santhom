@@ -498,7 +498,7 @@ class HomeController extends Controller
             /*---------Members Details----------*/
 
                 $members = FamilyMember::select('id as id','name as item')
-                        ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'),'image',DB::raw('"Members" as type'))
+                        ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'),'image',DB::raw('"Members" as type'),'mobile')
                         ->addSelect('family_id')
                         ->whereNull('date_of_death')
                         ->where('status',1);
@@ -506,6 +506,7 @@ class HomeController extends Controller
 
                     $members->where(function ($query) use ($request) {
                         $query->where('name', 'like', $request['search_word'].'%')
+                            ->orWhere('mobile', 'like', $request['search_word'].'%')
                             ->orWhere('nickname', 'like', $request['search_word'].'%');
                     });
                     // ->orwhereHas('BloodGroup', function ($query) use ($request) {

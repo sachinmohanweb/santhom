@@ -454,3 +454,6 @@ ALTER TABLE `family_members` ADD `deleted_at` TIMESTAMP NULL DEFAULT NULL AFTER 
 
 ALTER TABLE `news_announcements` ADD `type_name` VARCHAR(256) NULL DEFAULT NULL AFTER `type`;
 ALTER TABLE `notifications` ADD `type_name` VARCHAR(256) NOT NULL AFTER `type`;
+
+ALTER TABLE `family_members` ADD `device_id` VARCHAR(256) NULL DEFAULT NULL AFTER `user_type`;
+ALTER TABLE `family_members` ADD `refresh_token` VARCHAR(512) NULL DEFAULT NULL AFTER `device_id`;
