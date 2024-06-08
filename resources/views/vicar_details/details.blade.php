@@ -180,6 +180,9 @@
                                             <option value="">--Select--</option>
                                             <option value="1" {{ $VicarDetail->designation === 'Vicar' ? 'selected' :'' }}>Vicar</option>
                                             <option value="2" {{ $VicarDetail->designation === 'Asst.Vicar' ? 'selected' :'' }}>Asst.Vicar</option>
+                                            <option value="3" {{ $VicarDetail->designation === 'Sister' ? 'selected' :'' }}>Sister</option>
+                                            <option value="4" {{ $VicarDetail->designation === 'Animator' ? 'selected' :'' }}>Animator</option>
+                                            <option value="5" {{ $VicarDetail->designation === 'Deacon' ? 'selected' :'' }}>Deacon</option>
                                         </select>  
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
@@ -239,6 +242,7 @@
             @endif
 
         </div>
+    </div>
     </div>
 
 @endsection

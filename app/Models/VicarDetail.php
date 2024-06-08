@@ -30,6 +30,16 @@ class VicarDetail extends Model
 
     public function getDesignationAttribute($value)
     {
-        return $value == 1 ? 'Vicar' : 'Asst.Vicar';
+        if($value == 1){
+            return 'Vicar';
+        }else if($value == 2){
+            return 'Asst.Vicar';
+        }else if($value == 3){
+            return 'Sister';
+        }else if($value == 4){
+            return 'Animator';
+        }else if($value == 5){
+            return 'Deacon';
+        }
     }
 }

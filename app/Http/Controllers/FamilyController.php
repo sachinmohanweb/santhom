@@ -162,7 +162,8 @@ class FamilyController extends Controller
         if(request()->ajax()) {
 
             return datatables()
-            ->of(FamilyMember::select('*')->where('status',1)->whereNull('date_of_death')->with('family','relationship'))
+            ->of(FamilyMember::select('*')->where('status',1)->whereNull('date_of_death')->where('user_type',1)
+            ->with('family','relationship'))
             ->addColumn('DT_RowIndex', function () {
                 return '';
             })

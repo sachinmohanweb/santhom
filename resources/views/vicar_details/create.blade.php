@@ -71,6 +71,9 @@
                                     <option value="">--Select--</option>
                                     <option value="1">Vicar</option>
                                     <option value="2">Asst.Vicar</option>
+                                    <option value="3">Sister</option>
+                                    <option value="4">Animator</option>
+                                    <option value="5">Deacon</option>
                                   </select>  
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>

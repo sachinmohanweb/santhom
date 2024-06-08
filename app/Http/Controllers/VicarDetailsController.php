@@ -69,7 +69,7 @@ class VicarDetailsController extends Controller
 
     public function vicar_create() : View
     {
-        $titles = ['Fr', 'Rev', 'Dr'];
+        $titles = ['Fr', 'Rev', 'Dr','Sr'];
         return view('vicar_details.create',compact('titles'));
     }
 
@@ -97,11 +97,11 @@ class VicarDetailsController extends Controller
             }
             $vicar_data = VicarDetail::create($inputData);
 
-            $vicar_family = Family::where('family_code','VC001')->first();
+            $vicar_family = Family::where('family_code','CP001')->first();
             if(!$vicar_family){
                
-                $inputData2['family_code'] = 'VC001';
-                $inputData2['family_name'] = 'Vicar Family';
+                $inputData2['family_code'] = 'CP001';
+                $inputData2['family_name'] = 'Church Members Family';
                 $inputData2['prayer_group_id'] = 1;
                 $inputData2['address1'] = 'STMSSC Nalanchira';
                 $inputData2['pincode'] = '000000';
@@ -143,7 +143,7 @@ class VicarDetailsController extends Controller
     public function vicar_show($id) : View
     {
         
-        $titles = ['Fr', 'Rev', 'Dr'];
+        $titles = ['Fr', 'Rev', 'Dr','Sr'];
         $VicarDetail = VicarDetail::where('id',$id)->first();
 
         return view('vicar_details.details',compact('VicarDetail','titles'));
