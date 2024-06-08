@@ -451,7 +451,8 @@ class HomeController extends Controller
                 $families = Family::select('id as id')
                         ->addSelect('family_name as item',DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS sub_item')
                             ,DB::raw('"null" as image'),DB::raw('"Families" as type'))
-                        ->where('status',1);
+                        ->where('status',1)
+                        ->where('family_code','!=','CP001');
                 if($request['search_word']){
 
                     $families->where(function ($query) use ($request) {
@@ -501,6 +502,7 @@ class HomeController extends Controller
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'),'image',DB::raw('"Members" as type'),'mobile')
                         ->addSelect('family_id')
                         ->whereNull('date_of_death')
+                        ->where('user_type',1)
                         ->where('status',1);
                 if($request['search_word']){
 
