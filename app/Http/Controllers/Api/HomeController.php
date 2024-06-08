@@ -508,10 +508,10 @@ class HomeController extends Controller
                         $query->where('name', 'like', $request['search_word'].'%')
                             ->orWhere('mobile', 'like', $request['search_word'].'%')
                             ->orWhere('nickname', 'like', $request['search_word'].'%');
+                    })
+                    ->orwhereHas('BloodGroup', function ($query) use ($request) {
+                        $query->where('blood_group_name', 'like', $request['search_word'].'%');
                     });
-                    // ->orwhereHas('BloodGroup', function ($query) use ($request) {
-                    //     $query->where('blood_group_name', 'like', $request['search_word'].'%');
-                    // });
                 }
                 // if($request['member_page_no']){
                 //     $member_pg_no=$request['member_page_no'];
