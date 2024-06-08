@@ -1,5 +1,5 @@
 @extends('layouts.simple.master')
-@section('title', 'Vicar Details')
+@section('title', 'Church Personnel Details')
 
 @section('css')
     
@@ -10,11 +10,11 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Vicar Details</h3>
+    <h3>Church Personnel Details</h3>
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Vicar Details</li>
+    <li class="breadcrumb-item">Church Personnel Details</li>
 @endsection
 
 @section('content')
@@ -42,18 +42,18 @@
                              @endif
                          
                             <div class="col-md-9">
-                                <h3 class="mb-3">Church Vicars Details</h3> 
+                                <h3 class="mb-3">Church Personnel Details</h3> 
                             </div>
                             <div class="col-md-3 d-flex justify-content-end">
                                  
-                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.vicar.create')}}" data-bs-original-title="" title="">Add Vicar Details </a>
+                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{route('admin.vicar.create')}}" data-bs-original-title="" title="">Add Church Person </a>
 
                             </div>
                         </div>
                         <div class="row" style="display:flex;">
                             
                         <div class="col-md-12">
-                            <span>The hub for information related to vicars within our church community</span>
+                            <span>The hub for information related to Church Persons within our church community</span>
                         </div>
                         </div>
                     </div>

@@ -130,7 +130,7 @@ class VicarDetailsController extends Controller
             DB::commit();
              
             return redirect()->route('admin.vicar.list')
-                            ->with('success','Vicar details added successfully.');
+                            ->with('success','Church Personnel Details added successfully.');
         }catch (Exception $e) {
 
             DB::rollBack();
@@ -195,7 +195,7 @@ class VicarDetailsController extends Controller
             DB::commit();
 
             return redirect()->back()
-                    ->with('success','Vicar details successfully updated.');
+                    ->with('success','Church Personnel Details successfully updated.');
         }catch (Exception $e) {
 
             DB::rollBack();
@@ -211,14 +211,14 @@ class VicarDetailsController extends Controller
         try{
             $VicarDetail = VicarDetail::where('id',$request->id)->delete();
             DB::commit();
-            Session::flash('success', 'Vicar details successfully deleted.');
+            Session::flash('success', 'Church Personnel Details successfully deleted.');
             $return['status'] = "success";
 
          }catch (Exception $e) {
 
             DB::rollBack();
             $return['status'] = $e->getMessage();
-            Session::flash('error', 'Vicar details deletion not success.');
+            Session::flash('error', 'Church Personnel Details deletion not success.');
         }
         return response()->json($return);
     }

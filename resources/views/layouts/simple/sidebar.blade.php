@@ -75,7 +75,7 @@
                         <svg class="fill-icon">
                             <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                         </svg>
-                        <span>Vicar Details</span></a>
+                        <span>Church Personnels</span></a>
                     </li>
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav" href="{{route('admin.prayergroup.list')}}">

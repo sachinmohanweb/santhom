@@ -8,7 +8,7 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Vicar Details Form</h3>
+    <h3>Chirch Personnel Details Form</h3>
 @endsection
 
 @section('breadcrumb-items')

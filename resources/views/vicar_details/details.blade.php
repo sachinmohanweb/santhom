@@ -1,5 +1,5 @@
 @extends('layouts.simple.master')
-@section('title', 'Vicars')
+@section('title', 'Church Persons')
 
 @section('css')
 
@@ -11,11 +11,11 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Vicars Details</h3>
+    <h3>Church Personnel Details</h3>
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Vicars Details</li>
+    <li class="breadcrumb-item">Church Personnel Details</li>
 @endsection
 
 @section('content')
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col-md-3">         
                                     <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" data-bs-toggle="modal" data-bs-target="#EditFamilyModal">
-                                        Edit Vicar Details
+                                        Edit Church Person  Details
                                     </a>
 
                                 </div>
@@ -132,7 +132,7 @@
                 <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 750px !important;"> 
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Vicars Details</h5>
+                            <h5 class="modal-title">Church Personnel Details</h5>
                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form class="needs-validation" novalidate="" action="{{route('admin.vicar.update',['id'=>$VicarDetail->id])}}" method="Post"  enctype="multipart/form-data">
