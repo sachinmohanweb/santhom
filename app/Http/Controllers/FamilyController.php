@@ -566,8 +566,8 @@ class FamilyController extends Controller
 
            
         });
-        $relationshipIds = [4,5,8,11];
-        $familyMembersQuery->whereNotIn('relationship_id',$relationshipIds);
+        // $relationshipIds = [4,5,8,11];
+        // $familyMembersQuery->whereNotIn('relationship_id',$relationshipIds);
 
         if($page) {
             

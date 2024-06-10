@@ -110,7 +110,11 @@ use App\Models\Obituary;
                    <tr>
                      <td> <b>Location  </b></td>
                       <td> <b> &nbsp;:&nbsp;</b></td>
-                     <td>{{$family->map_location}}</td>
+                     <td>
+                      @if($family->map_location)
+                      <a href="{{$family->map_location}}" target="_blank">Show on map</a>
+                      @endif
+                    </td>
                    </tr>
                  </tbody>
                </table>
