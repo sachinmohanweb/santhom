@@ -54,7 +54,7 @@
                         <div class="row" style="display:flex;">
                             
                             <div class="col-md-12">
-                                <span>This page consists Day/date-wise Church activities</span>
+                                <span>This page consists date-wise upcoming Church activities</span>
                             </div>
                         </div> 
                     </div>
@@ -64,7 +64,7 @@
                                 <thead>
                                     <tr>
                                         <th>Sl.No</th>
-                                        <th>Day Type</th>
+                                        <th>Date</th>
                                         <th>Details</th>
                                         <th>Action</th>
                                     </tr>
@@ -95,7 +95,7 @@
                 ajax: "{{ route('admin.daily.schedules.datatable') }}",
                 columns: [
                     {  data: 'DT_RowIndex', name: 'Sl.No'},
-                    { data: 'type', name: 'type' },
+                    { data: 'date', name: 'date' },
                     { data: 'details', name: 'details' },
                     { data: 'action', name: 'action', orderable: false},
                 ],

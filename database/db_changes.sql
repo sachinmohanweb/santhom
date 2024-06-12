@@ -463,3 +463,8 @@ ALTER TABLE `family_members` ADD `refresh_token` VARCHAR(512) NULL DEFAULT NULL 
 ALTER TABLE `family_members` CHANGE `user_type` `user_type` INT NOT NULL DEFAULT '1' COMMENT '1-family members,2-church members';
 
 UPDATE `relationships` SET `relation_name` = 'Church members' WHERE `relationships`.`id` = 14;
+
+-- 12/06/24----
+
+ALTER TABLE `daily_schedules` DROP `type`;
+ALTER TABLE `daily_schedules` DROP `day_category`;

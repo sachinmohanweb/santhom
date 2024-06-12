@@ -25,21 +25,11 @@ class DailyScheduleController extends Controller
     {
         if(request()->ajax()) {
             return datatables()
-            ->of(DailySchedules::select('*')->where('status',1))
-            ->addColumn('type', function($row) {
-                if ($row->type == 'Normal Day') {
-                    if ($row->day_category == 'Mon-Sat') {
-                        return 'Default Monday to Saturday';
-                    } else {
-                        return 'Default Sunday';
-                    }
-                } else {
-                    return  'Special Day ' . $row->date;
-                }
-            })
-            // ->addColumn('details', function($row) {
-            //         return $row->details;
-            // })
+            ->of(DailySchedules::select('*')->where('status',1)
+            //->orderByRaw("CASE WHEN date >= CURDATE() THEN 0 ELSE 1 END, date ASC")
+                ->where('date', '>=', \Carbon\Carbon::today())
+                ->orderBy('date', 'asc')
+            )
             ->addColumn('details', function($row) {
                     $details = strip_tags($row->details);
                     $extractedContent = mb_substr($row->details, 0, 200, 'UTF-8').'......';
@@ -66,37 +56,10 @@ class DailyScheduleController extends Controller
         DB::beginTransaction();
         try {
 
-            if(($request->type==1) && ($request->day_category==1)){
-
-                $existingRecord1 = DailySchedules::where('type',1)->where('day_category',1)->first();
-                if($existingRecord1){
-                    $message1 = "Already added Default Monday to Saturday activities";
-                    return back()->withInput()->withErrors(['message' =>  $message1]);
-                }
-            }
-            if(($request->type==1) && ($request->day_category==2)){
-
-                $existingRecord2 = DailySchedules::where('type',1)->where('day_category',2)->first();
-                if($existingRecord2){
-                    $message2 = "Already added Default SundaY activities";
-                    return back()->withInput()->withErrors(['message' =>  $message2]);
-                }
-            }
-
-            if($request->type==1){
-                $a =  $request->validate([
-                    'type' => 'required',
-                    'day_category' => 'required',
-                    'details' => 'required',
-                ]);
-            }else{
-
-                 $a =  $request->validate([
-                    'type' => 'required',
+            $a =  $request->validate([
                     'date' => 'required',
                     'details' => 'required',
-                ]);
-            }
+            ]);
 
             $DailySchedules = DailySchedules::create($request->all());
             DB::commit();
@@ -125,22 +88,14 @@ class DailyScheduleController extends Controller
         try {
             
             $DailySchedules = DailySchedules::find($request->id);
-            if($request->type =='Normal Day'){
-                $columnsToExclude = ['type', 'day_category'];
-                $requestData = $request->except($columnsToExclude);
 
-                $a =  $request->validate([
-                    'details' => 'required',
-                ]);
-            }else{
-                
-                $requestData = $request->except('type');
-
-                 $a =  $request->validate([
+            $a =  $request->validate([
                     'date' => 'required',
                     'details' => 'required',
-                ]);
-            }
+            ]);
+
+            $requestData = $request->all();
+
             $DailySchedules->update($requestData);
             DB::commit();
 

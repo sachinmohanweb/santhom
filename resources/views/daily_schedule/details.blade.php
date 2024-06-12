@@ -44,16 +44,7 @@
               <div class="col-md-9">
 
                  <div class="product-page-details">
-                  @if($DailySchedules->type=='Normal Day')
-                      @if($DailySchedules->day_category=='Mon-Sat')
-                          <h3>Default Monday to Saturday</h3>
-                      @else
-                          <h3>Default Sunday</h3>
-                      @endif
-                  @else
-                   <h3>Special Day</h3>
-                    Date : <span style="font-size:15px"><b>{{$DailySchedules->date}}</b></span>
-                  @endif
+                  <h1>{{$DailySchedules->date}}</h1>
                  </div>
                  
                  <ul class="product-color">
@@ -118,24 +109,9 @@
                 <div class="profile-title">
                   <div class="media-body">
                     <div class="row">
-                      <div class="col-md-6">
-                        <label class="form-label">Schedule Type</label>
-
-                        <input class="form-control" type="text" placeholder="type" id="type" name="type"  value="{{$DailySchedules->type}}" readonly>
-
-                      </div>
-                      <div class="col-md-6" id="normal_day_options">
-                        <label class="form-label">Day Category</label>
-                        <select class="form-control" name="day_category" id="day_category">
-                          <option value="">--Select--</option>
-                          <option value="1">Monday to Saturday</option>
-                          <option value="2">Sunday</option>
-                         
-                        </select>  
-                      </div>
                       <div class="col-md-6" id="special_day_options">
                         <label class="form-label">Date<span style="color:red">*</span></label>
-                        <input class="form-control" type="date" placeholder="date" id="date" name="date">
+                        <input class="form-control" type="date" placeholder="date" id="date" name="date" value="{{$DailySchedules->date}}">
                       </div>
                     </div><br>
                        
@@ -178,50 +154,5 @@
 <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
 <script type="text/javascript">
   CKEDITOR.replace('details')
-</script>
-<script type="text/javascript">
-
-  $(document).ready(function() {
-
-      var type = '{{$DailySchedules->type}}';
-      if(type=='Normal Day'){
-          var day_category = '{{$DailySchedules->day_category}}';
-          $('#normal_day_options').show();
-          $('#special_day_options').hide();
-          $('#day_category').attr('required', 'required');
-          if(day_category=='Mon-Sat'){
-              $('#day_category').val(1);
-          }else{
-              $('#day_category').val(2);
-          }
-      }else{
-          var special_date = '{{$DailySchedules->date}}';
-          $('#normal_day_options').hide();
-          $('#special_day_options').show();
-          $('#date').attr('required', 'required');
-          $('#date').val(special_date);
-      }
-
-
-      $('#type').change(function() {
-
-        var selectedType = $(this).val();
-        if (selectedType === '1') {
-            $('#normal_day_options').show();
-            $('#special_day_options').hide();
-            $('#day_category').attr('required', 'required');
-            $('#date').removeAttr('required');
-
-        } else if (selectedType === '2') {
-            $('#normal_day_options').hide();
-            $('#day_category').removeAttr('required');
-            $('#special_day_options').show();
-            $('#date').attr('required', 'required');
-
-        }
-    });
-
-  });
-
 </script>
 @endsection
