@@ -84,6 +84,9 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
                 $member_details['name']    =$row['name'];
                 $member_details['gender']     =$row['gender'];
 
+                if(preg_match('/[^\d\/-]/', $row['date_of_birth'])) {
+                    throw new \Exception("Invalid date format-");
+                }
                 $unixTimestampDOB = ($row['date_of_birth'] - 25569) * 86400;
                 $member_details['dob']        = date('Y-m-d', $unixTimestampDOB);
 
@@ -121,6 +124,9 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
                 }
 
                 if(isset($row['date_of_baptism'])){
+                    if(preg_match('/[^\d\/-]/', $row['date_of_baptism'])) {
+                        throw new \Exception("Invalid date format-");
+                    }
                     $unixTimestampDOBp = ($row['date_of_baptism'] - 25569) * 86400;
                     $member_details['date_of_baptism']    = date('Y-m-d', $unixTimestampDOBp);
                 }else{
@@ -150,6 +156,9 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
                 }
 
                 if(isset($row['date_of_marriage'])){
+                    if(preg_match('/[^\d\/-]/', $row['date_of_marriage'])) {
+                        throw new \Exception("Invalid date format-");
+                    }
                     $unixTimestampDOM = ($row['date_of_marriage'] - 25569) * 86400;
                     $member_details['date_of_marriage']    = date('Y-m-d', $unixTimestampDOM);
                 }else{
@@ -199,6 +208,9 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
                 }
 
                 if(isset($row['date_of_death'])){
+                    if(preg_match('/[^\d\/-]/', $row['date_of_death'])) {
+                        throw new \Exception("Invalid date format-");
+                    }
                     $unixTimestampDOD = ($row['date_of_death'] - 25569) * 86400;
                     $member_details['date_of_death']    = date('Y-m-d', $unixTimestampDOD);
                 }else{
