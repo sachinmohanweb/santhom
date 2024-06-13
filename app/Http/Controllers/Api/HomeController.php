@@ -804,26 +804,31 @@ class HomeController extends Controller
                 ->where('status', 1)->take(1); 
 
 
+            // $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading', DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
+            //      DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as hash_value'))
+            //     ->whereDate('date',$today_string)
+            //     ->where('status', 1)->take(1); 
+            // if ($church_activities->count() == 0) {
+
+            //     $todayDayValue = date("N");
+
+            //     $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading',
+            //         DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'),
+            //         DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as hash_value'))
+            //             ->where('status', 1)->take(1); 
+
+            //     if ($todayDayValue == 7) { 
+            //            $church_activities = $church_activities->where('day_category', 2); 
+            //     } else {
+            //         $church_activities = $church_activities->where('day_category', 1); 
+            //     }
+
+            // }
+
             $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading', DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
                  DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as hash_value'))
                 ->whereDate('date',$today_string)
-                ->where('status', 1)->take(1); 
-            if ($church_activities->count() == 0) {
-
-                $todayDayValue = date("N");
-
-                $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading',
-                    DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'),
-                    DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as hash_value'))
-                        ->where('status', 1)->take(1); 
-
-                if ($todayDayValue == 7) { 
-                       $church_activities = $church_activities->where('day_category', 2); 
-                } else {
-                    $church_activities = $church_activities->where('day_category', 1); 
-                }
-
-            }
+                ->where('status', 1)->take(2); 
 
             $churchActivitiesData = $church_activities;
 
