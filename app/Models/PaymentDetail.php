@@ -12,17 +12,44 @@ class PaymentDetail extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'member_id',
-        'member',
-        'purpose',
-        'date',
+        'family_id',
+        'family_head_id',
+        'category_id',
         'amount',
         'status',
     ];
 
+    protected $appends = ['family_name','family_head_name','category_name'];
+
     public function getStatusAttribute($value)
     {
         return $value == 1 ? 'Active' : 'Suspended';
+    }
+
+    public function getFamilyNameAttribute()
+    {
+        $family = Family::where('id',$this->family_id)->first();
+        if($family){
+            return $family->family_name;
+        }else{
+            return "Nill";
+        }
+    }
+    
+    public function getFamilyHeadNameAttribute()
+    {
+        $familyhead = FamilyMember::where('id',$this->family_head_id)->first();
+        $family_head = $familyhead ? $familyhead->name : 'Null';
+
+        return $family_head;
+    }
+
+    public function getCategoryNameAttribute()
+    {
+        $payment = PaymentCategory::where('id',$this->category_id)->first();
+        $payment = $payment ? $payment->name : 'Null';
+
+        return $payment;
     }
 
 }

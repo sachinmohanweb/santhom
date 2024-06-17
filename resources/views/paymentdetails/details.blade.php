@@ -47,7 +47,7 @@
                                  <h3></h3>
                               </div>
                               <div class="product-price">
-                                 {{$PaymentDetail['purpose']}}
+                                 {{$PaymentDetail->category_name}}
                               </div>
                               <ul class="product-color">
                                  <li class="bg-primary"></li>
@@ -63,7 +63,7 @@
                            </div>
                            <div class="col-md-3">         
                               <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" data-bs-toggle="modal" data-bs-target="#EditPaymentDetailsModal">
-                                 Edit Notification
+                                 Edit Payment details
                               </a>
 
                            </div>
@@ -72,20 +72,23 @@
                         <div class="row">
                            <div class="col-md-8">
                               <p class="p_l_5">
+                                    Family :
                                  <b>
-                                    {{$PaymentDetail['member']}}
+                                     {{$PaymentDetail->family_name}}
                                  </b>
                               </p>
                            </div>
                            <div class="col-md-8">
                               <p class="p_l_5">
+                                    Family Head :
                                  <b>
-                                    {{$PaymentDetail['date']}}
+                                     {{$PaymentDetail->family_head_name}}
                                  </b>
                               </p>
                            </div>
                            <div class="col-md-8">
                               <p class="p_l_5">
+                                    Amount  :
                                  <b>
                                     {{$PaymentDetail['amount']}}
                                  </b>
@@ -109,26 +112,21 @@
                                     <div class="row g-3 mb-3">
                                        <div class="col-md-6">
                                           <label class="form-label" for="validationCustom04">Member</label>
-                                          <select class="js-data-example-ajax form-select" id="member_id" name="member_id" required>
-                                                 <option value="{{ $PaymentDetail['member_id'] }}" selected>{{ $PaymentDetail['member'] }}</option>
+                                          <select class="js-data-example-ajax form-select" id="head_id" name="head_id" required>
+                                                 <option value="{{ $PaymentDetail['family_head_id'] }}" selected>{{ $PaymentDetail->family_head_name }}</option>
 
                                           </select>
                                           <div class="invalid-feedback">Please select a valid type.</div>
                                        </div>
                                        <div class="col-md-6">
-                                          <label class="form-label" for="validationCustom01">Purpose</label>
-                                          <input class="form-control" id="validationCustom01" type="text" 
-                                          value="{{$PaymentDetail['purpose'] }}" required="" name='purpose'>
+                                          <label class="form-label" for="validationCustom01">Category</label>
+                                          <select class="js-data-example-ajax form-select" id="category_id" name="category_id" required>
+                                             <option value="{{ $PaymentDetail['category_id'] }}" selected>{{ $PaymentDetail->category_name }}</option>
+                                          </select>
                                           <div class="valid-feedback">Looks good!</div>
                                        </div>
                                     </div>
                                     <div class="row g-3">
-                                       <div class="col-md-6">
-                                          <label class="form-label" for="validationCustom01">Date</label>
-                                          <input class="form-control" id="validationCustom01" type="date" 
-                                          value="{{$PaymentDetail['date']}}" required="" name='date'>
-                                          <div class="valid-feedback">Looks good!</div>
-                                       </div>
                                        <div class="col-md-6">
                                           <label class="form-label" for="validationCustom01">Amount</label>
                                           <input class="form-control" id="validationCustom01" type="text" 
@@ -162,36 +160,58 @@
 <script src="{{asset('assets/js/ecommerce.js')}}"></script>
 <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
 
-<script type="text/javascript">
-  $('#member_id').select2({
-      dropdownParent: $('#EditPaymentDetailsModal'),
-      placeholder: "Select member",
-      ajax: {
+    <script type="text/javascript">
+        $('#head_id').select2({
+            placeholder: "Select member",
+            ajax: {
 
-          url: "<?= url('get_family_members_list') ?>",
-          dataType: 'json',
-          method: 'post',
-          delay: 250,
+                url: "<?= url('get_family_members_list') ?>",
+                dataType: 'json',
+                method: 'post',
+                delay: 250,
 
-           data: function(data) {
-              return {
-                  _token    : "<?= csrf_token() ?>",
-                  search_tag: data.term,
-                  page: 'obituary',
-              };
-          },
-          processResults: function(data, params) {
-              params.page = params.page || 1;
-              return {
-                  results: data.results,
-                  pagination: { more: (params.page * 10) < data.total_count }
-              };
-          },
-          cache: true
-      }
-  });
+                 data: function(data) {
+                    return {
+                        _token    : "<?= csrf_token() ?>",
+                        search_tag: data.term,
+                        page: 'obituary',
+                        head_member: 'yes',
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.results,
+                        pagination: { more: (params.page * 30) < data.total_count }
+                    };
+                },
+                cache: true
+            }
+        });
+        $('#category_id').select2({
+            placeholder: "Select payment category",
+            ajax: {
 
-  
+                url: "<?= url('get_payment_categorylist') ?>",
+                dataType: 'json',
+                method: 'post',
+                delay: 250,
 
-</script>
+                 data: function(data) {
+                    return {
+                        _token    : "<?= csrf_token() ?>",
+                        search_tag: data.term,
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.results,
+                        pagination: { more: (params.page * 30) < data.total_count }
+                    };
+                },
+                cache: true
+            }
+        });
+    </script>
 @endsection

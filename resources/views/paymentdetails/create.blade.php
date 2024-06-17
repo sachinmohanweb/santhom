@@ -34,32 +34,26 @@
                         action="{{route('admin.paymentdetails.store')}}" method="Post" enctype="multipart/form-data">
                         	@csrf
                             <div class="row g-3 mb-3">
-                                <div class="col-md-6">
-                                    <label class="form-label" for="validationCustom04">Member</label>
+                                <div class="col-md-4">
+                                    <label class="form-label" for="validationCustom04">Family with Family head 
+                                        <span style="color:red">*</span></label>
                                     
-                                    <select class="js-data-example-ajax form-select" id="member_id" name="member_id" required></select>
+                                    <select class="js-data-example-ajax form-select" id="head_id" name="head_id" required></select>
 
-                                    <div class="invalid-feedback" style="color:red">Please select a member.
-                                    </div>
+                                    <div class="invalid-feedback" style="color:red">Please select a member.</div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="validationCustom01">Purpose</label>
-                                    <input class="form-control" id="validationCustom01" type="text" 
-                                    value="{{ old('purpose') }}" required="" name='purpose'>
-                                    <div class="valid-feedback">Looks good!</div>
+                                <div class="col-md-4">
+                                    <label class="form-label" for="validationCustom01">Payment Category
+                                    <span style="color:red">*</span></label>
+                                    <select class="js-data-example-ajax form-select" id="category_id" name="category_id" required>
+                                    </select>
+                                    <div class="invalid-feedback" style="color:red">Please select a payment category.</div>
                                 </div>
-                            </div>
-                            <div class="row g-3">
-                                 <div class="col-md-6">
-                                    <label class="form-label" for="validationCustom01">Date</label>
-                                    <input class="form-control" id="validationCustom01" type="date" 
-                                    value="{{ old('date') }}" required="" name='date'>
-                                    <div class="valid-feedback">Looks good!</div>
-                                </div>
-                                 <div class="col-md-6">
-                                    <label class="form-label" for="validationCustom01">Amount</label>
-                                    <input class="form-control" id="validationCustom01" type="text" 
-                                    value="{{ old('amount') }}" required="" name='amount'>
+                                 <div class="col-md-4">
+                                    <label class="form-label" for="validationCustom01">Amount
+                                    <span style="color:red">*</span></label>
+                                    <input class="form-control" id="validationCustom01" type="number" 
+                                    value="{{ old('amount') }}" required="" name='amount' style="padding: 0.625rem 0.75rem;!important">
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
                             </div><br>
@@ -77,7 +71,7 @@
 @section('script')
     <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
     <script type="text/javascript">
-        $('#member_id').select2({
+        $('#head_id').select2({
             placeholder: "Select member",
             ajax: {
 
@@ -91,6 +85,32 @@
                         _token    : "<?= csrf_token() ?>",
                         search_tag: data.term,
                         page: 'obituary',
+                        head_member: 'yes',
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.results,
+                        pagination: { more: (params.page * 30) < data.total_count }
+                    };
+                },
+                cache: true
+            }
+        });
+        $('#category_id').select2({
+            placeholder: "Select payment category",
+            ajax: {
+
+                url: "<?= url('get_payment_categorylist') ?>",
+                dataType: 'json',
+                method: 'post',
+                delay: 250,
+
+                 data: function(data) {
+                    return {
+                        _token    : "<?= csrf_token() ?>",
+                        search_tag: data.term,
                     };
                 },
                 processResults: function(data, params) {

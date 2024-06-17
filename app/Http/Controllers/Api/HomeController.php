@@ -1039,7 +1039,7 @@ class HomeController extends Controller
 
             /*---------Events Details----------*/
 
-            $events = Event::select('id','date','event_name as item','venue as sub_item','details','image',
+            $events = Event::select('id','date','event_name as sub_item','venue as item','details','image',
                 DB::raw('"Events" as type_value'),DB::raw('"False" as color'),DB::raw('"Events" as hash_value'),
                 'link')
                 ->where('status',1);
@@ -1372,7 +1372,7 @@ class HomeController extends Controller
 
 
             $payments = PaymentDetail::select('payment_details.*')
-                    ->join('family_members', 'payment_details.member_id', '=', 'family_members.id')
+                    ->join('family_members', 'payment_details.family_head_id', '=', 'family_members.id')
                     ->where('family_members.family_id', $family_id)
                     ->where('family_members.id', $member_id)
                     ->where('payment_details.status', 1);
@@ -1380,7 +1380,7 @@ class HomeController extends Controller
 
             $family = Family::select('id','family_code','family_name')->find($family_id);
 
-            $payments=$payments->orderBy('payment_details.date')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+            $payments=$payments->orderBy('payment_details.id')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
 
             if(empty($payments)) {
                 $return['result']=  "Empty payments list ";

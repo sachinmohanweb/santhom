@@ -468,3 +468,33 @@ UPDATE `relationships` SET `relation_name` = 'Church members' WHERE `relationshi
 
 ALTER TABLE `daily_schedules` DROP `type`;
 ALTER TABLE `daily_schedules` DROP `day_category`;
+
+-- 17/06/24----
+
+CREATE TABLE `payment_categories` (
+	`id` INT NOT NULL AUTO_INCREMENT , 
+	`name` VARCHAR(256) NOT NULL , 
+	`status` INT NOT NULL DEFAULT '1' , 
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`));
+
+INSERT INTO `payment_categories` (`id`, `name`, `status`, `created_at`, `updated_at`) 
+VALUES (NULL, 'Monthly Subscription', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), 
+(NULL, 'Parish Feast', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+ (NULL, 'Parish Day', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), 
+ (NULL, 'First Offering', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (NULL, 'Carol', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+   (NULL, 'Good Friday', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), 
+   (NULL, '8 Nombu', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), 
+   (NULL, 'Mission Sunday', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), 
+   (NULL, 'Education Help', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), 
+   (NULL, 'SEMINARY DAY', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), 
+   (NULL, 'Others', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+
+ALTER TABLE `payment_details` CHANGE `member_id` `family_id` INT NOT NULL;
+ALTER TABLE `payment_details` DROP `member`;
+ALTER TABLE `payment_details` ADD `family_head_id` INT NOT NULL AFTER `family_id`;
+ALTER TABLE `payment_details` DROP `purpose`;
+ALTER TABLE `payment_details` ADD `category_id` INT NOT NULL AFTER `family_head_id`;
+ALTER TABLE `payment_details` DROP `date`;

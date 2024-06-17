@@ -63,9 +63,9 @@
                                 <thead>
                                     <tr>
                                         <th>Sl.No</th>
-                                        <th>Name Of member</th>
-                                        <th>Purpose</th>
-                                        <th>Date</th>
+                                        <th>Family</th>
+                                        <th>Head of family</th>
+                                        <th>category</th>
                                         <th>Amount</th>
                                         <th>Action</th>
 
@@ -97,9 +97,9 @@
                 ajax: "{{ route('admin.paymentdetails.datatable') }}",
                 columns: [
                     {  data: 'DT_RowIndex', name: 'Sl.No'},
-                    { data: 'member_name', name: 'member_name' },
-                    { data: 'purpose', name: 'purpose' },
-                    { data: 'date', name: 'date' },
+                    { data: 'family', name: 'families.family_name' },
+                    { data: 'head_of_family', name: 'family_members.name' },
+                    { data: 'category', name: 'payment_categories.name' },
                     { data: 'amount', name: 'amount' },
                     { data: 'action', name: 'action', orderable: false,width:'25%'},
                 ],

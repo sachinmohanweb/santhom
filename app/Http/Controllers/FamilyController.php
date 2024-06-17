@@ -554,6 +554,7 @@ class FamilyController extends Controller
     {
         $searchTag = request()->get('search_tag');
         $page =  request()->get('page');
+        $head_member =  request()->get('head_member');
 
         $familyMembersQuery = FamilyMember::query()
 
@@ -572,6 +573,10 @@ class FamilyController extends Controller
         if($page) {
             
             $familyMembersQuery->whereNull('date_of_death');
+        }
+        if($head_member) {
+            
+            $familyMembersQuery->where('relationship_id',1);
         }
         
         $familyMembers = $familyMembersQuery->orderBy('name')->get()

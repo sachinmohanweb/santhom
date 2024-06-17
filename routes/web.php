@@ -270,6 +270,8 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.paymentdetails.update');
     Route::post('/deletepaymentdetails', [PaymentDetailsController::class, 'payment_details_delete'])
             ->name('admin.paymentdetails.delete');
+    Route::post('/get_payment_categorylist', [PaymentDetailsController::class, 'payment_category_list'])
+            ->name('payment.category.list');
 
     Route::get('/biblicalcitationlist', [BiblicalCitationController::class, 'admin_biblical_citation_list'])
                     ->name('admin.biblical.citation.list');
