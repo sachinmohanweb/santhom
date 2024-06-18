@@ -178,14 +178,20 @@
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                             </svg><span>Obituaries</span></a>
                         </li>
-                        <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" 
-                            href="{{route('admin.paymentdetails.list')}}">
-                            <svg class="stroke-icon">
-                            <use href="{{ asset('assets/svg/icon-sprite.svg#payment-card') }}"></use>
-                            </svg>
-                            <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
-                            </svg><span>Contributions</span></a>
+                        <li class="sidebar-list">
+                            <label class="badge badge-light-secondary"></label><a class="sidebar-link sidebar-title"
+                                href="#">
+                                <svg class="stroke-icon">
+                                    <use href="{{ asset('assets/svg/icon-sprite.svg#payment-card') }}"></use>
+                                </svg>
+                                <svg class="fill-icon">
+                                    <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
+                                </svg><span>Contributions</span></a>
+                            <ul class="sidebar-submenu">
+                                <li><a href="{{ route('admin.paymentdetails.list') }}">Contributions list</a></li>
+                                <li><a href="{{ route('admin.contributions.import') }}">Import contributions</a></li>
+                            </ul>
+
                         </li>
                         <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" 
                             href="{{route('admin.notification.list')}}">

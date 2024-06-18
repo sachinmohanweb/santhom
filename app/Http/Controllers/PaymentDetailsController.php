@@ -19,6 +19,8 @@ use App\Models\PaymentDetail;
 use App\Models\FamilyMember;
 use App\Models\PaymentCategory;
 
+use App\Imports\ContributionsImport;
+
 class PaymentDetailsController extends Controller
 {
 
@@ -178,6 +180,29 @@ class PaymentDetailsController extends Controller
             Session::flash('error', 'Payment detail deletion not success.');
         }
         return response()->json($return);
+    }
+
+    public function admin_contributions_import() : View
+    {
+        return view('paymentdetails.import');
+    }
+
+    public function import_progress_contributions(Request $request)
+    {
+        $progress = Cache::get('import_progress_contributions', 0);
+        return response()->json([
+            'progress' => $progress,
+        ]);
+    }
+
+    public function admin_contributions_import_store(Request $request) : JsonResponse
+    {
+        $fileData=$request->file('excel_file');
+
+        $contributions_import = new ContributionsImport();
+        Excel::import($contributions_import, $fileData);
+        $output = $contributions_import->getImportResult();
+        return response()->json([$output]);
     }
 
 }

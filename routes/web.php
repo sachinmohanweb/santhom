@@ -273,6 +273,14 @@ Route::middleware('auth:admin')->group(function(){
     Route::post('/get_payment_categorylist', [PaymentDetailsController::class, 'payment_category_list'])
             ->name('payment.category.list');
 
+    Route::get('/importcontributions', [PaymentDetailsController::class, 'admin_contributions_import'])
+            ->name('admin.contributions.import');
+    Route::post('import/progress/contributions'  ,[PaymentDetailsController::class,'import_progress_contributions'])
+            ->name('import.progress.contributions');
+    Route::post('/storecontributionsimport', [PaymentDetailsController::class, 'admin_contributions_import_store'])
+            ->name('admin.contributions.Import.store');
+
+
     Route::get('/biblicalcitationlist', [BiblicalCitationController::class, 'admin_biblical_citation_list'])
                     ->name('admin.biblical.citation.list');
     Route::get('/biblicalcitationDatatable',[BiblicalCitationController::class,
