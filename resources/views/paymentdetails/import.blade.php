@@ -86,7 +86,7 @@
                             <div class="row g-3 mb-3">
                                 <div class="col-md-12">
                                     <label class="form-label" for="validationCustom01">Excel Document</label>
-                                    <input class="form-control" id="validationCustom01" type="file" required="" name='excel_file'>
+                                    <input class="form-control" id="validationCustom01" type="file" required name='excel_file'>
                                 </div>
                             </div> 
                             <div class="row g-3 mb-3">
@@ -127,6 +127,15 @@
             var form = $(this);
             var url = form.attr('action');
 
+            var fileInput = $('#validationCustom01');
+            var file = fileInput.val();
+
+            if (file === '') {
+                alert('Please select a file before submitting.');
+                fileInput.focus(); 
+                return false;
+            }
+
             progressInterval =setInterval(updateProgress, 100);
 
             $.ajax({
@@ -141,6 +150,9 @@
 
                     if(data[0].result=="Success"){
                         toastr.success("Successfully Imported.")
+                        setTimeout(function() {
+                            window.location.href = '/paymentdetailslist';
+                        }, 4000);
                     }else if(data[0].result=="Failed"){
                         toastr.error(data[0].message)
                     }else{
