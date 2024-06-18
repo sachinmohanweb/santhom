@@ -204,5 +204,4 @@ class PaymentDetailsController extends Controller
         $output = $contributions_import->getImportResult();
         return response()->json([$output]);
     }
-
 }

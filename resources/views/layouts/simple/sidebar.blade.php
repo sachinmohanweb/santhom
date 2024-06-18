@@ -191,7 +191,6 @@
                                 <li><a href="{{ route('admin.paymentdetails.list') }}">Contributions list</a></li>
                                 <li><a href="{{ route('admin.contributions.import') }}">Import contributions</a></li>
                             </ul>
-
                         </li>
                         <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" 
                             href="{{route('admin.notification.list')}}">

@@ -19,7 +19,7 @@ class PaymentDetail extends Model
         'status',
     ];
 
-    protected $appends = ['family_name','family_head_name','category_name'];
+    protected $appends = ['family_name','family_head_name','category_name','date'];
 
     public function getStatusAttribute($value)
     {
@@ -50,6 +50,14 @@ class PaymentDetail extends Model
         $payment = $payment ? $payment->name : 'Null';
 
         return $payment;
+    }
+
+    public function getDateAttribute()
+    {
+        $date = $this->updated_at;
+        $date = new \DateTime($date);
+        $formatted_date = $date->format('d-m-Y');
+        return $formatted_date;
     }
 
 }
