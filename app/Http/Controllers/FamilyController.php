@@ -740,4 +740,29 @@ class FamilyController extends Controller
         }
 
     }
+
+    public function GetMemberPhoneNumber(Request $request) : JsonResponse
+    {
+        try{
+            $member = FamilyMember::find($request['member_id']);
+            
+            if($member){
+                if ($member->mobile !== null) {
+                    $return['phone'] = $member->mobile;
+                }elseif($member->alt_contact_no !== null){
+                    $return['phone'] = $member->alt_contact_no;
+                }else{
+                    $return['phone'] = null;   
+                }
+            }else{
+
+                $return['phone'] = null;   
+            }
+         }catch (Exception $e) {
+
+            $return['status'] = $e->getMessage();
+        }
+
+        return response()->json($return);
+    }
 }

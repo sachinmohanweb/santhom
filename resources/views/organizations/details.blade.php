@@ -263,7 +263,7 @@
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom02">officer's Phone</label>
                           <input class="form-control" type="text" 
-                          name='officer_phone_number'>
+                          name='officer_phone_number' id="officer_phone_number">
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                     </div>
@@ -352,6 +352,29 @@
             },
             cache: true
         }
+    });
+
+    $('.member_id').on('select2:select', function(e) {
+
+        var selectedCoordinatorId = e.params.data.id;
+        $.ajax({
+            url: "<?= url('get_member_phone_number') ?>",
+            method: 'post',
+            data: {
+                _token: "<?= csrf_token() ?>",
+                member_id: selectedCoordinatorId
+            },
+            success: function(response) {
+                if(response.phone !== null){
+                    $('#officer_phone_number').val(response.phone);
+                }else{
+                    $('#officer_phone_number').attr('placeholder', 'Contact Number not available');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching coordinator's phone number:", error);
+            }   
+        });
     });
 
     $('.coordinator_edit').select2({

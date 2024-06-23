@@ -216,6 +216,29 @@
                 cache: true
             }
         });
+
+        $('.coordinator_id').on('select2:select', function(e) {
+
+            var selectedCoordinatorId = e.params.data.id;
+            $.ajax({
+                url: "<?= url('get_member_phone_number') ?>",
+                method: 'post',
+                data: {
+                    _token: "<?= csrf_token() ?>",
+                    member_id: selectedCoordinatorId
+                },
+                success: function(response) {
+                    if(response.phone !== null){
+                        $('#coordinator_phone_number').val(response.phone);
+                    }else{
+                        $('#coordinator_phone_number').attr('placeholder', 'Contact Number not available');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching coordinator's phone number:", error);
+                }   
+            });
+        });
         
     </script>
 @endsection

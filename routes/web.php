@@ -65,6 +65,8 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.family.member.delete');
     Route::post('/check_married_to_person_valid', [FamilyController::class, 'CheckMarriedToPersonValid'])
             ->name('admin.check.married.valid');   
+    Route::post('/get_member_phone_number', [FamilyController::class, 'GetMemberPhoneNumber'])
+            ->name('admin.get.member.phone');   
 
     Route::get('/importfamilymember', [FamilyController::class, 'admin_family_member_import'])
             ->name('admin.family.members.import');
