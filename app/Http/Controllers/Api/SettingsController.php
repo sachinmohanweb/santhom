@@ -185,7 +185,10 @@ class SettingsController extends Controller
 
             $members = FamilyMember::select('family_members.id','family_members.name','family_members.image','family_members.family_id')
                         ->join('families', 'family_members.family_id', '=', 'families.id')
-                        ->where('families.prayer_group_id',$request['id'])->get();
+                        ->where('families.prayer_group_id',$request['id'])
+                        ->whereNull('family_members.date_of_death')
+                        ->where('families.family_code', '!=', 'CP001')
+                        ->get();
                         
             $members->transform(function ($item, $key) {
                 if ($item->image !== null) {

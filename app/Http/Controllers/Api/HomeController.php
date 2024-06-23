@@ -1298,15 +1298,19 @@ class HomeController extends Controller
 
             // }
 
-            $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading', DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
-                 DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as hash_value'))
+            $church_activities = DailySchedules::select('id',DB::raw('"തിരുകർമ്മങ്ങൾ" as heading'),'details as sub_heading', DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
+                 DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"തിരുകർമ്മങ്ങൾ" as hash_value'))
                 ->whereDate('date',$today_string)
                 ->where('status', 1)->take(2); 
 
             $churchActivitiesData = $church_activities;
 
-            $daily_schedules = $memoryData->union($bibleCitationData)
-                                ->union($churchActivitiesData)
+            // $daily_schedules = $memoryData->union($bibleCitationData)
+            //                     ->union($churchActivitiesData)
+            //                     ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+            $daily_schedules = $bibleCitationData->union($churchActivitiesData)
+                                ->union($memoryData)
                                 ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
 
             $daily_schedules->getCollection()->transform(function ($item, $key) {
