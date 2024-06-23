@@ -16,6 +16,8 @@ class Organization extends Model
         'coordinator_phone_number',
         'status',
     ];
+    
+    protected $appends = ['coordinator_image'];
 
     public function getStatusAttribute($value)
     {
@@ -25,5 +27,18 @@ class Organization extends Model
     public function Officers(){
 
         return $this->hasMany(OrganizationOfficer::class);
+    }
+
+    public function getCoordinatorImageAttribute()
+    {
+        $coordinator = FamilyMember::where('id',$this->coordinator_id)->first();
+        if ($coordinator) {
+            if ($coordinator->image !== null) {
+                $coordinator->image = asset('/') . $coordinator->image;
+            }
+            return $coordinator->image;
+        }
+
+        return 'Null';
     }
 }

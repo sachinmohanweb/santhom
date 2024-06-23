@@ -188,6 +188,7 @@ class SettingsController extends Controller
                         ->where('families.prayer_group_id',$request['id'])
                         ->whereNull('family_members.date_of_death')
                         ->where('families.family_code', '!=', 'CP001')
+                        ->orderBy('name')
                         ->get();
                         
             $members->transform(function ($item, $key) {
@@ -216,7 +217,7 @@ class SettingsController extends Controller
             $pg_no='';
             $per_pg=100;
 
-            $organizations=Organization::select('id','organization_name','coordinator','coordinator_phone_number')
+            $organizations=Organization::select('id','organization_name','coordinator','coordinator_phone_number','coordinator_id')
                             ->where('status',1);
 
             if($request['search_word']){
@@ -230,7 +231,7 @@ class SettingsController extends Controller
             if($request['per_page']){
                $per_pg=$page=$request['per_page'];
             }
-            $organizations=$organizations->orderBy('id', 'desc')
+            $organizations=$organizations->orderBy('organization_name', 'asc')
                                 ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
 
             if(empty($organizations)) {
@@ -262,7 +263,7 @@ class SettingsController extends Controller
 
         try {
 
-            $organization = Organization::select('id','organization_name','coordinator','coordinator_phone_number')
+            $organization = Organization::select('id','organization_name','coordinator','coordinator_phone_number','coordinator_id')
                             ->where('id',$request['id'])->first();
 
             $members = FamilyMember::select('family_members.id','family_members.name','family_members.image','family_members.family_id','organization_officers.position','organization_officers.officer_phone_number')
