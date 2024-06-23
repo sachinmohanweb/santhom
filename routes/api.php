@@ -36,6 +36,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('organizations',[SettingsController::class, 'Organizations']);
     Route::get('organization_details',[SettingsController::class, 'OrganizationDetails']);
     Route::get('directory',[HomeController::class, 'Directory']);
+    Route::get('v2/directory',[HomeController::class, 'DirectoryNew']);
     Route::get('daily_digest',[HomeController::class, 'DailyDigest']);
     Route::get('vicar_messages',[HomeController::class, 'VicarMessages']);
     Route::get('notifications',[HomeController::class, 'Notifications']);

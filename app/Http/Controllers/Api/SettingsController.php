@@ -39,7 +39,7 @@ class SettingsController extends Controller
         try {
 
             $pg_no='';
-            $per_pg='';
+            $per_pg=100;
 
             $bloodgroups = BloodGroup::select('id','blood_group_name')->where('status',1);
 
@@ -85,7 +85,7 @@ class SettingsController extends Controller
         try {
 
             $pg_no='';
-            $per_pg='';
+            $per_pg=100;
 
             $marital_status = MaritalStatus::select('id','marital_status_name')->where('status',1);
 
@@ -131,7 +131,7 @@ class SettingsController extends Controller
         try {
 
             $pg_no='';
-            $per_pg='';
+            $per_pg=100;
 
             $prayer_group = PrayerGroup::select('id','group_name','leader_id','leader',
                 'leader_phone_number','coordinator_id','coordinator_name','coordinator_phone')
@@ -211,7 +211,7 @@ class SettingsController extends Controller
         try {
 
             $pg_no='';
-            $per_pg='';
+            $per_pg=100;
 
             $organizations=Organization::select('id','organization_name','coordinator','coordinator_phone_number')
                             ->where('status',1);
@@ -290,7 +290,7 @@ class SettingsController extends Controller
         try {
 
             $pg_no='';
-            $per_pg='';
+            $per_pg=100;
 
             $relationships = Relationship::select('id','relation_name')->where('status',1)->where('id','!=',1);
 

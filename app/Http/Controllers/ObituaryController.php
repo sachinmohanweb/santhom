@@ -157,7 +157,7 @@ class ObituaryController extends Controller
             }
             $obituary->update($inputData);
 
-            $member = FamilyMember::find($request['member_id'])->first();
+            $member = FamilyMember::find($request['member_id']);
             $member->date_of_death = $request['date_of_death'];
             $member->save();
             

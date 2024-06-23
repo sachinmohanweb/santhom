@@ -449,7 +449,7 @@ class HomeController extends Controller
             /*---------Family Details----------*/
 
                 $families = Family::select('id as id')
-                        ->addSelect('family_name as item',DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS sub_item')
+                        ->addSelect('family_name as sub_item',DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS item')
                             ,DB::raw('"null" as image'),DB::raw('"Families" as type'))
                         ->where('status',1)
                         ->where('family_code','!=','CP001');
@@ -472,8 +472,8 @@ class HomeController extends Controller
                 //    $per_pg=$page=$request['per_page'];
                 // }
 
-                $families=$families->orderByRaw('sub_item IS NULL, sub_item ASC')
-                    ->orderBy('sub_item','asc')
+                $families=$families->orderByRaw('item IS NULL, item ASC')
+                    ->orderBy('item','asc')
                     //->paginate($perPage=$per_pg,[],'',$page =$family_pg_no);
                     ->get();
 
@@ -744,6 +744,479 @@ class HomeController extends Controller
         }catch (\Exception $e) {
 
             $return['result']=$e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
+
+    public function Directory1(Request $request){
+    
+        try {
+            $per_pg = 10;
+            $tab_no = $request->input('tab_no');
+
+            /*---------Family Details----------*/
+            $familiesQuery = Family::select('id as id')
+                ->addSelect('family_name as item', DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS sub_item'), DB::raw('"null" as image'), DB::raw('"Families" as type'))
+                ->where('status', 1)
+                ->where('family_code', '!=', 'CP001');
+            if ($request['search_word']) {
+                $familiesQuery->where(function ($query) use ($request) {
+                    $query->where('family_name', 'like', $request['search_word'] . '%')
+                        ->orWhere('family_code', 'like', $request['search_word'] . '%');
+                });
+            }
+            $families = $familiesQuery->orderByRaw('sub_item IS NULL, sub_item ASC')
+                ->orderBy('sub_item', 'asc')
+                ->paginate($per_pg, ['*'], 'families_page', $request->input('families_page', 1));
+
+            $families->each(function ($family) {
+                $family->image = $family->family_head_image;
+            });
+
+            $family_metadata = array(
+                        "total" => $families->total(),
+                        "per_page" => $families->perPage(),
+                        "current_page" => $families->currentPage(),
+                        "last_page" => $families->lastPage(),
+                        "next_page_url" => $families->nextPageUrl(),
+                        "prev_page_url" => $families->previousPageUrl(),
+                        "from" => $families->firstItem(),
+                        "to" => $families->lastItem()
+                    );
+
+            /*---------Members Details----------*/
+            $membersQuery = FamilyMember::select('id as id', 'name as item')
+                ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'), 'image', DB::raw('"Members" as type'), 'mobile')
+                ->addSelect('family_id')
+                ->whereNull('date_of_death')
+                ->where('user_type', 1)
+                ->where('status', 1);
+            if ($request['search_word']) {
+                $membersQuery->where(function ($query) use ($request) {
+                    $query->where('name', 'like', $request['search_word'] . '%')
+                        ->orWhere('mobile', 'like', $request['search_word'] . '%')
+                        ->orWhere('nickname', 'like', $request['search_word'] . '%');
+                })
+                    ->orwhereHas('BloodGroup', function ($query) use ($request) {
+                        $query->where('blood_group_name', 'like', $request['search_word'] . '%');
+                    });
+            }
+            $members = $membersQuery->orderBy('name', 'asc')
+                ->paginate($per_pg, ['*'], 'members_page', $request->input('members_page', 1));
+
+            $members->transform(function ($item, $key) {
+                if ($item->image !== null) {
+                    $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
+            $members_metadata = array(
+                        "total" => $members->total(),
+                        "per_page" => $members->perPage(),
+                        "current_page" => $members->currentPage(),
+                        "last_page" => $members->lastPage(),
+                        "next_page_url" => $members->nextPageUrl(),
+                        "prev_page_url" => $members->previousPageUrl(),
+                        "from" => $members->firstItem(),
+                        "to" => $members->lastItem()
+                    );
+
+            /*---------Prayer Group Details----------*/
+            $prayer_groupQuery = PrayerGroup::select('id as id', 'group_name as item', 'leader as sub_item', DB::raw('"null" as image'), DB::raw('"Prayer Groups" as type'))
+                ->where('status', 1);
+            if ($request['search_word']) {
+                $prayer_groupQuery->where('group_name', 'like', $request['search_word'] . '%');
+            }
+            $prayer_group = $prayer_groupQuery->paginate($per_pg, ['*'], 'prayer_group_page', $request->input('prayer_group_page', 1));
+
+             $prayer_group_metadata = array(
+                        "total" => $prayer_group->total(),
+                        "per_page" => $prayer_group->perPage(),
+                        "current_page" => $prayer_group->currentPage(),
+                        "last_page" => $prayer_group->lastPage(),
+                        "next_page_url" => $prayer_group->nextPageUrl(),
+                        "prev_page_url" => $prayer_group->previousPageUrl(),
+                        "from" => $prayer_group->firstItem(),
+                        "to" => $prayer_group->lastItem()
+                    );
+
+            /*---------Organizations Details----------*/
+            $organizationsQuery = FamilyMember::select(DB::raw('"1" as id'), 'company_name as item', DB::raw('CONCAT("No. of employees: ", COUNT(*)) as sub_item'), DB::raw('"null" as image'), DB::raw('"Organizations" as type'))
+                ->groupBy('company_name')
+                ->whereNotNull('company_name')
+                ->where('status', 1);
+            if ($request['search_word']) {
+                $organizationsQuery->where('company_name', 'like', $request['search_word'] . '%');
+            }
+            $organizations = $organizationsQuery->orderBy('id', 'desc')
+                ->paginate($per_pg, ['*'], 'organizations_page', $request->input('organizations_page', 1));
+
+            $organizations->transform(function ($item) {
+                $item->setAppends([]);
+                $item->setRelations([]);
+                return $item;
+            });
+
+            $organization_metadata = array(
+                        "total" => $organizations->total(),
+                        "per_page" => $organizations->perPage(),
+                        "current_page" => $organizations->currentPage(),
+                        "last_page" => $organizations->lastPage(),
+                        "next_page_url" => $organizations->nextPageUrl(),
+                        "prev_page_url" => $organizations->previousPageUrl(),
+                        "from" => $organizations->firstItem(),
+                        "to" => $organizations->lastItem()
+                    );
+
+            /*---------Result Formatting----------*/
+            $mergedData = [];
+            $metadata = [];
+
+            if ($tab_no == 1) {
+                $mergedData[] = ['category' => 'Families', 'list' => $families->getCollection()];
+                $metadata = [$family_metadata];
+            } else {
+                $mergedData[] = ['category' => 'Families', 'list' => []];
+            }
+
+            if ($tab_no == 2) {
+                $mergedData[] = ['category' => 'Members', 'list' => $members->getCollection()];
+                $metadata = [$members_metadata];
+            } else {
+                $mergedData[] = ['category' => 'Members', 'list' => []];
+            }
+
+            if ($tab_no == 3) {
+                $mergedData[] = ['category' => 'Prayer Groups', 'list' => $prayer_group->getCollection()];
+                $metadata = [$prayer_group_metadata];
+            } else {
+                $mergedData[] = ['category' => 'Prayer Groups', 'list' => []];
+            }
+
+            if ($tab_no == 4) {
+                $mergedData[] = ['category' => 'Organizations', 'list' => $organizations->getCollection()];
+                $metadata = [$organization_metadata];
+            } else {
+                $mergedData[] = ['category' => 'Organizations', 'list' => []];
+            }
+
+            return $this->outputer->code(200)
+                ->success($mergedData)
+                ->metadata($metadata)
+                ->json();
+
+        } catch (\Exception $e) {
+            $return['result'] = $e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
+
+    public function Directory2(Request $request)
+    {
+        try {
+            $per_pg = 10;
+            $tab_no = $request->input('tab_no');
+            $search_word = $request->input('search_word');
+
+            /*---------Family Details----------*/
+            $familiesQuery = Family::select('id as id')
+                ->addSelect('family_name as item', DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS sub_item'), DB::raw('"null" as image'), DB::raw('"Families" as type'))
+                ->where('status', 1)
+                ->where('family_code', '!=', 'CP001');
+            if ($search_word) {
+                $familiesQuery->where(function ($query) use ($search_word) {
+                    $query->where('family_name', 'like', $search_word . '%')
+                        ->orWhere('family_code', 'like', $search_word . '%');
+                });
+            }
+            $families = $familiesQuery->orderByRaw('sub_item IS NULL, sub_item ASC')
+                ->orderBy('sub_item', 'asc')
+                ->paginate($per_pg, ['*'], 'families_page', $request->input('families_page', 1));
+
+            $families->each(function ($family) {
+                $family->image = $family->family_head_image;
+            });
+
+            $family_metadata = [
+                "total" => $families->total(),
+                "per_page" => $families->perPage(),
+                "current_page" => $families->currentPage(),
+                "last_page" => $families->lastPage(),
+                "next_page_url" => $families->nextPageUrl(),
+                "prev_page_url" => $families->previousPageUrl(),
+                "from" => $families->firstItem(),
+                "to" => $families->lastItem()
+            ];
+
+            /*---------Members Details----------*/
+            $membersQuery = FamilyMember::select('id as id', 'name as item')
+                ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'), 'image', DB::raw('"Members" as type'), 'mobile')
+                ->addSelect('family_id')
+                ->whereNull('date_of_death')
+                ->where('user_type', 1)
+                ->where('status', 1);
+            if ($search_word) {
+                $membersQuery->where(function ($query) use ($search_word) {
+                    $query->where('name', 'like', $search_word . '%')
+                        ->orWhere('mobile', 'like', $search_word . '%')
+                        ->orWhere('nickname', 'like', $search_word . '%');
+                })
+                    ->orwhereHas('BloodGroup', function ($query) use ($search_word) {
+                        $query->where('blood_group_name', 'like', $search_word . '%');
+                    });
+            }
+            $members = $membersQuery->orderBy('name', 'asc')
+                ->paginate($per_pg, ['*'], 'members_page', $request->input('members_page', 1));
+
+            $members->transform(function ($item, $key) {
+                if ($item->image !== null) {
+                    $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
+            $members_metadata = [
+                "total" => $members->total(),
+                "per_page" => $members->perPage(),
+                "current_page" => $members->currentPage(),
+                "last_page" => $members->lastPage(),
+                "next_page_url" => $members->nextPageUrl(),
+                "prev_page_url" => $members->previousPageUrl(),
+                "from" => $members->firstItem(),
+                "to" => $members->lastItem()
+            ];
+
+            /*---------Prayer Group Details----------*/
+            $prayer_groupQuery = PrayerGroup::select('id as id', 'group_name as item', 'leader as sub_item', DB::raw('"null" as image'), DB::raw('"Prayer Groups" as type'))
+                ->where('status', 1);
+            if ($search_word) {
+                $prayer_groupQuery->where('group_name', 'like', $search_word . '%');
+            }
+            $prayer_group = $prayer_groupQuery->paginate($per_pg, ['*'], 'prayer_group_page', $request->input('prayer_group_page', 1));
+
+            $prayer_group_metadata = [
+                "total" => $prayer_group->total(),
+                "per_page" => $prayer_group->perPage(),
+                "current_page" => $prayer_group->currentPage(),
+                "last_page" => $prayer_group->lastPage(),
+                "next_page_url" => $prayer_group->nextPageUrl(),
+                "prev_page_url" => $prayer_group->previousPageUrl(),
+                "from" => $prayer_group->firstItem(),
+                "to" => $prayer_group->lastItem()
+            ];
+
+            /*---------Organizations Details----------*/
+            $organizationsQuery = FamilyMember::select(DB::raw('"1" as id'), 'company_name as item', DB::raw('CONCAT("No. of employees: ", COUNT(*)) as sub_item'), DB::raw('"null" as image'), DB::raw('"Organizations" as type'))
+                ->groupBy('company_name')
+                ->whereNotNull('company_name')
+                ->where('status', 1);
+            if ($search_word) {
+                $organizationsQuery->where('company_name', 'like', $search_word . '%');
+            }
+            $organizations = $organizationsQuery->orderBy('id', 'desc')
+                ->paginate($per_pg, ['*'], 'organizations_page', $request->input('organizations_page', 1));
+
+            $organizations->transform(function ($item) {
+                $item->setAppends([]);
+                $item->setRelations([]);
+                return $item;
+            });
+
+            $organization_metadata = [
+                "total" => $organizations->total(),
+                "per_page" => $organizations->perPage(),
+                "current_page" => $organizations->currentPage(),
+                "last_page" => $organizations->lastPage(),
+                "next_page_url" => $organizations->nextPageUrl(),
+                "prev_page_url" => $organizations->previousPageUrl(),
+                "from" => $organizations->firstItem(),
+                "to" => $organizations->lastItem()
+            ];
+
+            /*---------Search Result Formatting----------*/
+            $searchResults = [];
+            if ($search_word) {
+                $searchResults = array_merge(
+                    $familiesQuery->get()->toArray(),
+                    $membersQuery->get()->toArray(),
+                    $prayer_groupQuery->get()->toArray(),
+                    $organizationsQuery->get()->toArray()
+                );
+            }
+
+            /*---------Result Formatting----------*/
+            $mergedData = [];
+            $metadata = [];
+
+            if ($search_word) {
+                $mergedData[] = ['category' => 'Search Results', 'list' => $searchResults];
+            }
+
+            if ($tab_no == 1) {
+                $mergedData[] = ['category' => 'Families', 'list' => $families->getCollection()];
+                $metadata = [$family_metadata];
+            } else {
+                $mergedData[] = ['category' => 'Families', 'list' => []];
+            }
+
+            if ($tab_no == 2) {
+                $mergedData[] = ['category' => 'Members', 'list' => $members->getCollection()];
+                $metadata = [$members_metadata];
+            } else {
+                $mergedData[] = ['category' => 'Members', 'list' => []];
+            }
+
+            if ($tab_no == 3) {
+                $mergedData[] = ['category' => 'Prayer Groups', 'list' => $prayer_group->getCollection()];
+                $metadata = [$prayer_group_metadata];
+            } else {
+                $mergedData[] = ['category' => 'Prayer Groups', 'list' => []];
+            }
+
+            if ($tab_no == 4) {
+                $mergedData[] = ['category' => 'Organizations', 'list' => $organizations->getCollection()];
+                $metadata = [$organization_metadata];
+            } else {
+                $mergedData[] = ['category' => 'Organizations', 'list' => []];
+            }
+
+            return $this->outputer->code(200)
+                ->success($mergedData)
+                ->metadata($metadata)
+                ->json();
+
+        } catch (\Exception $e) {
+            $return['result'] = $e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
+
+    public function DirectoryNew(Request $request)
+    {
+        try {
+            $tab_no = $request->input('tab_no');
+            $search_word = $request->input('search_word');
+
+            /*---------Family Details----------*/
+            $familiesQuery = Family::select('id as id')
+                ->addSelect('family_name as item', DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS sub_item'), DB::raw('"null" as image'), DB::raw('"Families" as type'))
+                ->where('status', 1)
+                ->where('family_code', '!=', 'CP001');
+            if ($search_word) {
+                $familiesQuery->where(function ($query) use ($search_word) {
+                    $query->where('family_name', 'like', $search_word . '%')
+                        ->orWhere('family_code', 'like', $search_word . '%');
+                });
+            }
+            $families = $familiesQuery->orderByRaw('sub_item IS NULL, sub_item ASC')
+                ->orderBy('sub_item', 'asc')
+                ->get();
+
+            $families->each(function ($family) {
+                $family->image = $family->family_head_image;
+            });
+
+            /*---------Members Details----------*/
+            $membersQuery = FamilyMember::select('id as id', 'name as item')
+                ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'), 'image', DB::raw('"Members" as type'), 'mobile')
+                ->addSelect('family_id')
+                ->whereNull('date_of_death')
+                ->where('user_type', 1)
+                ->where('status', 1);
+            if ($search_word) {
+                $membersQuery->where(function ($query) use ($search_word) {
+                    $query->where('name', 'like', $search_word . '%')
+                        ->orWhere('mobile', 'like', $search_word . '%')
+                        ->orWhere('nickname', 'like', $search_word . '%');
+                })
+                    ->orWhereHas('BloodGroup', function ($query) use ($search_word) {
+                        $query->where('blood_group_name', 'like', $search_word . '%');
+                    });
+            }
+            $members = $membersQuery->orderBy('name', 'asc')
+                ->get();
+
+            $members->transform(function ($item, $key) {
+                if ($item->image !== null) {
+                    $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
+            /*---------Prayer Group Details----------*/
+            $prayer_groupQuery = PrayerGroup::select('id as id', 'group_name as item', 'leader as sub_item', DB::raw('"null" as image'), DB::raw('"Prayer Groups" as type'))
+                ->where('status', 1);
+            if ($search_word) {
+                $prayer_groupQuery->where('group_name', 'like', $search_word . '%');
+            }
+            $prayer_group = $prayer_groupQuery->get();
+
+            /*---------Organizations Details----------*/
+            $organizationsQuery = FamilyMember::select(DB::raw('"1" as id'), 'company_name as item', DB::raw('CONCAT("No. of employees: ", COUNT(*)) as sub_item'), DB::raw('"null" as image'), DB::raw('"Organizations" as type'))
+                ->groupBy('company_name')
+                ->whereNotNull('company_name')
+                ->where('status', 1);
+            if ($search_word) {
+                $organizationsQuery->where('company_name', 'like', $search_word . '%');
+            }
+            $organizations = $organizationsQuery->orderBy('id', 'desc')
+                ->get();
+
+            $organizations->transform(function ($item) {
+                $item->setAppends([]);
+                $item->setRelations([]);
+                return $item;
+            });
+
+            /*---------Search Result Formatting----------*/
+            $searchResults = [];
+            if ($search_word) {
+                $searchResults = array_merge(
+                    $familiesQuery->get()->toArray(),
+                    $membersQuery->get()->toArray(),
+                    $prayer_groupQuery->get()->toArray(),
+                    $organizationsQuery->get()->toArray()
+                );
+            }
+
+            /*---------Result Formatting----------*/
+            $mergedData = [];
+
+            if ($search_word) {
+                $mergedData[] = ['category' => 'Search Results', 'list' => $searchResults];
+            }
+
+            if ($tab_no == 1) {
+                $mergedData[] = ['category' => 'Families', 'list' => $families];
+            } else {
+                $mergedData[] = ['category' => 'Families', 'list' => []];
+            }
+
+            if ($tab_no == 2) {
+                $mergedData[] = ['category' => 'Members', 'list' => $members];
+            } else {
+                $mergedData[] = ['category' => 'Members', 'list' => []];
+            }
+
+            if ($tab_no == 3) {
+                $mergedData[] = ['category' => 'Prayer Groups', 'list' => $prayer_group];
+            } else {
+                $mergedData[] = ['category' => 'Prayer Groups', 'list' => []];
+            }
+
+            if ($tab_no == 4) {
+                $mergedData[] = ['category' => 'Organizations', 'list' => $organizations];
+            } else {
+                $mergedData[] = ['category' => 'Organizations', 'list' => []];
+            }
+
+            return $this->outputer->code(200)
+                ->success($mergedData)
+                ->json();
+
+        } catch (\Exception $e) {
+            $return['result'] = $e->getMessage();
             return $this->outputer->code(422)->error($return)->json();
         }
     }
@@ -1526,7 +1999,7 @@ class HomeController extends Controller
 
                 $daily_readings = BiblicalCitation::select('id','reference as heading','note1 as sub_heading','date',
                     DB::raw('"null" as image'),DB::raw('"Daily Readings" as hash_value'))
-                                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
+                                ->whereRaw("DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('$date', '%Y-%m-%d')")
                                 ->where('status', 1)
                                 ->orderBy('reference', 'asc');
 
@@ -1561,6 +2034,7 @@ class HomeController extends Controller
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
                         ->addSelect('dob as date','image as image','family_id',DB::raw('"Birthdays" as hash_value'))
                                 ->whereRaw("DATE_FORMAT(dob, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
+                                ->whereRaw("DATE_FORMAT(dob, '%Y') != DATE_FORMAT('$date', '%Y')")
                                 ->where('status', 1)
                                 ->whereNull('date_of_death')
                                 ->orderBy('name', 'asc');
@@ -1604,6 +2078,7 @@ class HomeController extends Controller
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
                         ->addSelect('date_of_marriage as date','image as image','family_id',DB::raw('"Wedding Anniversary" as hash_value'))
                                 ->whereRaw("DATE_FORMAT(date_of_marriage, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
+                                ->whereRaw("DATE_FORMAT(date_of_marriage, '%Y') != DATE_FORMAT('$date', '%Y')")
                                 ->where('status', 1)
                                 ->whereNull('date_of_death')
                                 ->orderBy('name', 'asc');
@@ -1693,6 +2168,7 @@ class HomeController extends Controller
                         DB::raw('"Death Anniversary" as hash_value'))
 
                     ->whereRaw("DATE_FORMAT(date_of_death, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
+                    ->whereRaw("DATE_FORMAT(date_of_death, '%Y') != DATE_FORMAT('$date', '%Y')")
                     ->where('status',1)
                     ->orderByRaw("DAY(date_of_death) ASC")
                     ->orderBy('date_of_death', 'asc');
