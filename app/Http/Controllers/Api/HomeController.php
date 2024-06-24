@@ -2078,50 +2078,138 @@ class HomeController extends Controller
 
             /*---------Wedding Anniversary Details----------*/
 
-                $weddings = FamilyMember::select('id',DB::raw('CONCAT("Happy wedding anniversary ", name) as heading'),)
-                        ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
-                        ->addSelect('date_of_marriage as date','image as image','family_id',DB::raw('"Wedding Anniversary" as hash_value'))
-                                ->whereRaw("DATE_FORMAT(date_of_marriage, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
-                                ->whereRaw("DATE_FORMAT(date_of_marriage, '%Y') != DATE_FORMAT('$date', '%Y')")
-                                ->where('status', 1)
-                                ->whereNull('date_of_death')
-                                ->orderBy('name', 'asc');
+                // $weddings = FamilyMember::select('id',DB::raw('CONCAT("Happy wedding anniversary ", name) as heading'),)
+                //         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
+                //         ->addSelect('date_of_marriage as date','image as image','family_id',DB::raw('"Wedding Anniversary" as hash_value'))
+                //                 ->whereRaw("DATE_FORMAT(date_of_marriage, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
+                //                 ->whereRaw("DATE_FORMAT(date_of_marriage, '%Y') != DATE_FORMAT('$date', '%Y')")
+                //                 ->where('status', 1)
+                //                 ->whereNull('date_of_death')
+                //                 ->orderBy('name', 'asc');
 
-                if($request['page_no']){
-                    $pg_no=$page=$request['page_no'];
-                }
-                if($request['per_page']){
-                   $per_pg=$page=$request['per_page'];
-                }
-                $weddings=$weddings->orderBy('id', 'desc')
-                                    ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+                // if($request['page_no']){
+                //     $pg_no=$page=$request['page_no'];
+                // }
+                // if($request['per_page']){
+                //    $per_pg=$page=$request['per_page'];
+                // }
+                // $weddings=$weddings->orderBy('id', 'desc')
+                //                     ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
 
-                if(empty($weddings)) {
-                    $return['result']=  "Empty birthday list ";
+                // if(empty($weddings)) {
+                //     $return['result']=  "Empty birthday list ";
+                //     return $this->outputer->code(422)->error($return)->json();
+                // }
+
+                // $weddings->getCollection()->transform(function ($item, $key) {
+
+                //     if ($item->image !== null) {
+                //          $item->image = asset('/') . $item->image;
+                //     }
+                //     return $item;
+                // });
+
+                // $weddings_metadata = array(
+                //     "total" => $weddings->total(),
+                //     "per_page" => $weddings->perPage(),
+                //     "current_page" => $weddings->currentPage(),
+                //     "last_page" => $weddings->lastPage(),
+                //     "next_page_url" => $weddings->nextPageUrl(),
+                //     "prev_page_url" => $weddings->previousPageUrl(),
+                //     "from" => $weddings->firstItem(),
+                //     "to" => $weddings->lastItem()
+                // );
+
+
+
+
+                $weddings = FamilyMember::select('id', 'name', 'image', 'date_of_marriage', 'family_id')
+                    ->whereRaw("DATE_FORMAT(date_of_marriage, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
+                    ->whereRaw("DATE_FORMAT(date_of_marriage, '%Y') != DATE_FORMAT('$date', '%Y')")
+                    ->where('status', 1)
+                    ->whereNull('date_of_death')
+                    ->orderBy('name', 'asc')
+                    ->get();
+                $groupedWeddings = $weddings->groupBy(function ($item) {
+                    return $item->family_id . '-' . $item->date_of_marriage;
+                });
+
+                $finalWeddings = collect();
+
+                foreach ($groupedWeddings as $key => $members) {
+                    $family_id = $members->first()->family_id;
+                    $family_name = DB::table('families')->where('id', $family_id)->value('family_name');
+
+                    if ($members->count() > 1) {
+                        $type = 'couples';
+                        $names = $members->pluck('name')->toArray();
+                        $images = $members->pluck('image')->toArray();
+                        $item = [
+                            'id' => $members->first()->id,
+                            'heading' => "Wedding anniversary wishes \n" . implode(' and ', $names),
+                            'sub_heading' => $family_name,
+                            'date' => $members->first()->date_of_marriage,
+                            'images' => $images,
+                            'family_id' => $family_id,
+                            'hash_value' => 'Wedding Anniversary',
+                            'type' => $type
+                        ];
+                    } else {
+                        $type = 'singles';
+                        $member = $members->first();
+                        $item = [
+                            'id' => $member->id,
+                            'heading' => "Wedding anniversary wishes \n" . $member->name,
+                            'sub_heading' => $family_name,
+                            'date' => $member->date_of_marriage,
+                            'image' => $member->image,
+                            'family_id' => $family_id,
+                            'hash_value' => 'Wedding Anniversary',
+                            'type' => $type
+                        ];
+                    }
+
+                    $finalWeddings->push($item);
+                }
+
+                $page = $request['page_no'] ?? 1;
+                $per_pg = $request['per_page'] ?? 15;
+
+                $paginatedWeddings = new \Illuminate\Pagination\LengthAwarePaginator(
+                    $finalWeddings->forPage($page, $per_pg),
+                    $finalWeddings->count(),
+                    $per_pg,
+                    $page,
+                    ['path' => \Illuminate\Pagination\Paginator::resolveCurrentPath()]
+                );
+
+                if ($paginatedWeddings->isEmpty()) {
+                    $return['result'] = "Empty birthday list";
                     return $this->outputer->code(422)->error($return)->json();
                 }
 
-                $weddings->getCollection()->transform(function ($item, $key) {
-
-                    if ($item->image !== null) {
-                         $item->image = asset('/') . $item->image;
+                $paginatedWeddings->getCollection()->transform(function ($item, $key) {
+                    if (isset($item['image']) && $item['image'] !== null) {
+                        $item['image'] = asset('/') . $item['image'];
+                    }
+                    if (isset($item['images'])) {
+                        $item['images'] = array_map(function ($image) {
+                            return asset('/') . $image;
+                        }, $item['images']);
                     }
                     return $item;
                 });
 
                 $weddings_metadata = array(
-                    "total" => $weddings->total(),
-                    "per_page" => $weddings->perPage(),
-                    "current_page" => $weddings->currentPage(),
-                    "last_page" => $weddings->lastPage(),
-                    "next_page_url" => $weddings->nextPageUrl(),
-                    "prev_page_url" => $weddings->previousPageUrl(),
-                    "from" => $weddings->firstItem(),
-                    "to" => $weddings->lastItem()
+                    "total" => $paginatedWeddings->total(),
+                    "per_page" => $paginatedWeddings->perPage(),
+                    "current_page" => $paginatedWeddings->currentPage(),
+                    "last_page" => $paginatedWeddings->lastPage(),
+                    "next_page_url" => $paginatedWeddings->nextPageUrl(),
+                    "prev_page_url" => $paginatedWeddings->previousPageUrl(),
+                    "from" => $paginatedWeddings->firstItem(),
+                    "to" => $paginatedWeddings->lastItem()
                 );
-
-
-            
 
                 /*---------Memories Details----------*/
 
@@ -2211,7 +2299,7 @@ class HomeController extends Controller
                     "to" => $obituary->lastItem()
                 );
 
-            $total = $birthdays->total() + $weddings->total() + $daily_readings->total() + $obituary->total();
+            $total = $birthdays->total() + $paginatedWeddings->total() + $daily_readings->total() + $obituary->total();
 
             $mergedData = [
                 'number_of_events' => $total,
@@ -2226,7 +2314,7 @@ class HomeController extends Controller
                     ],
                     [
                         'type' => 'Wedding Anniversary',
-                        'list' => $weddings->items()
+                        'list' => $paginatedWeddings->items()
                     ],
                     [
                         'type' => 'Death Anniversary',

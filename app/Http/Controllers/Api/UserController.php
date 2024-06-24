@@ -429,6 +429,12 @@ class UserController extends Controller
             } else {
                $member->image = null; 
             }
+            $family = Family::find($member->family_id);
+            if ($family) {
+                $member->family_location = $family->map_location;
+            } else {
+                $member->family_location = null;
+            }
         }
 
         $return['member']  =  $member;
