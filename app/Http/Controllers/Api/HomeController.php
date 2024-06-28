@@ -1156,11 +1156,17 @@ class HomeController extends Controller
             $organizationsQuery = FamilyMember::select(DB::raw('"1" as id'), 'company_name as item', DB::raw('CONCAT("No. of employees: ", COUNT(*)) as sub_item'), DB::raw('"null" as image'), DB::raw('"Organizations" as type'))
                 ->groupBy('company_name')
                 ->whereNotNull('company_name')
+                ->whereNull('date_of_death')
+                ->where('user_type', 1)
                 ->where('status', 1);
             if ($search_word) {
-                $organizationsQuery->where('company_name', 'like', $search_word . '%');
+                //$organizationsQuery->where('company_name', 'like', $search_word);
+                $organizationsQuery->where(function ($query) use ($search_word) {
+                    $query->where('company_name', $search_word)
+                          ->orWhere('company_name', 'like', $search_word . '%');
+                });
             }
-            $organizations = $organizationsQuery->orderBy('id', 'desc')
+            $organizations = $organizationsQuery->orderBy('company_name', 'asc')
                 ->get();
 
             $organizations->transform(function ($item) {
@@ -1217,6 +1223,44 @@ class HomeController extends Controller
 
         } catch (\Exception $e) {
             $return['result'] = $e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
+
+    public function OrganizationMembers(Request $request){
+
+        try {
+            $org_members= FamilyMember::select('id', 'name as item')
+                    ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'), 'image', DB::raw('"OrganizationMembers" as type'), 'mobile','company_name')
+                ->addSelect('family_id')
+                ->where(function ($query) use ($request) {
+                    $query->where('company_name', $request['organization'])
+                          ->orWhere('company_name', 'like', $request['organization'] . '%');
+                })
+                ->whereNull('date_of_death')
+                ->whereNotNull('company_name')
+                ->where('user_type', 1)
+                ->where('status', 1)
+                ->orderBy('name', 'asc')
+                ->get();
+
+            $org_members->transform(function ($item, $key) {
+                if ($item->image !== null) {
+                    $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
+            if(empty($org_members)) {
+
+                $return['result']=  "Empty members in this organization ";
+                return $this->outputer->code(422)->error($return)->json();
+            }
+            return $this->outputer->code(200)
+                        ->success($org_members)->json();
+        }catch (\Exception $e) {
+
+            $return['result']=$e->getMessage();
             return $this->outputer->code(422)->error($return)->json();
         }
     }
