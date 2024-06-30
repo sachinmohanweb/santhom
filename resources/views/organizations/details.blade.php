@@ -249,6 +249,7 @@
                     @csrf
 
                     <input type="hidden" name="organization_id" value="{{$organization->id}}">
+                    <input type="hidden" name="org_ofc_id" id="org_ofc_id" value="">
                     <div class="row g-3 mb-3">
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom01">Member</label>
@@ -531,6 +532,7 @@
                 }
                 $('#position_edit').val(res.position);
                 $('#officer_phone_number_edit').val(res.officer_phone_number);
+                $('#org_ofc_id').val(id);
 
 
                 $('#EditOrganizationOfficerModal').modal('show');

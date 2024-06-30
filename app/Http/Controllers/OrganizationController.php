@@ -247,7 +247,7 @@ class OrganizationController extends Controller
                 $member= FamilyMember::find($request['member_id']);
                 $inputData['member_name'] = $member['name'];
             }
-            $officer = OrganizationOfficer::find($request['organization_id']);
+            $officer = OrganizationOfficer::find($request['org_ofc_id']);
             $officer->update($inputData);
             DB::commit();
              
