@@ -113,7 +113,8 @@
 
                         <div class="col-md-6">
                           <label class="form-label" for="validationCustom02">Leader's Phone</label>
-                          <input class="form-control" id="leader_phone_number" type="text" name='leader_phone_number'>
+                          <input class="form-control leader_phone_number_auto" id="leader_phone_number" type="text" 
+                          name='leader_phone_number'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
                     </div>
@@ -128,7 +129,7 @@
 
                         <div class="col-md-6">
                           <label class="form-label" for="validationCustom02">Coordinator's Phone</label>
-                          <input class="form-control" id="coordinator_phone" type="text" 
+                          <input class="form-control coordinator_phone_auto" id="coordinator_phone" type="text" 
                           name='coordinator_phone'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
@@ -174,7 +175,7 @@
 
                         <div class="col-md-6">
                           <label class="form-label" for="validationCustom02">Leader's Phone</label>
-                          <input class="form-control" id="leader_phone_number_edit" type="text" 
+                          <input class="form-control leader_phone_number_auto" id="leader_phone_number_edit" type="text" 
                           name='leader_phone_number'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
@@ -188,7 +189,7 @@
 
                         <div class="col-md-6">
                           <label class="form-label" for="validationCustom02">coordinator's Phone</label>
-                          <input class="form-control" id="coordinator_phone_edit" type="text" 
+                          <input class="form-control coordinator_phone_auto" id="coordinator_phone_edit" type="text" 
                           name='coordinator_phone'>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
@@ -281,9 +282,9 @@
                     },
                     success: function(response) {
                         if(response.phone !== null){
-                            $('#leader_phone_number').val(response.phone);
+                            $('.leader_phone_number_auto').val(response.phone);
                         }else{
-                            $('#leader_phone_number').attr('placeholder', 'Contact Number not available');
+                            $('.leader_phone_number_auto').attr('placeholder', 'Contact Number not available');
                         }
                     },
                     error: function(xhr, status, error) {
@@ -304,9 +305,9 @@
                     },
                     success: function(response) {
                         if(response.phone !== null){
-                            $('#coordinator_phone').val(response.phone);
+                            $('.coordinator_phone_auto').val(response.phone);
                         }else{
-                            $('#coordinator_phone').attr('placeholder', 'Contact Number not available');
+                            $('.coordinator_phone_auto').attr('placeholder', 'Contact Number not available');
                         }
                     },
                     error: function(xhr, status, error) {

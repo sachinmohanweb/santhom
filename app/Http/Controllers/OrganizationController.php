@@ -89,6 +89,12 @@ class OrganizationController extends Controller
         return response()->json($organization);
     }
 
+    public function organizations_officer_get(Request $request) : JsonResponse
+    {
+        $organization_officer = OrganizationOfficer::find($request['id']);
+        return response()->json($organization_officer);
+    }
+
     public function organizations_update(Request $request): RedirectResponse
     {
         DB::beginTransaction();
@@ -219,6 +225,38 @@ class OrganizationController extends Controller
         }catch (Exception $e) {
 
             DB::rollBack();
+            $message = $e->getMessage();
+            return back()->withInput()->withErrors(['message' =>  $e->getMessage()]);;
+        }
+    }
+
+    public function update_organization_officers(Request $request): RedirectResponse
+    {
+
+        DB::beginTransaction();
+        try {
+            $a =  $request->validate([
+                'organization_id'            => 'required',
+                'member_id'            => 'required',
+                'position'            => 'required',
+            ]);
+
+            $inputData = $request->all();
+            if($request['member_id']){
+
+                $member= FamilyMember::find($request['member_id']);
+                $inputData['member_name'] = $member['name'];
+            }
+            $officer = OrganizationOfficer::find($request['organization_id']);
+            $officer->update($inputData);
+            DB::commit();
+             
+            return redirect()->route('admin.organizations.show_details',[$request['organization_id']])
+                            ->with('success','Organization officer updated successfully.');
+        }catch (Exception $e) {
+
+            DB::rollBack();
+         dd($e->getMessage());
             $message = $e->getMessage();
             return back()->withInput()->withErrors(['message' =>  $e->getMessage()]);;
         }

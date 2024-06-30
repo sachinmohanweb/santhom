@@ -133,6 +133,10 @@ Route::middleware('auth:admin')->group(function(){
             'store_organization_officers'])->name('admin.organization.officer.store');
     Route::post('/deleteorganizationofficer', [OrganizationController::class, 
             'organization_officer_delete'])->name('admin.organization.officer.delete');
+    Route::post('/getorganizationofficers', [OrganizationController::class, 'organizations_officer_get'])
+            ->name('admin.get.organization.officers');
+    Route::post('/updateorganizationofficers', [OrganizationController::class,
+            'update_organization_officers'])->name('admin.organization.officer.update');
 
     Route::get('/vicarlist', [VicarDetailsController::class, 'vicars_list'])
             ->name('admin.vicar.list');

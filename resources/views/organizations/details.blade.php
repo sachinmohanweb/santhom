@@ -94,7 +94,7 @@
               </div>
              </div>
              <div class="card-block row" style="margin: 10px;">
-                    <div class="col-sm-8 col-lg-8 col-xl-8">
+                    <div class="col-sm-9 col-lg-9 col-xl-9">
                       <div class="table-responsive">
                         <table class="table table-light">
                           <thead>
@@ -118,10 +118,10 @@
 
                               <td>{{$value->officer_phone_number}} </td>
                               <td>
-                               <!--  <a href="javascript:void(0)" data-toggle="tooltip" 
+                                <a onClick="editOrgMemberFunc({{$value['id'] }})"  data-toggle="tooltip" 
                                 data-original-title="View" class="edit btn btn-primary btn-sm view">
                                   <i class="fa fa-edit"></i>Edit
-                                </a> -->
+                                </a>
 
                                 <a href="javascript:void(0);" id="delete-compnay" 
                                 onClick="deleteFunc({{ $value['id'] }})" data-toggle="tooltip" data-original-title="Delete" class="delete btn btn-danger btn-sm">
@@ -168,7 +168,7 @@
                         <div class="col-md-4">
                           <label class="form-label" for="validationCustom02">Coordinator</label>
                           <select class="js-data-example-ajax form-select coordinator_edit"  
-                          id="coordinator_id_edit"  name="coordinator_id">                           </select>
+                          id="coordinator_id_edit"  name="coordinator_id"></select>
                           <div class="valid-feedback">Looks good!</div>
                         </div>
 
@@ -192,49 +192,7 @@
 @endif
 
 
- <!--  <div class="modal fade" id="EditOrganizationsModal" tabindex="-1" role="dialog" aria-labelledby="EditOrganizationsModalArea" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Organizations Details</h5>
-                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form class="needs-validation" id="EditOrganizationsForm" novalidate="" method="Post">
-                    <div class="modal-body">
-                    @csrf
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-4">
-                          <label class="form-label" for="validationCustom01">Group Name</label>
-                          <input class="form-control" id="organization_name_edit" type="text" 
-                          required="" name='organization_name'>
-                          <div class="valid-feedback">Looks good!</div>
-                        </div>
-                        <div class="col-md-4">
-                          <label class="form-label" for="validationCustom02">Coordinator</label>
-                          <select class="js-data-example-ajax form-select coordinator_edit"  
-                          id="coordinator_id_edit"  name="coordinator_id">
-                          <div class="valid-feedback">Looks good!</div>
-                        </div>
-
-                        <div class="col-md-4">
-                          <label class="form-label" for="validationCustom02">Leader's Phone</label>
-                          <input class="form-control" id="coordinator_phone_number_edit" type="text" 
-                          name='coordinator_phone_number'>
-                          <div class="valid-feedback">Looks good!</div>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.organizations.list') }}'">Close</button>
-                        <button class="btn btn-success" type="submit">Update</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-  </div> -->
-
-
-    <div class="modal fade" id="AddOrganizationOfficerModal" tabindex="-1" role="dialog" aria-labelledby="AddOrganizationOfficerModalArea" aria-hidden="true">
+<div class="modal fade" id="AddOrganizationOfficerModal" tabindex="-1" role="dialog" aria-labelledby="AddOrganizationOfficerModalArea" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
             <div class="modal-content">
                 <div class="modal-header">
@@ -271,6 +229,52 @@
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.organizations.list') }}'">Close</button>
                         <button class="btn btn-success" type="submit">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="EditOrganizationOfficerModal" tabindex="-1" role="dialog" aria-labelledby="AddOrganizationOfficerModalArea" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Officer Details</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="needs-validation" id="EditOrganizationOfficerForm" novalidate="" 
+                        action="{{route('admin.organization.officer.update')}}" method="Post">
+                    <div class="modal-body">
+                    @csrf
+
+                    <input type="hidden" name="organization_id" value="{{$organization->id}}">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                          <label class="form-label" for="validationCustom01">Member</label>
+                          <select class="js-data-example-ajax form-select member_id"  name="member_id" required
+                          id="member_id_edit" ></select>
+                          <div class="valid-feedback">Looks good!</div>
+                          <div class="invalid-feedback" style="color:red">Please select a member</div>
+
+                        </div>
+                        <div class="col-md-4">
+                          <label class="form-label" for="validationCustom02">Position</label>
+                          <input class="form-control" id="position_edit" type="text" name='position' required>
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <label class="form-label" for="validationCustom02">officer's Phone</label>
+                          <input class="form-control" type="text" 
+                          name='officer_phone_number' id="officer_phone_number_edit">
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" onclick="window.location='{{ route('admin.organizations.list') }}'">Close</button>
+                        <button class="btn btn-success" type="submit">Update</button>
                     </div>
                 </form>
             </div>
@@ -320,7 +324,31 @@
             }
         });
     
-    }  
+    } 
+
+    $('.coordinator_edit').on('select2:select', function(e) {
+
+            var selectedCoordinatorId = e.params.data.id;
+            $.ajax({
+                url: "<?= url('get_member_phone_number') ?>",
+                method: 'post',
+                data: {
+                    _token: "<?= csrf_token() ?>",
+                    member_id: selectedCoordinatorId
+                },
+                success: function(response) {
+                    if(response.phone !== null){
+                        $('#coordinator_phone_number_edit').val(response.phone);
+                    }else{
+                        $('#coordinator_phone_number_edit').attr('placeholder', 'Contact Number not available');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching coordinator's phone number:", error);
+                }   
+            });
+        });
+
     function AddOfficerFunc(){
         
         $('#AddOrganizationOfficerModal').modal('show');
@@ -405,6 +433,57 @@
         }
     });
 
+    $('#member_id_edit').select2({
+        dropdownParent: $('#EditOrganizationOfficerModal'),
+        placeholder: "Select coordinator",
+        ajax: {
+
+            url: "<?= url('get_family_members_list') ?>",
+            dataType: 'json',
+            method: 'post',
+            delay: 250,
+
+             data: function(data) {
+                return {
+                    _token    : "<?= csrf_token() ?>",
+                    search_tag: data.term,
+                    page: 'obituary',
+                };
+            },
+            processResults: function(data, params) {
+                params.page = params.page || 1;
+                return {
+                    results: data.results,
+                    pagination: { more: (params.page * 30) < data.total_count }
+                };
+            },
+            cache: true
+        }
+    });
+
+    $('#member_id_edit').on('select2:select', function(e) {
+
+        var selectedCoordinatorId = e.params.data.id;
+        $.ajax({
+            url: "<?= url('get_member_phone_number') ?>",
+            method: 'post',
+            data: {
+                _token: "<?= csrf_token() ?>",
+                member_id: selectedCoordinatorId
+            },
+            success: function(response) {
+                if(response.phone !== null){
+                    $('#officer_phone_number_edit').val(response.phone);
+                }else{
+                    $('#officer_phone_number_edit').attr('placeholder', 'Contact Number not available');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching coordinator's phone number:", error);
+            }   
+        });
+    });
+
     function deleteFunc(id){
       if (confirm("Are you sure? Delete this officer details?") == true) {
           var id = id;
@@ -429,6 +508,39 @@
               }
           });
       }
+    }
+
+    function editOrgMemberFunc(id){
+        $.ajax({
+            type:"post",
+            url: "{{ route('admin.get.organization.officers') }}",
+            data: { _token : "<?= csrf_token() ?>",
+                    id     : id
+            },
+            dataType: 'json',
+            success: function(res){
+                $('#organization_name_edit').attr('value', res.organization_name);
+
+                if(res.member_id){
+                    var memberId = res.member_id;
+                    var memberName = res.member_name;
+                    var position = res.position;
+                    var newOption = new Option(memberName, memberId, true, true);
+
+                    $('#member_id_edit').append(newOption).trigger('change');
+                }
+                $('#position_edit').val(res.position);
+                $('#officer_phone_number_edit').val(res.officer_phone_number);
+
+
+                $('#EditOrganizationOfficerModal').modal('show');
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX request failed:', status, error);
+                alert('Failed get data. Please try again later.');
+            }
+        });
+    
     }
 </script>
 @endsection
