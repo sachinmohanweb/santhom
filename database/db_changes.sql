@@ -498,3 +498,10 @@ ALTER TABLE `payment_details` ADD `family_head_id` INT NOT NULL AFTER `family_id
 ALTER TABLE `payment_details` DROP `purpose`;
 ALTER TABLE `payment_details` ADD `category_id` INT NOT NULL AFTER `family_head_id`;
 ALTER TABLE `payment_details` DROP `date`;
+
+-- 17/06/24----
+
+
+INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `updated_at`) 
+VALUES (NULL, 'Grandson-in-law', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+ (NULL, 'Granddaughter-in-law', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

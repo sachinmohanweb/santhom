@@ -2046,7 +2046,9 @@ class HomeController extends Controller
             /*---------Daily reading Details----------*/
 
                 $daily_readings = BiblicalCitation::select('id','reference as heading','note1 as sub_heading','date',
-                    DB::raw('"null" as image'),DB::raw('"Daily Readings" as hash_value'))
+                    //DB::raw('"null" as image'),
+                    DB::raw('JSON_ARRAY("null") as image'),
+                    DB::raw('"Daily Readings" as hash_value'))
                                 ->whereRaw("DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('$date', '%Y-%m-%d')")
                                 ->where('status', 1)
                                 ->orderBy('reference', 'asc');
@@ -2078,7 +2080,7 @@ class HomeController extends Controller
 
             /*---------Birthdays Details----------*/
 
-                $birthdays = FamilyMember::select('id',DB::raw('CONCAT("Happy Birthday ", name) as heading'),)
+                $birthdays = FamilyMember::select('id',DB::raw('CONCAT("Birthday of ", name) as heading'),)
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
                         ->addSelect('dob as date','image as image','family_id',DB::raw('"Birthdays" as hash_value'))
                                 ->whereRaw("DATE_FORMAT(dob, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
@@ -2104,7 +2106,9 @@ class HomeController extends Controller
                 $birthdays->getCollection()->transform(function ($item, $key) {
 
                     if ($item->image !== null) {
-                         $item->image = asset('/') . $item->image;
+                        $item->image = [asset('/') . $item->image];
+                    } else {
+                        $item->image = [];
                     }
                     return $item;
                 });
@@ -2190,10 +2194,10 @@ class HomeController extends Controller
                         $images = $members->pluck('image')->toArray();
                         $item = [
                             'id' => $members->first()->id,
-                            'heading' => "Wedding anniversary wishes \n" . implode(' and ', $names),
+                            'heading' => "Wedding anniversary of \n" . implode(' and ', $names),
                             'sub_heading' => $family_name,
                             'date' => $members->first()->date_of_marriage,
-                            'images' => $images,
+                            'image' => $images,
                             'family_id' => $family_id,
                             'hash_value' => 'Wedding Anniversary',
                             'type' => $type
@@ -2203,10 +2207,10 @@ class HomeController extends Controller
                         $member = $members->first();
                         $item = [
                             'id' => $member->id,
-                            'heading' => "Wedding anniversary wishes \n" . $member->name,
+                            'heading' => "Wedding anniversary of \n" . $member->name,
                             'sub_heading' => $family_name,
                             'date' => $member->date_of_marriage,
-                            'image' => $member->image,
+                            'image' => [$member->image],
                             'family_id' => $family_id,
                             'hash_value' => 'Wedding Anniversary',
                             'type' => $type
@@ -2234,11 +2238,15 @@ class HomeController extends Controller
 
                 $paginatedWeddings->getCollection()->transform(function ($item, $key) {
                     if (isset($item['image']) && $item['image'] !== null) {
-                        $item['image'] = asset('/') . $item['image'];
+                        //$item['image'] = asset('/') . $item['image'];
+
+                        $item['image'] = array_map(function ($image) {
+                            return $image !== null ? asset('/') . $image : $image;
+                        }, $item['image']);
                     }
                     if (isset($item['images'])) {
                         $item['images'] = array_map(function ($image) {
-                            return asset('/') . $image;
+                            return $image !== null ? asset('/') . $image : $image;
                         }, $item['images']);
                     }
                     return $item;
@@ -2292,7 +2300,7 @@ class HomeController extends Controller
 
             /*---------Death Anniversary Details----------*/
 
-                $obituary = Obituary::select('id','name_of_member as heading')
+                $obituary = Obituary::select('id',DB::raw('CONCAT("Death anniversary of ", name_of_member) as heading'))
                    ->selectSub(function ($query) {
                         $query->select('families.family_name')
                             ->from('family_members')
@@ -2327,7 +2335,9 @@ class HomeController extends Controller
                 $obituary->getCollection()->transform(function ($item, $key) {
 
                     if ($item->image !== null) {
-                         $item->image = asset('/') . $item->image;
+                        $item->image = [asset('/') . $item->image];
+                    } else {
+                        $item->image = [];
                     }
                     return $item;
                 });
