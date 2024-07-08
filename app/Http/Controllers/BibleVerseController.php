@@ -31,7 +31,7 @@ class BibleVerseController extends Controller
         if(request()->ajax()) {
 
             return datatables()
-            ->of(BibleVerse::select('*'))
+            ->of(BibleVerse::select('*')->where('date', '>', now()->subDay()->format('Y-m-d'))->orderBy('date'))
             ->addColumn('DT_RowIndex', function () {
                 return '';
             })

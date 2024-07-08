@@ -28,7 +28,7 @@ class BiblicalCitationController extends Controller
     {
         if(request()->ajax()) {
             return datatables()
-            ->of(BiblicalCitation::select('*')->where('status',1))
+            ->of(BiblicalCitation::select('*')->where('status',1)->where('date', '>', now()->subDay()->format('Y-m-d'))->orderBy('date'))
             ->addColumn('action', 'biblicalcitation.biblical-citation-datatable-action')
             ->rawColumns(['action'])
             ->addIndexColumn()
