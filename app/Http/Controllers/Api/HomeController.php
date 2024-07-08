@@ -1735,16 +1735,18 @@ class HomeController extends Controller
 
             /*---------Obituaries Details----------*/
 
-            $obituaries = Obituary::select('id','date_of_death as date','name_of_member as item')
+            $obituaries = Obituary::select('id','date_of_death as date','name_of_member as sub_item','notes as item')
                 ->selectSub(function ($query) {
                     $query->select('families.family_name')
                         ->from('family_members')
                         ->join('families', 'family_members.family_id', '=', 'families.id')
                         ->whereColumn('family_members.id', 'obituaries.member_id')
                         ->limit(1);
-                }, 'sub_item')
-            ->addSelect('notes as details','photo as image',
-                DB::raw('"Obituaries" as type_value'),DB::raw('"False" as color'))
+                }, 'details')
+            ->addSelect('photo as image',
+                DB::raw('"Obituaries" as type_value'),DB::raw('"False" as color'), DB::raw('"Obituaries" as hash_value'),
+                'funeral_date as link')
+            ->where('date_of_death', \Carbon\Carbon::today())
             ->where('status',1);
 
             if($request['search_word']){
@@ -1787,8 +1789,8 @@ class HomeController extends Controller
             if ($request['search_word']) {
                 $search_results = $events
                     ->merge($newsAnnouncements)
-                    //->merge($VicarMessages)
-                    ->merge($notifications);
+                    ->merge($notifications)
+                    ->merge($obituaries);
 
 
                 $search_results_metadata = [
@@ -1814,7 +1816,7 @@ class HomeController extends Controller
             $mergedData[] = ['category' => 'Notifications', 'list' => $notifications];
             //$metadata['notifications_metadata'] = $notifications_metadata;
 
-            //$mergedData[] = ['category' => 'Vicar Messages', 'list' => $VicarMessages];
+            $mergedData[] = ['category' => 'Obituaries', 'list' => $obituaries];
             //$metadata['VicarMessages_metadata'] = $VicarMessages_metadata;
 
             return $this->outputer->code(200)
