@@ -505,3 +505,10 @@ ALTER TABLE `payment_details` DROP `date`;
 INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `updated_at`) 
 VALUES (NULL, 'Grandson-in-law', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
  (NULL, 'Granddaughter-in-law', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+
+-- 17/06/24----
+
+-- CREATE INDEX idx_dob_month_day ON family_members ((MONTH(dob)), (DAY(dob)));
+-- CREATE INDEX idx_domarriage_month_day ON family_members ((MONTH(date_of_marriage)), (DAY(date_of_marriage)));
+-- CREATE INDEX idx_dodeath_month_day ON family_members ((MONTH(date_of_death)), (DAY(date_of_death)));

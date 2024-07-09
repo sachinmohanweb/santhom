@@ -439,13 +439,6 @@ class HomeController extends Controller
 
         try {
 
-            $per_pg='';
-            $family_pg_no='';
-            $member_pg_no='';
-            $prayer_group_pg_no='';
-            $organization_pg_no='';
-
-
             /*---------Family Details----------*/
 
                 $families = Family::select('id as id')
@@ -459,23 +452,10 @@ class HomeController extends Controller
                         $query->where('family_name', 'like', $request['search_word'].'%')
                             ->orWhere('family_code', 'like', $request['search_word'].'%');
                     });
-                    // ->orwhereHas('members', function ($query) use ($request) {
-                    //    $query->where('name', 'like', $request['search_word'].'%')
-                    //           ->where('head_of_family', 1);
-                    // });
                 }
 
-                // if($request['family_page_no']){
-                //     $family_pg_no=$request['family_page_no'];
-                // }
-                // if($request['per_page']){
-                //    $per_pg=$page=$request['per_page'];
-                // }
-
                 $families=$families->orderByRaw('item IS NULL, item ASC')
-                    ->orderBy('item','asc')
-                    //->paginate($perPage=$per_pg,[],'',$page =$family_pg_no);
-                    ->get();
+                    ->orderBy('item','asc')->get();
 
                 $families->each(function ($family) {
                     $family->image = $family->family_head_image;
@@ -484,23 +464,11 @@ class HomeController extends Controller
                     $return['result']=  "Empty family list ";
                     return $this->outputer->code(422)->error($return)->json();
                 }
-                // $family_metadata = array(
-                //     "total" => $families->total(),
-                //     "per_page" => $families->perPage(),
-                //     "current_page" => $families->currentPage(),
-                //     "last_page" => $families->lastPage(),
-                //     "next_page_url" => $families->nextPageUrl(),
-                //     "prev_page_url" => $families->previousPageUrl(),
-                //     "from" => $families->firstItem(),
-                //     "to" => $families->lastItem()
-                // );
-
 
             /*---------Members Details----------*/
 
-                $members = FamilyMember::select('id as id','name as item')
-                        ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'),'image',DB::raw('"Members" as type'),'mobile')
-                        ->addSelect('family_id')
+                $members = FamilyMember::select('id as id','name as item','image','mobile','family_id',DB::raw('"Members" as type'))
+                        ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'))
                         ->whereNull('date_of_death')
                         ->where('user_type',1)
                         ->where('status',1);
@@ -508,22 +476,16 @@ class HomeController extends Controller
 
                     $members->where(function ($query) use ($request) {
                         $query->where('name', 'like', $request['search_word'].'%')
-                            ->orWhere('mobile', 'like', $request['search_word'].'%')
-                            ->orWhere('nickname', 'like', $request['search_word'].'%');
+                            ->orWhere('mobile', 'like', $request['search_word'].'%');
                     })
                     ->orwhereHas('BloodGroup', function ($query) use ($request) {
                         $query->where('blood_group_name', 'like', $request['search_word'].'%');
                     });
                 }
-                // if($request['member_page_no']){
-                //     $member_pg_no=$request['member_page_no'];
-                // }
-                // if($request['per_page']){
-                //    $per_pg=$page=$request['per_page'];
-                // }
-                $members=$members->orderBy('name', 'asc')
-                //->paginate($perPage=$per_pg,[],'',$page =$member_pg_no);
-                ->get();
+               
+                $members=$members->orderBy('name', 'asc')->get();
+                $members->makeHidden(['family_name', 'family_head_name','prayer_group_name','marital_status_name',
+                            'relationship_name','obituary_id']);
 
                 if(empty($members)) {
                     $return['result']=  "Empty bible verse list ";
@@ -536,16 +498,6 @@ class HomeController extends Controller
                     }
                     return $item;
                 });
-                // $members_metadata = array(
-                //     "total" => $members->total(),
-                //     "per_page" => $members->perPage(),
-                //     "current_page" => $members->currentPage(),
-                //     "last_page" => $members->lastPage(),
-                //     "next_page_url" => $members->nextPageUrl(),
-                //     "prev_page_url" => $members->previousPageUrl(),
-                //     "from" => $members->firstItem(),
-                //     "to" => $members->lastItem()
-                // );
 
             /*---------Prayer Group Details----------*/
 
@@ -554,37 +506,16 @@ class HomeController extends Controller
                                 ->where('status',1);
                 if($request['search_word']){
                     $prayer_group->where('group_name','like',$request['search_word'].'%');
-                                //->orwhere('leader','like',$request['search_word'].'%');
                 }
-                // if($request['prayer_group_page_no']){
-                //     $prayer_group_pg_no=$request['prayer_group_page_no'];
-                // }
-                // if($request['per_page']){
-                //    $per_pg=$page=$request['per_page'];
-                // }
-                $prayer_group=$prayer_group
-                //->paginate($perPage=$per_pg,[],'',$page = $prayer_group_pg_no);
-                ->get();
+               
+                $prayer_group=$prayer_group ->get();
 
                 if(empty($prayer_group)) {
                     $return['result']=  "Empty prayer group list ";
                     return $this->outputer->code(422)->error($return)->json();
                 }
-                // $prayer_group_metadata = array(
-                //     "total" => $prayer_group->total(),
-                //     "per_page" => $prayer_group->perPage(),
-                //     "current_page" => $prayer_group->currentPage(),
-                //     "last_page" => $prayer_group->lastPage(),
-                //     "next_page_url" => $prayer_group->nextPageUrl(),
-                //     "prev_page_url" => $prayer_group->previousPageUrl(),
-                //     "from" => $prayer_group->firstItem(),
-                //     "to" => $prayer_group->lastItem()
-                // );
 
             /*---------Organizations Details----------*/
-
-                // $organizations=Organization::select('id as id','organization_name as item','coordinator as sub_item',DB::raw('"null" as image'),DB::raw('"Organizations" as type'))
-                //         ->where('status',1);
 
                 $organizations=FamilyMember::select(DB::raw('"1" as id'),'company_name as item',
                     DB::raw('CONCAT("No. of employees: ", COUNT(*)) as sub_item'),
@@ -595,151 +526,51 @@ class HomeController extends Controller
                     ->where('status',1);
 
                 if($request['search_word']){
-                    //$organizations->where('organization_name','like',$request['search_word'].'%');
                     $organizations->where('company_name','like',$request['search_word'].'%');
                 }
-                // if($request['organization_page_no']){
-                //     $organization_pg_no=$page=$request['organization_page_no'];
-                // }
-                // if($request['per_page']){
-                //    $per_pg=$page=$request['per_page'];
-                // }
-                $organizations=$organizations->orderBy('id', 'desc')
-                        //->paginate($perPage=$per_pg,[],'',$page = $organization_pg_no);
-                        ->get();
+
+                $organizations=$organizations->orderBy('id', 'desc')->get();
 
                 if(empty($organizations)) {
                     $return['result']=  "Empty prayer group list ";
                     return $this->outputer->code(422)->error($return)->json();
                 }
 
-
-                // $organization_metadata = array(
-                //     "total" => $organizations->total(),
-                //     "per_page" => $organizations->perPage(),
-                //     "current_page" => $organizations->currentPage(),
-                //     "last_page" => $organizations->lastPage(),
-                //     "next_page_url" => $organizations->nextPageUrl(),
-                //     "prev_page_url" => $organizations->previousPageUrl(),
-                //     "from" => $organizations->firstItem(),
-                //     "to" => $organizations->lastItem()
-                // );
-
                 $organizations->transform(function ($item) {
                     $item->setAppends([]);
                     $item->setRelations([]);
                     return $item;
                 });
-            /*---------type 1 result----------*/
-
-            // $mergedData = [
-            //     'families' => $families->getCollection(),
-            //     'members' => $members->getCollection(),
-            //     'prayer_group' => $prayer_group->getCollection(),
-            //     'organizations' => $organizations->getCollection(),
-            // ];
-
-
-            /*---------type 2 result----------*/
-
-            // $familyData = [
-            //     'category' => 'family',
-            //     'list' => $families->getCollection()
-            // ];
-            // $memberData = [
-            //     'category' => 'member',
-            //     'list' => $members->getCollection()
-            // ];
-            // $prayer_groupData = [
-            //     'category' => 'prayer_group',
-            //     'list' => $prayer_group->getCollection()
-            // ];
-            // $organizationsData = [
-            //     'category' => 'organizations',
-            //     'list' => $organizations->getCollection()
-            // ];
-
-            // $mergedData = [
-            //     'families' => $familyData,
-            //     'members' => $memberData,
-            //     'prayer_group' => $prayer_groupData,
-            //     'organizations' => $organizationsData,
-            // ];
-
-
-            /*---------type 3 result----------*/
-
+           
 
             if ($request['search_word']) {
-                // $search_results = $families->getCollection()
-                //     ->merge($members->getCollection())
-                //     ->merge($prayer_group->getCollection())
-                //     ->merge($organizations->getCollection());
+                
                 $search_results = $families
                     ->merge($members)
                     ->merge($prayer_group)
                     ->merge($organizations);
-
 
                 $search_results_metadata = [
                     "total" => $search_results->count(),
                 ];
             }
 
-            // $mergedData = [
-
-            //     [ 'category' => 'Families', 'list' => $families->getCollection() ],
-
-            //     [ 'category' => 'Members', 'list' => $members->getCollection() ],
-
-            //     [ 'category' => 'Prayer Groups', 'list' => $prayer_group->getCollection() ],
-
-            //     [ 'category' => 'Organizations', 'list' => $organizations->getCollection() ],
-
-               
-            // ];
-
-            // if ($request['search_word']) {
-            //     $mergedData[] = ['category' => 'Search Results', 'list' => $search_results];
-
-            // }
-
-            // $metadata = [
-            //     'family_metadata' => $family_metadata,
-            //     'members_metadata' => $members_metadata,
-            //     'prayer_group_metadata' => $prayer_group_metadata,
-            //     'organization_metadata' => $organization_metadata,
-            // ];
-            // if ($request['search_word']) {
-            //     $metadata['search_results_metadata'] = $search_results_metadata;
-
-            // }
-
-
-                    // Prepare merged data and metadata
         $mergedData = [];
         $metadata = [];
 
         if ($request['search_word']) {
              $mergedData[] = ['category' => 'Search Results', 'list' => $search_results];
-            //$metadata['search_results_metadata'] = $search_results_metadata;
         }
 
         $mergedData[] = ['category' => 'Families', 'list' => $families];
-        //$metadata['family_metadata'] = $family_metadata;
 
         $mergedData[] = ['category' => 'Members', 'list' => $members];
-        //$metadata['members_metadata'] = $members_metadata;
 
         $mergedData[] = ['category' => 'Prayer Groups', 'list' => $prayer_group];
-        //$metadata['prayer_group_metadata'] = $prayer_group_metadata;
 
         $mergedData[] = ['category' => 'Organizations', 'list' => $organizations];
-        //$metadata['organization_metadata'] = $organization_metadata;
 
-            return $this->outputer->code(200)
-                        //->metadata($metadata)
-                        ->success($mergedData)->json();
+        return $this->outputer->code(200)->success($mergedData)->json();
 
         }catch (\Exception $e) {
 
@@ -1938,9 +1769,6 @@ class HomeController extends Controller
 
         try {
 
-            $pg_no='';
-            $per_pg='';
-
             $year=date("Y");
 
             if($request['year']){
@@ -1952,73 +1780,28 @@ class HomeController extends Controller
             for ($month = 1; $month <= 12; $month++) {
                 for ($day = 1; $day <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $day++) {
                     
-                    $daily_readings = BiblicalCitation::select('id', 'reference', 'date')
-                        ->whereMonth('date', $month)
-                        ->whereDay('date', $day)
-                        ->orderBy('date')
-                        ->where('status',1)
-                        ->get();
-                    $birthdays = FamilyMember::select('id', 'name', 'dob')
-                        ->whereMonth('dob', $month)
+                    $birthdays = FamilyMember::whereMonth('dob', $month)
                         ->whereDay('dob', $day)
-                        ->orderBy('dob')
                         ->whereNull('date_of_death')
                         ->where('status',1)
-                        ->get();
-                    $wedding_anniversaries = FamilyMember::select('id', 'name', 'date_of_marriage')
-                        ->whereMonth('date_of_marriage', $month)
+                        ->count();
+
+                    $wedding_anniversaries = FamilyMember::whereMonth('date_of_marriage', $month)
                         ->whereDay('date_of_marriage', $day)
-                        ->orderBy('date_of_marriage')
                         ->whereNull('date_of_death')
                         ->where('status',1)
-                        ->get();
+                        ->count();
 
-                    $obituaries = Obituary::select('id', 'member_id', 'name_of_member', 'date_of_death')
-                        ->whereMonth('date_of_death', $month)
+                    $obituaries = Obituary::whereMonth('date_of_death', $month)
                         ->whereDay('date_of_death', $day)
-                        ->orderBy('date_of_death')
                         ->where('status',1)
-                        ->get();
-                    // $anniversary = MemoryDay::select('*')
-                    //     ->whereMonth('date', $month)
-                    //     ->whereDay('date', $day)
-                    //     ->orderBy('date')
-                    //     ->get();
+                        ->count();
 
-                    // $date_results = [];
-                    //     $birthdaysForDay = $birthdays->filter(function ($birthday) use ($day) {
-                    //         return date('d', strtotime($birthday->dob)) == $day;
-                    //     });
-                    //     $bday_count = $birthdaysForDay->count();
-
-                    //     $obituariesForDay = $obituaries->filter(function ($obituary) use ($day) {
-                    //         return date('d', strtotime($obituary->date_of_death)) == $day;
-                    //     });
-                    //     $obituary_count = $birthdaysForDay->count();
-
-                    //     $total_events = $bday_count + $obituary_count;
-
-                    //     $date_results[] = [
-                    //         'date' => sprintf('%02d-%02d-%02d', $day, $month, $year),
-                    //         'total_events' => $total_events,
-                    //         'birthday_events'=>$bday_count,
-                    //         'death_anniversary_events'=>$obituary_count,
-                    //     ];
-
-                    $daily_readings_count = $daily_readings->count();
-                    $bday_count = $birthdays->count();
-                    $wedding_count = $wedding_anniversaries->count();
-                    $obituary_count = $obituaries->count();
-                    //$anniversary_count = $anniversary->count();
-                    $total_events = $bday_count+$wedding_count+$daily_readings_count+$obituary_count;
+                    $total_events = $birthdays+$wedding_anniversaries+$obituaries;
 
                     $data[] = [
                         'date' => sprintf('%02d-%02d-%02d', $day, $month, $year),
-                        'total_events' => $total_events,
-                        'daily_readings' => $daily_readings_count,
-                        'birthday_events' => $bday_count,
-                        'wedding_anniversary_events' => $wedding_count,
-                        'death_anniversary_events' => $obituary_count,
+                        'total_events' => $total_events
                     ];
                 }
 
