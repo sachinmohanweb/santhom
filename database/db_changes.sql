@@ -512,3 +512,14 @@ VALUES (NULL, 'Grandson-in-law', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 -- CREATE INDEX idx_dob_month_day ON family_members ((MONTH(dob)), (DAY(dob)));
 -- CREATE INDEX idx_domarriage_month_day ON family_members ((MONTH(date_of_marriage)), (DAY(date_of_marriage)));
 -- CREATE INDEX idx_dodeath_month_day ON family_members ((MONTH(date_of_death)), (DAY(date_of_death)));
+
+-- 10/07/24----
+
+ALTER TABLE `daily_schedules` ADD `time` TIME NOT NULL AFTER `date`, 
+ADD `title` VARCHAR(256) NOT NULL AFTER `time`, ADD `venue` VARCHAR(256) NOT NULL AFTER `title`;
+
+ALTER TABLE `daily_schedules` DROP `deleted_at`;
+
+ALTER TABLE `daily_schedules` CHANGE `date` `date` DATE NOT NULL;
+
+ALTER TABLE `daily_schedules` CHANGE `details` `details` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;

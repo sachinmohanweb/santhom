@@ -26,13 +26,21 @@ class DailyScheduleController extends Controller
         if(request()->ajax()) {
             return datatables()
             ->of(DailySchedules::select('*')->where('status',1)
-            //->orderByRaw("CASE WHEN date >= CURDATE() THEN 0 ELSE 1 END, date ASC")
                 ->where('date', '>=', \Carbon\Carbon::today())
                 ->orderBy('date', 'asc')
             )
+            ->addColumn('date', function($row) {
+                
+                return \Carbon\Carbon::createFromFormat('Y-m-d', $row->date)->format('d-m-y');       
+            })
+            ->addColumn('time', function($row) {
+
+                return \Carbon\Carbon::createFromFormat('H:i:s', $row->time)->format('h:i A');    
+
+            })
             ->addColumn('details', function($row) {
                     $details = strip_tags($row->details);
-                    $extractedContent = mb_substr($row->details, 0, 200, 'UTF-8').'......';
+                    $extractedContent = mb_substr($row->details, 0, 15, 'UTF-8').'......';
                     return $extractedContent;       
             })
             ->addColumn('action', 'daily_schedule.daily-schedule-datatable-action')
@@ -58,7 +66,9 @@ class DailyScheduleController extends Controller
 
             $a =  $request->validate([
                     'date' => 'required',
-                    'details' => 'required',
+                    'time' => 'required',
+                    'venue' => 'required',
+                    'title' => 'required',
             ]);
 
             $DailySchedules = DailySchedules::create($request->all());
@@ -91,7 +101,9 @@ class DailyScheduleController extends Controller
 
             $a =  $request->validate([
                     'date' => 'required',
-                    'details' => 'required',
+                    'time' => 'required',
+                    'venue' => 'required',
+                    'title' => 'required',
             ]);
 
             $requestData = $request->all();

@@ -44,10 +44,15 @@
               <div class="col-md-9">
 
                  <div class="product-page-details">
-                  <h1>{{$DailySchedules->date}}</h1>
+                      <h1>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $DailySchedules->date)->format('d-m-y') }}: {{ \Carbon\Carbon::createFromFormat('H:i:s', $DailySchedules->time)->format('h:i A') }}</h1>
                  </div>
                  
                  <ul class="product-color">
+                   <li class="bg-primary"></li>
+                   <li class="bg-secondary"></li>
+                   <li class="bg-success"></li>
+                   <li class="bg-info"></li>
+                   <li class="bg-warning"></li>
                    <li class="bg-primary"></li>
                    <li class="bg-secondary"></li>
                    <li class="bg-success"></li>
@@ -75,7 +80,19 @@
                               <td style="padding: 10px; text-align: center; font-weight: bold; border-bottom: 1px solid #ddd;">Details</td>
                           </tr>
                           <tr>
-                              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{!! $DailySchedules->details !!}</td>
+                            <td>Title</td>
+                            <td>:</td>
+                              <td style="padding: 10px;">{!! $DailySchedules->title !!}</td>
+                          </tr>
+                           <tr>
+                            <td>Venu</td>
+                            <td>:</td>
+                              <td style="padding: 10px;">{!! $DailySchedules->venue !!}</td>
+                          </tr>
+                           <tr>
+                            <td>Details</td>
+                            <td>:</td>
+                              <td style="padding: 10px;">{!! $DailySchedules->details !!}</td>
                           </tr>
                       </tbody>
                   </table>
@@ -109,14 +126,35 @@
                 <div class="profile-title">
                   <div class="media-body">
                     <div class="row">
-                      <div class="col-md-6" id="special_day_options">
+                      <div class="col-md-6">
                         <label class="form-label">Date<span style="color:red">*</span></label>
                         <input class="form-control" type="date" placeholder="date" id="date" name="date" value="{{$DailySchedules->date}}">
                       </div>
-                    </div><br>
+                       <div class="col-md-6">
+                        <label class="form-label" for="validationCustom02">Time<span style="color:red">*</span></label>
+                          <div class="input-group clockpicker">
+                            <input class="form-control" type="text" value="{{ $DailySchedules->time}}" data-bs-original-title="" name="time" required  title="hh:mm:ss">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                          </div>
+                       
+                        </div>
+                      </div><br>
+                      <div class="row">
+                        <div class="col-md-6">
+                         <label class="form-label" for="validationCustom02">Venue <span style="color:red">*</span></label>
+                          <input class="form-control" id="validationCustom02" type="text" value="{{ $DailySchedules->venue }}" name='venue' required>
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+                         <div class="col-md-6">
+                           <label class="form-label" for="validationCustom02">Title <span style="color:red">*</span></label>
+                            <input class="form-control" id="validationCustom02" type="text" value="{{ $DailySchedules->title }}" name='title' required>
+                            <div class="valid-feedback">Looks good!</div>
+                          </div>
+                        </div><br>
                        
                     <div class="row">
-
                       <div class="col-md-12">
                         <label class="form-label">Schedules<span style="color:red">*</span></label>
                         <textarea class="form-control" id="details" name="details" rows="5" required>
@@ -152,7 +190,4 @@
 <script src="{{asset('assets/js/owlcarousel/owl.carousel.js')}}"></script>
 <script src="{{asset('assets/js/ecommerce.js')}}"></script>
 <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
-<script type="text/javascript">
-  CKEDITOR.replace('details')
-</script>
 @endsection

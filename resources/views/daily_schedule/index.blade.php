@@ -64,7 +64,10 @@
                                 <thead>
                                     <tr>
                                         <th>Sl.No</th>
-                                        <th>Date</th>
+                                        <th>ScheduleDate</th>
+                                        <th>Scheduleime</th>
+                                        <th>Venue</th>
+                                        <th>Title</th>
                                         <th>Details</th>
                                         <th>Action</th>
                                     </tr>
@@ -96,14 +99,20 @@
                 columns: [
                     {  data: 'DT_RowIndex', name: 'Sl.No'},
                     { data: 'date', name: 'date' },
+                    { data: 'time', name: 'time' },
+                    { data: 'venue', name: 'venue' },
+                    { data: 'title', name: 'title' },
                     { data: 'details', name: 'details' },
                     { data: 'action', name: 'action', orderable: false},
                 ],
                  columnDefs: [
                     { width: '5%', targets: 0 ,orderable: false, searchable: false},
-                    { width: '20%', targets: 1 },
-                    { width: '50%', targets: 2 },
-                    { width: '25%', targets: 3 ,searchable: false},
+                    { width: '25%', targets: 1 },
+                    { width: '10%', targets: 2 },
+                    { width: '10%', targets: 3 },
+                    { width: '10%', targets: 4 },
+                    { width: '25%', targets: 5 },
+                    { width: '20%', targets: 6 ,searchable: false},
                 ],
                 order: [[1, 'Asc']]
             });

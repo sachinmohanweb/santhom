@@ -59,34 +59,49 @@
                 <div class="profile-title">
                   <div class="media-body">
                     <div class="row">
-                      <div class="col-md-6" id="special_day_options">
+                      <div class="col-md-4" id="special_day_options">
                         <label class="form-label">Date<span style="color:red">*</span></label>
-                        <input class="form-control" type="date" placeholder="date" name="date" required>
+                        <input class="form-control" type="date" placeholder="date" name="date" value="{{ old('date') }}" required>
+                      </div>
+                      <div class="col-md-4">
+                          <label class="form-label" for="validationCustom02">Time<span style="color:red">*</span></label>
+                          <div class="input-group clockpicker">
+                            <input class="form-control" type="text" value="{{ old('time') }}" data-bs-original-title="" name="time" required  title="hh:mm:ss">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                          <label class="form-label" for="validationCustom02">Venue <span style="color:red">*</span></label>
+                          <input class="form-control" id="validationCustom02" type="text" value="{{ old('venue') }}" name='venue' required>
+                          <div class="valid-feedback">Looks good!</div>
                       </div>
                     </div><br>
-                       
+
                     <div class="row">
-
-                      <div class="col-md-12">
-                        <label class="form-label">Schedules<span style="color:red">*</span></label>
-                        <textarea class="form-control" id="details" name="details" rows="5" required></textarea><br>
-                        <div class="valid-feedback">Looks good!</div>
+                       <div class="col-md-5">
+                          <label class="form-label" for="validationCustom02">Title <span style="color:red">*</span></label>
+                          <input class="form-control" id="validationCustom02" type="text" value="{{ old('title') }}" name='title' required>
+                          <div class="valid-feedback">Looks good!</div>
                       </div>
-                    </div>
-
-                  
+                      <div class="col-md-7">
+                          <label class="form-label" for="validationCustom02">Other details</label>
+                          <input class="form-control" id="validationCustom02" type="text" value="{{ old('details') }}" name='details'>
+                          <div class="valid-feedback">Looks good!</div>
+                      </div>  
+                    </div><br>
 
                   </div>
+                </div> 
+                <div class="form-footer">
+                  <button class="btn btn-primary">Save</button>
+
+                  <a class="btn btn-primary" onclick="window.location='{{ route('admin.daily.schedules.list') }}'">Cancel</a>
                 </div>
-              </div> 
- 
-              <div class="form-footer">
-                <button class="btn btn-primary">Save</button>
-
-                <a class="btn btn-primary" onclick="window.location='{{ route('admin.daily.schedules.list') }}'">Cancel</a>
               </div>
-
-            </div>
+          </div>
           </div>
         </div>
       </form>
@@ -99,7 +114,4 @@
 
 @section('script')
 <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
-<script type="text/javascript">
-  CKEDITOR.replace('details')
-</script>
 @endsection
