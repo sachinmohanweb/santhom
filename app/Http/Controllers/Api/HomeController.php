@@ -1099,7 +1099,7 @@ class HomeController extends Controller
     public function DailyDigest(Request $request){
         try {
 
-            $per_pg='';
+            $per_pg=100;
             $pg_no='';
 
             $today= now();
@@ -1141,42 +1141,22 @@ class HomeController extends Controller
 
             $memoryData = MemoryDay::select('id',DB::raw('"ഓർമ" as heading'), 'title as sub_heading', 
                 DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'), 
-                DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"ഓർമ" as hash_value'))
+                DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"ഓർമ" as hash_value'),DB::raw('"null" as time'),)
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
-                ->where('status', 1)->take(2); 
+                ->where('status', 1); 
 
             $bibleCitationData = BiblicalCitation::select('id',DB::raw('"വേദഭാഗങ്ങൾ" as heading'), 'reference as sub_heading',
               DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'),
-               DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"വേദഭാഗങ്ങൾ" as hash_value'))
+               DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"വേദഭാഗങ്ങൾ" as hash_value'),DB::raw('"null" as time'),)
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
-                ->where('status', 1)->take(1); 
+                ->where('status', 1); 
 
-
-            // $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading', DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
-            //      DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as hash_value'))
-            //     ->whereDate('date',$today_string)
-            //     ->where('status', 1)->take(1); 
-            // if ($church_activities->count() == 0) {
-
-            //     $todayDayValue = date("N");
-
-            //     $church_activities = DailySchedules::select('id',DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as heading'),'details as sub_heading',
-            //         DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'),
-            //         DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"പള്ളി പ്രവർത്തനങ്ങൾ" as hash_value'))
-            //             ->where('status', 1)->take(1); 
-
-            //     if ($todayDayValue == 7) { 
-            //            $church_activities = $church_activities->where('day_category', 2); 
-            //     } else {
-            //         $church_activities = $church_activities->where('day_category', 1); 
-            //     }
-
-            // }
-
-            $church_activities = DailySchedules::select('id',DB::raw('"തിരുകർമ്മങ്ങൾ" as heading'),'details as sub_heading', DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
-                 DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"തിരുകർമ്മങ്ങൾ" as hash_value'))
+            $church_activities = DailySchedules::select('id',DB::raw('"തിരുകർമ്മങ്ങൾ" as heading'),'Title as sub_heading', 
+                DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
+                DB::raw('"null" as image'),'venue as type',DB::raw('"True" as color'), 
+                DB::raw('"null" as link'),DB::raw('"തിരുകർമ്മങ്ങൾ" as hash_value'), DB::raw('DATE_FORMAT(time, "%h:%i %p") as time'))
                 ->whereDate('date',$today_string)
-                ->where('status', 1)->take(2); 
+                ->where('status', 1); 
 
             $churchActivitiesData = $church_activities;
 
@@ -1187,7 +1167,6 @@ class HomeController extends Controller
             $daily_schedules = $bibleCitationData->union($churchActivitiesData)
                                 ->union($memoryData)
                                 ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
-
             $daily_schedules->getCollection()->transform(function ($item, $key) {
 
                 if ($item->image !== 'null') {
@@ -1725,10 +1704,10 @@ class HomeController extends Controller
             $member_id = Auth::user()->id;
 
 
-            $payments = PaymentDetail::select('payment_details.*')
+            $payments = PaymentDetail::select('payment_details.id',
+                    'payment_details.amount','payment_details.category_id')
                     ->join('family_members', 'payment_details.family_head_id', '=', 'family_members.id')
                     ->where('family_members.family_id', $family_id)
-                    ->where('family_members.id', $member_id)
                     ->where('payment_details.status', 1);
             $payments_sum = $payments->sum('payment_details.amount');
 
