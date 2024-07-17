@@ -1599,8 +1599,8 @@ class HomeController extends Controller
             if ($request['search_word']) {
                 $search_results = $events
                     ->merge($newsAnnouncements)
-                    ->merge($notifications)
-                    ->merge($obituaries);
+                    ->merge($notifications);
+                    //->merge($obituaries);
 
 
                 $search_results_metadata = [
@@ -1626,7 +1626,7 @@ class HomeController extends Controller
             $mergedData[] = ['category' => 'Notifications', 'list' => $notifications];
             //$metadata['notifications_metadata'] = $notifications_metadata;
 
-            $mergedData[] = ['category' => 'Obituaries', 'list' => $obituaries];
+            //$mergedData[] = ['category' => 'Obituaries', 'list' => $obituaries];
             //$metadata['VicarMessages_metadata'] = $VicarMessages_metadata;
 
             return $this->outputer->code(200)
