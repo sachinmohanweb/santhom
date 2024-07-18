@@ -523,3 +523,17 @@ ALTER TABLE `daily_schedules` DROP `deleted_at`;
 ALTER TABLE `daily_schedules` CHANGE `date` `date` DATE NOT NULL;
 
 ALTER TABLE `daily_schedules` CHANGE `details` `details` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;
+
+
+
+-- 17/07/24----
+
+CREATE TABLE `prayer_meetings` (
+	`id` INT NOT NULL AUTO_INCREMENT , 
+	`prayer_group_id` INT NOT NULL , 
+	`family_id` INT NOT NULL , 
+	`date` DATE NOT NULL , 
+	`time` TIME NOT NULL , 
+	`status` INT NOT NULL DEFAULT '1' , 
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`));

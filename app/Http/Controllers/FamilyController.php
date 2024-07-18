@@ -765,4 +765,39 @@ class FamilyController extends Controller
 
         return response()->json($return);
     }
+
+    public function GetFamilies(Request $request): JsonResponse
+    {
+        $searchTag = request()->get('search_tag');
+        $prayer_group_id =  request()->get('prayer_group_id');
+
+        $familyQuery = Family::query()
+
+        ->where('status',1)
+        ->where(function ($query) use ($searchTag) {
+            $query->whereHas('headOfFamily', function ($subquery) use ($searchTag) {
+                $subquery->where('name', 'like', '%' . $searchTag . '%');
+            })
+            ->orWhere('family_name', 'like', '%' . $searchTag . '%');
+        });
+
+        if($prayer_group_id) {
+            
+            $familyQuery->where('prayer_group_id',$prayer_group_id);
+        }
+        $family = $familyQuery->orderBy('family_name')->get()
+        
+        ->map(function ($family) {
+
+            if($family->headOfFamily){
+
+                $head = $family->headOfFamily->name;
+            }else{
+                $head = '';
+            }
+            return ['id' => $family->id, 'text' => $family->family_name . ' (' . $head . ')' ];
+        });
+
+        return response()->json(['results' => $family]);
+    }
 }

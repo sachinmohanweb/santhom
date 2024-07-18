@@ -87,6 +87,15 @@
                             </svg><span>Prayer Groups</span></a>
                     </li>
                     <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title link-nav" href="{{route('admin.prayermeetings.list')}}">
+                            <svg class="stroke-icon">
+                            <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-board') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
+                            </svg><span>Prayer Meetings</span></a>
+                    </li>
+                    <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav" href="{{route('admin.organizations.list')}}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#star') }}"></use>

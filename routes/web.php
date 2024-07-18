@@ -96,6 +96,7 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.family.member.show_details.pending');
      Route::post('/approvefamilymember', [FamilyController::class, 'admin_family_member_approve'])
             ->name('admin.family.member.approve');
+    Route::post('/get_family_list', [FamilyController::class, 'GetFamilies'])->name('admin.get.families');
 
     Route::get('/prayerGroupList', [PrayerGroupController::class, 'prayer_group_list'])
             ->name('admin.prayergroup.list');
@@ -109,6 +110,22 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.prayergroup.update');
     Route::post('/deleteprayerGroup', [PrayerGroupController::class, 'prayer_group_delete'])
             ->name('admin.prayergroup.delete');
+
+    Route::get('/prayerMeetingsList', [PrayerGroupController::class, 'prayer_meetings_list'])
+            ->name('admin.prayermeetings.list');
+    Route::get('/prayerMeetingsDatatable', [PrayerGroupController::class, 'prayer_meetings_datatable'])
+            ->name('admin.prayermeetings.datatable');
+    Route::get('/createprayerMeetings', [PrayerGroupController::class, 'prayer_meetings_create'])
+            ->name('admin.prayermeetings.create');
+    Route::post('/storeprayerMeetings', [PrayerGroupController::class, 'prayer_meetings_store'])
+            ->name('admin.prayermeetings.store');
+    Route::get('/editprayermeetings/{id}', [PrayerGroupController::class, 'prayer_meetings_edit'])
+            ->name('admin.prayermeetings.edit');
+            
+    Route::post('/updateprayerMeetings/{id}', [PrayerGroupController::class, 'prayer_meetings_update'])
+            ->name('admin.prayermeetings.update');
+    Route::post('/deleteprayerMeetings', [PrayerGroupController::class, 'prayer_meetings_delete'])
+            ->name('admin.prayermeetings.delete');
 
     Route::get('/organizationsList', [OrganizationController::class, 'organizations_list'])
             ->name('admin.organizations.list');
