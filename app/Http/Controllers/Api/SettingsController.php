@@ -14,6 +14,7 @@ use App\Models\PrayerGroup;
 use App\Models\Relationship;
 use App\Models\Organization;
 use App\Models\FamilyMember;
+use App\Models\PrayerMeeting;
 use App\Models\MaritalStatus;
 
 use App\Http\Repositories\UserRepository;
@@ -287,6 +288,63 @@ class SettingsController extends Controller
                 $return['result']=$e->getMessage();
                 return $this->outputer->code(422)->error($return)->json();
             }
+    }
+
+    public function PrayerMeetings(Request $request){
+
+        try {
+
+            $pg_no='';
+            $per_pg=100;
+
+            $prayer_meetings = PrayerMeeting::
+                select('prayer_meetings.*','prayer_groups.group_name as prayer_group_name','families.family_name','families.map_location')
+                ->leftJoin('prayer_groups', 'prayer_meetings.prayer_group_id', '=', 'prayer_groups.id')
+                ->leftJoin('families', 'prayer_meetings.family_id', '=', 'families.id')
+                ->where('prayer_meetings.date', '>', now()->subDay()->format('Y-m-d'))
+                ->orderBy('prayer_meetings.date')
+                ->where('prayer_meetings.status', 1);
+
+            if($request['search_word']){
+                $search_word = $request['search_word'];
+                $prayer_meetings = $prayer_meetings->where(function($query) use ($search_word) {
+                    $query->where('prayer_groups.group_name', 'LIKE', "%$search_word%")
+                          ->orWhere('families.family_name', 'LIKE', "%$search_word%");
+                });
+                
+            }
+            if($request['page_no']){
+                $pg_no=$page=$request['page_no'];
+            }
+            if($request['per_page']){
+               $per_pg=$page=$request['per_page'];
+            }
+            $prayer_meetings=$prayer_meetings->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+            if(empty($prayer_meetings)) {
+                $return['result']=  "Empty prayer meetings list ";
+                return $this->outputer->code(422)->error($return)->json();
+            }
+
+            $metadata = array(
+                "total" => $prayer_meetings->total(),
+                "per_page" => $prayer_meetings->perPage(),
+                "current_page" => $prayer_meetings->currentPage(),
+                "last_page" => $prayer_meetings->lastPage(),
+                "next_page_url" => $prayer_meetings->nextPageUrl(),
+                "prev_page_url" => $prayer_meetings->previousPageUrl(),
+                "from" => $prayer_meetings->firstItem(),
+                "to" => $prayer_meetings->lastItem()
+            );
+
+            return $this->outputer->code(200)->metadata($metadata)
+                        ->success($prayer_meetings->getCollection())->json();
+
+        }catch (\Exception $e) {
+
+            $return['result']=$e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
     }
 
     public function Relationships(Request $request){
