@@ -29,7 +29,7 @@ class ObituaryController extends Controller
     {
         if(request()->ajax()) {
             return datatables()
-            ->of(Obituary::select('*'))
+            ->of(Obituary::select('*')->orderBy('date_of_death','desc')->orderBy('display_till_date','desc'))
             ->addColumn('DT_RowIndex', function () {
                 return '';
             })

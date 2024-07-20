@@ -177,8 +177,8 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
                     $member_details['occupation']    =null;
                 }
 
-                if(isset($row['company_name'])){
-                    $member_details['company_name']    =$row['company_name'];
+                if(isset($row['company'])){
+                    $member_details['company_name']    =$row['company'];
                 }else{
                     $member_details['company_name']    =null;
                 }

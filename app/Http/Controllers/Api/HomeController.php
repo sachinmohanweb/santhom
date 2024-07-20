@@ -529,7 +529,7 @@ class HomeController extends Controller
                     $organizations->where('company_name','like',$request['search_word'].'%');
                 }
 
-                $organizations=$organizations->orderBy('id', 'desc')->get();
+                $organizations=$organizations->orderBy('company_name', 'asc')->get();
 
                 if(empty($organizations)) {
                     $return['result']=  "Empty prayer group list ";
@@ -1289,9 +1289,8 @@ class HomeController extends Controller
                                 ->limit(1);
                         }, 'sub_heading')
                         ->addSelect('date_of_death as date','photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'),'member_id', DB::raw('"null" as link'),'display_till_date',DB::raw('"Obituaries" as hash_value'))
-                        //->whereMonth('date_of_death', '=', $month)
-                        //->whereDay('date_of_death', '>=', $day)
-                        ->whereRaw("DATE_FORMAT(date_of_death, '%m-%d-%Y') = DATE_FORMAT('$today_string', '%m-%d-%Y')")
+                         ->whereDate('date_of_death', '<=', now())
+                        ->whereDate('display_till_date', '>=', now())
                         ->where('status',1);
 
             if($request['search_word']){
@@ -1305,7 +1304,7 @@ class HomeController extends Controller
             if($request['per_page']){
                $per_pg=$page=$request['per_page'];
             }
-            $obituary=$obituary->orderByRaw('DAY(date_of_death)')
+            $obituary=$obituary->orderBy('date_of_death','desc')->orderBy('display_till_date','desc')
                                 ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
             $obituary->getCollection()->transform(function ($item, $key) {
 
@@ -1940,14 +1939,15 @@ class HomeController extends Controller
                     ->whereRaw("DATE_FORMAT(date_of_marriage, '%Y') != DATE_FORMAT('$date', '%Y')")
                     ->where('status', 1)
                     ->whereNull('date_of_death')
-                    ->orderBy('name', 'asc')
+                    //->orderBy('name', 'asc')
+                    ->orderByRaw("CASE WHEN gender = 'Male' THEN 0 ELSE 1 END")
                     ->get();
+
                 $groupedWeddings = $weddings->groupBy(function ($item) {
                     return $item->family_id . '-' . $item->date_of_marriage;
                 });
 
                 $finalWeddings = collect();
-
                 foreach ($groupedWeddings as $key => $members) {
                     $family_id = $members->first()->family_id;
                     $family_name = DB::table('families')->where('id', $family_id)->value('family_name');
