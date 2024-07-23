@@ -253,7 +253,7 @@ class HomeController extends Controller
         }
     }
 
-    public function DailyDigest(Request $request){
+    public function DailyDigest1(Request $request){
         try {
 
             $per_pg=100;
@@ -1879,7 +1879,7 @@ class HomeController extends Controller
     //     }
     // }
 
-        // public function Bulletin(Request $request){
+    //     public function Bulletin(Request $request){
 
     //     try {
 
@@ -2157,4 +2157,277 @@ class HomeController extends Controller
     //         return $this->outputer->code(422)->error($return)->json();
     //     }
     // }
+
+
+    public function DailyDigest(Request $request){
+        try {
+
+            $today= now();
+            $day = $today->format('d');
+            $month = $today->format('m');
+            $monthDay = $today->format('m-d');
+            $today_string = now()->toDateString();
+
+            $todayFormatted = date('d/m/Y');
+
+
+            if($request['date']){
+                $today=$page=$request['date'];
+            }
+
+            /*---------Daily Bible verse----------*/
+
+            $login_user = FamilyMember::select('id','name','image','family_id')
+                            ->where('id',Auth::user()->id)->first();
+            if ($login_user) {
+                if ($login_user->image !== null) {
+                    $login_user->image = asset('/') . $login_user->image;
+                }
+            }
+
+            $bible_verse = BibleVerse::select('id','verse as heading','ref as sub_heading',DB::raw('"Bible Verse" as hash_value'))
+                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
+                ->where('status', 1)->first();
+            if (!$bible_verse) {
+                $random_verse = BibleVerse::select('id', 'verse as heading', 'ref as sub_heading',DB::raw('"Bible Verse" as hash_value'))
+                        ->where('status', 1)
+                        ->inRandomOrder()
+                        ->first();
+    
+                $bible_verse = $random_verse ?? ['id' => null, 'heading' => 'Default Heading', 'sub_heading' => 'Default Subheading','hash_value'=>'Bible Verse'];
+            }
+
+            /*---------Daily Schedules Details----------*/
+
+            $memoryData = MemoryDay::select('id',DB::raw('"ഓർമ" as heading'), 'title as sub_heading', 
+                DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'), 
+                DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"ഓർമ" as hash_value'),DB::raw('"null" as time'),)
+                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
+                ->where('status', 1); 
+
+            $bibleCitationData = BiblicalCitation::select('id',DB::raw('"വേദഭാഗങ്ങൾ" as heading'), 'reference as sub_heading',
+              DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'),
+               DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"വേദഭാഗങ്ങൾ" as hash_value'),DB::raw('"null" as time'),)
+                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
+                ->where('status', 1); 
+
+            $church_activities = DailySchedules::select('id',DB::raw('"തിരുകർമ്മങ്ങൾ" as heading'),'Title as sub_heading', 
+                DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
+                DB::raw('"null" as image'),'venue as type',DB::raw('"True" as color'), 
+                DB::raw('"null" as link'),DB::raw('"തിരുകർമ്മങ്ങൾ" as hash_value'), DB::raw('DATE_FORMAT(time, "%h:%i %p") as time'))
+                ->whereDate('date',$today_string)
+                ->where('status', 1); 
+
+            $churchActivitiesData = $church_activities;
+
+            $daily_schedules = $bibleCitationData->union($churchActivitiesData)
+                                ->union($memoryData)
+                                ->get();
+            $daily_schedules->transform(function ($item, $key) {
+
+                if ($item->image !== 'null') {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
+             /*---------Vicar Messages----------*/
+
+            $Vic_messages = VicarMessage::select('id','subject as heading','message_body as sub_heading',
+                           DB::raw('DATE_FORMAT(NOW(), "%d/%m/%Y") as date'))
+                        ->addSelect('image',DB::raw('"Vicar Messages" as type'),DB::raw('"False" as color'),
+                         DB::raw('"null" as link'),DB::raw('"Vicar messages" as hash_value'))
+                        ->where('status',1);
+
+            if($request['search_word']){
+                $Vic_messages->where('subject','like',$request['search_word'].'%')
+                            ->orwhere('message_body','like',$request['search_word'].'%');
+            }
+
+            $Vic_messages=$Vic_messages->orderBy('updated_at','desc')->get();
+
+            $Vic_messages->transform(function ($item, $key) {
+
+                if ($item->image !== null) {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
+            if(empty($Vic_messages)) {
+                $return['result']=  "Empty messages list ";
+                return $this->outputer->code(422)->error($return)->json();
+            }
+
+
+            /*---------Obituaries Details----------*/
+
+
+            $obituary = Obituary::select('id','name_of_member as heading')
+                        ->selectSub(function ($query) {
+                            $query->select('families.family_name')
+                                ->from('family_members')
+                                ->join('families', 'family_members.family_id', '=', 'families.id')
+                                ->whereColumn('family_members.id', 'obituaries.member_id')
+                                ->limit(1);
+                        }, 'sub_heading')
+                        ->addSelect('date_of_death as date','photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'),'member_id', DB::raw('"null" as link'),'display_till_date',DB::raw('"Obituaries" as hash_value'))
+                         ->whereDate('date_of_death', '<=', now())
+                        ->whereDate('display_till_date', '>=', now())
+                        ->where('status',1);
+
+            if($request['search_word']){
+                $obituary->where('subject','like',$request['search_word'].'%')
+                            ->orwhere('message_body','like',$request['search_word'].'%');
+
+            }
+
+            $obituary=$obituary->orderBy('date_of_death','desc')->orderBy('display_till_date','desc')
+                                ->get();
+            $obituary->transform(function ($item, $key) {
+
+                if ($item->image !== null) {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
+            if(empty($obituary)) {
+                $return['result']=  "Empty prayer group list ";
+                return $this->outputer->code(422)->error($return)->json();
+            }
+    
+            /*---------Events Details----------*/
+
+            $events = Event::select('id','event_name as sub_heading','venue as heading','date','image',
+                DB::raw('"Events" as type'),DB::raw('"False" as color'),DB::raw('"Events" as hash_value'),
+                'link','time','details')
+                ->where('status',1);
+            if($request['search_word']){
+                $events->where('event_name','like',$request['search_word'].'%')
+                        ->orwhere('venue','like',$request['search_word'].'%')
+                        ->orwhere('details','like',$request['search_word'].'%');
+            }
+
+            $events=$events->orderBy('id', 'desc')->get();
+
+            if(empty($events)) {
+                $return['result']=  "Empty events list ";
+                return $this->outputer->code(422)->error($return)->json();
+            }
+
+            $events->transform(function ($item, $key) {
+
+                if ($item->image !== null) {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
+
+            /*---------News & Announcements Details----------*/
+
+            $newsAnnouncements = NewsAnnouncement::select('id','updated_at as date','heading as sub_heading',
+                'type_name as heading')
+                ->addSelect('body as details','image','type as type' ,'group_org_id',
+                    DB::raw('"News & Announcements" as type1'),DB::raw('"False" as color'),'type_name as hash_value','link')
+                ->where('status',1);
+            if($request['search_word']){
+
+                $searchTerm = strtolower($request['search_word']);
+                $newsAnnouncements->where(function ($query) use ($searchTerm) {
+                    $query->where('heading', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('type_name', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('body', 'like', '%' . $searchTerm . '%');
+                });
+            }
+
+            $newsAnnouncements=$newsAnnouncements->orderBy('id', 'desc')->get();
+
+            if(empty($newsAnnouncements)) {
+                $return['result']=  "Empty marital status list ";
+                return $this->outputer->code(422)->error($return)->json();
+            }
+
+            $newsAnnouncements->transform(function ($item, $key) {
+
+                if ($item->image !== null) {
+                     $item->image = asset('/') . $item->image;
+                }
+                return $item;
+            });
+
+            /*---------Notifications Details----------*/
+
+            $notifications = Notification::select('id','updated_at as date','title as sub_heading','type_name as heading')
+
+            ->addSelect('content as details','group_org_id','type',
+                DB::raw('"Notifications" as type_value'),DB::raw('"False" as color'),'type_name as hash_value',
+                DB::raw('"null" as link'))
+
+            ->where('status',1);
+
+            if($request['search_word']){
+
+                $searchTerm = strtolower($request['search_word']);
+                $notifications->where(function ($query) use ($searchTerm) {
+                    $query->where('title', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('type_name', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('content', 'like', '%' . $searchTerm . '%');
+                });
+                switch ($searchTerm) {
+                    case 'trustee':
+                        $notifications->where('type', 1);
+                        break;
+                    case 'secretary':
+                        $notifications->where('type', 2);
+                        break;
+                    case 'prayer group':
+                        $notifications->where('type', 3);
+                        break;
+                    case 'organization':
+                        $notifications->where('type', 4);
+                        break;
+                }
+            }
+
+            $notifications=$notifications->orderBy('id', 'desc')->get();
+
+            $notifications->transform(function ($notif) {
+                $notif->image = null;
+                return $notif;
+            });
+            if(empty($notifications)) {
+                $return['result']=  "Empty prayer group list ";
+                return $this->outputer->code(422)->error($return)->json();
+            }
+
+            $mergedData = [
+
+                [ 'category' => 'Daily Schedules', 'list' => $daily_schedules ],
+
+                [ 'category' => 'Vicar Messages', 'list' => $Vic_messages ],
+
+                [ 'category' => 'Obituary', 'list' => $obituary ],
+
+                [ 'category' => 'Events', 'list' => $events ],
+
+                [ 'category' => 'News & Announcement', 'list' => $newsAnnouncements ],
+
+                [ 'category' => 'Notifications', 'list' => $notifications ],
+               
+            ];
+
+            return $this->outputer->code(200)
+                        ->success($mergedData )
+                        ->DailyDigest($bible_verse)
+                        ->LoginUser($login_user)
+                        ->json();
+
+        }catch (\Exception $e) {
+
+            $return['result']=$e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
 }

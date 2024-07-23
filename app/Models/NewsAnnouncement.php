@@ -35,7 +35,7 @@ class NewsAnnouncement extends Model
             $type = 'Secretary';
         }elseif($value==3){
             $type = 'Prayer Group';
-        }else{
+        }elseif($value==4){
             $type = 'Organization';
         }
 
@@ -44,18 +44,19 @@ class NewsAnnouncement extends Model
 
     public function getGroupOrganizationNameAttribute()        
     {
-        if($this->type=='Prayer Group'){
-            $group = PrayerGroup::find($this->group_org_id);
-            $name=$group['group_name'];
+        $name = 'Nill';
 
-        }elseif($this->type=='Organization'){
+        if($this->type){
+            if($this->type=='Prayer Group'){
+                $group = PrayerGroup::find($this->group_org_id);
+                $name=$group['group_name'];
 
-            $org = Organization::find($this->group_org_id);
-            $name=$org['organization_name'];
+            }elseif($this->type=='Organization'){
 
-        }else{
+                $org = Organization::find($this->group_org_id);
+                $name=$org['organization_name'];
 
-            $name = '';
+            }
         }
 
         return $name;
