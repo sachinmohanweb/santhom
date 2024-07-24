@@ -65,10 +65,18 @@ class EventController extends Controller
             if($request['image']){
 
                 //$fileName = str_replace(' ', '_', $request->event_name).'.'.$request['image']->extension();
-                $fileName = 'events_'.time().'.'.$request['image']->extension();
+                $fileName = 'events_first'.time().'.'.$request['image']->extension();
 
                 $request->image->storeAs('events', $fileName);
                 $inputData['image'] = 'storage/events/'.$fileName;
+            }
+            if($request['image2']){
+
+                //$fileName = str_replace(' ', '_', $request->event_name).'.'.$request['image']->extension();
+                $fileName2 = 'events_second'.time().'.'.$request['image2']->extension();
+
+                $request->image2->storeAs('events', $fileName2);
+                $inputData['image2'] = 'storage/events/'.$fileName2;
             }
 
             Event::create($inputData);
@@ -109,9 +117,18 @@ class EventController extends Controller
             if($request['image']){
 
                 //$fileName = str_replace(' ', '_', $request->event_name).'.'.$request['image']->extension();
-                $fileName = 'events_'.time().'_'.$request->id.'.'.$request['image']->extension();
+                $fileName = 'events_first'.time().'_'.$request->id.'.'.$request['image']->extension();
                 $request->image->storeAs('events', $fileName);
                 $inputData['image'] = 'storage/events/'.$fileName;
+            }
+
+            if($request['image2']){
+
+                //$fileName = str_replace(' ', '_', $request->event_name).'.'.$request['image']->extension();
+                $fileName2 = 'events_second'.time().'.'.$request['image2']->extension();
+
+                $request->image2->storeAs('events', $fileName2);
+                $inputData['image2'] = 'storage/events/'.$fileName2;
             }
 
             $event->update($inputData);

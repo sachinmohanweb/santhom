@@ -18,9 +18,10 @@ class NewsAnnouncement extends Model
         'link',
         'designation',
         'image',
+        'image2',
     ];
 
-    protected $appends = ['group_organization_name'];
+    protected $appends = ['group_organization_name','image_1_name','image_2_name'];
 
     public function getStatusAttribute($value)
     {
@@ -69,6 +70,33 @@ class NewsAnnouncement extends Model
         } elseif ($this->type == 4) {
             return $this->belongsTo(Organization::class, 'group_org_id', 'id');
         } 
+    }
+
+    public function getImage1NameAttribute()        
+    {
+        $name = 'nill';
+
+        if ($this->image !== null) {
+           $imagePath = $this->image;
+           $prefixToRemove = 'storage/news/';
+
+           $name = substr($imagePath, strlen($prefixToRemove));
+        }
+
+        return $name;
+    }
+    public function getImage2NameAttribute()        
+    {
+        $name = 'nill';
+
+        if ($this->image2 !== null) {
+           $imagePath = $this->image2;
+           $prefixToRemove = 'storage/news/';
+           
+           $name = substr($imagePath, strlen($prefixToRemove));
+        }
+
+        return $name;
     }
 
 }

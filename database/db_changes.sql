@@ -544,3 +544,9 @@ CREATE TABLE `prayer_meetings` (
 ALTER TABLE `payment_details` ADD `effective_date` DATE NOT NULL DEFAULT '2024-07-01' AFTER `id`;
 ALTER TABLE `payment_details` CHANGE `amount` `amount` DOUBLE(8,2) NULL DEFAULT NULL;
 
+
+-- 23/07/24----
+
+ALTER TABLE `events` ADD `image2` VARCHAR(256) NULL DEFAULT NULL AFTER `image`;
+ALTER TABLE `news_announcements` ADD `image2` VARCHAR(256) NULL DEFAULT NULL AFTER `image`;
+

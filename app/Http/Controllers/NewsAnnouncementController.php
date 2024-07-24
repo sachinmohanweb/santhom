@@ -89,10 +89,18 @@ class NewsAnnouncementController extends Controller
             if($request['image']){
 
                 //$fileName = str_replace(' ', '_', $request->heading).'.'.$request['image']->extension();
-                $fileName = 'news_'.time().'.'.$request['image']->extension();
+                $fileName = 'news_first'.time().'.'.$request['image']->extension();
 
                 $request->image->storeAs('news', $fileName);
                 $inputData['image'] = 'storage/news/'.$fileName;
+            }
+            if($request['image2']){
+
+                //$fileName = str_replace(' ', '_', $request->heading).'.'.$request['image']->extension();
+                $fileName2 = 'news_second'.time().'.'.$request['image2']->extension();
+
+                $request->image2->storeAs('news', $fileName2);
+                $inputData['image2'] = 'storage/news/'.$fileName2;
             }
             NewsAnnouncement::create($inputData);
             DB::commit();
@@ -158,11 +166,19 @@ class NewsAnnouncementController extends Controller
             if($request['image']){
 
                 //$fileName = str_replace(' ', '_', $request->heading).'.'.$request['image']->extension();
-                $fileName = 'news_'.time().'_'.$request->id.'.'.$request['image']->extension();
+                $fileName = 'news_first'.time().'_'.$request->id.'.'.$request['image']->extension();
 
 
                 $request->image->storeAs('news', $fileName);
                 $inputData['image'] = 'storage/news/'.$fileName;
+            }
+            if($request['image2']){
+
+                //$fileName = str_replace(' ', '_', $request->heading).'.'.$request['image']->extension();
+                $fileName2 = 'news_second'.time().'.'.$request['image2']->extension();
+
+                $request->image2->storeAs('news', $fileName2);
+                $inputData['image2'] = 'storage/news/'.$fileName2;
             }
             $news->update($inputData);
             DB::commit();

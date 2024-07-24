@@ -18,10 +18,11 @@ class Event extends Model
         'link',
         'details',
         'image',
+        'image2',
         'status',
     ];
 
-    protected $appends = ['time'];
+    protected $appends = ['time','image_1_name','image_2_name'];
 
     public function getStatusAttribute($value)
     {
@@ -37,5 +38,32 @@ class Event extends Model
         }
         
         return $time12;
+    }
+
+    public function getImage1NameAttribute()        
+    {
+        $name = 'nill';
+
+        if ($this->image !== null) {
+           $imagePath = $this->image;
+           $prefixToRemove = 'storage/events/';
+
+           $name = substr($imagePath, strlen($prefixToRemove));
+        }
+
+        return $name;
+    }
+    public function getImage2NameAttribute()        
+    {
+        $name = 'nill';
+
+        if ($this->image2 !== null) {
+           $imagePath = $this->image2;
+           $prefixToRemove = 'storage/events/';
+           
+           $name = substr($imagePath, strlen($prefixToRemove));
+        }
+
+        return $name;
     }
 }

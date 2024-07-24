@@ -95,7 +95,7 @@
                                  </b>
                               </p>
                            </div>
-                           <div class="col-md-8">
+                           <div class="col-md-6">
                               <p class="p_l_5">Media LInk : 
                                  <b>
                                   @if($news['link'])  
@@ -104,9 +104,14 @@
                                  </b>
                               </p>
                            </div><br>
-                           <div class="col-md-4">
+                           <div class="col-md-3">
                               @if($news->image) 
                                   <img src="{{asset($news->image)}} " width="100%">
+                              @endif
+                           </div>
+                            <div class="col-md-3">
+                              @if($news->image2) 
+                                  <img src="{{asset($news->image2)}} " width="100%">
                               @endif
                            </div>
                         </div>
@@ -114,7 +119,7 @@
 
 
                      <div class="modal fade" id="EditFamilyModal" tabindex="-1" role="dialog" aria-labelledby="EditFamilyModalArea" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
+                        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 800px !important;"> 
                            <div class="modal-content">
                               <div class="modal-header">
                                  <h5 class="modal-title">News/Announcement Edit Form</h5>
@@ -155,14 +160,14 @@
                                     </div>
                                     <div class="row g-3">
 
-                                       <div class="col-md-8">
+                                       <div class="col-md-7">
                                           <label class="form-label" for="validationCustom03">Description</label>
                                           <textarea class="form-control" id="body" name="body" rows="8" cols="50" required>{{$news['body']}}</textarea><br>
                                           <div class="valid-feedback">Looks good!</div>
                                        </div>
-                                       <div class="col-md-4 mb-3">
+                                       <div class="col-md-5 mb-3">
                                           <div class="row">
-                                             <div style="height: 50px;">
+                                             <div style="height: 10px;">
                                         </div>
                                                 <label class="form-label" for="validationCustom05">Image
                                                 Media Link</label>
@@ -171,22 +176,21 @@
                                           </div>
                                           <div class="row">
                                              <div class="row g-3">
-                                              @if($news['image'])
-
-                                                     <!--  <div class="col-md-4 mb-3" id="OldImage">
-                                                          <img class="img-fluid for-light" src="{{ asset($news->image) }}" alt="" style="max-width:100px !important;">
-                                                      </div> -->
-                                              @endif
-                                              <!-- <div style="height: 55px;">
-                                                   <div class="col-md-4 mb-3" style="width:150px">
-                                                       <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100px !important;">
-                                                    </div>
-                                              </div> -->
+                                             
                                              <label class="form-label" for="validationCustom05">Image
                                              <span style="color:#95937f;font-size: 12px;">(400px W X 300px H)</span>
+                                             {{$news['image_1_name']}}
                                              </label>
                                              <input class="form-control" id="ImageFile" type="file" 
                                              name="image" value="{{ old('image') }}">
+                                             <div class="invalid-feedback">Please provide a valid image.</div>
+
+                                             <label class="form-label" for="validationCustom05">Image
+                                             <span style="color:#95937f;font-size: 12px;">(400px W X 300px H)</span>
+                                             {{$news['image_2_name']}}
+                                             </label>
+                                             <input class="form-control" id="ImageFile" type="file" 
+                                             name="image2" value="{{ old('image2') }}">
                                              <div class="invalid-feedback">Please provide a valid image.</div>
                                           </div>
                                        </div>

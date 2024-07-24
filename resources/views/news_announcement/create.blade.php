@@ -62,14 +62,14 @@
                             </div>
                             <div class="row g-3">
                                 
-                                 <div class="col-md-8">
+                                 <div class="col-md-7">
                                     <label class="form-label" for="validationCustom03">Description</label>
                                     <textarea class="form-control" id="body" name="body" rows="8" cols="50" required></textarea><br>
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-5 mb-3">
                                     <div class="row">
-                                        <div style="height: 80px;">
+                                        <div style="height: 10px;">
                                         </div>
                                         <label class="form-label" for="validationCustom05">Media Link</label>
                                         <input class="form-control" id="validationCustom05" type="text" 
@@ -77,16 +77,18 @@
                                         <div class="invalid-feedback">Please provide a valid link</div>
                                     </div>
                                     <div class="row">
-                                        <!-- <div style="height: 120px;">
-                                            <div class="col-md-4 mb-3" style="width:150px">
-                                                <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;">
-                                            </div>
-                                        </div> -->
-                                        <label class="form-label" for="validationCustom05">Image
+                                        <label class="form-label" for="validationCustom05">First Image
                                         <span style="color:#95937f;font-size: 12px;">(400px W X 300px H)</span>
                                         </label>
                                         <input class="form-control" id="ImageFile" type="file" 
                                              name="image" value="{{ old('image') }}">
+                                        <div class="invalid-feedback">Please provide a valid Image.</div>
+
+                                        <label class="form-label" for="validationCustom05">Second Image
+                                        <span style="color:#95937f;font-size: 12px;">(400px W X 300px H)</span>
+                                        </label>
+                                        <input class="form-control" id="ImageFile" type="file" 
+                                             name="image2" value="{{ old('image2') }}">
                                         <div class="invalid-feedback">Please provide a valid Image.</div>
                                     </div>
                                 

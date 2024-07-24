@@ -72,7 +72,7 @@
              <hr>
 
              <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-6">
 
                    <table class="product-page-width"  style="border-collapse: separate;border-spacing: 20px;">
                      <tbody>
@@ -118,9 +118,15 @@
                         <img src="{{asset($event->image)}}" width="100%">
                     </div>
                 @endif
+                @if($event->image2)
+                    <div class="col-md-3">
+                        <img src="{{asset($event->image2)}}" width="100%">
+                    </div>
+                @endif
 
              </div>
              <hr>
+           </div>
            </div>
            @endif
          </div>
@@ -133,7 +139,7 @@
 @if($event)
 
  <div class="modal fade" id="EditEventModal" tabindex="-1" role="dialog" aria-labelledby="EditEventModalArea" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 650px !important;"> 
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 750px !important;"> 
        <div class="modal-content">
           <div class="modal-header">
              <h5 class="modal-title">Event Details</h5>
@@ -189,18 +195,21 @@
                         </div>
                         <div class="col-md-4">
                             <div class="row g-3">
-                            @if($event['image'])
-
-                                    <div class="col-md-4 mb-3" id="OldImage">
-                                        <img class="img-fluid for-light" src="{{ asset($event->image) }}" alt="" style="max-width:100px !important;">
-                                    </div>
-                            @endif
                             
-                            <label class="form-label" for="validationCustom05">Image
+                            <label class="form-label" for="validationCustom05">Image 1
                             <span style="color:#95937f;font-size: 12px;">(400px W X 300px H)</span>
+                                             {{$event['image_1_name']}}
                             </label>
                             <input class="form-control" id="ImageFile" type="file" 
                                  name="image" value="{{ $event['image'] }}">
+                            <div class="invalid-feedback">Please provide a valid zip.</div>
+
+                            <label class="form-label" for="validationCustom05" style="margin-top: 10px;"> Image 2
+                                    <span style="color:#95937f;font-size: 12px;">(400px W X 300px H)</span>
+                                             {{$event['image_2_name']}}
+                                    </label>
+                                    <input class="form-control" type="file" 
+                                         name="image2" value="{{ old('image2') }}" id="ImageFile">
                             <div class="invalid-feedback">Please provide a valid zip.</div>
                         </div>
                        
