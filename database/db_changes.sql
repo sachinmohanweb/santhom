@@ -537,3 +537,10 @@ CREATE TABLE `prayer_meetings` (
 	`status` INT NOT NULL DEFAULT '1' , 
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`));
+
+
+-- 23/07/24----
+
+ALTER TABLE `payment_details` ADD `effective_date` DATE NOT NULL DEFAULT '2024-07-01' AFTER `id`;
+ALTER TABLE `payment_details` CHANGE `amount` `amount` DOUBLE(8,2) NULL DEFAULT NULL;
+

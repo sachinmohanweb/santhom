@@ -162,6 +162,7 @@ class HomeController extends Controller
             $per_pg='';
             $family_id = Auth::user()->family_id;
             $member_id = Auth::user()->id;
+            $date_value = PaymentDetail::first();
 
 
             $payments = PaymentDetail::select('payment_details.id',
@@ -180,9 +181,10 @@ class HomeController extends Controller
                 return $this->outputer->code(422)->error($return)->json();
             }
             
-            $result['family'] = $family;
+            $result['date'] = $date_value['date'];
             $result['total'] = $payments_sum;
             $result['payments'] = $payments->getCollection();
+            $result['family'] = $family;
 
             $metadata = array(
                 "total" => $payments->total(),

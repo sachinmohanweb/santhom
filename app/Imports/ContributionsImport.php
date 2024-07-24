@@ -21,10 +21,11 @@ class ContributionsImport implements ToCollection,WithHeadingRow,WithValidation,
 
     use Importable;
     protected $importResult;
+    protected $date;
 
-    public function __construct()
+    public function __construct($date)
     {
-
+        $this->date = $date;
     }
     public function collection(Collection $rows)
     {  
@@ -33,6 +34,8 @@ class ContributionsImport implements ToCollection,WithHeadingRow,WithValidation,
             
             $processedRows = 0;
             $totalRows = $rows->count();
+
+            PaymentDetail::whereNotNull('id')->delete();  
 
             foreach ($rows as $key=>$row) {
 
@@ -44,64 +47,31 @@ class ContributionsImport implements ToCollection,WithHeadingRow,WithValidation,
                     throw new \Exception("Family head  unidentified Row");
                 }
                 
-                $contribution_details['family_id']   = $family->id;
-                $contribution_details['family_head_id']   = $family->headOfFamily->id;               
+                $contribution_details = [
+                    'effective_date' => $this->date,
+                    'family_id' => $family->id,
+                    'family_head_id' => $family->headOfFamily->id
+                ];
 
-                if($row['monthly_subscription']){
-                    $contribution_details['category_id']   = 1;
-                    $contribution_details['amount']   = $row['monthly_subscription'];
-                    $NewContribution = PaymentDetail::create($contribution_details); 
-                }
-                if($row['parish_feast']){
-                    $contribution_details['category_id']   = 2;
-                    $contribution_details['amount']   = $row['parish_feast'];
-                    $NewContribution = PaymentDetail::create($contribution_details); 
-                }
-                if($row['parish_day']){
-                    $contribution_details['category_id']   = 3;
-                    $contribution_details['amount']   = $row['parish_day'];
-                    $NewContribution = PaymentDetail::create($contribution_details); 
-                }
-                if($row['first_offering']){
-                    $contribution_details['category_id']   = 4;
-                    $contribution_details['amount']   = $row['first_offering'];
-                    $NewContribution = PaymentDetail::create($contribution_details); 
-                }                
-                if($row['carol']){
-                    $contribution_details['category_id']   = 5;
-                    $contribution_details['amount']   = $row['carol'];
-                    $NewContribution = PaymentDetail::create($contribution_details); 
-                }
+                $categories = [
+                    'monthly_subscription' => 1,
+                    'parish_feast' => 2,
+                    'parish_day' => 3,
+                    'first_offering' => 4,
+                    'carol' => 5,
+                    'good_friday' => 6,
+                    '8_nombu' => 7,
+                    'mission_sunday' => 8,
+                    'education_help' => 9,
+                    'seminary_day' => 10,
+                    'others' => 11
+                ];              
 
-                if($row['good_friday']){
-                    $contribution_details['category_id']   = 6;
-                    $contribution_details['amount']   = $row['good_friday'];
-                    $NewContribution = PaymentDetail::create($contribution_details); 
-                }                
-                if($row['8_nombu']){
-                    $contribution_details['category_id']   = 7;
-                    $contribution_details['amount']   = $row['8_nombu'];
-                    $NewContribution = PaymentDetail::create($contribution_details); 
-                }                
-                if($row['mission_sunday']){
-                    $contribution_details['category_id']   = 8;
-                    $contribution_details['amount']   = $row['mission_sunday'];
-                    $NewContribution = PaymentDetail::create($contribution_details); 
-                }
-                if($row['education_help']){
-                    $contribution_details['category_id']   = 9;
-                    $contribution_details['amount']   = $row['education_help'];
-                    $NewContribution = PaymentDetail::create($contribution_details); 
-                }
-                if($row['seminary_day']){
-                    $contribution_details['category_id']   = 10;
-                    $contribution_details['amount']   = $row['seminary_day'];
-                    $NewContribution = PaymentDetail::create($contribution_details); 
-                }
-                if($row['others']){
-                    $contribution_details['category_id']   = 11;
-                    $contribution_details['amount']   = $row['others'];
-                    $NewContribution = PaymentDetail::create($contribution_details); 
+                foreach ($categories as $field => $category_id) {
+
+                    $contribution_details['category_id'] = $category_id;
+                    $contribution_details['amount'] = $row[$field];
+                    $NewContribution = PaymentDetail::create($contribution_details);
                 }
                 
                 $processedRows++;

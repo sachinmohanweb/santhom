@@ -53,7 +53,7 @@
                         <div class="row" style="display:flex;">
                             
                         <div class="col-md-12">
-                            <span>Payment Details</span>
+                            <span>Payment Details :  <strong style="color:green">{{$date_value['date']}}</strong></span>
                         </div>
                         </div>
                     </div>

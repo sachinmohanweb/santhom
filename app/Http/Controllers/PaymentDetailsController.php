@@ -26,7 +26,8 @@ class PaymentDetailsController extends Controller
 
     public function payment_details_list() : View
     {
-        return view('paymentdetails.index',[]);
+        $date_value = PaymentDetail::first();
+        return view('paymentdetails.index',compact('date_value'));
     }
 
     public function payment_category_list(Request $request): JsonResponse
@@ -198,8 +199,9 @@ class PaymentDetailsController extends Controller
     public function admin_contributions_import_store(Request $request) : JsonResponse
     {
         $fileData=$request->file('excel_file');
+        $date = $request['date'];
 
-        $contributions_import = new ContributionsImport();
+        $contributions_import = new ContributionsImport($date);
         Excel::import($contributions_import, $fileData);
         $output = $contributions_import->getImportResult();
         return response()->json([$output]);

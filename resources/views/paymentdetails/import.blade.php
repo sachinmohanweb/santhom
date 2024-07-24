@@ -85,6 +85,11 @@
                         	@csrf
                             <div class="row g-3 mb-3">
                                 <div class="col-md-12">
+                                    <label class="form-label" for="validationCustom01">Effective Date</label>
+                                    <input class="form-control" id="validationCustom01" type="date" required name='date'>
+                                </div>
+                            </div> <div class="row g-3 mb-3">
+                                <div class="col-md-12">
                                     <label class="form-label" for="validationCustom01">Excel Document</label>
                                     <input class="form-control" id="validationCustom01" type="file" required name='excel_file'>
                                 </div>

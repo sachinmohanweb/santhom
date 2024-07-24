@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class PaymentDetail extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
+        'effective_date',
         'family_id',
         'family_head_id',
         'category_id',
@@ -54,7 +54,7 @@ class PaymentDetail extends Model
 
     public function getDateAttribute()
     {
-        $date = $this->updated_at;
+        $date = $this->effective_date;
         $date = new \DateTime($date);
         $formatted_date = $date->format('d-m-Y');
         return $formatted_date;
