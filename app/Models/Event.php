@@ -13,7 +13,7 @@ class Event extends Model
     protected $fillable = [
         'event_name',
         'date',
-        'time',
+        'time_value',
         'venue',
         'link',
         'details',
@@ -21,19 +21,19 @@ class Event extends Model
         'status',
     ];
 
-    protected $appends = ['time_value'];
+    protected $appends = ['time'];
 
     public function getStatusAttribute($value)
     {
         return $value == 1 ? 'Active' : 'Suspended';
     }
 
-    public function getTimeVAlueAttribute()
+    public function getTimeAttribute()
     {   
         $time12 = '';
 
-        if($this->time){
-            $time12 = date("h:i A", strtotime($this->time));
+        if($this->time_value){
+            $time12 = date("h:i A", strtotime($this->time_value));
         }
         
         return $time12;

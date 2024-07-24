@@ -86,7 +86,7 @@
                        <tr>  
                          <td> <b>Time</b></td>
                          <td> <b>&nbsp;:&nbsp;</b></td>
-                         <td>{{$event->time_value}}
+                         <td>{{$event->time}}
                          
                          </td>
                        </tr>
@@ -159,7 +159,7 @@
                             <label class="form-label" for="validationCustom02">Time </label>
 
                             <div class="input-group">
-                            <input class="form-control" type="text" value="{{ $event['time'] }}" data-bs-original-title="" name="time" required title="hh:mm:ss"
+                            <input class="form-control" type="text" value="{{ $event['time_value'] }}" data-bs-original-title="" name="time_value" required title="hh:mm:ss"
                             pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]">
                             <div class="invalid-feedback">Time format hh:mm:ss</div>
                         </div>

@@ -847,50 +847,6 @@ class HomeController extends Controller
 
             /*---------Wedding Anniversary Details----------*/
 
-                // $weddings = FamilyMember::select('id',DB::raw('CONCAT("Happy wedding anniversary ", name) as heading'),)
-                //         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
-                //         ->addSelect('date_of_marriage as date','image as image','family_id',DB::raw('"Wedding Anniversary" as hash_value'))
-                //                 ->whereRaw("DATE_FORMAT(date_of_marriage, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
-                //                 ->whereRaw("DATE_FORMAT(date_of_marriage, '%Y') != DATE_FORMAT('$date', '%Y')")
-                //                 ->where('status', 1)
-                //                 ->whereNull('date_of_death')
-                //                 ->orderBy('name', 'asc');
-
-                // if($request['page_no']){
-                //     $pg_no=$page=$request['page_no'];
-                // }
-                // if($request['per_page']){
-                //    $per_pg=$page=$request['per_page'];
-                // }
-                // $weddings=$weddings->orderBy('id', 'desc')
-                //                     ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
-
-                // if(empty($weddings)) {
-                //     $return['result']=  "Empty birthday list ";
-                //     return $this->outputer->code(422)->error($return)->json();
-                // }
-
-                // $weddings->getCollection()->transform(function ($item, $key) {
-
-                //     if ($item->image !== null) {
-                //          $item->image = asset('/') . $item->image;
-                //     }
-                //     return $item;
-                // });
-
-                // $weddings_metadata = array(
-                //     "total" => $weddings->total(),
-                //     "per_page" => $weddings->perPage(),
-                //     "current_page" => $weddings->currentPage(),
-                //     "last_page" => $weddings->lastPage(),
-                //     "next_page_url" => $weddings->nextPageUrl(),
-                //     "prev_page_url" => $weddings->previousPageUrl(),
-                //     "from" => $weddings->firstItem(),
-                //     "to" => $weddings->lastItem()
-                // );
-
-
-
 
                 $weddings = FamilyMember::select('id', 'name', 'image', 'date_of_marriage', 'family_id')
                     ->whereRaw("DATE_FORMAT(date_of_marriage, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
@@ -984,41 +940,6 @@ class HomeController extends Controller
                     "from" => $paginatedWeddings->firstItem(),
                     "to" => $paginatedWeddings->lastItem()
                 );
-
-                /*---------Memories Details----------*/
-
-                // $anniversary = MemoryDay::select('id','title as heading','note1 as sub_heading','date',
-                //     DB::raw('"null" as image'))
-                //                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
-                //                 ->where('status', 1)
-                //                 ->orderBy('title', 'asc');
-
-                // if($request['page_no']){
-                //     $pg_no=$page=$request['page_no'];
-                // }
-                // if($request['per_page']){
-                //    $per_pg=$page=$request['per_page'];
-                // }
-                // $anniversary=$anniversary->orderBy('id', 'desc')
-                //                     ->paginate($perPage=$per_pg,[],'',$page = $pg_no);
-
-                // if(empty($anniversary)) {
-                //     $return['result']=  "Empty anniversary list ";
-                //     return $this->outputer->code(422)->error($return)->json();
-                // }
-
-                // $anniversary_metadata = array(
-                //     "total" => $anniversary->total(),
-                //     "per_page" => $anniversary->perPage(),
-                //     "current_page" => $anniversary->currentPage(),
-                //     "last_page" => $anniversary->lastPage(),
-                //     "next_page_url" => $anniversary->nextPageUrl(),
-                //     "prev_page_url" => $anniversary->previousPageUrl(),
-                //     "from" => $anniversary->firstItem(),
-                //     "to" => $anniversary->lastItem()
-                // );
-
-
 
             /*---------Death Anniversary Details----------*/
 
@@ -2203,13 +2124,13 @@ class HomeController extends Controller
 
             $memoryData = MemoryDay::select('id',DB::raw('"ഓർമ" as heading'), 'title as sub_heading', 
                 DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'), 
-                DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"ഓർമ" as hash_value'),DB::raw('"null" as time'),)
+                DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"ഓർമ" as hash_value'),DB::raw('"null" as time'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1); 
 
             $bibleCitationData = BiblicalCitation::select('id',DB::raw('"വേദഭാഗങ്ങൾ" as heading'), 'reference as sub_heading',
               DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'),
-               DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"വേദഭാഗങ്ങൾ" as hash_value'),DB::raw('"null" as time'),)
+               DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"വേദഭാഗങ്ങൾ" as hash_value'),DB::raw('"null" as time'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1); 
 
@@ -2238,7 +2159,7 @@ class HomeController extends Controller
             $Vic_messages = VicarMessage::select('id','subject as heading','message_body as sub_heading',
                            DB::raw('DATE_FORMAT(NOW(), "%d/%m/%Y") as date'))
                         ->addSelect('image',DB::raw('"Vicar Messages" as type'),DB::raw('"False" as color'),
-                         DB::raw('"null" as link'),DB::raw('"Vicar messages" as hash_value'))
+                         DB::raw('"null" as link'),DB::raw('"Vicar messages" as hash_value'),DB::raw('"null" as time'))
                         ->where('status',1);
 
             if($request['search_word']){
@@ -2273,7 +2194,7 @@ class HomeController extends Controller
                                 ->whereColumn('family_members.id', 'obituaries.member_id')
                                 ->limit(1);
                         }, 'sub_heading')
-                        ->addSelect('date_of_death as date','photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'),'member_id', DB::raw('"null" as link'),'display_till_date',DB::raw('"Obituaries" as hash_value'))
+                        ->addSelect('date_of_death as date','photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'),'member_id', DB::raw('"null" as link'),'display_till_date',DB::raw('"Obituaries" as hash_value'),DB::raw('"null" as time'))
                          ->whereDate('date_of_death', '<=', now())
                         ->whereDate('display_till_date', '>=', now())
                         ->where('status',1);
@@ -2303,7 +2224,7 @@ class HomeController extends Controller
 
             $events = Event::select('id','event_name as sub_heading','venue as heading','date','image',
                 DB::raw('"Events" as type'),DB::raw('"False" as color'),DB::raw('"Events" as hash_value'),
-                'link','time','details')
+                'link','time_value','details')
                 ->where('status',1);
             if($request['search_word']){
                 $events->where('event_name','like',$request['search_word'].'%')
@@ -2332,7 +2253,7 @@ class HomeController extends Controller
             $newsAnnouncements = NewsAnnouncement::select('id','updated_at as date','heading as sub_heading',
                 'type_name as heading')
                 ->addSelect('body as details','image','type as type' ,'group_org_id',
-                    DB::raw('"News & Announcements" as type1'),DB::raw('"False" as color'),'type_name as hash_value','link')
+                    DB::raw('"News & Announcements" as type1'),DB::raw('"False" as color'),'type_name as hash_value','link',DB::raw('"null" as time'))
                 ->where('status',1);
             if($request['search_word']){
 
@@ -2365,7 +2286,7 @@ class HomeController extends Controller
 
             ->addSelect('content as details','group_org_id','type',
                 DB::raw('"Notifications" as type_value'),DB::raw('"False" as color'),'type_name as hash_value',
-                DB::raw('"null" as link'))
+                DB::raw('"null" as link'),DB::raw('"null" as time'))
 
             ->where('status',1);
 

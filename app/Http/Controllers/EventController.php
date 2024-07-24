@@ -33,7 +33,7 @@ class EventController extends Controller
                 return '';
             })
             ->addColumn('time', function ($event) {
-                 return $event->time_value;
+                 return $event->time;
             })
             ->addColumn('action', 'events.event-datatable-action')
             ->rawColumns(['action','prayer_group'])
@@ -57,7 +57,7 @@ class EventController extends Controller
             $a =  $request->validate([
                 'event_name' => 'required',
                 'date' => 'required',
-                'time' => 'required',
+                'time_value' => 'required',
             ]);
 
             $inputData = $request->all();
@@ -101,7 +101,7 @@ class EventController extends Controller
              $a =  $request->validate([
                 'event_name' => 'required',
                 'date' => 'required',
-                'time' => 'required',
+                'time_value' => 'required',
             ]);
 
             $inputData = $request->all();

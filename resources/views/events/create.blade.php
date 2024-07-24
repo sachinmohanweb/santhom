@@ -49,7 +49,7 @@
                                     <label class="form-label" for="validationCustom02">Time </label>
 
                                     <div class="input-group clockpicker">
-                                    <input class="form-control" type="text" value="{{ old('venue') }}" data-bs-original-title="" name="time" required  title="hh:mm:ss">
+                                    <input class="form-control" type="text" value="{{ old('time_value') }}" data-bs-original-title="" name="time_value" required  title="hh:mm:ss">
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-time"></span>
                                     </span>
