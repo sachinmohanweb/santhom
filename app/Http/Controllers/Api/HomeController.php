@@ -801,7 +801,7 @@ class HomeController extends Controller
 
             /*---------Birthdays Details----------*/
 
-                $birthdays = FamilyMember::select('id',DB::raw('CONCAT("Birthday of ", name) as heading'),)
+                $birthdays = FamilyMember::select('id',DB::raw('CONCAT("Happy birthday dear ", name) as heading'),)
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
                         ->addSelect('dob as date','image as image','family_id',DB::raw('"Birthdays" as hash_value'))
                                 ->whereRaw("DATE_FORMAT(dob, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
