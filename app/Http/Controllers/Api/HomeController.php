@@ -2411,7 +2411,7 @@ class HomeController extends Controller
     
             /*---------Events Details----------*/
 
-            $events = Event::select('id','event_name as sub_heading','venue as heading','date','image',
+            $events = Event::select('id','event_name as heading','venue as sub_heading','date','image','image2',
                 DB::raw('"Events" as type'),DB::raw('"False" as color'),DB::raw('"Events" as hash_value'),
                 'link','time_value','details')
                 ->where('status',1);
@@ -2433,15 +2433,18 @@ class HomeController extends Controller
                 if ($item->image !== null) {
                      $item->image = asset('/') . $item->image;
                 }
+                if ($item->image2 !== null) {
+                     $item->image2 = asset('/') . $item->image2;
+                }
                 return $item;
             });
 
 
             /*---------News & Announcements Details----------*/
 
-            $newsAnnouncements = NewsAnnouncement::select('id','updated_at as date','heading as sub_heading',
-                'type_name as heading')
-                ->addSelect('body as details','image','type as type' ,'group_org_id',
+            $newsAnnouncements = NewsAnnouncement::select('id','updated_at as date','heading as heading',
+                'type_name as sub_heading')
+                ->addSelect('body as details','image','image2','type as type' ,'group_org_id',
                     DB::raw('"News & Announcements" as type1'),DB::raw('"False" as color'),'type_name as hash_value','link',DB::raw('"null" as time'))
                 ->where('status',1);
             if($request['search_word']){
@@ -2466,12 +2469,15 @@ class HomeController extends Controller
                 if ($item->image !== null) {
                      $item->image = asset('/') . $item->image;
                 }
+                 if ($item->image2 !== null) {
+                     $item->image2 = asset('/') . $item->image2;
+                }
                 return $item;
             });
 
             /*---------Notifications Details----------*/
 
-            $notifications = Notification::select('id','updated_at as date','title as sub_heading','type_name as heading')
+            $notifications = Notification::select('id','updated_at as date','title as heading','type_name as sub_heading')
 
             ->addSelect('content as details','group_org_id','type',
                 DB::raw('"Notifications" as type_value'),DB::raw('"False" as color'),'type_name as hash_value',
