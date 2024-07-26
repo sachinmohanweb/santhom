@@ -2331,19 +2331,19 @@ class HomeController extends Controller
 
             $memoryData = MemoryDay::select('id',DB::raw('"ഓർമ" as heading'), 'title as sub_heading', 
                 DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'), 
-                DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"ഓർമ" as hash_value'),DB::raw('"null" as time'))
+                DB::raw('JSON_ARRAY(NULL) as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"ഓർമ" as hash_value'),DB::raw('"null" as time'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1); 
 
             $bibleCitationData = BiblicalCitation::select('id',DB::raw('"വേദഭാഗങ്ങൾ" as heading'), 'reference as sub_heading',
               DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'),
-               DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"വേദഭാഗങ്ങൾ" as hash_value'),DB::raw('"null" as time'))
+                DB::raw('JSON_ARRAY(NULL) as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"വേദഭാഗങ്ങൾ" as hash_value'),DB::raw('"null" as time'))
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1); 
 
             $church_activities = DailySchedules::select('id',DB::raw('"തിരുകർമ്മങ്ങൾ" as heading'),'Title as sub_heading', 
                 DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
-                DB::raw('"null" as image'),'venue as type',DB::raw('"True" as color'), 
+                DB::raw('JSON_ARRAY(NULL) as image'),'venue as type',DB::raw('"True" as color'), 
                 DB::raw('"null" as link'),DB::raw('"തിരുകർമ്മങ്ങൾ" as hash_value'), DB::raw('DATE_FORMAT(time, "%h:%i %p") as time'))
                 ->whereDate('date',$today_string)
                 ->where('status', 1); 
@@ -2353,10 +2353,16 @@ class HomeController extends Controller
             $daily_schedules = $bibleCitationData->union($churchActivitiesData)
                                 ->union($memoryData)
                                 ->get();
-            $daily_schedules->transform(function ($item, $key) {
+            // $daily_schedules->transform(function ($item, $key) {
 
-                if ($item->image !== 'null') {
-                     $item->image = asset('/') . $item->image;
+            //     if ($item->image !== 'null') {
+            //          $item->image = asset('/') . $item->image;
+            //     }
+            //     return $item;
+            // });
+            $daily_schedules->transform(function ($item, $key) {
+                if ($item->image === '[null]') {
+                    $item->image = [null];
                 }
                 return $item;
             });
@@ -2376,10 +2382,19 @@ class HomeController extends Controller
 
             $Vic_messages=$Vic_messages->orderBy('updated_at','desc')->get();
 
+            // $Vic_messages->transform(function ($item, $key) {
+
+            //     if ($item->image !== null) {
+            //          $item->image = asset('/') . $item->image;
+            //     }
+            //     return $item;
+            // });
             $Vic_messages->transform(function ($item, $key) {
 
                 if ($item->image !== null) {
-                     $item->image = asset('/') . $item->image;
+                    $item->image = [asset('/') . $item->image];
+                } else {
+                    $item->image = [null];
                 }
                 return $item;
             });
@@ -2414,14 +2429,23 @@ class HomeController extends Controller
 
             $obituary=$obituary->orderBy('date_of_death','desc')->orderBy('display_till_date','desc')
                                 ->get();
+            // $obituary->transform(function ($item, $key) {
+
+            //     if ($item->image !== null) {
+            //          $item->image = asset('/') . $item->image;
+            //     }
+            //     return $item;
+            // });
+            
             $obituary->transform(function ($item, $key) {
 
                 if ($item->image !== null) {
-                     $item->image = asset('/') . $item->image;
+                    $item->image = [asset('/') . $item->image];
+                } else {
+                    $item->image = [null];
                 }
                 return $item;
             });
-
             if(empty($obituary)) {
                 $return['result']=  "Empty prayer group list ";
                 return $this->outputer->code(422)->error($return)->json();
@@ -2429,7 +2453,7 @@ class HomeController extends Controller
     
             /*---------Events Details----------*/
 
-            $events = Event::select('id','event_name as heading','venue as sub_heading','date','image','image2',
+            $events = Event::select('id','event_name as heading','venue as sub_heading','date','image as img1','image2 as img2',
                 DB::raw('"Events" as type'),DB::raw('"False" as color'),DB::raw('"Events" as hash_value'),
                 'link','time_value','details')
                 ->where('status',1);
@@ -2448,14 +2472,23 @@ class HomeController extends Controller
 
             $events->transform(function ($item, $key) {
 
-                if ($item->image !== null) {
-                     $item->image = asset('/') . $item->image;
+                $images = [];
+
+                if ($item->img1 !== null) {
+                     $images[] = asset('/') . $item->img1;
+                }else{
+                    $images[] = null;
                 }
-                if ($item->image2 !== null) {
-                     $item->image2 = asset('/') . $item->image2;
+                if ($item->img2 !== null) {
+                     $images[] = asset('/') . $item->img2;
+                }else{
+                    $images[] = null;
                 }
+                $item->image = $images;
+                unset($item->img1,$item->img2);
                 return $item;
             });
+            $events->makeHidden([ 'image_1_name', 'image_2_name']);
 
 
             /*---------News & Announcements Details----------*/
@@ -2484,14 +2517,25 @@ class HomeController extends Controller
 
             $newsAnnouncements->transform(function ($item, $key) {
 
+                $images = [];
+
                 if ($item->image !== null) {
-                     $item->image = asset('/') . $item->image;
+                    $images[] = asset('/') . $item->image;
+                }else{
+                    $images[] = null;
                 }
-                 if ($item->image2 !== null) {
-                     $item->image2 = asset('/') . $item->image2;
+                if ($item->image2 !== null) {
+                    $images[] = asset('/') . $item->image2;
+                }else{
+                    $images[] = null;
                 }
+                unset($item->image,$item->image2);
+                $item->image = $images;
                 return $item;
             });
+
+            $newsAnnouncements->makeHidden([ 'image_1_name', 'image_2_name']);
+
 
             /*---------Notifications Details----------*/
 
@@ -2530,7 +2574,9 @@ class HomeController extends Controller
             $notifications=$notifications->orderBy('id', 'desc')->get();
 
             $notifications->transform(function ($notif) {
-                $notif->image = null;
+                $images = [];
+                $images[] = null;
+                $notif->image = $images;
                 return $notif;
             });
             if(empty($notifications)) {
