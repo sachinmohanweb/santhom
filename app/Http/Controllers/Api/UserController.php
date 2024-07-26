@@ -36,11 +36,31 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
-            $family = $this->userRepo->checkUser($request->all());
 
-            if(empty($family)) {
+            // $family = $this->userRepo->checkUser($request->all());
+
+            // if(empty($family)) {
+            //     $return['result']=  "Invalid/Incorrect Family Code or Email.";
+            //     return $this->outputer->code(422)->error($return)->json();
+            // }
+            
+            $status = $this->userRepo->checkUser($request->all());
+
+            if($status==1) {
+
                 $return['result']=  "Invalid/Incorrect Family Code or Email.";
                 return $this->outputer->code(422)->error($return)->json();
+
+            }elseif($status==2) {
+
+                $return['result']=  "Your family is blocked.Please contact admin";
+                return $this->outputer->code(422)->error($return)->json();
+
+            }elseif($status==3) {
+
+                $return['result']=  "Your membership is blocked.Please contact admin.";
+                return $this->outputer->code(422)->error($return)->json();
+
             }else{
                 $otp = mt_rand(1000, 9999);
 

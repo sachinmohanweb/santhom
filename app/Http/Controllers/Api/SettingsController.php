@@ -189,6 +189,8 @@ class SettingsController extends Controller
                         ->where('families.prayer_group_id',$request['id'])
                         ->whereNull('family_members.date_of_death')
                         ->where('families.family_code', '!=', 'CP001')
+                        ->where('families.status', 1)
+                        ->where('family_members.status',1)
                         ->orderBy('name')
                         ->get();
                         

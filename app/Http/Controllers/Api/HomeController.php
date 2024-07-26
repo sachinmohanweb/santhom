@@ -555,7 +555,10 @@ class HomeController extends Controller
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_item'))
                         ->whereNull('date_of_death')
                         ->where('user_type',1)
-                        ->where('status',1);
+                        ->where('status',1)
+                        ->whereHas('family', function ($query) {
+                            $query->where('status', 1);
+                        });
                 if($request['search_word']){
 
                     $members->where(function ($query) use ($request) {
@@ -607,7 +610,10 @@ class HomeController extends Controller
                     DB::raw('"Organizations" as type'))
                     ->groupBy('company_name')
                     ->whereNotNull('company_name') 
-                    ->where('status',1);
+                    ->where('status',1)
+                    ->whereHas('family', function ($query) {
+                            $query->where('status', 1);
+                    });
 
                 if($request['search_word']){
                     $organizations->where('company_name','like',$request['search_word'].'%');
@@ -724,12 +730,18 @@ class HomeController extends Controller
                         ->whereDay('dob', $day)
                         ->whereNull('date_of_death')
                         ->where('status',1)
+                        ->whereHas('family', function ($query) {
+                            $query->where('status', 1);
+                        })
                         ->count();
 
                     $wedding_anniversaries = FamilyMember::whereMonth('date_of_marriage', $month)
                         ->whereDay('date_of_marriage', $day)
                         ->whereNull('date_of_death')
                         ->where('status',1)
+                        ->whereHas('family', function ($query) {
+                            $query->where('status', 1);
+                        })
                         ->count();
 
                     $obituaries = Obituary::whereMonth('date_of_death', $month)
@@ -1075,6 +1087,9 @@ class HomeController extends Controller
                                 ->whereRaw("DATE_FORMAT(dob, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
                                 ->whereRaw("DATE_FORMAT(dob, '%Y') != DATE_FORMAT('$date', '%Y')")
                                 ->where('status', 1)
+                                ->whereHas('family', function ($query) {
+                                    $query->where('status', 1);
+                                })
                                 ->whereNull('date_of_death')
                                 ->orderBy('name', 'asc');
 
@@ -1098,6 +1113,9 @@ class HomeController extends Controller
                     ->whereRaw("DATE_FORMAT(date_of_marriage, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
                     ->whereRaw("DATE_FORMAT(date_of_marriage, '%Y') != DATE_FORMAT('$date', '%Y')")
                     ->where('status', 1)
+                    ->whereHas('family', function ($query) {
+                        $query->where('status', 1);
+                    })
                     ->whereNull('date_of_death')
                     ->orderByRaw("CASE WHEN gender = 'Male' THEN 0 ELSE 1 END")
                     ->get();

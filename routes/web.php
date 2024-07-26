@@ -44,6 +44,8 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.family.update');
     Route::post('/deletefamily', [FamilyController::class, 'admin_family_delete'])
             ->name('admin.family.delete');
+    Route::post('/block_unblock_family', [FamilyController::class, 'admin_family_block_unblock'])
+            ->name('admin.family.block_unblock');
 
     Route::get('/familymemberslist', [FamilyController::class, 'admin_family_members_list'])
             ->name('admin.family.members.list');
@@ -67,6 +69,8 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.check.married.valid');   
     Route::post('/get_member_phone_number', [FamilyController::class, 'GetMemberPhoneNumber'])
             ->name('admin.get.member.phone');   
+    Route::post('/block_unblock_member', [FamilyController::class, 'admin_member_block_unblock'])
+            ->name('admin.member.block_unblock');  
 
     Route::get('/importfamilymember', [FamilyController::class, 'admin_family_member_import'])
             ->name('admin.family.members.import');

@@ -8,6 +8,8 @@
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/owlcarousel.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/rating.css')}}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
   <style type="text/css">
     .p_l_5 {
       padding-left: 10px !important;
@@ -85,6 +87,13 @@
                       <div class="media-body">
                         <h5 class="mb-1">{{ $familymember->name}}</h5>
                         <p>{{ $familymember->occupation ? $familymember->occupation : 'occupation-nil' }} </p>
+                          @if($familymember->status==1)
+                          <span class="btn-success p-1">Approved</span>
+                          @elseif($familymember->status==2)
+                            <span class=" btn-danger p-1">Pending</span>
+                          @else
+                            <span class="btn-danger p-1">Blocked</span>
+                          @endif
                       </div>
                     </div>
                   </div>
@@ -237,6 +246,14 @@
                 @if($familymember->user_type==1)
                 <a href="{{route('admin.family.member.edit', ['id' => $familymember->id])}}"><button class="btn btn-primary" type="button" >Edit Details</button></a>
                 @endif
+
+                    @if($familymember->status==3)
+                        <a class="btn btn-success btn-hover-effect f-w-500 button_class block_unblock_familymember" 
+                        data-familymember-id="{{$familymember->id}}" data-type="unblock">Unblock member</a>
+                    @else
+                        <a class="btn btn-danger btn-hover-effect f-w-500 button_class block_unblock_familymember" 
+                        data-familymember-id="{{$familymember->id}}" data-type="block">Block member</a>
+                    @endif
               </div>
               </div>
             </div>
@@ -260,4 +277,51 @@
 <script src="{{asset('assets/js/owlcarousel/owl.carousel.js')}}"></script>
 <script src="{{asset('assets/js/ecommerce.js')}}"></script>
 <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script>
+
+  $(document).ready(function() {
+      $('.block_unblock_familymember').click(function() {
+          var familymemberId = $(this).data('familymember-id');
+          var type = $(this).data('type');
+
+          Swal.fire({
+              title: 'Are you sure?',
+              text: "You want to " +type+ " this member?",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes,  ' +type+ '  it!'
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  $.ajax({
+                      url: '/block_unblock_member',
+                      type: 'POST',
+                      data: {
+                          _token: '{{ csrf_token() }}',
+                          member_id: familymemberId
+                      },
+                      success: function(response) {
+                          Swal.fire(
+                              '' +type+ '',
+                              'member has been ' +type+'ed.',
+                              'success'
+                          ).then(() => {
+                              location.reload();
+                          });
+                      },
+                      error: function(xhr, status, error) {
+                          Swal.fire(
+                              'Error!',
+                              'An error occurred while '+type+' this member.',
+                              'error'
+                          );
+                      }
+                  });
+              }
+          });
+      });
+  });
+</script>
 @endsection

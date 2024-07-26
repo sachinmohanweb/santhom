@@ -12,6 +12,15 @@ use App\Models\Obituary;
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/owlcarousel.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/rating.css')}}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<style type="text/css">
+  .button_class{
+
+      margin-top: 10px;
+      padding: 10px;
+  }
+</style>
 @endsection
 
 @section('breadcrumb-title')
@@ -45,7 +54,7 @@ use App\Models\Obituary;
               </div>
            @endif
             <div class="row">
-              <div class="col-md-9">
+              <div class="col-md-10">
 
                  <div class="product-page-details">
                    <h3>{{$family->family_name}}</h3>
@@ -60,17 +69,29 @@ use App\Models\Obituary;
                    <li class="bg-info"></li>
                    <li class="bg-warning"></li>
                  </ul>
-                 @if($family->status==1)
+                  @if($family->status==1)
                     <span class="btn btn-success">Approved</span>
-                  @else
+                  @elseif($family->status==2)
                     <span class="btn btn-danger">Pending</span>
+                  @else
+                    <span class="btn btn-danger">Blocked</span>
                   @endif
                 
               </div>
-              <div class="col-md-3">         
-                  <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" data-bs-toggle="modal" data-bs-target="#EditFamilyModal">
-                  Edit Family Details
-                </a>
+              <div class="col-md-2">  
+                <div class="row">
+                    <a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" data-bs-toggle="modal" data-bs-target="#EditFamilyModal">Edit Family Details</a>
+                </div> 
+                <div class="row">
+                    @if($family->status==3)
+                        <a class="btn btn-success btn-hover-effect f-w-500 button_class block_unblock_family" 
+                        data-family-id="{{$family->id}}" data-type="unblock">Unblock Family</a>
+                    @else
+                        <a class="btn btn-danger btn-hover-effect f-w-500 button_class block_unblock_family" 
+                        data-family-id="{{$family->id}}" data-type="block">Block Family</a>
+                    @endif
+                    
+                </div>             
 
               </div>
             </div>
@@ -290,4 +311,51 @@ use App\Models\Obituary;
 <script src="{{asset('assets/js/owlcarousel/owl.carousel.js')}}"></script>
 <script src="{{asset('assets/js/ecommerce.js')}}"></script>
 <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script>
+
+  $(document).ready(function() {
+      $('.block_unblock_family').click(function() {
+          var familyId = $(this).data('family-id');
+          var type = $(this).data('type');
+
+          Swal.fire({
+              title: 'Are you sure?',
+              text: "You want to " +type+ " this family?",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes,  ' +type+ '  it!'
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  $.ajax({
+                      url: '/block_unblock_family',
+                      type: 'POST',
+                      data: {
+                          _token: '{{ csrf_token() }}',
+                          family_id: familyId
+                      },
+                      success: function(response) {
+                          Swal.fire(
+                              '' +type+ '',
+                              'Family has been ' +type+'ed.',
+                              'success'
+                          ).then(() => {
+                              location.reload();
+                          });
+                      },
+                      error: function(xhr, status, error) {
+                          Swal.fire(
+                              'Error!',
+                              'An error occurred while '+type+' this family.',
+                              'error'
+                          );
+                      }
+                  });
+              }
+          });
+      });
+  });
+</script>
 @endsection

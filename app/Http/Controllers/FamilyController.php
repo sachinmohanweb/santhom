@@ -38,7 +38,7 @@ class FamilyController extends Controller
     {
         if(request()->ajax()) {
             return datatables()
-            ->of(Family::select('*')->where('status',1))
+            ->of(Family::select('*')->where('status','!=',  2))
             ->addColumn('DT_RowIndex', function () {
                 return '';
             })
@@ -143,6 +143,29 @@ class FamilyController extends Controller
                 Session::flash('success', 'Family successfully deleted.');
                 $return['status'] = "success";
             }
+
+         }catch (Exception $e) {
+
+            DB::rollBack();
+            $return['status'] = $e->getMessage();
+            Session::flash('error', 'Family deletion not success.');
+        }
+        return response()->json($return);
+    }
+
+    public function admin_family_block_unblock(Request $request) : JsonResponse
+    {
+        DB::beginTransaction();
+        try{
+            $family = Family::find($request['family_id']);
+            if($family['status']==3){
+                $family['status'] =1 ;
+            }else{
+                $family['status'] =3 ;
+            }
+            $family->save();
+            DB::commit();
+            $return['status'] = "success";
 
          }catch (Exception $e) {
 
@@ -500,6 +523,30 @@ class FamilyController extends Controller
             DB::rollBack();
             $return['status'] = $e->getMessage();
             Session::flash('error', 'Family member deletion not success.');
+        }
+        return response()->json($return);
+    }
+
+
+    public function admin_member_block_unblock(Request $request) : JsonResponse
+    {
+        DB::beginTransaction();
+        try{
+            $member = FamilyMember::find($request['member_id']);
+            if($member['status']==3){
+                $member['status'] =1 ;
+            }else{
+                $member['status'] =3 ;
+            }
+            $member->save();
+            DB::commit();
+            $return['status'] = "success";
+
+         }catch (Exception $e) {
+
+            DB::rollBack();
+            $return['status'] = $e->getMessage();
+            Session::flash('error', 'Member deletion not success.');
         }
         return response()->json($return);
     }
