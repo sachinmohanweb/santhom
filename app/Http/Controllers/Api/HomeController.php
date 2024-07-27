@@ -2301,7 +2301,6 @@ class HomeController extends Controller
             $month = $today->format('m');
             $monthDay = $today->format('m-d');
             $today_string = now()->toDateString();
-
             $todayFormatted = date('d/m/Y');
 
 
@@ -2366,7 +2365,7 @@ class HomeController extends Controller
             // });
             $daily_schedules->transform(function ($item, $key) {
                 if ($item->image === '[null]') {
-                    $item->image = [null];
+                    $item->image = [];
                 }
                 return $item;
             });
@@ -2398,7 +2397,7 @@ class HomeController extends Controller
                 if ($item->image !== null) {
                     $item->image = [asset('/') . $item->image];
                 } else {
-                    $item->image = [null];
+                    $item->image = [];
                 }
                 return $item;
             });
@@ -2446,7 +2445,7 @@ class HomeController extends Controller
                 if ($item->image !== null) {
                     $item->image = [asset('/') . $item->image];
                 } else {
-                    $item->image = [null];
+                    $item->image = [];
                 }
                 return $item;
             });
@@ -2480,13 +2479,9 @@ class HomeController extends Controller
 
                 if ($item->img1 !== null) {
                      $images[] = asset('/') . $item->img1;
-                }else{
-                    $images[] = null;
                 }
                 if ($item->img2 !== null) {
                      $images[] = asset('/') . $item->img2;
-                }else{
-                    $images[] = null;
                 }
                 $item->image = $images;
                 unset($item->img1,$item->img2);
@@ -2525,13 +2520,9 @@ class HomeController extends Controller
 
                 if ($item->image !== null) {
                     $images[] = asset('/') . $item->image;
-                }else{
-                    $images[] = null;
                 }
                 if ($item->image2 !== null) {
                     $images[] = asset('/') . $item->image2;
-                }else{
-                    $images[] = null;
                 }
                 unset($item->image,$item->image2);
                 $item->image = $images;
@@ -2579,7 +2570,6 @@ class HomeController extends Controller
 
             $notifications->transform(function ($notif) {
                 $images = [];
-                $images[] = null;
                 $notif->image = $images;
                 return $notif;
             });
