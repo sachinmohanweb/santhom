@@ -37,7 +37,7 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Import Import Bible Verses</h3>
+    <h3>Import Bible Verses</h3>
 @endsection
 
 @section('breadcrumb-items')

@@ -698,8 +698,12 @@ class HomeController extends Controller
                 $return['result']=  "Empty members in this organization ";
                 return $this->outputer->code(422)->error($return)->json();
             }
-            return $this->outputer->code(200)
-                        ->success($org_members)->json();
+            $response_data = [
+                'organization' => $request['organization'],
+                'no_of_employees' => count($org_members),
+                'employees' => $org_members
+            ];
+            return $this->outputer->code(200)->success($response_data)->json();
         }catch (\Exception $e) {
 
             $return['result']=$e->getMessage();
