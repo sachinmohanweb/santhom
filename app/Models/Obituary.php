@@ -10,6 +10,8 @@ class Obituary extends Model
 {
     use HasFactory;
 
+    protected $appends = ['time'];
+
     protected $fillable = [
         'member_id',
         'name_of_member',
@@ -26,5 +28,16 @@ class Obituary extends Model
     public function getStatusAttribute($value)
     {
         return $value == 1 ? 'Active' : 'Suspended';
+    }
+
+    public function getTimeAttribute()
+    {   
+        $time12 = '';
+
+        if($this->funeral_time){
+            $time12 = date("h:i A", strtotime($this->funeral_time));
+        }
+        
+        return $time12;
     }
 }

@@ -1069,7 +1069,7 @@ class HomeController extends Controller
 
                 $daily_readings = BiblicalCitation::select('id','reference as heading','note1 as sub_heading','date',
                     DB::raw('JSON_ARRAY(NULL) as image'),
-                    DB::raw('"Daily Readings" as hash_value'))
+                    DB::raw('"Daily Readings" as hash_value'),'note2 as details')
                                 ->whereRaw("DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('$date', '%Y-%m-%d')")
                                 ->where('status', 1)
                                 ->orderBy('reference', 'asc');
@@ -1087,7 +1087,8 @@ class HomeController extends Controller
 
                 $birthdays = FamilyMember::select('id',DB::raw('CONCAT("Happy birthday dear ", name) as heading'),)
                         ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
-                        ->addSelect('dob as date','image as image','family_id',DB::raw('"Birthdays" as hash_value'))
+                        ->addSelect('dob as date','image as image','family_id',DB::raw('"Birthdays" as hash_value'),
+                            'mobile as details')
                                 ->whereRaw("DATE_FORMAT(dob, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
                                 ->whereRaw("DATE_FORMAT(dob, '%Y') != DATE_FORMAT('$date', '%Y')")
                                 ->where('status', 1)
@@ -1098,6 +1099,8 @@ class HomeController extends Controller
                                 ->orderBy('name', 'asc');
 
                 $birthdays=$birthdays->orderBy('id', 'desc')->get();
+                $birthdays->makeHidden(['family_name', 'family_head_name','prayer_group_name','marital_status_name',
+                            'relationship_name','obituary_id','blood_group_name']);
                 
 
                 $birthdays->transform(function ($item, $key) {
@@ -1145,7 +1148,8 @@ class HomeController extends Controller
                             'image' => $images,
                             'family_id' => $family_id,
                             'hash_value' => 'Wedding Anniversary',
-                            'type' => $type
+                            'type' => $type,
+                            'details'=>null
                         ];
                     } else {
                         $type = 'singles';
@@ -1158,7 +1162,8 @@ class HomeController extends Controller
                             'image' => [$member->image],
                             'family_id' => $family_id,
                             'hash_value' => 'Wedding Anniversary',
-                            'type' => $type
+                            'type' => $type,
+                            'details'=>null
                         ];
                     }
 
@@ -1191,7 +1196,7 @@ class HomeController extends Controller
                             ->limit(1);
                     }, 'sub_heading')
                     ->addSelect('date_of_death as date','photo as image',
-                        DB::raw('"Death Anniversary" as hash_value'))
+                        DB::raw('"Death Anniversary" as hash_value'),DB::raw('"null" as details'))
 
                     ->whereRaw("DATE_FORMAT(date_of_death, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
                     ->whereRaw("DATE_FORMAT(date_of_death, '%Y') != DATE_FORMAT('$date', '%Y')")
@@ -2334,20 +2339,20 @@ class HomeController extends Controller
 
             $memoryData = MemoryDay::select('id',DB::raw('"ഓർമ" as heading'), 'title as sub_heading', 
                 DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'), 
-                DB::raw('JSON_ARRAY(NULL) as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"ഓർമ" as hash_value'),DB::raw('"null" as time'))
+                DB::raw('JSON_ARRAY(NULL) as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"ഓർമ" as hash_value'),DB::raw('"null" as time'),'note1 as details1','note2 as details2')
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1); 
 
             $bibleCitationData = BiblicalCitation::select('id',DB::raw('"വേദഭാഗങ്ങൾ" as heading'), 'reference as sub_heading',
               DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'),
-                DB::raw('JSON_ARRAY(NULL) as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"വേദഭാഗങ്ങൾ" as hash_value'),DB::raw('"null" as time'))
+                DB::raw('JSON_ARRAY(NULL) as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"വേദഭാഗങ്ങൾ" as hash_value'),DB::raw('"null" as time'),'note1 as details1','note2 as details2')
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1); 
 
             $church_activities = DailySchedules::select('id',DB::raw('"തിരുകർമ്മങ്ങൾ" as heading'),'Title as sub_heading', 
                 DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
                 DB::raw('JSON_ARRAY(NULL) as image'),'venue as type',DB::raw('"True" as color'), 
-                DB::raw('"null" as link'),DB::raw('"തിരുകർമ്മങ്ങൾ" as hash_value'), DB::raw('DATE_FORMAT(time, "%h:%i %p") as time'))
+                DB::raw('"null" as link'),DB::raw('"തിരുകർമ്മങ്ങൾ" as hash_value'), DB::raw('DATE_FORMAT(time, "%h:%i %p") as time'),'details as details1',DB::raw('"null" as details2'))
                 ->whereDate('date',$today_string)
                 ->where('status', 1); 
 
@@ -2375,7 +2380,7 @@ class HomeController extends Controller
             $Vic_messages = VicarMessage::select('id','subject as heading','message_body as sub_heading',
                            DB::raw('DATE_FORMAT(NOW(), "%d/%m/%Y") as date'))
                         ->addSelect('image',DB::raw('"Vicar Messages" as type'),DB::raw('"False" as color'),
-                         DB::raw('"null" as link'),DB::raw('"Vicar messages" as hash_value'),DB::raw('"null" as time'))
+                         DB::raw('"null" as link'),DB::raw('"Vicar messages" as hash_value'),DB::raw('"null" as time'),DB::raw('"null" as details1'),DB::raw('"null" as details2'))
                         ->where('status',1);
 
             if($request['search_word']){
@@ -2419,7 +2424,7 @@ class HomeController extends Controller
                                 ->whereColumn('family_members.id', 'obituaries.member_id')
                                 ->limit(1);
                         }, 'sub_heading')
-                        ->addSelect('date_of_death as date','photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'),'member_id', DB::raw('"null" as link'),'display_till_date',DB::raw('"Obituaries" as hash_value'),DB::raw('"null" as time'))
+                        ->addSelect('date_of_death as date','photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'), DB::raw('"null" as link'),DB::raw('"Obituaries" as hash_value'),'funeral_time as time','display_till_date as details1','funeral_date as details2','funeral_time','member_id')
                          ->whereDate('date_of_death', '<=', now())
                         ->whereDate('display_till_date', '>=', now())
                         ->where('status',1);
@@ -2457,8 +2462,8 @@ class HomeController extends Controller
             /*---------Events Details----------*/
 
             $events = Event::select('id','event_name as heading','venue as sub_heading','date','image as img1','image2 as img2',
-                DB::raw('"Events" as type'),DB::raw('"False" as color'),DB::raw('"Events" as hash_value'),
-                'link','time_value','details')
+                DB::raw('"Events" as type'),DB::raw('"False" as color'),DB::raw('"Events" as hash_value'),'details as details1',
+                DB::raw('"null" as details2'),'link','time_value')
                 ->where('status',1);
             if($request['search_word']){
                 $events->where('event_name','like',$request['search_word'].'%')
@@ -2494,8 +2499,8 @@ class HomeController extends Controller
 
             $newsAnnouncements = NewsAnnouncement::select('id','updated_at as date','heading as heading',
                 'type_name as sub_heading')
-                ->addSelect('body as details','image','image2','type as type' ,'group_org_id',
-                    DB::raw('"News & Announcements" as type1'),DB::raw('"False" as color'),'type_name as hash_value','link',DB::raw('"null" as time'))
+                ->addSelect('image','image2','type as type' ,'group_org_id',
+                    DB::raw('"News & Announcements" as type1'),DB::raw('"False" as color'),'type_name as hash_value','link',DB::raw('"null" as time'),'body as details1',DB::raw('"null" as details2'))
                 ->where('status',1);
             if($request['search_word']){
 
@@ -2536,9 +2541,9 @@ class HomeController extends Controller
 
             $notifications = Notification::select('id','updated_at as date','title as heading','type_name as sub_heading')
 
-            ->addSelect('content as details','group_org_id','type',
+            ->addSelect('group_org_id','type',
                 DB::raw('"Notifications" as type_value'),DB::raw('"False" as color'),'type_name as hash_value',
-                DB::raw('"null" as link'),DB::raw('"null" as time'))
+                DB::raw('"null" as link'),DB::raw('"null" as time'),'content as details1',DB::raw('"null" as details2'))
 
             ->where('status',1);
 

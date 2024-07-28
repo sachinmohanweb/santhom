@@ -599,7 +599,7 @@ class UserController extends Controller
                 return response()->json($return);
 
             }
-            $payment =PaymentDetail::where('member_id',$request->member_id)->first();
+            $payment =PaymentDetail::where('family_head_id',$request->member_id)->first();
             if($payment){
                 $return['status'] = 'failed';
                 $return['message'] = 'Cannot delete this member because member have payment details associated.';
