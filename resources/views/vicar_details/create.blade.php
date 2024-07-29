@@ -74,6 +74,7 @@
                                     <option value="3">Sister</option>
                                     <option value="4">Animator</option>
                                     <option value="5">Deacon</option>
+                                    <option value="6">Sacristan</option>
                                   </select>  
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>

@@ -40,6 +40,8 @@ class VicarDetail extends Model
             return 'Animator';
         }else if($value == 5){
             return 'Deacon';
+        }else if($value == 6){
+            return 'Sacristan';
         }
     }
 }

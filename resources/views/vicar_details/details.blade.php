@@ -183,6 +183,7 @@
                                             <option value="3" {{ $VicarDetail->designation === 'Sister' ? 'selected' :'' }}>Sister</option>
                                             <option value="4" {{ $VicarDetail->designation === 'Animator' ? 'selected' :'' }}>Animator</option>
                                             <option value="5" {{ $VicarDetail->designation === 'Deacon' ? 'selected' :'' }}>Deacon</option>
+                                            <option value="6" {{ $VicarDetail->designation === 'Sacristan' ? 'selected' :'' }}>Sacristan</option>
                                         </select>  
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
