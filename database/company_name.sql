@@ -274,7 +274,56 @@ ORDER BY
 
 
 
-4.St. Jude-2473-147-13
+
+4.St. Johnh-1388-127-6
+======================
+
+
+SELECT 
+    fm.id AS member_id,
+    fm.name AS member_name,
+    f.family_name AS family_name,
+    pg.group_name AS prayer_group_name,
+    fm.company_name
+FROM 
+    family_members fm
+JOIN 
+    families f ON fm.family_id = f.id
+JOIN 
+    prayer_groups pg ON f.prayer_group_id = pg.id
+WHERE
+    pg.group_name='St. John'
+
+ORDER BY 
+    pg.group_name,f.family_name,fm.name;
+
+
+
+5.St. Joseph-2245-246-44
+======================
+
+
+SELECT 
+    fm.id AS member_id,
+    fm.name AS member_name,
+    f.family_name AS family_name,
+    pg.group_name AS prayer_group_name,
+    fm.company_name
+FROM 
+    family_members fm
+JOIN 
+    families f ON fm.family_id = f.id
+JOIN 
+    prayer_groups pg ON f.prayer_group_id = pg.id
+WHERE
+    pg.group_name='St. Joseph'
+
+ORDER BY 
+    pg.group_name,f.family_name,fm.name;
+
+
+
+6.St. Jude-2473-147-13
 ======================
 
 
@@ -324,3 +373,123 @@ WHERE id IN (2343, 2344,2352,2253,2254,2358,2360,2366,2367,2376,2379,2380,2384,2
 
 
 ===============================================================================
+
+
+
+7.St. Mary-2705-232-53
+======================
+
+
+SELECT 
+    fm.id AS member_id,
+    fm.name AS member_name,
+    f.family_name AS family_name,
+    pg.group_name AS prayer_group_name,
+    fm.company_name
+FROM 
+    family_members fm
+JOIN 
+    families f ON fm.family_id = f.id
+JOIN 
+    prayer_groups pg ON f.prayer_group_id = pg.id
+WHERE
+    pg.group_name='St. Mary'
+
+ORDER BY 
+    pg.group_name,f.family_name,fm.name;
+
+
+
+
+8.St. Paul-2914-183-45
+======================
+
+
+SELECT 
+    fm.id AS member_id,
+    fm.name AS member_name,
+    f.family_name AS family_name,
+    pg.group_name AS prayer_group_name,
+    fm.company_name
+FROM 
+    family_members fm
+JOIN 
+    families f ON fm.family_id = f.id
+JOIN 
+    prayer_groups pg ON f.prayer_group_id = pg.id
+WHERE
+    pg.group_name='St. Paul'
+
+ORDER BY 
+    pg.group_name,f.family_name,fm.name;
+
+
+9.St. Peter-3425-191-22
+======================
+
+
+SELECT 
+    fm.id AS member_id,
+    fm.name AS member_name,
+    f.family_name AS family_name,
+    pg.group_name AS prayer_group_name,
+    fm.company_name
+FROM 
+    family_members fm
+JOIN 
+    families f ON fm.family_id = f.id
+JOIN 
+    prayer_groups pg ON f.prayer_group_id = pg.id
+WHERE
+    pg.group_name='St. Peter'
+
+ORDER BY 
+    pg.group_name,f.family_name,fm.name;
+
+
+
+10.St. Theresa-3733-144-12
+======================
+
+
+SELECT 
+    fm.id AS member_id,
+    fm.name AS member_name,
+    f.family_name AS family_name,
+    pg.group_name AS prayer_group_name,
+    fm.company_name
+FROM 
+    family_members fm
+JOIN 
+    families f ON fm.family_id = f.id
+JOIN 
+    prayer_groups pg ON f.prayer_group_id = pg.id
+WHERE
+    pg.group_name='St. Theresa'
+
+ORDER BY 
+    pg.group_name,f.family_name,fm.name;
+
+
+11.St. Thomas-3921-191-43
+======================
+
+
+SELECT 
+    fm.id AS member_id,
+    fm.name AS member_name,
+    f.family_name AS family_name,
+    pg.group_name AS prayer_group_name,
+    fm.company_name
+FROM 
+    family_members fm
+JOIN 
+    families f ON fm.family_id = f.id
+JOIN 
+    prayer_groups pg ON f.prayer_group_id = pg.id
+WHERE
+    pg.group_name='St. Thomas'
+
+ORDER BY 
+    pg.group_name,f.family_name,fm.name;
+

@@ -2424,7 +2424,11 @@ class HomeController extends Controller
                                 ->whereColumn('family_members.id', 'obituaries.member_id')
                                 ->limit(1);
                         }, 'sub_heading')
-                        ->addSelect('date_of_death as date','photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'), DB::raw('"null" as link'),DB::raw('"Obituaries" as hash_value'),'funeral_time as time','display_till_date as details1','funeral_date as details2','funeral_time','member_id')
+                        ->addSelect('date_of_death as date','photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'), DB::raw('"null" as link'),DB::raw('"Obituaries" as hash_value'),'funeral_time as time',
+                            'funeral_time','member_id',
+                            DB::raw('CONCAT("Display till date: ", display_till_date) as details1'),
+                            DB::raw('CONCAT("Funeral date: ", funeral_date) as details2')
+                        )
                          ->whereDate('date_of_death', '<=', now())
                         ->whereDate('display_till_date', '>=', now())
                         ->where('status',1);
