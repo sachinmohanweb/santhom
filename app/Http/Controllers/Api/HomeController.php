@@ -2437,7 +2437,7 @@ class HomeController extends Controller
                                 ->whereColumn('family_members.id', 'obituaries.member_id')
                                 ->limit(1);
                         }, 'sub_heading')
-                        ->addSelect('date_of_death as date','photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'), DB::raw('"null" as link'),DB::raw('"Obituaries" as hash_value'),
+                        ->addSelect(DB::raw('DATE_FORMAT(date_of_death, "%d/%m/%Y") as date'),'photo as image',DB::raw('"Obituaries" as type'),DB::raw('"False" as color'), DB::raw('"null" as link'),DB::raw('"Obituaries" as hash_value'),
                             // 'funeral_time as time',
                             'funeral_time','member_id',
                             DB::raw('CONCAT("Funeral date: ", DATE_FORMAT(funeral_date, "%d/%m/%Y")) as details1'),

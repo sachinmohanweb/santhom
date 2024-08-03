@@ -300,7 +300,7 @@ class SettingsController extends Controller
             $per_pg=100;
 
             $prayer_meetings = PrayerMeeting::
-                select('prayer_meetings.*','prayer_groups.group_name as prayer_group_name','families.family_name','families.map_location',
+                select('prayer_meetings.*','prayer_groups.group_name as prayer_group_name','families.family_name','families.map_location','families.id as family_id',
                     DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as formatted_date'),DB::raw('DATE_FORMAT(date, "%W") as day_of_week'),
                     DB::raw('DATE_FORMAT(time, "%r") as formatted_time'),
                     DB::raw('CONCAT(DATE_FORMAT(date, "%d/%m/%Y"), " (", DATE_FORMAT(date, "%W"), ") at ", DATE_FORMAT(time, "%r")) as date'))
@@ -325,6 +325,13 @@ class SettingsController extends Controller
                $per_pg=$page=$request['per_page'];
             }
             $prayer_meetings=$prayer_meetings->paginate($perPage=$per_pg,[],'',$page = $pg_no);
+
+            foreach ($prayer_meetings as $meeting) {
+                $family = Family::find($meeting->family_id);
+                if ($family) {
+                    $meeting->family_name = $family->family_head_name .'( ' .$family->family_name.' )';
+                }
+            }
 
             if(empty($prayer_meetings)) {
                 $return['result']=  "Empty prayer meetings list ";
