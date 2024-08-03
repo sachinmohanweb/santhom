@@ -40,4 +40,12 @@ class Obituary extends Model
         
         return $time12;
     }
+    public function getDateOfDeathAttribute()
+    {
+            if(!empty($this->attributes['date_of_death'])) {
+                $date = new \DateTime($this->attributes['date_of_death']);
+                return $date->format('d/m/Y');
+            }
+            return null;
+    }
 }

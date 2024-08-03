@@ -158,4 +158,36 @@ class FamilyMember extends Authenticatable
         
         return $married_to;
     }
+    public function getDobAttribute()
+    {
+            if(!empty($this->attributes['dob'])) {
+                $date = new \DateTime($this->attributes['dob']);
+                return $date->format('d/m/Y');
+            }
+            return null;
+    }
+    public function getDateOfBaptismAttribute()
+    {
+            if(!empty($this->attributes['date_of_baptism'])) {
+                $date = new \DateTime($this->attributes['date_of_baptism']);
+                return $date->format('d/m/Y');
+            }
+            return null;
+    }
+    public function getDateOfMarriageAttribute()
+    {
+            if(!empty($this->attributes['date_of_marriage'])) {
+                $date = new \DateTime($this->attributes['date_of_marriage']);
+                return $date->format('d/m/Y');
+            }
+            return null;
+    }
+    public function getDateOfDeathAttribute()
+    {
+            if(!empty($this->attributes['date_of_death'])) {
+                $date = new \DateTime($this->attributes['date_of_death']);
+                return $date->format('d/m/Y');
+            }
+            return null;
+    }
 }

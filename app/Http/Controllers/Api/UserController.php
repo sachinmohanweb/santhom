@@ -493,7 +493,7 @@ class UserController extends Controller
         try {
 
             $pg_no='';
-            $per_pg='';
+            $per_pg='100';
 
             $vicars = VicarDetail::select('*')->where('status',1);
 
