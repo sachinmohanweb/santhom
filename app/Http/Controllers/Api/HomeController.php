@@ -2352,13 +2352,6 @@ class HomeController extends Controller
                 ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
                 ->where('status', 1); 
 
-            // $church_activities = DailySchedules::select('id','title as heading',DB::raw('"abcd" as sub_heading'), 
-            //     DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
-            //     DB::raw('JSON_ARRAY(NULL) as image'),'venue as type',DB::raw('"False" as color'), 
-            //     DB::raw('"null" as link'),DB::raw('"തിരുകർമ്മങ്ങൾ" as hash_value'), DB::raw('DATE_FORMAT(time, "%h:%i %p") as time'),'details as details1',DB::raw('"null" as details2'))
-            //     ->whereDate('date',$today_string)
-            //     ->where('status', 1); 
-
              $church_activities = DailySchedules::select('id','title as heading','venue as sub_heading', 
                 DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
                 DB::raw('JSON_ARRAY(NULL) as image'),'venue as type',DB::raw('"False" as color'), 
@@ -2368,19 +2361,10 @@ class HomeController extends Controller
 
             $churchActivitiesData = $church_activities;
 
-            // $daily_schedules = $bibleCitationData->union($churchActivitiesData)
-            //                     ->union($memoryData)
-            //                     ->get();
             $daily_schedules = $bibleCitationData->union($memoryData)
                                 ->union($churchActivitiesData)
                                 ->get();
-            // $daily_schedules->transform(function ($item, $key) {
 
-            //     if ($item->image !== 'null') {
-            //          $item->image = asset('/') . $item->image;
-            //     }
-            //     return $item;
-            // });
             $daily_schedules->transform(function ($item, $key) {
                 if ($item->image === '[null]') {
                     $item->image = [];
@@ -2403,13 +2387,6 @@ class HomeController extends Controller
 
             $Vic_messages=$Vic_messages->orderBy('updated_at','desc')->get();
 
-            // $Vic_messages->transform(function ($item, $key) {
-
-            //     if ($item->image !== null) {
-            //          $item->image = asset('/') . $item->image;
-            //     }
-            //     return $item;
-            // });
             $Vic_messages->transform(function ($item, $key) {
 
                 if ($item->image !== null) {

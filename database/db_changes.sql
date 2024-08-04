@@ -555,3 +555,7 @@ ALTER TABLE `news_announcements` ADD `image2` VARCHAR(256) NULL DEFAULT NULL AFT
 
 ALTER TABLE `families` CHANGE `status` `status` INT NOT NULL DEFAULT '1' COMMENT '1-approved,2-Pending,3-blocked';
 ALTER TABLE `family_members` CHANGE `status` `status` INT NULL DEFAULT '1' COMMENT '1-approved,2-Pending,3-blocked';
+
+-- 04/08/24----
+
+UPDATE `relationships` SET `relation_name` = 'Church Personnels' WHERE `relationships`.`id` = 14;
