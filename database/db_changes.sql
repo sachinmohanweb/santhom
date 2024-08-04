@@ -559,3 +559,12 @@ ALTER TABLE `family_members` CHANGE `status` `status` INT NULL DEFAULT '1' COMME
 -- 04/08/24----
 
 UPDATE `relationships` SET `relation_name` = 'Church Personnels' WHERE `relationships`.`id` = 14;
+
+UPDATE `payment_categories` SET `name` = 'Ettunomb' WHERE `payment_categories`.`id` = 7;
+UPDATE `payment_categories` SET `name` = 'Birthday' WHERE `payment_categories`.`id` = 10;
+UPDATE `payment_categories` SET `name` = 'Donation General' WHERE `payment_categories`.`id` = 11;
+
+INSERT INTO `payment_categories` (`id`, `name`, `status`, `created_at`, `updated_at`) 
+	VALUES (NULL, 'Seminary Day', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+UPDATE `families` SET `family_name` = 'Church Personnels' WHERE `families`.`id` = 1;

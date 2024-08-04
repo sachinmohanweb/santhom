@@ -60,13 +60,14 @@ class ContributionsImport implements ToCollection,WithHeadingRow,WithValidation,
                     'first_offering' => 4,
                     'carol' => 5,
                     'good_friday' => 6,
-                    '8_nombu' => 7,
+                    'ettunomb' => 7,
                     'mission_sunday' => 8,
                     'education_help' => 9,
-                    'seminary_day' => 10,
-                    'others' => 11
-                ];              
-
+                    'birthday' => 10,
+                    'donation_general' => 11,
+                    'seminary_day' => 12,
+                ];
+                              
                 foreach ($categories as $field => $category_id) {
 
                     $contribution_details['category_id'] = $category_id;
