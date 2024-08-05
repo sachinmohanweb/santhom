@@ -85,7 +85,7 @@
                               <td style="padding: 10px;">{!! $DailySchedules->title !!}</td>
                           </tr>
                            <tr>
-                            <td>Venu</td>
+                            <td>Venue</td>
                             <td>:</td>
                               <td style="padding: 10px;">{!! $DailySchedules->venue !!}</td>
                           </tr>

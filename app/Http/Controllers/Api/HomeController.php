@@ -2354,20 +2354,33 @@ class HomeController extends Controller
 
              $church_activities = DailySchedules::select('id','title as heading','venue as sub_heading', 
                 DB::raw('IFNULL(DATE_FORMAT(date, "%d/%m/%Y"), "' . $todayFormatted . '") as date'), 
-                DB::raw('JSON_ARRAY(NULL) as image'),'venue as type',DB::raw('"False" as color'), 
-                DB::raw('"null" as link'),DB::raw('"തിരുകർമ്മങ്ങൾ" as hash_value'), DB::raw('DATE_FORMAT(time, "%h:%i %p") as time'),'details as details1',DB::raw('"null" as details2'))
+                DB::raw('JSON_ARRAY(NULL) as image'),DB::raw('"തിരുകർമ്മങ്ങൾ" as hash_value'), 
+                DB::raw('"null" as link'),'venue as type',DB::raw('"False" as color'), 
+                DB::raw('DATE_FORMAT(time, "%h:%i %p") as time'),'details as details1',
+                DB::raw('DATE_FORMAT(time, "%h:%i %p") as details2'))
                 ->whereDate('date',$today_string)
                 ->where('status', 1);
 
             $churchActivitiesData = $church_activities;
+            $churchActivitiesGetData = $church_activities->get();
 
             $daily_schedules = $bibleCitationData->union($memoryData)
                                 ->union($churchActivitiesData)
                                 ->get();
 
-            $daily_schedules->transform(function ($item, $key) {
+            $allDetails2 = $churchActivitiesGetData->map(function ($item) {
+                return $item->time . "\n" . $item->sub_heading . "\n" . $item->details1."\n";
+            })->toArray();
+
+            $combinedDetails2 = implode("\n", $allDetails2);
+
+            $daily_schedules->transform(function ($item, $key) use ($combinedDetails2) {
                 if ($item->image === '[null]') {
                     $item->image = [];
+                }
+                if ($item->type === 'തിരുകർമ്മങ്ങൾ') {
+                    $item->details2 = $combinedDetails2;
+                    $item->link = null;
                 }
                 return $item;
             });

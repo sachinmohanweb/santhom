@@ -65,7 +65,7 @@
                                     <tr>
                                         <th>Sl.No</th>
                                         <th>ScheduleDate</th>
-                                        <th>Scheduleime</th>
+                                        <th>ScheduleTime</th>
                                         <th>Venue</th>
                                         <th>Title</th>
                                         <th>Details</th>
