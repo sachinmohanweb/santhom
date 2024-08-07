@@ -170,7 +170,7 @@
                                     <div class="col-md-3">
                                         <label class="form-label" for="validationCustom02">Date of birth
                                         <span style="color:red">*</span></label>
-                                        <input class="form-control" id="validationCustom02" type="date" value="{{$VicarDetail['dob'] }}"  required="" name='dob'>
+                                        <input class="form-control" id="validationCustom02" type="date" value="{{$VicarDetail->getRawDOB() }}"  required="" name='dob'>
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-4">
@@ -190,13 +190,13 @@
                                     <div class="col-md-4">
                                         <label class="form-label" for="validationCustom02">Date of Joining
                                         <span style="color:red">*</span></label>
-                                        <input class="form-control" id="validationCustom02" type="date" value="{{$VicarDetail['date_of_joining'] }}"  required="" name='date_of_joining'>
+                                        <input class="form-control" id="validationCustom02" type="date" value="{{$VicarDetail->getRawDateOfJoining()}}"  required="" name='date_of_joining'>
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <label class="form-label" for="validationCustom02">Date of relieving</label>
-                                        <input class="form-control" id="validationCustom02" type="date" value="{{$VicarDetail['date_of_relieving'] }}" name='date_of_relieving'>
+                                        <input class="form-control" id="validationCustom02" type="date" value="{{$VicarDetail->getRawDateOfRelieving() }}" name='date_of_relieving'>
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
 

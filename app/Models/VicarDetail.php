@@ -44,4 +44,45 @@ class VicarDetail extends Model
             return 'Sacristan';
         }
     }
+
+    public function getDOBAttribute()
+    {
+            if(!empty($this->attributes['dob'])) {
+                $date = new \DateTime($this->attributes['dob']);
+                return $date->format('d/m/Y');
+            }
+            return null;
+    }
+    public function getDateOfJoiningAttribute()
+    {
+            if(!empty($this->attributes['date_of_joining'])) {
+                $date = new \DateTime($this->attributes['date_of_joining']);
+                return $date->format('d/m/Y');
+            }
+            return null;
+    }
+    public function getDateOfRelievingAttribute()
+    {
+            if(!empty($this->attributes['date_of_relieving'])) {
+                $date = new \DateTime($this->attributes['date_of_relieving']);
+                return $date->format('d/m/Y');
+            }
+            return null;
+    }
+
+    public function getRawDOB()
+    {
+        return $this->attributes['dob'];
+    }
+
+    public function getRawDateOfJoining()
+    {
+        return $this->attributes['date_of_joining'];
+    }
+
+    public function getRawDateOfRelieving()
+    {
+        return $this->attributes['date_of_relieving'];
+    }
+
 }

@@ -191,7 +191,7 @@ class PrayerGroupController extends Controller
                 return $meeting->Family->headOfFamily->name;
             })
             ->addColumn('date', function ($meeting) {
-                return Carbon::parse($meeting->date)->format('d-m-Y');
+                return Carbon::parse($meeting->date)->format('d/m/Y');
             })
               ->addColumn('time', function ($meeting) {
                 return Carbon::parse($meeting->time)->format('h:i A');
