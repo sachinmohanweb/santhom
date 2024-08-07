@@ -162,11 +162,11 @@
 
                 <div class=" col-md-4 mb-3">
                   <label class="form-label">Date of birth <span style="color:red">*</span></label>
-                  <input class="form-control digits" type="date"  data-bs-original-title="" title="" name="dob"  value="{{$familymember->dob}}" required>
+                  <input class="form-control digits" type="date"  data-bs-original-title="" title="" name="dob"  value="{{$familymember->getRawDOB()}}" required>
                 </div>
                 <div class=" col-md-4 mb-3">
                   <label class="form-label">Date of baptism</label>
-                  <input class="form-control digits" type="date"  data-bs-original-title="" title="" name="date_of_baptism" value="{{$familymember->date_of_baptism}}" >
+                  <input class="form-control digits" type="date"  data-bs-original-title="" title="" name="date_of_baptism" value="{{$familymember->getRawDateOfBaptism()}}" >
                 </div>
               </div>
               <div class="row">
@@ -196,7 +196,7 @@
                 </div>
                 <div class="col-md-3 mb-3">
                    <label class="form-label">If married , date of marriage</label>
-                  <input class="form-control digits" type="date" value="{{$familymember->date_of_marriage}}"  name="date_of_marriage">
+                  <input class="form-control digits" type="date" value="{{$familymember->getRawDateOfMarriage()}}"  name="date_of_marriage">
                 </div>
 
                  <div class="col-md-3 mb-3 ">
@@ -251,7 +251,7 @@
 
                 <div class="col-md-4 mb-3">
                       <label class="form-label">Date of death</label>
-                      <input class="form-control digits" type="date" data-bs-original-title="" title="" name="date_of_death" value="{{$familymember->date_of_death}}">
+                      <input class="form-control digits" type="date" data-bs-original-title="" title="" name="date_of_death" value="{{$familymember->getRawDateOfDeath()}}">
                   </div>
                   <div class="col-md-4 mb-3">
                       <label class="form-label">Image

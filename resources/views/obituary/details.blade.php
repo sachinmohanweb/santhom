@@ -58,7 +58,7 @@
                                  <li class="bg-warning"></li>
                               </ul>
                                <div class="">
-                                 Date of Death : {{\Carbon\Carbon::parse($obituary['date_of_death'])->format('d-m-Y')}}
+                                 Date of Death : {{$obituary['date_of_death']}}
                               </div>
 
                            </div>
@@ -91,7 +91,7 @@
                                   <tr>
                                     <td> <b>Funeral Time  </b></td>
                                      <td> <b>&nbsp;:&nbsp;</b></td>
-                                    <td>{{$obituary->funeral_time}}</td>
+                                    <td>{{$obituary->time}}</td>
                                   </tr>
                                   <tr>
                                     <td> <b>Other Details  </b></td>
@@ -134,13 +134,13 @@
                                        <div class="col-md-3">
                                           <label class="form-label" for="validationCustom04">Date of death</label>
                                           <input class="form-control" id="validationCustom01" type="date" 
-                                          value="{{$obituary->date_of_death}}" required="" name='date_of_death'>
+                                          value="{{$obituary->getRawDateOfDeath() }}" required="" name='date_of_death'>
                                           <div class="valid-feedback">Looks good!</div>
                                        </div>
                                        <div class="col-md-3">
                                           <label class="form-label" for="validationCustom04">Display Till</label>
                                           <input class="form-control" id="validationCustom01" type="date" 
-                                          value="{{$obituary->display_till_date}}" required name='display_till_date'>
+                                          value="{{$obituary->getRawDisplayTillDate()}}" required name='display_till_date'>
                                           <div class="valid-feedback">Looks good!</div>
                                        </div>
 
@@ -149,7 +149,7 @@
                                        <div class="col-md-4">
                                           <label class="form-label" for="validationCustom04">Date of Funeral</label>
                                           <input class="form-control" id="validationCustom01" type="date" 
-                                          value="{{$obituary->funeral_date}}" name='funeral_date'>
+                                          value="{{$obituary->getRawFuneralDate()}}" name='funeral_date'>
                                           <div class="valid-feedback">Looks good!</div>
                                        </div>
                                        <div class="col-md-4">

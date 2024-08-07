@@ -48,4 +48,34 @@ class Obituary extends Model
             }
             return null;
     }
+    public function getRawDateOfDeath()
+    {
+        return $this->attributes['date_of_death'];
+    }
+
+    public function getDisplayTillDateAttribute()
+    {
+            if(!empty($this->attributes['display_till_date'])) {
+                $date = new \DateTime($this->attributes['display_till_date']);
+                return $date->format('d/m/Y');
+            }
+            return null;
+    }
+    public function getRawDisplayTillDate()
+    {
+        return $this->attributes['display_till_date'];
+    }
+
+    public function getFuneralDateAttribute()
+    {
+            if(!empty($this->attributes['funeral_date'])) {
+                $date = new \DateTime($this->attributes['funeral_date']);
+                return $date->format('d/m/Y');
+            }
+            return null;
+    }
+    public function getRawFuneralDate()
+    {
+        return $this->attributes['funeral_date'];
+    }
 }

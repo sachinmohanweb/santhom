@@ -190,4 +190,24 @@ class FamilyMember extends Authenticatable
             }
             return null;
     }
+
+    public function getRawDOB()
+    {
+        return $this->attributes['dob'];
+    }
+
+    public function getRawDateOfBaptism()
+    {
+        return $this->attributes['date_of_baptism'];
+    }
+
+    public function getRawDateOfMarriage()
+    {
+        return $this->attributes['date_of_marriage'];
+    }
+    
+    public function getRawDateOfDeath()
+    {
+        return $this->attributes['date_of_death'];
+    }
 }

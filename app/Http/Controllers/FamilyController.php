@@ -217,7 +217,7 @@ class FamilyController extends Controller
                 }
             })
             ->addColumn('dob', function ($familyMember) {
-                return date("d-m-Y", strtotime($familyMember->dob));
+                return date("d/m/Y", strtotime($familyMember->dob));
             })
             ->addColumn('family_name', function ($familyMember) {
                 return $familyMember->family->family_name;
@@ -451,7 +451,7 @@ class FamilyController extends Controller
                 if($member_obituary){
 
                     $member_obituary->name_of_member = $familymember->name;
-                    $member_obituary->date_of_death = $familymember->date_of_death;
+                    $member_obituary->date_of_death = $familymember->getRawDateOfDeath();
                     $member_obituary->save();
 
                 }else{
@@ -743,7 +743,7 @@ class FamilyController extends Controller
                 }
             })
             ->addColumn('dob', function ($familyMember) {
-                return date("d-m-Y", strtotime($familyMember->dob));
+                return date($familyMember->Dob);
             })
             ->addColumn('family_name', function ($familyMember) {
                 return $familyMember->family->family_name;
