@@ -79,8 +79,7 @@
                        <tr>
                          <td> <b>Date</b></td>
                          <td> <b>&nbsp;:&nbsp;</b></td>
-                         <td>{{$event->date}}
-                         
+                         <td>{{date("d/m/Y", strtotime($event->date))}}
                          </td>
                        </tr>
                        <tr>  

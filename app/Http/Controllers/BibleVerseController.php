@@ -35,6 +35,9 @@ class BibleVerseController extends Controller
             ->addColumn('DT_RowIndex', function () {
                 return '';
             })
+            ->addColumn('date', function ($verse) {
+                return date("d/m/Y", strtotime($verse->date));
+            })
             ->addColumn('action', 'bible_verse.bible_verse-datatable-action')
             ->addIndexColumn()
             ->make(true);

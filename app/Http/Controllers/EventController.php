@@ -32,6 +32,9 @@ class EventController extends Controller
             ->addColumn('DT_RowIndex', function () {
                 return '';
             })
+            ->addColumn('date', function ($verse) {
+                return date("d/m/Y", strtotime($verse->date));
+            })
             ->addColumn('time', function ($event) {
                  return $event->time;
             })

@@ -27,6 +27,9 @@ class MemoriesController extends Controller
         if(request()->ajax()) {
             return datatables()
             ->of(MemoryDay::select('*')->where('status',1))
+            ->addColumn('date', function ($citation) {
+                return date("d/m/Y", strtotime($citation->date));
+            })
             ->addColumn('action', 'memories.memories-datatable-action')
             ->rawColumns(['action'])
             ->addIndexColumn()

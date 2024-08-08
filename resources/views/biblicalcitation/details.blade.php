@@ -44,7 +44,7 @@
               <div class="col-md-9">
 
                  <div class="product-page-details">
-                   <h3>{{$BiblicalCitation->date}}</h3>
+                   <h3>{{date("d/m/Y", strtotime($BiblicalCitation->date))}}</h3>
                  </div>
                  
                  <ul class="product-color">
