@@ -2507,8 +2507,9 @@ class HomeController extends Controller
 
             /*---------News & Announcements Details----------*/
 
-            $newsAnnouncements = NewsAnnouncement::select('id',DB::raw('DATE_FORMAT(created_at, "%d/%m/%Y") as date'),'heading as heading',
-                'type_name as sub_heading')
+            $newsAnnouncements = NewsAnnouncement::select('id',
+                    DB::raw('DATE_FORMAT(created_at, "%d/%m/%Y") as date'),
+                    'heading as heading',DB::raw('"null" as sub_heading'))
                 ->addSelect('image','image2','type as type' ,'group_org_id',
                     DB::raw('"News & Announcements" as type1'),DB::raw('"False" as color'),'type_name as hash_value','link',DB::raw('"null" as time'),'body as details1',DB::raw('"null" as details2'))
                 ->where('status',1);
@@ -2541,6 +2542,15 @@ class HomeController extends Controller
                 }
                 unset($item->image,$item->image2);
                 $item->image = $images;
+
+                if($item->group_organization_name !=='Nill'){
+
+                    $item->sub_heading = $item->group_organization_name;
+                }else{
+                    $item->sub_heading = $item->hash_value;
+
+                }
+
                 return $item;
             });
 
@@ -2550,7 +2560,7 @@ class HomeController extends Controller
             /*---------Notifications Details----------*/
 
             $notifications = Notification::select('id',DB::raw('DATE_FORMAT(created_at, "%d/%m/%Y") as date'),'title as heading',
-                DB::raw('"Notifications" as sub_heading'),'group_org_id','type')
+                DB::raw('"null" as sub_heading'),'group_org_id','type')
             ->addSelect(DB::raw('"Notifications" as type_value'),DB::raw('"False" as color'),DB::raw('"Notifications" as hash_value'),
                 DB::raw('"null" as link'),DB::raw('"null" as time'),'content as details1',DB::raw('"null" as details2'))
 
@@ -2585,6 +2595,14 @@ class HomeController extends Controller
             $notifications->transform(function ($notif) {
                 $images = [];
                 $notif->image = $images;
+
+                if($notif->group_organization_name !=='Nill'){
+
+                    $notif->sub_heading = $notif->group_organization_name;
+                }else{
+                    $notif->sub_heading = $notif->type;
+
+                }
                 return $notif;
             });
             if(empty($notifications)) {

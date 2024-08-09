@@ -187,8 +187,7 @@
                         
                          <div class="col-md-8">
                             <label class="form-label" for="validationCustom04">Details</label>
-                             <textarea class="form-control" id="details" name="details" rows="5" cols="50" >
-                               {{$event['details']}}
+                             <textarea class="form-control" id="details" name="details" rows="5" cols="50" >{{$event['details']}}
                              </textarea><br>
                             <div class="valid-feedback">Looks good!</div>
                         </div>

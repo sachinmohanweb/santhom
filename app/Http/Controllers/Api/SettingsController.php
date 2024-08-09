@@ -191,7 +191,8 @@ class SettingsController extends Controller
                         ->where('families.family_code', '!=', 'CP001')
                         ->where('families.status', 1)
                         ->where('family_members.status',1)
-                        ->orderBy('name')
+                        ->orderBy('family_members.name')
+                        ->where('family_members.head_of_family',1)
                         ->get();
                         
             $members->transform(function ($item, $key) {
