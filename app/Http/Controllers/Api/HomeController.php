@@ -724,8 +724,8 @@ class HomeController extends Controller
 
             $data = [];
             $cuurent_month = date('n');
-            //for ($month = 1; $month <= 12; $month++) {
-            for ($month = $cuurent_month-2; $month <= $cuurent_month+2; $month++) {
+            for ($month = 1; $month <= 12; $month++) {
+            //for ($month = $cuurent_month-2; $month <= $cuurent_month+2; $month++) {
                 for ($day = 1; $day <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $day++) {
 
                     $readings = BiblicalCitation::whereMonth('date', $month)

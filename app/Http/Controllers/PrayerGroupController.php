@@ -177,7 +177,13 @@ class PrayerGroupController extends Controller
         if(request()->ajax()) {
 
             return datatables()
-            ->of(PrayerMeeting::select('*')->where('date', '>', now()->subDay()->format('Y-m-d'))->orderBy('date'))
+            ->of(
+                PrayerMeeting::select('prayer_meetings.*','prayer_groups.group_name as prayer_group_name')
+                ->leftJoin('prayer_groups', 'prayer_meetings.prayer_group_id', '=', 'prayer_groups.id')
+                ->where('prayer_meetings.date', '>', now()->subDay()->format('Y-m-d'))
+                ->orderBy('prayer_meetings.date')
+                ->orderBy('prayer_groups.group_name')
+            )
             ->addColumn('DT_RowIndex', function () {
                 return '';
             })

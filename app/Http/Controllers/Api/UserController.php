@@ -255,6 +255,17 @@ class UserController extends Controller
             } else {
                 $member->image = null;
             }
+            if($member->dob) {
+                $member->original_dobirth = $member->getRawDOB(); 
+            }
+            if($member->date_of_marriage) {
+                $member->original_dobmarriage = $member->getRawDateOfBaptism(); 
+
+            }
+            if($member->date_of_baptism) {
+                $member->original_dobaptism = $member->getRawDateOfMarriage(); 
+
+            }
         }
 
         $return['family']  =  $family;
@@ -355,6 +366,7 @@ class UserController extends Controller
             //$inputData['family_id'] = $request['family_id'];
             $inputData['gender'] = $request['gender'];
             $inputData['dob'] = $request['dob'];
+            //$inputData['dob'] = \DateTime::createFromFormat('d/m/Y', $request['dob'])->format('Y-m-d');
 
             if($request['relationship_id']==1){
                 $family_head = FamilyMember::where('family_id',$family_id)
@@ -390,9 +402,11 @@ class UserController extends Controller
             $inputData['title'] = $request['title'];
             $inputData['nickname'] = $request['nickname'];
             $inputData['date_of_baptism'] = $request['date_of_baptism'];
+            //$inputData['date_of_baptism'] = \DateTime::createFromFormat('d/m/Y', $request['date_of_baptism'])->format('Y-m-d');
             $inputData['blood_group_id'] = $request['blood_group_id'];
             $inputData['marital_status_id'] = $request['marital_status_id'];
             $inputData['date_of_marriage'] = $request['date_of_marriage'];
+            //$inputData['date_of_marriage'] =\DateTime::createFromFormat('d/m/Y', $request['date_of_marriage'])->format('Y-m-d');
             $inputData['qualification'] = $request['qualification'];
             $inputData['occupation'] = $request['occupation'];
             $inputData['company_name'] = $request['company_name'];
@@ -448,7 +462,7 @@ class UserController extends Controller
                 $member->image = asset('/') . $member->image;
             } else {
                $member->image = null; 
-            }
+            } 
             $family = Family::find($member->family_id);
             if ($family) {
                 $member->family_location = $family->map_location;

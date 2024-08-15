@@ -28,6 +28,7 @@ class DailyScheduleController extends Controller
             ->of(DailySchedules::select('*')->where('status',1)
                 ->where('date', '>=', \Carbon\Carbon::today())
                 ->orderBy('date', 'asc')
+                ->orderBy('time', 'asc')
             )
             ->addColumn('date', function($row) {
                 

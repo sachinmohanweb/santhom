@@ -309,6 +309,7 @@ class SettingsController extends Controller
                 ->leftJoin('families', 'prayer_meetings.family_id', '=', 'families.id')
                 ->where('prayer_meetings.date', '>', now()->subDay()->format('Y-m-d'))
                 ->orderBy('prayer_meetings.date')
+                ->orderBy('prayer_groups.group_name')
                 ->where('prayer_meetings.status', 1);
 
             if($request['search_word']){
