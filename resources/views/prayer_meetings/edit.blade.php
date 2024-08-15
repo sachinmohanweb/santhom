@@ -81,9 +81,11 @@
 
                                  <div class="col-md-6">
                                     <label class="form-label" for="validationCustom02">Time<span style="color:red">*</span> </label>
-
+                                    <?php
+                                        $PrayerMeeting['time'] = \Carbon\Carbon::createFromFormat('H:i:s', $PrayerMeeting['time'])->format('H:i');
+                                    ?>
                                     <div class="input-group clockpicker">
-                                        <input class="form-control" type="text" value="{{ $PrayerMeeting['time'] }}" data-bs-original-title="" name="time" required  title="hh:mm:ss">
+                                        <input class="form-control" type="text" value="{{ $PrayerMeeting['time'] }}" data-bs-original-title="" name="time" required  title="24 Hours As hh:mm">
                                         <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-time"></span>
                                         </span>
