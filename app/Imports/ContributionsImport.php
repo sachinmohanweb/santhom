@@ -15,6 +15,7 @@ use App\Models\PaymentCategory;
 
 use DB;
 use Cache;
+use Illuminate\Support\Str;
 
 class ContributionsImport implements ToCollection,WithHeadingRow,WithValidation,WithChunkReading
 {
@@ -53,21 +54,12 @@ class ContributionsImport implements ToCollection,WithHeadingRow,WithValidation,
                     'family_head_id' => $family->headOfFamily->id
                 ];
 
-                $categories = [
-                    'monthly_subscription' => 1,
-                    'parish_feast' => 2,
-                    'parish_day' => 3,
-                    'first_offering' => 4,
-                    'carol' => 5,
-                    'good_friday' => 6,
-                    'ettunomb' => 7,
-                    'mission_sunday' => 8,
-                    'education_help' => 9,
-                    'birthday' => 10,
-                    'donation_general' => 11,
-                    'seminary_day' => 12,
-                ];
-                              
+                $categories = PaymentCategory::select('id', 'name')->get();
+
+                $categories = $categories->mapWithKeys(function ($item) {
+                    return [Str::snake($item->name) => $item->id];
+                })->toArray();
+                                 
                 foreach ($categories as $field => $category_id) {
 
                     $contribution_details['category_id'] = $category_id;

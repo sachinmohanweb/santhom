@@ -575,3 +575,6 @@ UPDATE `families` SET `family_name` = 'Church Personnels' WHERE `families`.`id` 
 ALTER TABLE `vicar_details` ADD `gender` VARCHAR(256) NULL DEFAULT NULL AFTER `family_name`;
 ALTER TABLE `vicar_details` ADD `date_of_fhc` DATE NULL DEFAULT NULL AFTER `dob`;
 
+
+INSERT INTO `payment_categories` (`id`, `name`, `status`, `created_at`, `updated_at`) 
+VALUES (NULL, 'Others', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
