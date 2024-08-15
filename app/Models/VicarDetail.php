@@ -14,6 +14,8 @@ class VicarDetail extends Model
         'name',
         'family_name',
         'dob',
+        'gender',
+        'date_of_fhc',
         'designation',
         'date_of_joining',
         'date_of_relieving',
@@ -69,6 +71,14 @@ class VicarDetail extends Model
             }
             return null;
     }
+    public function getDateOfFHCAttribute()
+    {
+            if(!empty($this->attributes['date_of_fhc'])) {
+                $date = new \DateTime($this->attributes['date_of_fhc']);
+                return $date->format('d/m/Y');
+            }
+            return null;
+    }
 
     public function getRawDOB()
     {
@@ -83,6 +93,10 @@ class VicarDetail extends Model
     public function getRawDateOfRelieving()
     {
         return $this->attributes['date_of_relieving'];
+    }
+    public function getRawDateOfFHC()
+    {
+        return $this->attributes['date_of_fhc'];
     }
 
 }

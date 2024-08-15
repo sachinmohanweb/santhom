@@ -12,7 +12,7 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item active">Vicar Details Form</li>
+    <li class="breadcrumb-item active">Church personnel Details Form</li>
 @endsection
 
 @section('content')
@@ -22,7 +22,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h5>Details</h5>
-                        <span>This Vicar details form collects information about Vicars and Ass.Vicars.</span>
+                        <span>This Church personnel details form collects information about Vicars and Ass.Vicars.</span>
                     </div>
 
                      @if($errors->any())
@@ -56,14 +56,39 @@
                                     <input class="form-control" id="validationCustom02" type="text" value="{{ old('family_name') }}"  required="" name='family_name'>
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
+                                <div class="col-md-3">
+                                  <label class="form-label">Gender<span style="color:red">*</span></label>
+                                  <select class="form-control" name="gender" required>
+                                    <option value="">--Select--</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                  </select>  
+                                </div>
 
-                                 <div class="col-md-3">
+                                 <div class="col-md-4">
                                     <label class="form-label" for="validationCustom02">Date of birth
                                     <span style="color:red">*</span></label>
                                     <input class="form-control" id="validationCustom02" type="date" value="{{ old('dob') }}"  required="" name='dob'>
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
-
+                                <div class="col-md-4">
+                                    <label class="form-label" for="validationCustom03">Email
+                                    <span style="color:red">*</span></label>
+                                    <input class="form-control" id="validationCustom03" type="email" 
+                                        required="" name="email" value="{{ old('email') }}">
+                                    <div class="invalid-feedback">Please provide a valid email.</div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label" for="validationCustom03">mobile</label>
+                                    <input class="form-control" id="validationCustom03" type="text" 
+                                     name="mobile" value="{{ old('mobile') }}">
+                                    <div class="invalid-feedback">Please provide a valid mobile.</div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label" for="validationCustom02">Date of first holy communion</label>
+                                    <input class="form-control" id="validationCustom02" type="date" value="{{ old('date_of_fhc') }}"  name='date_of_fhc'>
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
                                 <div class="col-md-4">
                                     <label class="form-label" for="validationCustom02">Designation
                                     <span style="color:red">*</span></label>
@@ -91,26 +116,14 @@
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
 
-                                <div class="col-md-4">
-                                    <label class="form-label" for="validationCustom03">Email
-                                    <span style="color:red">*</span></label>
-                                    <input class="form-control" id="validationCustom03" type="email" 
-                                        required="" name="email" value="{{ old('email') }}">
-                                    <div class="invalid-feedback">Please provide a valid email.</div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label" for="validationCustom03">mobile</label>
-                                    <input class="form-control" id="validationCustom03" type="text" 
-                                     name="mobile" value="{{ old('mobile') }}">
-                                    <div class="invalid-feedback">Please provide a valid mobile.</div>
-                                </div>
-                                 <div class="col-md-3">
+                                
+                                 <div class="col-md-4">
                                     <label class="form-label" for="validationCustom03">Image
                                     <span style="color:#95937f;font-size: 12px;">(400px W X 400px H)</span></label>
                                       <input class="form-control" type="file"  name="image" id="ImageFile">
                                     <div class="invalid-feedback">Please provide a valid Image.</div>
                                 </div>
-                                 <div class="col-md-2">
+                                 <div class="col-md-4">
                                     <!-- <img class="img-fluid for-light" id="ImagePreview" style="max-width: 100% !important;"> -->
                                 </div>
                             </div>

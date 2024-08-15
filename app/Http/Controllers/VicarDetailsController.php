@@ -112,7 +112,7 @@ class VicarDetailsController extends Controller
             $inputData1['name'] = $request->name;
             $inputData1['email'] = $request->email;
             $inputData1['family_id'] = $vicar_family['id'];
-            $inputData1['gender'] = 'Male';
+            $inputData1['gender'] = $request->gender;
             $inputData1['dob'] = $request->dob;
             $inputData1['relationship_id'] = '14';
             $inputData1['user_type'] = '2';

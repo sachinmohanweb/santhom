@@ -81,6 +81,16 @@
                                                         <td class="txt-success">{{$VicarDetail->dob}}</td>
                                                     </tr>
                                                     <tr>
+                                                        <td> <b>Gender</b></td>
+                                                        <td> <b>&nbsp;:&nbsp;</b></td>
+                                                        <td class="txt-success">{{$VicarDetail->gender}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td> <b>Date of first holy communion</b></td>
+                                                        <td> <b>&nbsp;:&nbsp;</b></td>
+                                                        <td class="txt-success">{{$VicarDetail->date_of_fhc}}</td>
+                                                    </tr>
+                                                    <tr>
                                                         <td> <b>Designation  </b></td>
                                                         <td> <b> &nbsp;:&nbsp;</b></td>
                                                         <td class="txt-success">{{$VicarDetail->designation}}</td>
@@ -166,11 +176,39 @@
                                         <input class="form-control" id="validationCustom02" type="text" value="{{$VicarDetail['family_name'] }}"  required="" name='family_name'>
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
-
                                     <div class="col-md-3">
+                                      <label class="form-label">Gender<span style="color:red">*</span></label>
+                                        <select class="form-control" name="gender" required>
+                                        <option value="">--Select--</option>
+                                        <option value="Male" {{ $VicarDetail->gender === 'Male' ? 'selected' :'' }}>Male</option>
+                                        <option value="Female" {{ $VicarDetail->gender === 'Female' ? 'selected' : '' }}>Female</option>
+                                      </select>  
+                                    </div>
+
+                                    <div class="col-md-4">
                                         <label class="form-label" for="validationCustom02">Date of birth
                                         <span style="color:red">*</span></label>
                                         <input class="form-control" id="validationCustom02" type="date" value="{{$VicarDetail->getRawDOB() }}"  required="" name='dob'>
+                                        <div class="valid-feedback">Looks good!</div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="form-label" for="validationCustom03">Email
+                                        <span style="color:red">*</span></label>
+                                        <input class="form-control" id="validationCustom03" type="email" 
+                                        required="" name="email" value="{{$VicarDetail['email'] }}">
+                                        <div class="invalid-feedback">Please provide a valid email.</div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label" for="validationCustom03">mobile</label>
+                                        <input class="form-control" id="validationCustom03" type="text" 
+                                        name="mobile"value="{{$VicarDetail['mobile'] }}">
+                                        <div class="invalid-feedback">Please provide a valid mobile.</div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="form-label" for="validationCustom02">Date of first holy communion</label>
+                                        <input class="form-control" id="validationCustom02" type="date" value="{{$VicarDetail->getRawDateOfFHC() }}"  name='date_of_fhc'>
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-4">
@@ -200,19 +238,6 @@
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <label class="form-label" for="validationCustom03">Email
-                                        <span style="color:red">*</span></label>
-                                        <input class="form-control" id="validationCustom03" type="email" 
-                                        required="" name="email" value="{{$VicarDetail['email'] }}">
-                                        <div class="invalid-feedback">Please provide a valid email.</div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label class="form-label" for="validationCustom03">mobile</label>
-                                        <input class="form-control" id="validationCustom03" type="text" 
-                                        name="mobile"value="{{$VicarDetail['mobile'] }}">
-                                        <div class="invalid-feedback">Please provide a valid mobile.</div>
-                                    </div>
                                     <div class="col-md-5">
                                         <label class="form-label" for="validationCustom03">Image
                                         <span style="color:#95937f;font-size: 12px;">(400px W X 400px H)</span>
