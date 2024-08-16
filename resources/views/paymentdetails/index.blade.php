@@ -53,7 +53,10 @@
                         <div class="row" style="display:flex;">
                             
                         <div class="col-md-12">
-                            <span>Payment Details :  <strong style="color:green">{{$date_value['date']}}</strong></span>
+                            @if($date_value)
+                            <span>Payment Details :  <strong style="color:green">{{$date_value['date']}}</strong>
+                            </span>
+                            @endif
                         </div>
                         </div>
                     </div>

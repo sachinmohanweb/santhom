@@ -257,14 +257,23 @@ class UserController extends Controller
             }
             if($member->dob) {
                 $member->original_dobirth = $member->getRawDOB(); 
+            }else {
+                $member->original_dobirth = null;
             }
             if($member->date_of_marriage) {
                 $member->original_dobmarriage = $member->getRawDateOfBaptism(); 
-
+            }else {
+                $member->original_dobmarriage = null;
             }
             if($member->date_of_baptism) {
                 $member->original_dobaptism = $member->getRawDateOfMarriage(); 
-
+            }else {
+                $member->original_dobaptism = null;
+            }
+            if($member->date_of_death) {
+                $member->original_dodeath = $member->getRawDateOfDeath(); 
+            }else {
+                $member->original_dodeath = null;
             }
         }
 

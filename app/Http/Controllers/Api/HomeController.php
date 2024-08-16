@@ -163,16 +163,15 @@ class HomeController extends Controller
             $per_pg='15';
             $family_id = Auth::user()->family_id;
             $member_id = Auth::user()->id;
-            $date_value = PaymentDetail::first();
 
 
             $payments = PaymentDetail::select('payment_details.id',
-                    'payment_details.amount','payment_details.category_id')
+                    'payment_details.amount','payment_details.category_id','payment_details.family_id',
+                    'payment_details.family_head_id',DB::raw('"null" as date'))
                     ->join('family_members', 'payment_details.family_head_id', '=', 'family_members.id')
                     ->where('family_members.family_id', $family_id)
                     ->where('payment_details.status', 1);
             $payments_sum = $payments->sum('payment_details.amount');
-
             $family = Family::select('id','family_code','family_name')->find($family_id);
 
             $payments=$payments->orderBy('payment_details.id')->paginate($perPage=$per_pg,[],'',$page = $pg_no);
@@ -180,25 +179,30 @@ class HomeController extends Controller
             if(empty($payments)) {
                 $return['result']=  "Empty payments list ";
                 return $this->outputer->code(422)->error($return)->json();
+            }else{
+
+                $date_value = PaymentDetail::first();
+                if($date_value){
+                    $result['date'] = $date_value['date'];
+                }
+                $result['total'] = $payments_sum;
+                $result['payments'] = $payments->getCollection();
+                $result['family'] = $family;
+
+                $metadata = array(
+                    "total" => $payments->total(),
+                    "per_page" => $payments->perPage(),
+                    "current_page" => $payments->currentPage(),
+                    "last_page" => $payments->lastPage(),
+                    "next_page_url" => $payments->nextPageUrl(),
+                    "prev_page_url" => $payments->previousPageUrl(),
+                    "from" => $payments->firstItem(),
+                    "to" => $payments->lastItem()
+                );
+
+                return $this->outputer->code(200)->metadata($metadata)->success($result)->json();
             }
             
-            $result['date'] = $date_value['date'];
-            $result['total'] = $payments_sum;
-            $result['payments'] = $payments->getCollection();
-            $result['family'] = $family;
-
-            $metadata = array(
-                "total" => $payments->total(),
-                "per_page" => $payments->perPage(),
-                "current_page" => $payments->currentPage(),
-                "last_page" => $payments->lastPage(),
-                "next_page_url" => $payments->nextPageUrl(),
-                "prev_page_url" => $payments->previousPageUrl(),
-                "from" => $payments->firstItem(),
-                "to" => $payments->lastItem()
-            );
-
-            return $this->outputer->code(200)->metadata($metadata)->success($result)->json();
 
         }catch (\Exception $e) {
 
