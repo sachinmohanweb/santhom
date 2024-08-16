@@ -2366,10 +2366,13 @@ class HomeController extends Controller
                 ->where('status', 1);
 
             $churchActivitiesData = $church_activities;
-            $churchActivitiesGetData = $church_activities->get();
+            $churchActivitiesGetData = $church_activities
+                                        ->orderByRaw('TIME(time)')
+                                        ->get();
 
             $daily_schedules = $bibleCitationData->union($memoryData)
                                 ->union($churchActivitiesData)
+                                ->orderByRaw('STR_TO_DATE(time, "%h:%i %p")')
                                 ->get();
 
             $allDetails2 = $churchActivitiesGetData->map(function ($item) {
