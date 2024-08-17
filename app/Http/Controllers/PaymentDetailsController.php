@@ -77,7 +77,7 @@ class PaymentDetailsController extends Controller
             ->addColumn('category', function ($payments) {
                 return $payments->category_name;
             })
-            ->addColumn('action', 'vicar_details.vicar-datatable-action')
+            ->addColumn('action', 'paymentdetails.paymentdetails-datatable-action')
             ->rawColumns(['family','head_of_family','category','action'])
             ->addIndexColumn()
             ->make(true);
@@ -205,5 +205,76 @@ class PaymentDetailsController extends Controller
         Excel::import($contributions_import, $fileData);
         $output = $contributions_import->getImportResult();
         return response()->json([$output]);
+    }
+
+    public function payment_categories_list() : View
+    {
+        return view('paymentdetails.categories_index');
+    }
+
+    public function payment_categories_Datatable()
+    {
+        if(request()->ajax()) {
+
+            $query = PaymentCategory::select('id','name');
+
+            return datatables()
+            ->of($query)
+            ->addColumn('DT_RowIndex', function () {
+                return '';
+            })
+            ->addColumn('category', function ($category) {
+                return $category->name;
+            })
+            
+            ->addColumn('action', 'paymentdetails.paymentcategories-datatable-action')
+            ->rawColumns(['category','action'])
+            ->addIndexColumn()
+            ->make(true);
+        }
+        return view('categories_index');
+    }
+
+    public function payment_categories_store(Request $request): RedirectResponse
+    {
+
+        DB::beginTransaction();
+        try {
+
+            $a =  $request->validate([
+                'name' => 'required',
+            ]);
+
+            $inputData['name'] = ucwords(strtolower($request['name']));
+
+            PaymentCategory::create($inputData);
+            DB::commit();
+             
+            return redirect()->route('admin.paymentcategories.list')
+                            ->with('success','Payment category added successfully');
+        }catch (Exception $e) {
+
+            DB::rollBack();
+            $message = $e->getMessage();
+            return back()->withInput()->withErrors(['message' =>  $e->getMessage()]);;
+        }
+    }
+
+    public function payment_categories_delete(Request $request) : JsonResponse
+    {
+        DB::beginTransaction();
+        try{
+            $paymentcategory = PaymentCategory::where('id',$request->id)->delete();
+            DB::commit();
+            Session::flash('success', 'Payment category deleted.');
+            $return['status'] = "success";
+
+         }catch (Exception $e) {
+
+            DB::rollBack();
+            $return['status'] = $e->getMessage();
+            Session::flash('error', 'Payment category deletion not success.');
+        }
+        return response()->json($return);
     }
 }

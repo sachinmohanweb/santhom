@@ -297,8 +297,19 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.paymentdetails.update');
     Route::post('/deletepaymentdetails', [PaymentDetailsController::class, 'payment_details_delete'])
             ->name('admin.paymentdetails.delete');
+
     Route::post('/get_payment_categorylist', [PaymentDetailsController::class, 'payment_category_list'])
             ->name('payment.category.list');
+    Route::get('/paymentcategorieslist', [PaymentDetailsController::class, 'payment_categories_list'])
+            ->name('admin.paymentcategories.list');
+    Route::get('/paymentcategoriesDatatable',[PaymentDetailsController::class,'payment_categories_Datatable'])
+            ->name('admin.paymentcategories.datatable');
+    Route::get('/createpaymentcategories', [PaymentDetailsController::class, 'payment_categories_create'])
+            ->name('admin.paymentcategories.create');
+    Route::post('/storepaymentcategories', [PaymentDetailsController::class, 'payment_categories_store'])
+            ->name('admin.paymentcategories.store');
+    Route::post('/deletepaymentcategories', [PaymentDetailsController::class, 'payment_categories_delete'])
+            ->name('admin.paymentcategories.delete');
 
     Route::get('/importcontributions', [PaymentDetailsController::class, 'admin_contributions_import'])
             ->name('admin.contributions.import');

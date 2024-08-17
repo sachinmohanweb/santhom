@@ -197,6 +197,8 @@
                                     <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
                                 </svg><span>Contributions</span></a>
                             <ul class="sidebar-submenu">
+                                <li><a href="{{ route('admin.paymentcategories.list') }}">Payment Categories
+                                </a></li>
                                 <li><a href="{{ route('admin.paymentdetails.list') }}">Contributions list</a></li>
                                 <li><a href="{{ route('admin.contributions.import') }}">Import contributions</a></li>
                             </ul>
