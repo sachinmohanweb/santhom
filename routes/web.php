@@ -371,6 +371,9 @@ Route::middleware('auth:admin')->group(function(){
   
     Route::post('/deleteImage', [HomeController::class, 'admin_delete_image'])
             ->name('admin.delete.image');
+
+    Route::get('/database_backoup', [HomeController::class, 'admin_databse_backup'])
+            ->name('admin.database.backup');
 });
 
 

@@ -212,6 +212,21 @@
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                             </svg><span>Notifications</span></a>
                         </li>
+                        
+                        <li class="sidebar-list"><a     class="sidebar-link sidebar-title link-nav" 
+                            href="{{route('admin.database.backup')}}">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#notification') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
+                            </svg><span>Export Databse</span></a>
+                        </li>
+
+                        <li class="sidebar-list">
+                            <a class="sidebar-link sidebar-title link-nav" href="#">
+                            </a>
+                        </li>
                         <li class="sidebar-list">
                             <a class="sidebar-link sidebar-title link-nav" href="#">
                             </a>

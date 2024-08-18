@@ -128,5 +128,24 @@ class HomeController extends Controller
         }
         return response()->json($return);
     }
+
+    public function admin_databse_backup()
+    {
+        $filename = 'santhom_connect_db_' . date('d_m_Y') . '.sql';
+
+        $path = storage_path('app/' . $filename);
+
+        $command = sprintf('mysqldump --user=%s --password=%s --host=%s %s > %s',
+            env('DB_USERNAME'),
+            env('DB_PASSWORD'),
+            env('DB_HOST'),
+            env('DB_DATABASE'),
+            $path
+        );
+
+        exec($command);
+
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
     
 }
