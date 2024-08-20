@@ -445,7 +445,7 @@ class UserController extends Controller
     public function family(Request $request){
 
         $family = Family::where('id',$request['id'])->first();
-        $members = FamilyMember::select('id','name','relationship_id','family_id')
+        $members = FamilyMember::select('id','name','relationship_id','family_id','remark')
                         ->where('family_id',$request['id'])->where('status',1)->get();
 
         foreach ($members as $member) {
@@ -453,6 +453,17 @@ class UserController extends Controller
                 $member->image = asset('/') . $member->image;
             } else {
                 $member->image = null;
+            }
+
+            if ($member->remark == 1) {
+            //dd($member->MarriedTo()->Family->family_name);
+                $member->married_to = $member->MarriedTo()->name;
+                $member->married_family = $member->MarriedTo()->Family->family_name;
+                $member->married_family_id = $member->MarriedTo()->family_id;
+            } else {
+                $member->married_to = null;
+                $member->married_family = null;
+                $member->married_family_id = null;
             }
         }
 
