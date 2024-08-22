@@ -489,6 +489,15 @@ class UserController extends Controller
             } else {
                 $member->family_location = null;
             }
+            if ($member->remark == 1) {
+                $member->married_to = $member->MarriedTo()->name;
+                $member->married_family = $member->MarriedTo()->Family->family_name;
+                $member->married_family_id = $member->MarriedTo()->family_id;
+            } else {
+                $member->married_to = null;
+                $member->married_family = null;
+                $member->married_family_id = null;
+            }
         }
 
         $return['member']  =  $member;

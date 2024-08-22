@@ -304,7 +304,7 @@ class SettingsController extends Controller
                 select('prayer_meetings.*','prayer_groups.group_name as prayer_group_name','families.family_name','families.map_location','families.id as family_id',
                     DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as formatted_date'),DB::raw('DATE_FORMAT(date, "%W") as day_of_week'),
                     DB::raw('DATE_FORMAT(time, "%r") as formatted_time'),
-                    DB::raw('CONCAT(DATE_FORMAT(date, "%d/%m/%Y"), " (", DATE_FORMAT(date, "%W"), ") at ", DATE_FORMAT(time, "%r")) as date'))
+                    DB::raw('CONCAT(DATE_FORMAT(date, "%d/%m/%Y"), " (", DATE_FORMAT(date, "%W"), ") at ", DATE_FORMAT(time, "%h:%i %p")) as date'))
                 ->leftJoin('prayer_groups', 'prayer_meetings.prayer_group_id', '=', 'prayer_groups.id')
                 ->leftJoin('families', 'prayer_meetings.family_id', '=', 'families.id')
                 ->where('prayer_meetings.date', '>', now()->subDay()->format('Y-m-d'))
