@@ -151,7 +151,7 @@
 
               </div>
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <label class="form-label">Gender<span style="color:red">*</span></label>
                   <select class="form-control" name="gender" required>
                     <option value="">--Select--</option>
@@ -160,13 +160,17 @@
                   </select>  
                 </div>
 
-                <div class=" col-md-4 mb-3">
+                <div class=" col-md-3 mb-3">
                   <label class="form-label">Date of birth <span style="color:red">*</span></label>
                   <input class="form-control digits" type="date"  data-bs-original-title="" title="" name="dob"  value="{{$familymember->getRawDOB()}}" required>
                 </div>
-                <div class=" col-md-4 mb-3">
+                <div class=" col-md-3 mb-3">
                   <label class="form-label">Date of baptism</label>
                   <input class="form-control digits" type="date"  data-bs-original-title="" title="" name="date_of_baptism" value="{{$familymember->getRawDateOfBaptism()}}" >
+                </div>
+                <div class=" col-md-3 mb-3">
+                  <label class="form-label">Date of first holy communion</label>
+                  <input class="form-control digits" type="date"  data-bs-original-title="" title="" name="date_of_fhc" value="{{$familymember->getDateOfFirstHolyCommunion()}}" >
                 </div>
               </div>
               <div class="row">

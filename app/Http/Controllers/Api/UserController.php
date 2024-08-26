@@ -270,6 +270,11 @@ class UserController extends Controller
             }else {
                 $member->original_dobaptism = null;
             }
+            if($member->date_of_fhc) {
+                $member->original_dofhc = $member->getRawDateOfFirstHolyCommunion(); 
+            }else {
+                $member->original_dofhc = null;
+            }
             if($member->date_of_death) {
                 $member->original_dodeath = $member->getRawDateOfDeath(); 
             }else {
@@ -322,6 +327,7 @@ class UserController extends Controller
             $inputData['title'] = $request['title'];
             $inputData['nickname'] = $request['nickname'];
             $inputData['date_of_baptism'] = $request['date_of_baptism'];
+            $inputData['date_of_fhc'] = $request['date_of_fhc'];
             $inputData['blood_group_id'] = $request['blood_group_id'];
             $inputData['marital_status_id'] = $request['marital_status_id'];
             $inputData['date_of_marriage'] = $request['date_of_marriage'];
@@ -411,6 +417,7 @@ class UserController extends Controller
             $inputData['title'] = $request['title'];
             $inputData['nickname'] = $request['nickname'];
             $inputData['date_of_baptism'] = $request['date_of_baptism'];
+            $inputData['date_of_fhc'] = $request['date_of_fhc'];
             //$inputData['date_of_baptism'] = \DateTime::createFromFormat('d/m/Y', $request['date_of_baptism'])->format('Y-m-d');
             $inputData['blood_group_id'] = $request['blood_group_id'];
             $inputData['marital_status_id'] = $request['marital_status_id'];

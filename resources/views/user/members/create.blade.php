@@ -136,7 +136,7 @@
 
               </div>
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <label class="form-label">Gender<span style="color:red">*</span></label>
                   <select class="form-control" name="gender" required>
                     <option value="">--Select--</option>
@@ -145,13 +145,17 @@
                   </select>  
                 </div>
 
-                <div class=" col-md-4 mb-3">
+                <div class=" col-md-3 mb-3">
                   <label class="form-label">Date of birth <span style="color:red">*</span></label>
                   <input class="form-control digits" type="date" value="" data-bs-original-title="" title="" name="dob" required>
                 </div>
-                <div class=" col-md-4 mb-3">
+                <div class=" col-md-3 mb-3">
                   <label class="form-label">Date of baptism</label>
                   <input class="form-control digits" type="date" value="" data-bs-original-title="" title="" name="date_of_baptism">
+                </div>
+                <div class=" col-md-3 mb-3">
+                  <label class="form-label">Date of First Holy Communion</label>
+                  <input class="form-control digits" type="date" value="" data-bs-original-title="" title="" name="date_of_fhc">
                 </div>
               </div>
               <div class="row">

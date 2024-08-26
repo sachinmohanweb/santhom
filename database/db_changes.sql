@@ -578,3 +578,7 @@ ALTER TABLE `vicar_details` ADD `date_of_fhc` DATE NULL DEFAULT NULL AFTER `dob`
 
 INSERT INTO `payment_categories` (`id`, `name`, `status`, `created_at`, `updated_at`) 
 VALUES (NULL, 'Others', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 23/08/24----
+
+ALTER TABLE `family_members` ADD `date_of_fhc` DATE NULL DEFAULT NULL AFTER `date_of_baptism`;

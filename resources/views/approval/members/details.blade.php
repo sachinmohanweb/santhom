@@ -148,6 +148,12 @@
                 </div>
                 <div class="col-sm-6 col-md-3">
                   <div class="mb-3">
+                    <label class="form-label">Date of First Holy Communion</label>
+                    <p class="p_l_5"><b>{{ $familymember->date_of_fhc ? $familymember->date_of_fhc : 'N/A'}} </b> </p>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <div class="mb-3">
                     <label class="form-label">Blood Group</label>
                     <p class="p_l_5"><b>{{ $familymember->bloodgroup ? $familymember->bloodgroup->blood_group_name : 'N/A'}} </b> </p>
                   </div>

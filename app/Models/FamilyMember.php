@@ -27,6 +27,7 @@ class FamilyMember extends Authenticatable
         'gender',
         'dob',
         'date_of_baptism',
+        'date_of_fhc',
         'blood_group_id',
         'marital_status_id',
         'remark',
@@ -209,5 +210,17 @@ class FamilyMember extends Authenticatable
     public function getRawDateOfDeath()
     {
         return $this->attributes['date_of_death'];
+    }
+    public function getDateOfFirstHolyCommunionAttribute()
+    {
+            if(!empty($this->attributes['date_of_fhc'])) {
+                $date = new \DateTime($this->attributes['date_of_fhc']);
+                return $date->format('d/m/Y');
+            }
+            return null;
+    }
+    public function getRawDateOfFirstHolyCommunion()
+    {
+        return $this->attributes['date_of_fhc'];
     }
 }
