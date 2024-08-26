@@ -211,7 +211,7 @@ class FamilyMember extends Authenticatable
     {
         return $this->attributes['date_of_death'];
     }
-    public function getDateOfFirstHolyCommunionAttribute()
+    public function getDateOfFhcAttribute()
     {
             if(!empty($this->attributes['date_of_fhc'])) {
                 $date = new \DateTime($this->attributes['date_of_fhc']);
