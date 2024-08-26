@@ -170,7 +170,7 @@
                 </div>
                 <div class=" col-md-3 mb-3">
                   <label class="form-label">Date of first holy communion</label>
-                  <input class="form-control digits" type="date"  data-bs-original-title="" title="" name="date_of_fhc" value="{{$familymember->getDateOfFirstHolyCommunion()}}" >
+                  <input class="form-control digits" type="date"  data-bs-original-title="" title="" name="date_of_fhc" value="{{$familymember->getRawDateOfFirstHolyCommunion()}}" >
                 </div>
               </div>
               <div class="row">

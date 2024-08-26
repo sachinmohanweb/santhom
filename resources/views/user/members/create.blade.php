@@ -154,7 +154,7 @@
                   <input class="form-control digits" type="date" value="" data-bs-original-title="" title="" name="date_of_baptism">
                 </div>
                 <div class=" col-md-3 mb-3">
-                  <label class="form-label">Date of First Holy Communion</label>
+                  <label class="form-label">Date of first holy communion</label>
                   <input class="form-control digits" type="date" value="" data-bs-original-title="" title="" name="date_of_fhc">
                 </div>
               </div>
