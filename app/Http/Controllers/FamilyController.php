@@ -507,7 +507,7 @@ class FamilyController extends Controller
                 Session::flash('error','Cannot delete member because it is associated with a family member.');
                 return response()->json($return);
             }
-            $payment =PaymentDetail::where('member_id',$request->id)->first();
+            $payment =PaymentDetail::where('family_head_id',$request->id)->first();
             if($payment){
                 $return['status'] = 'failed';
                 Session::flash('error','Cannot delete this member because member have payment details associated.');
