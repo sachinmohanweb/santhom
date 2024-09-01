@@ -247,7 +247,8 @@ class UserController extends Controller
     public function myfamily(){
 
         $family = Family::where('id',Auth::user()->family_id)->first();
-        $members = FamilyMember::where('family_id',Auth::user()->family_id)->orderBy('status')->get();
+        $members = FamilyMember::where('family_id',Auth::user()->family_id)
+                                ->whereNull('date_of_death')->orderBy('status')->get();
 
         foreach ($members as $member) {
             if ($member->image !== null) {
@@ -453,7 +454,8 @@ class UserController extends Controller
 
         $family = Family::where('id',$request['id'])->first();
         $members = FamilyMember::select('id','name','relationship_id','family_id','remark')
-                        ->where('family_id',$request['id'])->where('status',1)->get();
+                        ->where('family_id',$request['id'])->where('status',1)
+                        ->whereNull('date_of_death')->get();
 
         foreach ($members as $member) {
             if ($member->image !== null) {

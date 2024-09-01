@@ -1194,39 +1194,68 @@ class HomeController extends Controller
 
             /*---------Death Anniversary Details----------*/
 
-                $obituary = Obituary::select('id',DB::raw('CONCAT("Death anniversary of ", name_of_member) as heading'))
-                   ->selectSub(function ($query) {
-                        $query->select('families.family_name')
-                            ->from('family_members')
-                            ->join('families', 'family_members.family_id', '=', 'families.id')
-                            ->whereColumn('family_members.id', 'obituaries.member_id')
-                            ->limit(1);
-                    }, 'sub_heading')
-                    ->addSelect(DB::raw('DATE_FORMAT(date_of_death, "%d/%m/%Y") as date'),'photo as image',
-                        DB::raw('"Death Anniversary" as hash_value'),DB::raw('"null" as details'))
+                // $obituary = Obituary::select('id',DB::raw('CONCAT("Death anniversary of ", name_of_member) as heading'))
+                //    ->selectSub(function ($query) {
+                //         $query->select('families.family_name')
+                //             ->from('family_members')
+                //             ->join('families', 'family_members.family_id', '=', 'families.id')
+                //             ->whereColumn('family_members.id', 'obituaries.member_id')
+                //             ->limit(1);
+                //     }, 'sub_heading')
+                //     ->addSelect(DB::raw('DATE_FORMAT(date_of_death, "%d/%m/%Y") as date'),'photo as image',
+                //         DB::raw('"Death Anniversary" as hash_value'),DB::raw('"null" as details'))
 
-                    ->whereRaw("DATE_FORMAT(date_of_death, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
-                    ->whereRaw("DATE_FORMAT(date_of_death, '%Y') != DATE_FORMAT('$date', '%Y')")
-                    ->where('status',1)
-                    ->orderByRaw("DAY(date_of_death) ASC")
-                    ->orderBy('date_of_death', 'asc');
+                //     ->whereRaw("DATE_FORMAT(date_of_death, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
+                //     ->whereRaw("DATE_FORMAT(date_of_death, '%Y') != DATE_FORMAT('$date', '%Y')")
+                //     ->where('status',1)
+                //     ->orderByRaw("DAY(date_of_death) ASC")
+                //     ->orderBy('date_of_death', 'asc');
 
-                $obituary=$obituary->orderBy('id', 'desc')->get();
+                // $obituary=$obituary->orderBy('id', 'desc')->get();
 
 
-                $obituary->transform(function ($item, $key) {
+                // $obituary->transform(function ($item, $key) {
+
+                //     if ($item->image !== null) {
+                //         $item->image = [asset('/') . $item->image];
+                //     } else {
+                //         $item->image = [];
+                //     }
+                //     return $item;
+                // });
+
+             /*---------Death Anniversary Details----------*/
+
+                $death_anniversary = FamilyMember::select('id',DB::raw('CONCAT("Death anniversary of ", name) as heading'))
+                        ->addSelect(DB::raw('(SELECT family_name FROM families WHERE families.id = family_members.family_id) AS sub_heading'))
+                        ->addSelect(DB::raw('DATE_FORMAT(date_of_death, "%d/%m/%Y") as date'),'image as image','family_id',DB::raw('"Death Anniversary" as hash_value'),'relationship_id')
+                                ->whereRaw("DATE_FORMAT(date_of_death, '%m-%d') = DATE_FORMAT('$date', '%m-%d')")
+                                ->whereRaw("DATE_FORMAT(date_of_death, '%Y') != DATE_FORMAT('$date', '%Y')")
+                                ->where('status', 1)
+                                ->whereHas('family', function ($query) {
+                                    $query->where('status', 1);
+                                })
+                                ->orderBy('name', 'asc');
+
+                $death_anniversary=$death_anniversary->orderBy('id', 'desc')->get();
+                $death_anniversary->makeHidden(['family_name', 'family_head_name','prayer_group_name','marital_status_name',
+                            'relationship_name','obituary_id','blood_group_name']);
+                
+
+                $death_anniversary->transform(function ($item, $key) {
 
                     if ($item->image !== null) {
                         $item->image = [asset('/') . $item->image];
                     } else {
-                        $item->image = [];
+                        $item->image = [null];
                     }
+                    $item->details = $item->relationship_name.' of '.$item->family_head_name;
                     return $item;
                 });
 
 
 
-            $total = $birthdays->count() + $finalWeddings->count() + $daily_readings->count() + $obituary->count();
+            $total = $birthdays->count() + $finalWeddings->count() + $daily_readings->count() + $death_anniversary->count();
 
             $mergedData = [
                 'number_of_events' => $total,
@@ -1245,7 +1274,7 @@ class HomeController extends Controller
                     ],
                     [
                         'type' => 'Death Anniversary',
-                        'list' => $obituary
+                        'list' => $death_anniversary
                     ],
                 ]
             ];
