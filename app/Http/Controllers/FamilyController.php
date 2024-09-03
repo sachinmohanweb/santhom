@@ -19,11 +19,13 @@ use App\Models\Family;
 use App\Models\Obituary;
 use App\Models\BloodGroup;
 use App\Models\PrayerGroup;
+use App\Models\VicarDetail;
 use App\Models\FamilyMember;
 use App\Models\Relationship;
+use App\Models\Organization;
 use App\Models\MaritalStatus;
-use App\Models\VicarDetail;
 use App\Models\PaymentDetail;
+use App\Models\OrganizationOfficer;
 
 use App\Imports\FamilyMemberImport;
 
@@ -513,13 +515,30 @@ class FamilyController extends Controller
                 Session::flash('error','Cannot delete this member because member have payment details associated.');
                 return response()->json($return);
             }
+            $org =Organization::where('coordinator_id',$request->id)->first();
+            if($org){
+                $return['status'] = 'failed';
+                Session::flash('error','Cannot delete member because it is associated with an organization.');
+                return response()->json($return);
+            }
+            $org_officer =OrganizationOfficer::where('member_id',$request->id)->first();
+            if($org_officer){
+                $return['status'] = 'failed';
+                Session::flash('error','Cannot delete member because it is associated with an organization.');
+                return response()->json($return);
+            }
+            $prayer_group =PrayerGroup::orWhere('leader_id',$request->id)->orWhere('coordinator_id',$request->id)->first();
+            if($prayer_group){
+                $return['status'] = 'failed';
+                Session::flash('error','Cannot delete member because it is associated with an prayer group.');
+                return response()->json($return);
+            }
             $family = FamilyMember::where('id',$request->id)->delete();
             DB::commit();
             Session::flash('success', 'Family member successfully deleted.');
             $return['status'] = "success";
 
          }catch (Exception $e) {
-
             DB::rollBack();
             $return['status'] = $e->getMessage();
             Session::flash('error', 'Family member deletion not success.');
