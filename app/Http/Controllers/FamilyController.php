@@ -460,8 +460,8 @@ class FamilyController extends Controller
 
                     $inputData1['member_id'] = $familymember->id;
                     $inputData1['name_of_member'] = $familymember->name;
-                    $inputData1['date_of_death'] = $familymember->date_of_death;
-                    $inputData1['display_till_date'] = $familymember->date_of_death;
+                    $inputData1['date_of_death'] = $familymember->getRawDateOfDeath();
+                    $inputData1['display_till_date'] = $familymember->getRawDateOfDeath();
 
                     if($request['image']){
 

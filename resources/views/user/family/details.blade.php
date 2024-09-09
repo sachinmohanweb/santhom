@@ -172,16 +172,16 @@ use App\Models\Obituary;
                                     $member_obituary = Obituary::where('member_id',$value->id)->first();
 
                                   ?>
-                                  @if($member_obituary)
+                                      @if($member_obituary)
 
-                                      <a href="{{ route('admin.obituary.show_details', ['id' => $member_obituary->id]) }}"><h6>{{$value->name}}</h6></a>
-                                  @else
-                                      <h6>{{$value->name}}</h6>
-                                  @endif
-                                   -  <span style="color:green"> Died on - {{$value->date_of_death}}</span>
+                                          <a href="{{ route('admin.obituary.show_details', ['id' => $member_obituary->id]) }}"><h6>{{$value->name}}</h6></a>
+                                      @else
+                                         <a href="{{ route('admin.family.member.show_details', ['id' => $value->id]) }}"> <h6>{{$value->name}}</h6></a>
+                                      @endif
+                                       -  <span style="color:green"> Died on - {{$value->date_of_death}}</span>
 
                                   @else
-                                      <a href="{{ route('admin.family.member.show_details', ['id' => $value->id]) }}"><h6>{{$value->name}}</h6></a>
+                                        <a href="{{ route('admin.family.member.show_details', ['id' => $value->id]) }}"><h6>{{$value->name}}</h6></a>
                                   @endif
                               </td>
                               <td>

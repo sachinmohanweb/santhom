@@ -33,7 +33,7 @@ class Family extends Model
 
     public function Members(){
 
-        return $this->hasMany(FamilyMember::class)->orderBy('status');
+        return $this->hasMany(FamilyMember::class)->orderBy('relationship_id');
     }
 
     public function headOfFamily(): HasOne
@@ -50,7 +50,7 @@ class Family extends Model
 
     public function getFamilyMembersAttribute()
     {
-        return $this->hasMany(FamilyMember::class)->orderBy('status');
+        return $this->hasMany(FamilyMember::class)->orderBy('relationship_id');
     }
 
     public function getFamilyHeadNameAttribute()
