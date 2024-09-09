@@ -133,6 +133,16 @@ class FamilyMemberImport implements ToCollection,WithHeadingRow,WithValidation,W
                     $member_details['date_of_baptism']    =null;
                 }
 
+                if(isset($row['date_of_fhc'])){
+                    if(preg_match('/[^\d\/-]/', $row['date_of_fhc'])) {
+                        throw new \Exception("Invalid date format-");
+                    }
+                    $unixTimestampDOFHC = ($row['date_of_fhc'] - 25569) * 86400;
+                    $member_details['date_of_fhc']    = date('Y-m-d', $unixTimestampDOFHC);
+                }else{
+                    $member_details['date_of_fhc']    =null;
+                }
+
                 if(isset($row['blood_group'])){
                     $row['blood_group'] = trim($row['blood_group']);
                     $blood_group=BloodGroup::where('blood_group_name',$row['blood_group'])->first();
