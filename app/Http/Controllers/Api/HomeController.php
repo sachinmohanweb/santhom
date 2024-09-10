@@ -2701,13 +2701,13 @@ class HomeController extends Controller
 
                 [ 'category' => 'Daily Schedules', 'list' => $daily_schedules ],
 
-                [ 'category' => 'Vicar Messages', 'list' => $Vic_messages ],
+                [ 'category' => "Vicar’s message", 'list' => $Vic_messages ],
 
                 [ 'category' => 'Obituary', 'list' => $obituary ],
 
                 [ 'category' => 'Events', 'list' => $events ],
 
-                [ 'category' => 'News & Announcement', 'list' => $newsAnnouncements ],
+                [ 'category' => 'News & Announcements', 'list' => $newsAnnouncements ],
 
                 [ 'category' => 'Notifications', 'list' => $notifications ],
 
