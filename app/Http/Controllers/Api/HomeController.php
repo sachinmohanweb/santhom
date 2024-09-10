@@ -2699,7 +2699,7 @@ class HomeController extends Controller
 
             $mergedData = [
 
-                [ 'category' => 'Daily Schedules', 'list' => $daily_schedules ],
+                [ 'category' => 'Daily Schedule', 'list' => $daily_schedules ],
 
                 [ 'category' => "Vicar’s message", 'list' => $Vic_messages ],
 
