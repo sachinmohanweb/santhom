@@ -12,6 +12,8 @@ use Session;
 
 use App\Models\VicarMessage;
 
+use App\Http\Controllers\AppNotificationController; 
+
 class VicarMessageController extends Controller
 {
 
@@ -45,6 +47,14 @@ class VicarMessageController extends Controller
             VicarMessage::create($inputData);
             DB::commit();
              
+            $app_notification_data = [];
+            $app_notification_data['heading']   =   $request['subject'];
+            $app_notification_data['body']      =   $request['message_body'];
+            $app_notification_data['route']     =   'vicar_messages';
+
+            $notificationController = new AppNotificationController();
+            $a= $notificationController->sendWebNotification($app_notification_data);
+
             return redirect()->route('admin.vicarmessages.list')
                             ->with('success','Vicar Message added successfully.');
         }catch (Exception $e) {

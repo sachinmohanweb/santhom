@@ -17,8 +17,6 @@ use Datatables;
 
 use App\Models\NewsAnnouncement;
 
-use App\Http\Controllers\AppNotificationController; 
-
 class NewsAnnouncementController extends Controller
 {
 
@@ -105,13 +103,6 @@ class NewsAnnouncementController extends Controller
             NewsAnnouncement::create($inputData);
             DB::commit();
 
-            $app_notification_data = [];
-            $app_notification_data['heading']   =   $request['heading'];
-            $app_notification_data['body']      =   $request['heading'];
-
-            $notificationController = new AppNotificationController();
-            //$a= $notificationController->sendWebNotification($app_notification_data); 
-             
             return redirect()->route('admin.news_announcement.list')
                             ->with('success','NEw/announcement added successfully.');
         }catch (Exception $e) {

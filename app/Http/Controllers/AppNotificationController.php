@@ -18,9 +18,6 @@ class AppNotificationController extends Controller
 
         $FcmToken = FamilyMember::whereNotNull('device_id')->pluck('device_id')->all();
    
-        dd($url,$FcmToken,$app_notification_data);      
-        
-
         $serverKey = '';
  
         $data = [
@@ -28,6 +25,7 @@ class AppNotificationController extends Controller
             "notification" => [
                 "title" => $app_notification_data['heading'],
                 "body"  => $app_notification_data['body'],  
+                "click_action" => $app_notification_data['route']
             ]
         ];
         $encodedData = json_encode($data);
