@@ -866,4 +866,48 @@ class FamilyController extends Controller
 
         return response()->json(['results' => $family]);
     }
+
+    
+    public function StoreWwebDeviceId(Request $request) {
+        DB::beginTransaction();
+        try {
+            $User = Auth::user();
+
+            $user_devices=DeviceDetail::where('user_id',$User->id)
+                        ->where('device_token',$request->device_token)->first();
+            if(empty($user_devices)){
+                $device_data=[
+                        'user_id'        => $User->id,
+                        'device_token'      => $request->device_token,
+                        // 'os'             => $request->os,
+                        // 'model'          => $request->model,
+                        // 'app_version'    => $request->app_version,
+                        'device_id'      =>"hjbhbhj",
+                        'os'             => "Web",
+                        'model'          => "0001",
+                        'app_version'    => "2023",
+                ];
+                $new=new DeviceDetail;
+                $validator = Validator::make($device_data,$new->rules);
+                if($validator->fails())  { 
+                    foreach ($validator->errors()->getMessages() as $key => $value) {
+                        throw new Exception($value[0]);
+                    }
+                }
+                $DeviceDetails=DeviceDetail::create($device_data);
+            }else{
+                $user_devices=$user_devices->toArray();
+                DeviceDetail::where('id', $user_devices['id'])
+                            ->update(array('status' => 'Active'));
+            }
+
+            DB::commit();
+            $return['result'] ="success";
+
+        }catch (Exception $e) {
+            DB::rollback();
+           $return['result']=$e->getMessage();
+        }
+        return response()->json($return);
+    }
 }

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "santhom-notification",
+  "private_key_id": "19b490bedacfb3e6126c926a56399fe915a18d1f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC3dHfJlo3WtIM8\nHkVgr5NwxJS0VW0uXKSMUkSrA3fd3ymeL2C27en/i4drFersGGZIj+QMtgxr2i4T\nTt38dYZq3b3ong5i/MqzcwwoPVZ0Sq6Mj6LZDxM+53I1ZprH88zjgO+Gqafo9pNT\n0uYASIe7n8aK6fRFpbbXzSG2e4OlG7POYJ4FCAdUEF7DLeww6PcrWCq4ePyD/kPO\nY7ZQZPzWjEraPZgxG/Yu6D11bxEbTyGC0Z3aT64YUdBXR6D/gdFWjv0Nd06/fIYn\na00CthTpjDOmOeqtjITddc0xO/gyDdwCeW1FDqV5GMv9Z5leIhq2NWFHXDWjzuNo\n90fLQ5xlAgMBAAECggEABbwAytsuvTW89pIIRtPMTabE8pBBVfYx/ZzgFzqH/Gx0\nWKc8d/3P+apiUj9H/IOUlHDWrkThlDUoiYq8twDzSkmOa+GzDeK++vr+BqzmAGEJ\n2RsXDfVpXeb/icHH1ZANH0Inpt1lDAH+pz4JY4hqtR3VgDt8qZaCPmOLLE6IOIUE\nJbS3MRQKKbQdsARuF0gGXYWhkk3LzrBJEEXD2XxAj7IWkuzdS6roLsUHpge+O3m2\nh/HWpOCU/2Q0JUyNXQJAmXssynvEnO9z1FcVXWK39tvjkfQmymrx+7ggWbsSn5Sz\n579HSpKl7CXyFPZyB72IGPVBuBjY3IHkctJKGR9PhQKBgQDa4nIvOKUWrqtRwuhW\nelH2iV6q/gZ/d/CjLhV6wsRydqCEBQNyJGmpJ8OSYBXBltR2Phx+/A4hdfkhqqRg\nWlsyyQaCATkSbOOo3IS4v+wGBdKmpwRw9AqfvDtPB1opYndCLp6h8jpQcgIwuUYE\nl5+rONJaCtqz0Y0tchjoIsUuEwKBgQDWkA8ofKNdNRJ00BjBkwbryn5FB9yXRJ93\nWxN0N/RIKvgYdDoI1kC3AIM8QkTUzSFf1zMhFfkGv+Zno8sNsbSI6zWy/UEMvNSK\npd5R81GpVZ33Ru+1XlpTk0zYPBV///ojklbc0XyDtE8rLCYDeR0Mu7/NyL6QRfCS\n/XUVoEz6pwKBgQCJudSpO9Y8+HkaAC8bQupR20vzAdXq3PhQZQ3k6aqcb2I+z7zE\nVH8bjca0Urs9zX8wS5K4oDbv/QBem7XEXvZldTIgGU7k9hklxmPIsBJ+E6nhbNQR\nkq0gp1sWNgUYZzmtLhJoyjbBKYuRRvL0rscsAJvzRkMoxGE1yEY9wqsZewKBgGCK\nkUd2TUszBgrpVzpCHWsawZXt46NsjRP3NtmkE5YlP1xBb5tqS9QLtwD2EGJvqgSl\nn6vTZylSTyly2Xpf6wtwSckvioVgsYFxAId/I889ZsZMdK72tU3FiV4CKupdEv/O\naKcS2yOnjbevNat6Y0fHcpX1LUldLtH0mSoR5pEhAoGAagFC1fvHPC9+9KrBJM5O\ndlN67ZN0FT794+XSIngfgJzLcrfC2zM355L/jm6LP8804wZq05QIYsWcEdi6xz0F\n01oBIgEIA4RxMJqxhZc/UED/q7baYN1/CR67DBnDVi9tThiwhOvylIylJRhzeS4T\nOVYu6SYKGWwKpDlQrUJYkc4=\n-----END PRIVATE KEY-----\n",
+  "client_email": "notifications@santhom-notification.iam.gserviceaccount.com",
+  "client_id": "114479328413251309154",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/notifications%40santhom-notification.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -102,6 +102,8 @@ Route::middleware('auth:admin')->group(function(){
             ->name('admin.family.member.approve');
     Route::post('/get_family_list', [FamilyController::class, 'GetFamilies'])->name('admin.get.families');
 
+    Route::post('store/web_device_id' ,[FamilyController::class, 'StoreWwebDeviceId'] )->name('store.token');
+
     Route::get('/prayerGroupList', [PrayerGroupController::class, 'prayer_group_list'])
             ->name('admin.prayergroup.list');
     Route::get('/prayerGroupDatatable', [PrayerGroupController::class, 'prayer_group_datatable'])

@@ -11,8 +11,9 @@ use DB;
 use Session;
 
 use App\Models\VicarMessage;
+use App\Models\FamilyMember;
 
-use App\Http\Controllers\AppNotificationController; 
+use App\Notifications\NotificationPusher; 
 
 class VicarMessageController extends Controller
 {
@@ -47,13 +48,14 @@ class VicarMessageController extends Controller
             VicarMessage::create($inputData);
             DB::commit();
              
-            $app_notification_data = [];
-            $app_notification_data['heading']   =   $request['subject'];
-            $app_notification_data['body']      =   $request['message_body'];
-            $app_notification_data['route']     =   'vicar_messages';
+            $push_data = [];
+            $push_data['devicesIds']    =  FamilyMember::whereNotNull('device_id')->pluck('device_id')->toArray();
+            $push_data['route']         =   'vicar_messages';
+            $push_data['title']       =   $request['subject'];
+            $push_data['body']          =   $request['message_body'];
 
-            $notificationController = new AppNotificationController();
-            $a= $notificationController->sendWebNotification($app_notification_data);
+            $pusher = new NotificationPusher();
+            $pusher->push($push_data);
 
             return redirect()->route('admin.vicarmessages.list')
                             ->with('success','Vicar Message added successfully.');
