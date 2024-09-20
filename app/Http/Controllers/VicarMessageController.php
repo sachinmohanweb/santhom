@@ -49,7 +49,7 @@ class VicarMessageController extends Controller
             DB::commit();
              
             $push_data = [];
-            $push_data['devicesIds']    =  FamilyMember::whereNotNull('device_id')->pluck('device_id')->toArray();
+            $push_data['devicesIds']    =  FamilyMember::whereNotNull('refresh_token')->pluck('refresh_token')->toArray();
             $push_data['route']         =   'vicar_messages';
             $push_data['title']       =   $request['subject'];
             $push_data['body']          =   $request['message_body'];

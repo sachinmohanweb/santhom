@@ -75,7 +75,6 @@ class NotificationPusher
             ->withAndroidConfig($AndroidConfig)
             ->withApnsConfig($ApnsConfig)
             ->withWebPushConfig($webconfig)
-            //->withNotification($notification)
             ->withData(['image' => $imageUrl]);
 
 
@@ -85,7 +84,10 @@ class NotificationPusher
             'successCount' => $response->successes()->count(),
             'failureCount' => $response->failures()->count(),
             'failedTokens' => $response->failures()->map(function ($failure) {
-                return $failure->target()->value();
+                return [
+                    'token' => $failure->target()->value(),
+                    'error' => $failure->error()->getMessage(),
+                ];
             }),
         ]);
 
