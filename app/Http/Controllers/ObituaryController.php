@@ -18,6 +18,8 @@ use Datatables;
 use App\Models\Obituary;
 use App\Models\FamilyMember;
 
+use App\Notifications\NotificationPusher; 
+
 class ObituaryController extends Controller
 {
 
@@ -102,13 +104,25 @@ class ObituaryController extends Controller
                 $member = FamilyMember::find($request['member_id']);
                 $inputData['photo'] = $member->image;
             }
-            Obituary::create($inputData);
+            $obituary = Obituary::create($inputData);
 
             $member = FamilyMember::where('id',$request['member_id'])->first();
             $member->date_of_death = $request['date_of_death'];
             $member->save();
 
             DB::commit();
+
+            $push_data = [];
+            $push_data['devicesIds']    =  FamilyMember::whereNotNull('refresh_token')
+                                                    ->pluck('refresh_token')->toArray();
+            $push_data['route']         =   'obituaries';
+            $push_data['id']            =   $obituary['id'];
+            $push_data['title']         =   $member['name'];
+            $push_data['body']          =   $member->family_name;
+
+            $pusher = new NotificationPusher();
+            $pusher->push($push_data);
+
              
             return redirect()->route('admin.obituary.list')
                             ->with('success','Obituary details added.');

@@ -45,13 +45,15 @@ class VicarMessageController extends Controller
                 $request->image->storeAs('vicar_messages', $fileName);
                 $inputData['image'] = 'storage/vicar_messages/'.$fileName;
             }
-            VicarMessage::create($inputData);
+            $vicar_msg = VicarMessage::create($inputData);
             DB::commit();
              
             $push_data = [];
-            $push_data['devicesIds']    =  FamilyMember::whereNotNull('refresh_token')->pluck('refresh_token')->toArray();
+            $push_data['devicesIds']    =  FamilyMember::whereNotNull('refresh_token')
+                                                    ->pluck('refresh_token')->toArray();
             $push_data['route']         =   'vicar_messages';
-            $push_data['title']       =   $request['subject'];
+            $push_data['id']            =   $vicar_msg['id'];
+            $push_data['title']         =   $request['subject'];
             $push_data['body']          =   $request['message_body'];
 
             $pusher = new NotificationPusher();

@@ -25,6 +25,8 @@ class NotificationPusher
 	{
 
         $deviceToken = $msg['devicesIds'];
+        $route       = $msg['route'];
+        $id          = $msg['id'];
 
 		$title = $msg['title'];
         $body = $msg['body'];
@@ -38,10 +40,13 @@ class NotificationPusher
                             'notification' => [
                                 'title' => $title,
                                 'body' => $body,
-                                'icon' => $imageUrl,
-                                'color' => '#F4ED20',
-                                'sound' => 'default',
+                                'image' => $imageUrl,
+                                'click_action' => $route,
+                                'color' => '#2c5acf',
                             ],
+                            'data' => [
+                                'table_id' => (string) $id,
+                            ]
                         ]);
 
         $ApnsConfig = ApnsConfig::fromArray([
@@ -56,6 +61,14 @@ class NotificationPusher
                                 ],
                                 'badge' => 42,
                                 'sound' => 'default',
+                            ],
+
+                            'image_url' => $imageUrl,
+
+                            'table_id' => (string) $id,
+
+                            'custom_data' => [
+                                'action_route' => $route
                             ],
                         ],
                     ]);
