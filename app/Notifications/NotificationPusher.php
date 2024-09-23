@@ -41,10 +41,10 @@ class NotificationPusher
                                 'title' => $title,
                                 'body' => $body,
                                 'image' => $imageUrl,
-                                'click_action' => $route,
                                 'color' => '#2c5acf',
                             ],
                             'data' => [
+                                'click_action' => $route,
                                 'table_id' => (string) $id,
                             ]
                         ]);
