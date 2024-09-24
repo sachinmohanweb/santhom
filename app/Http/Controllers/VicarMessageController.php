@@ -47,14 +47,25 @@ class VicarMessageController extends Controller
             }
             $vicar_msg = VicarMessage::create($inputData);
             DB::commit();
-             
+            
+            if($vicar_msg->image !== null) {
+                $vicar_msg->image = asset('/') . $vicar_msg->image;
+            }
+
             $push_data = [];
-            $push_data['devicesIds']    =  FamilyMember::whereNotNull('refresh_token')
-                                                    ->pluck('refresh_token')->toArray();
-            $push_data['route']         =   'vicar_messages';
-            $push_data['id']            =   $vicar_msg['id'];
+            $push_data['devicesIds']    =  FamilyMember::whereNotNull('refresh_token')->pluck('refresh_token')->toArray();
             $push_data['title']         =   $request['subject'];
             $push_data['body']          =   $request['message_body'];
+
+            $push_data['route']         =   'vicar_messages';
+            $push_data['id']            =   $vicar_msg['id'];
+            $push_data['data1']         =   $vicar_msg['subject'];
+            $push_data['data2']         =   $vicar_msg['message_body'];
+            $push_data['data3']         =   null;
+            $push_data['data4']         =   null;
+            $push_data['data5']         =   null;
+            $push_data['data6']         =   null;
+            $push_data['image']         =   $vicar_msg['image'];
 
             $pusher = new NotificationPusher();
             $pusher->push($push_data);

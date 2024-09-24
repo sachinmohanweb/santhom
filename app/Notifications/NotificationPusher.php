@@ -25,11 +25,19 @@ class NotificationPusher
 	{
 
         $deviceToken = $msg['devicesIds'];
+		$title       = $msg['title'];
+        $body        = $msg['body'];
+
         $route       = $msg['route'];
         $id          = $msg['id'];
+        $data1       = $msg['data1'];
+        $data2       = $msg['data2'];
+        $data3       = $msg['data3'];
+        $data4       = $msg['data4'];
+        $data5       = $msg['data5'];
+        $data6       = $msg['data6'];
+        $image       = $msg['image'];
 
-		$title = $msg['title'];
-        $body = $msg['body'];
         $imageUrl = "https://santhom.intellyze.in/public/assets/images/logo/logo.svg";
         
         Log::info('data: ', $msg['devicesIds']);
@@ -39,13 +47,20 @@ class NotificationPusher
                             'priority' => 'normal',
                             'notification' => [
                                 'title' => $title,
-                                'body' => $body,
-                                'image' => $imageUrl,
+                                'body'  => $body,
+                                'image' => $image,
                                 'color' => '#2c5acf',
                             ],
                             'data' => [
                                 'click_action' => $route,
                                 'table_id' => (string) $id,
+                                'data1' => $data1,
+                                'data2' => $data2,
+                                'data3' => $data3,
+                                'data4' => $data4,
+                                'data5' => $data5,
+                                'data6' => $data6,
+                                'image' => $image,
                             ]
                         ]);
 
