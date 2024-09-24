@@ -91,6 +91,9 @@ class EventController extends Controller
             if($event->image !== null) {
                 $event->image = asset('/') . $event->image;
             }
+            if($event->image2 !== null) {
+                $event->image2 = asset('/') . $event->image2;
+            }
 
             $push_data = [];
             $push_data['devicesIds']    =  FamilyMember::whereNotNull('refresh_token')->pluck('refresh_token')->toArray();
@@ -99,13 +102,16 @@ class EventController extends Controller
 
             $push_data['route']         =   'events';
             $push_data['id']            =   $event['id'];
+            $push_data['category']      =   'Events';
+
             $push_data['data1']         =   $event->event_name;
-            $push_data['data2']         =   $event->date;
-            $push_data['data3']         =   $event->time;
+            $push_data['data2']         =   'Date : '.$event->date;
+            $push_data['data3']         =   'Time : '.$event->time;
             $push_data['data4']         =   $event->venue;
             $push_data['data5']         =   $event->details;
             $push_data['data6']         =   $event->link;
-            $push_data['image']         =   $event->image;
+            $push_data['image1']        =   $event->image;
+            $push_data['image2']        =   $event->image2;
 
             $pusher = new NotificationPusher();
             $pusher->push($push_data);

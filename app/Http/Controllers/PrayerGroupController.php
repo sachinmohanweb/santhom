@@ -239,17 +239,20 @@ class PrayerGroupController extends Controller
             $push_data = [];
             $push_data['devicesIds']    =  FamilyMember::whereNotNull('refresh_token')->pluck('refresh_token')->toArray();
             $push_data['title']         =   'Prayer group meeting of '.$meeting->PrayerGroup->group_name;
-            $push_data['body']          =   $meeting->Family->family_name;
+            $push_data['body']          =   'At '.$meeting->Family->family_name. ' House';
 
             $push_data['route']         =   'prayer_meetings';
             $push_data['id']            =   $meeting['id'];
-            $push_data['data1']         =   $meeting->PrayerGroup->group_name;
-            $push_data['data2']         =   $meeting->Family->family_name;
+            $push_data['category']      =   'Prayer Meeting';
+
+            $push_data['data1']         =   'Prayer group meeting of '.$meeting->PrayerGroup->group_name;
+            $push_data['data2']         =   'At '.$meeting->Family->family_name. ' House';
             $push_data['data3']         =   $meeting->date;
-            $push_data['data4']         =   $meeting->time;
+            $push_data['data4']         =   'Meeting time : '$meeting->time;
             $push_data['data5']         =   null;
             $push_data['data6']         =   null;
-            $push_data['image']         =   null;
+            $push_data['image1']        =   null;
+            $push_data['image2']        =   null;
 
             $pusher = new NotificationPusher();
             $pusher->push($push_data);

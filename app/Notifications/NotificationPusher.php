@@ -30,13 +30,15 @@ class NotificationPusher
 
         $route       = $msg['route'];
         $id          = $msg['id'];
+        $category    = $msg['category'];
         $data1       = $msg['data1'];
         $data2       = $msg['data2'];
         $data3       = $msg['data3'];
         $data4       = $msg['data4'];
         $data5       = $msg['data5'];
         $data6       = $msg['data6'];
-        $image       = $msg['image'];
+        $image1      = $msg['image1'];
+        $image2      = $msg['image2'];
 
         $imageUrl = "https://santhom.intellyze.in/public/assets/images/logo/logo.svg";
         
@@ -48,19 +50,20 @@ class NotificationPusher
                             'notification' => [
                                 'title' => $title,
                                 'body'  => $body,
-                                'image' => $image,
                                 'color' => '#2c5acf',
                             ],
                             'data' => [
-                                'click_action' => $route,
-                                'table_id' => (string) $id,
-                                'data1' => $data1,
-                                'data2' => $data2,
-                                'data3' => $data3,
-                                'data4' => $data4,
-                                'data5' => $data5,
-                                'data6' => $data6,
-                                'image' => $image,
+                                'click_action'      => $route,
+                                'table_id'          => (string) $id,
+                                'category'          => $category,
+                                'data1'             => $data1,
+                                'data2'             => $data2,
+                                'data3'             => $data3,
+                                'data4'             => $data4,
+                                'data5'             => $data5,
+                                'data6'             => $data6,
+                                'image1'            => $image1,
+                                'image2'            => $image2,
                             ]
                         ]);
 

@@ -109,6 +109,9 @@ class NewsAnnouncementController extends Controller
             if($news->image !== null) {
                 $news->image = asset('/') . $news->image;
             }
+            if($news->image2 !== null) {
+                $news->image2 = asset('/') . $news->image2;
+            }
 
             $push_data = [];
             $push_data['devicesIds']    =  FamilyMember::whereNotNull('refresh_token')->pluck('refresh_token')->toArray();
@@ -117,13 +120,16 @@ class NewsAnnouncementController extends Controller
 
             $push_data['route']         =   'news_announcements';
             $push_data['id']            =   $news['id'];
+            $push_data['category']      =   'News/Announcements';
+
             $push_data['data1']         =   $news->heading;
             $push_data['data2']         =   $news->body;
             $push_data['data3']         =   $news->type_name;
             $push_data['data4']         =   $news->group_organization_name;
             $push_data['data5']         =   $news->link;
             $push_data['data6']         =   null;
-            $push_data['image']         =   $news['image'];
+            $push_data['image1']        =   $news['image'];
+            $push_data['image2']        =   $news['image2'];
 
             $pusher = new NotificationPusher();
             $pusher->push($push_data);

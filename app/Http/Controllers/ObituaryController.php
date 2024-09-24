@@ -118,18 +118,21 @@ class ObituaryController extends Controller
 
             $push_data = [];
             $push_data['devicesIds']    =  FamilyMember::whereNotNull('refresh_token')->pluck('refresh_token')->toArray();
-            $push_data['title']         =   $member['name'];
+            $push_data['title']         =   'With deep sorrow, we announce the passing of '.$member['name'];
             $push_data['body']          =   $member->family_name;
 
             $push_data['route']         =   'obituaries';
             $push_data['id']            =   $obituary['id'];
-            $push_data['data1']         =   $member['name'];
+            $push_data['category']      =   'Obituary';
+
+            $push_data['data1']         =   'With deep sorrow, we announce the passing of '.$member['name'];
             $push_data['data2']         =   $member->family_name;
             $push_data['data3']         =   $obituary['date_of_death'];
-            $push_data['data4']         =   $obituary['funeral_date'];
-            $push_data['data5']         =   $obituary['funeral_time'];
+            $push_data['data4']         =   $obituary['funeral_date']?'Date of Funeral : '.$obituary['funeral_date']:null;
+            $push_data['data5']         =   $obituary['funeral_time']?'Time of funeral : '.$obituary['funeral_time']:null;
             $push_data['data6']         =   $obituary['notes'];
-            $push_data['image']         =   $obituary['photo'];
+            $push_data['image1']        =   $obituary['photo'];
+            $push_data['image2']        =   null;
 
             $pusher = new NotificationPusher();
             $pusher->push($push_data);
