@@ -15,7 +15,10 @@ use Session;
 use Exception;
 use Datatables;
 
+use App\Models\FamilyMember;
 use App\Models\NewsAnnouncement;
+
+use App\Notifications\NotificationPusher; 
 
 class NewsAnnouncementController extends Controller
 {
@@ -100,8 +103,30 @@ class NewsAnnouncementController extends Controller
                 $request->image2->storeAs('news', $fileName2);
                 $inputData['image2'] = 'storage/news/'.$fileName2;
             }
-            NewsAnnouncement::create($inputData);
+            $news = NewsAnnouncement::create($inputData);
             DB::commit();
+
+            if($news->image !== null) {
+                $news->image = asset('/') . $news->image;
+            }
+
+            $push_data = [];
+            $push_data['devicesIds']    =  FamilyMember::whereNotNull('refresh_token')->pluck('refresh_token')->toArray();
+            $push_data['title']         =   $news->heading;
+            $push_data['body']          =   $news->body;
+
+            $push_data['route']         =   'news_announcements';
+            $push_data['id']            =   $news['id'];
+            $push_data['data1']         =   $news->heading;
+            $push_data['data2']         =   $news->body;
+            $push_data['data3']         =   $news->type_name;
+            $push_data['data4']         =   $news->group_organization_name;
+            $push_data['data5']         =   $news->link;
+            $push_data['data6']         =   null;
+            $push_data['image']         =   $news['image'];
+
+            $pusher = new NotificationPusher();
+            $pusher->push($push_data);
 
             return redirect()->route('admin.news_announcement.list')
                             ->with('success','NEw/announcement added successfully.');
