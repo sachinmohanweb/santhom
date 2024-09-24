@@ -22,6 +22,8 @@ use App\Models\FamilyMember;
 use App\Models\PrayerMeeting;
 use App\Models\NewsAnnouncement;
 
+use App\Notifications\NotificationPusher; 
+
 class PrayerGroupController extends Controller
 {
 
@@ -231,8 +233,26 @@ class PrayerGroupController extends Controller
 
             $inputData['status'] = 1;
 
-            PrayerMeeting::create($inputData);
+            $meeting = PrayerMeeting::create($inputData);
             DB::commit();
+
+            $push_data = [];
+            $push_data['devicesIds']    =  FamilyMember::whereNotNull('refresh_token')->pluck('refresh_token')->toArray();
+            $push_data['title']         =   'Prayer group meeting of '.$meeting->PrayerGroup->group_name;
+            $push_data['body']          =   $meeting->Family->family_name;
+
+            $push_data['route']         =   'prayer_meetings';
+            $push_data['id']            =   $meeting['id'];
+            $push_data['data1']         =   $meeting->PrayerGroup->group_name;
+            $push_data['data2']         =   $meeting->Family->family_name;
+            $push_data['data3']         =   $meeting->date;
+            $push_data['data4']         =   $meeting->time;
+            $push_data['data5']         =   null;
+            $push_data['data6']         =   null;
+            $push_data['image']         =   null;
+
+            $pusher = new NotificationPusher();
+            $pusher->push($push_data);
              
             return redirect()->route('admin.prayermeetings.list')
                             ->with('success','Prayer Meeting added successfully.');
