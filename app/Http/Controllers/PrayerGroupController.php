@@ -248,7 +248,7 @@ class PrayerGroupController extends Controller
             $push_data['data1']         =   'Prayer group meeting of '.$meeting->PrayerGroup->group_name;
             $push_data['data2']         =   'At '.$meeting->Family->family_name. ' House';
             $push_data['data3']         =   $meeting->date;
-            $push_data['data4']         =   'Meeting time : '$meeting->time;
+            $push_data['data4']         =   'Meeting time : '.$meeting->time;
             $push_data['data5']         =   null;
             $push_data['data6']         =   null;
             $push_data['image1']        =   null;
