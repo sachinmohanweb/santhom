@@ -130,10 +130,10 @@ class UserController extends Controller
                     Auth::guard('member')->login($user);
 
                     if($request->device_id){
-
-                        $user->device_id = $request->device_id;
-                        $user->refresh_token = $request->refresh_token;
-                        $user->save();
+                        $user1 = $this->userRepo->emailFamilyMember($request->email,$request->family_code);
+                        $user1->device_id = $request->device_id;
+                        $user1->refresh_token = $request->refresh_token;
+                        $user1->save();
                     }
 
                     $token = $user->createToken('santhom-mobile-app')->plainTextToken;
