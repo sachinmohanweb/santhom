@@ -582,3 +582,9 @@ VALUES (NULL, 'Others', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 -- 23/08/24----
 
 ALTER TABLE `family_members` ADD `date_of_fhc` DATE NULL DEFAULT NULL AFTER `date_of_baptism`;
+
+-- 07/10/24----
+
+INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `updated_at`) 
+VALUES (NULL, 'Grandfather', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), 
+(NULL, 'Grandmother', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
