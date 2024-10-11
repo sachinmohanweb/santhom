@@ -411,39 +411,48 @@ class FamilyController extends Controller
             }
 
             if($request['marr_memb_id']){
-                $old_married_person_diff = FamilyMember::where('marr_memb_id',$request['marr_memb_id'])
-                            ->where('id','!=',$request->id)->first();
-                if($old_married_person_diff){
-                    $details1['remark'] = null;
-                    $details1['marr_memb_id'] = null;
-                    $old_married_person_diff->update($details1);
+                $exist_new_marr_memb_id = FamilyMember::find($request['marr_memb_id']);
+                if($exist_new_marr_memb_id){
 
-                    if($familymember['marr_memb_id'] != null){
-                        $old_spouse = FamilyMember::where('id',$familymember['marr_memb_id'])->first();
+                    $old_married_person_diff = FamilyMember::where('marr_memb_id',$request['marr_memb_id'])
+                                ->where('id','!=',$request->id)->first();
+                    if($old_married_person_diff){
+                        $details1['remark'] = null;
+                        $details1['marr_memb_id'] = null;
+                        $old_married_person_diff->update($details1);
 
-                        $details['remark'] = null;
-                        $details['marr_memb_id'] = null;
-                        $old_spouse->update($details);
+                        if($familymember['marr_memb_id'] != null){
+                            $old_spouse = FamilyMember::where('id',$familymember['marr_memb_id'])->first();
+
+                            $details['remark'] = null;
+                            $details['marr_memb_id'] = null;
+                            $old_spouse->update($details);
+                        }
+
                     }
+                    $updat_married_to = FamilyMember::where('id',$request['marr_memb_id'])->first();
 
+                    $details['remark'] = 1;
+                    $details['marr_memb_id'] = $familymember['id'];
+                    $updat_married_to->update($details);
+                }else{
+                   $request['marr_memb_id']=null; 
                 }
-                $updat_married_to = FamilyMember::where('id',$request['marr_memb_id'])->first();
-
-                $details['remark'] = 1;
-                $details['marr_memb_id'] = $familymember['id'];
-                $updat_married_to->update($details);
-
             }
             if(($request['remark'] ==null) &&($familymember->remark==1)){
 
                 $married_person = FamilyMember::where('id',$familymember['marr_memb_id'])->first();
+                if($married_person){
 
-                $married_person_data['remark'] = null;
-                $married_person_data['marr_memb_id'] = null;
-                $married_person->update($married_person_data);
+                    $married_person_data['remark'] = null;
+                    $married_person_data['marr_memb_id'] = null;
+                    $married_person->update($married_person_data);
 
-                $inputData['remark'] = null;
-                $inputData['marr_memb_id'] = null;
+                    $inputData['remark'] = null;
+                    $inputData['marr_memb_id'] = null;
+                }else{
+                    $inputData['marr_memb_id'] = null;  
+                }
             }
             $familymember->update($inputData);
 
