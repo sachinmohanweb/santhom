@@ -309,20 +309,23 @@ class FamilyController extends Controller
             }
 
             if($request['date_of_death']){
-                $inputData1['member_id'] = $member->id;
-                $inputData1['name_of_member'] = $member->name;
-                $inputData1['date_of_death'] = $member->getRawDateOfDeath();
-                $inputData1['display_till_date'] = $member->getRawDateOfDeath();
+                $today = date('Y-m-d');
+                if($request['date_of_death']== $today){
+                    $inputData1['member_id'] = $member->id;
+                    $inputData1['name_of_member'] = $member->name;
+                    $inputData1['date_of_death'] = $member->getRawDateOfDeath();
+                    $inputData1['display_till_date'] = $member->getRawDateOfDeath();
 
-                if($request['image']){
+                    if($request['image']){
 
-                    //$fileName = str_replace(' ', '_', $request->name).'_'.time().'.'.$request['image']->extension();
-                    //$request->image->storeAs('obituary', $fileName);
-                    //$inputData1['photo'] = 'storage/obituary/'.$fileName;
-                    $inputData1['photo'] = $inputData['image'];
+                        //$fileName = str_replace(' ', '_', $request->name).'_'.time().'.'.$request['image']->extension();
+                        //$request->image->storeAs('obituary', $fileName);
+                        //$inputData1['photo'] = 'storage/obituary/'.$fileName;
+                        $inputData1['photo'] = $inputData['image'];
+                    }
+
+                    Obituary::create($inputData1);
                 }
-
-                Obituary::create($inputData1);
             }
 
             DB::commit();
@@ -457,32 +460,34 @@ class FamilyController extends Controller
             $familymember->update($inputData);
 
             if($request['date_of_death']){
+                $today = date('Y-m-d');
+                if($request['date_of_death']== $today){ 
+                    $member_obituary = Obituary::where('member_id',$familymember->id)->first();
+                    if($member_obituary){
 
-                $member_obituary = Obituary::where('member_id',$familymember->id)->first();
-                if($member_obituary){
+                        $member_obituary->name_of_member = $familymember->name;
+                        $member_obituary->date_of_death = $familymember->getRawDateOfDeath();
+                        $member_obituary->save();
 
-                    $member_obituary->name_of_member = $familymember->name;
-                    $member_obituary->date_of_death = $familymember->getRawDateOfDeath();
-                    $member_obituary->save();
-
-                }else{
-
-                    $inputData1['member_id'] = $familymember->id;
-                    $inputData1['name_of_member'] = $familymember->name;
-                    $inputData1['date_of_death'] = $familymember->getRawDateOfDeath();
-                    $inputData1['display_till_date'] = $familymember->getRawDateOfDeath();
-
-                    if($request['image']){
-
-                        //$fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
-                        //$request->image->storeAs('obituary', $fileName);
-                        $inputData1['photo'] = $inputData['image'];
                     }else{
-                        $inputData1['photo'] = $familymember->image;
 
+                        $inputData1['member_id'] = $familymember->id;
+                        $inputData1['name_of_member'] = $familymember->name;
+                        $inputData1['date_of_death'] = $familymember->getRawDateOfDeath();
+                        $inputData1['display_till_date'] = $familymember->getRawDateOfDeath();
+
+                        if($request['image']){
+
+                            //$fileName = str_replace(' ', '_', $request->name).'.'.$request['image']->extension();
+                            //$request->image->storeAs('obituary', $fileName);
+                            $inputData1['photo'] = $inputData['image'];
+                        }else{
+                            $inputData1['photo'] = $familymember->image;
+
+                        }
+                        
+                        Obituary::create($inputData1);
                     }
-                    
-                    Obituary::create($inputData1);
                 }
 
             }
