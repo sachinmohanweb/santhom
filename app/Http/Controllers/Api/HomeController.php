@@ -716,67 +716,67 @@ class HomeController extends Controller
         }
     }
 
-    public function YearlyCalenderEvents(Request $request){
+    // public function YearlyCalenderEvents(Request $request){
 
-        try {
+    //     try {
 
-            $year=date("Y");
+    //         $year=date("Y");
 
-            if($request['year']){
-                $year = $request['year'];
-            }
+    //         if($request['year']){
+    //             $year = $request['year'];
+    //         }
 
-            $data = [];
-            $cuurent_month = date('n');
-            for ($month = 1; $month <= 12; $month++) {
-            //for ($month = $cuurent_month-2; $month <= $cuurent_month+2; $month++) {
-                for ($day = 1; $day <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $day++) {
+    //         $data = [];
+    //         $cuurent_month = date('n');
+    //         for ($month = 1; $month <= 12; $month++) {
+    //         //for ($month = $cuurent_month-2; $month <= $cuurent_month+2; $month++) {
+    //             for ($day = 1; $day <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $day++) {
 
-                    $readings = BiblicalCitation::whereMonth('date', $month)
-                        ->whereDay('date', $day)
-                        ->where('status',1)
-                        ->count();
-                    $birthdays = FamilyMember::whereMonth('dob', $month)
-                        ->whereDay('dob', $day)
-                        ->whereNull('date_of_death')
-                        ->where('status',1)
-                        ->whereHas('family', function ($query) {
-                            $query->where('status', 1);
-                        })
-                        ->count();
+    //                 $readings = BiblicalCitation::whereMonth('date', $month)
+    //                     ->whereDay('date', $day)
+    //                     ->where('status',1)
+    //                     ->count();
+    //                 $birthdays = FamilyMember::whereMonth('dob', $month)
+    //                     ->whereDay('dob', $day)
+    //                     ->whereNull('date_of_death')
+    //                     ->where('status',1)
+    //                     ->whereHas('family', function ($query) {
+    //                         $query->where('status', 1);
+    //                     })
+    //                     ->count();
 
-                    $wedding_anniversaries = FamilyMember::whereMonth('date_of_marriage', $month)
-                        ->whereDay('date_of_marriage', $day)
-                        ->whereNull('date_of_death')
-                        ->where('status',1)
-                        ->whereHas('family', function ($query) {
-                            $query->where('status', 1);
-                        })
-                        ->count();
+    //                 $wedding_anniversaries = FamilyMember::whereMonth('date_of_marriage', $month)
+    //                     ->whereDay('date_of_marriage', $day)
+    //                     ->whereNull('date_of_death')
+    //                     ->where('status',1)
+    //                     ->whereHas('family', function ($query) {
+    //                         $query->where('status', 1);
+    //                     })
+    //                     ->count();
 
-                    $obituaries = Obituary::whereMonth('date_of_death', $month)
-                        ->whereDay('date_of_death', $day)
-                        ->where('status',1)
-                        ->count();
+    //                 $obituaries = Obituary::whereMonth('date_of_death', $month)
+    //                     ->whereDay('date_of_death', $day)
+    //                     ->where('status',1)
+    //                     ->count();
 
-                    $total_events = $readings+$birthdays+$wedding_anniversaries+$obituaries;
+    //                 $total_events = $readings+$birthdays+$wedding_anniversaries+$obituaries;
 
-                    $data[] = [
-                        'date' => sprintf('%02d-%02d-%02d', $day, $month, $year),
-                        'total_events' => $total_events
-                    ];
-                }
+    //                 $data[] = [
+    //                     'date' => sprintf('%02d-%02d-%02d', $day, $month, $year),
+    //                     'total_events' => $total_events
+    //                 ];
+    //             }
 
-            }
+    //         }
 
-            return $this->outputer->code(200)->success($data)->json();
+    //         return $this->outputer->code(200)->success($data)->json();
 
-        }catch (\Exception $e) {
+    //     }catch (\Exception $e) {
 
-            $return['result']=$e->getMessage();
-            return $this->outputer->code(422)->error($return)->json();
-        }
-    }
+    //         $return['result']=$e->getMessage();
+    //         return $this->outputer->code(422)->error($return)->json();
+    //     }
+    // }
 
     // public function DailyCalenderEvents(Request $request){
 
@@ -1061,6 +1061,187 @@ class HomeController extends Controller
     //         return $this->outputer->code(422)->error($return)->json();
     //     }
     // }
+
+    public function YearlyCalenderEvents(Request $request) {
+        try {
+            $currentYear = date("Y");
+            $currentMonth = date('n');
+
+            $data = [];
+            $monthsToFetch = 6;
+            
+            for ($i = 0; $i < $monthsToFetch; $i++) {
+                $month = $currentMonth + $i;
+                $year = $currentYear;
+
+                // Handle year rollover if month exceeds 12
+                if ($month > 12) {
+                    $month -= 12;
+                    $year += 1;
+                }
+
+                for ($day = 1; $day <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $day++) {
+
+                    $readings = BiblicalCitation::whereMonth('date', $month)
+                        ->whereDay('date', $day)
+                        ->where('status', 1)
+                        ->count();
+
+                    $birthdays = FamilyMember::whereMonth('dob', $month)
+                        ->whereDay('dob', $day)
+                        ->whereNull('date_of_death')
+                        ->where('status', 1)
+                        ->whereHas('family', function ($query) {
+                            $query->where('status', 1);
+                        })
+                        ->count();
+
+                    $wedding_anniversaries = FamilyMember::whereMonth('date_of_marriage', $month)
+                        ->whereDay('date_of_marriage', $day)
+                        ->whereNull('date_of_death')
+                        ->where('status', 1)
+                        ->whereHas('family', function ($query) {
+                            $query->where('status', 1);
+                        })
+                        ->count();
+
+                    $obituaries = Obituary::whereMonth('date_of_death', $month)
+                        ->whereDay('date_of_death', $day)
+                        ->where('status', 1)
+                        ->count();
+
+                    $total_events = $readings + $birthdays + $wedding_anniversaries + $obituaries;
+
+                    $data[] = [
+                        'date' => sprintf('%02d-%02d-%02d', $day, $month, $year),
+                        'total_events' => $total_events
+                    ];
+                }
+            }
+
+            return $this->outputer->code(200)->success($data)->json();
+        } catch (\Exception $e) {
+            $return['result'] = $e->getMessage();
+            return $this->outputer->code(422)->error($return)->json();
+        }
+    }
+
+    // public function YearlyCalenderEvents(Request $request) {
+    //     try {
+    //         $currentYear = date("Y");
+    //         $currentMonth = date('n');
+
+    //         $data = [];
+    //         $monthsToFetch = 6;
+
+    //         // Get previous 6 months
+    //         for ($i = $monthsToFetch; $i > 0; $i--) {
+    //             $month = $currentMonth - $i;
+    //             $year = $currentYear;
+
+    //             // Handle year rollover if month is less than 1
+    //             if ($month < 1) {
+    //                 $month += 12;
+    //                 $year -= 1;
+    //             }
+
+    //             for ($day = 1; $day <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $day++) {
+
+    //                 $readings = BiblicalCitation::whereMonth('date', $month)
+    //                     ->whereDay('date', $day)
+    //                     ->where('status', 1)
+    //                     ->count();
+
+    //                 $birthdays = FamilyMember::whereMonth('dob', $month)
+    //                     ->whereDay('dob', $day)
+    //                     ->whereNull('date_of_death')
+    //                     ->where('status', 1)
+    //                     ->whereHas('family', function ($query) {
+    //                         $query->where('status', 1);
+    //                     })
+    //                     ->count();
+
+    //                 $wedding_anniversaries = FamilyMember::whereMonth('date_of_marriage', $month)
+    //                     ->whereDay('date_of_marriage', $day)
+    //                     ->whereNull('date_of_death')
+    //                     ->where('status', 1)
+    //                     ->whereHas('family', function ($query) {
+    //                         $query->where('status', 1);
+    //                     })
+    //                     ->count();
+
+    //                 $obituaries = Obituary::whereMonth('date_of_death', $month)
+    //                     ->whereDay('date_of_death', $day)
+    //                     ->where('status', 1)
+    //                     ->count();
+
+    //                 $total_events = $readings + $birthdays + $wedding_anniversaries + $obituaries;
+
+    //                 $data[] = [
+    //                     'date' => sprintf('%02d-%02d-%02d', $day, $month, $year),
+    //                     'total_events' => $total_events
+    //                 ];
+    //             }
+    //         }
+
+    //         // Get current and upcoming 6 months
+    //         for ($i = 0; $i < $monthsToFetch; $i++) {
+    //             $month = $currentMonth + $i;
+    //             $year = $currentYear;
+
+    //             // Handle year rollover if month exceeds 12
+    //             if ($month > 12) {
+    //                 $month -= 12;
+    //                 $year += 1;
+    //             }
+
+    //             for ($day = 1; $day <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $day++) {
+
+    //                 $readings = BiblicalCitation::whereMonth('date', $month)
+    //                     ->whereDay('date', $day)
+    //                     ->where('status', 1)
+    //                     ->count();
+
+    //                 $birthdays = FamilyMember::whereMonth('dob', $month)
+    //                     ->whereDay('dob', $day)
+    //                     ->whereNull('date_of_death')
+    //                     ->where('status', 1)
+    //                     ->whereHas('family', function ($query) {
+    //                         $query->where('status', 1);
+    //                     })
+    //                     ->count();
+
+    //                 $wedding_anniversaries = FamilyMember::whereMonth('date_of_marriage', $month)
+    //                     ->whereDay('date_of_marriage', $day)
+    //                     ->whereNull('date_of_death')
+    //                     ->where('status', 1)
+    //                     ->whereHas('family', function ($query) {
+    //                         $query->where('status', 1);
+    //                     })
+    //                     ->count();
+
+    //                 $obituaries = Obituary::whereMonth('date_of_death', $month)
+    //                     ->whereDay('date_of_death', $day)
+    //                     ->where('status', 1)
+    //                     ->count();
+
+    //                 $total_events = $readings + $birthdays + $wedding_anniversaries + $obituaries;
+
+    //                 $data[] = [
+    //                     'date' => sprintf('%02d-%02d-%02d', $day, $month, $year),
+    //                     'total_events' => $total_events
+    //                 ];
+    //             }
+    //         }
+
+    //         return $this->outputer->code(200)->success($data)->json();
+    //     } catch (\Exception $e) {
+    //         $return['result'] = $e->getMessage();
+    //         return $this->outputer->code(422)->error($return)->json();
+    //     }
+    // }
+
+
 
     public function DailyCalenderEvents(Request $request){
 
