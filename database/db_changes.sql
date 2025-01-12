@@ -588,3 +588,9 @@ ALTER TABLE `family_members` ADD `date_of_fhc` DATE NULL DEFAULT NULL AFTER `dat
 INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `updated_at`) 
 VALUES (NULL, 'Grandfather', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), 
 (NULL, 'Grandmother', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 07/10/24----
+
+INSERT INTO `relationships` (`id`, `relation_name`, `status`, `created_at`, `updated_at`) 
+VALUES (NULL, 'Uncle', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP), 
+(NULL, 'Aunt', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
