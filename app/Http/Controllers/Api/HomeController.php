@@ -308,7 +308,8 @@ class HomeController extends Controller
                 DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'), 
                 DB::raw('"null" as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"ഓർമ" as hash_value'),DB::raw('"null" as time'),)
                 //->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
-                ->whereDate('date', $today_string)
+                //->whereDate('date', $today_string)
+                ->whereRaw("DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('$today_string', '%Y-%m-%d')")
                 ->where('status', 1); 
 
             $bibleCitationData = BiblicalCitation::select('id',DB::raw('"വേദഭാഗങ്ങൾ" as heading'), 'reference as sub_heading',
@@ -534,7 +535,7 @@ class HomeController extends Controller
             /*---------Family Details----------*/
 
                 $families = Family::select('id as id')
-                        ->addSelect('family_name as sub_item',DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 LIMIT 1) AS item')
+                        ->addSelect('family_name as sub_item',DB::raw('(SELECT name FROM family_members WHERE families.id = family_members.family_id AND head_of_family = 1 AND deleted_at IS NULL LIMIT 1) AS item')
                             ,DB::raw('"null" as image'),DB::raw('"Families" as type'))
                         ->where('status',1)
                         ->where('family_code','!=','CP001');
@@ -968,7 +969,13 @@ class HomeController extends Controller
                     if ($item->image !== null) {
                         $item->image = [asset('/') . $item->image];
                     } else {
-                        $item->image = [null];
+                        $obituary = Obituary::where('member_id',$item->id)->first();
+                        if($obituary['photo'] !== null){
+
+                            $item->image = [asset('/') . $obituary['photo']];
+                        }else{
+                            $item->image = [null];
+                        }
                     }
                     $item->details = $item->relationship_name.' of '.$item->family_head_name;
                     return $item;
