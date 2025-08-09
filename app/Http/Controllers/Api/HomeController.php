@@ -1048,7 +1048,8 @@ class HomeController extends Controller
             }
 
             $bible_verse = BibleVerse::select('id','verse as heading','ref as sub_heading',DB::raw('"Bible Verse" as hash_value'))
-                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
+                //->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
+                ->whereDate('date', $today_string)
                 ->where('status', 1)->first();
             if (!$bible_verse) {
                 $random_verse = BibleVerse::select('id', 'verse as heading', 'ref as sub_heading',DB::raw('"Bible Verse" as hash_value'))
@@ -1064,13 +1065,15 @@ class HomeController extends Controller
             $memoryData = MemoryDay::select('id',DB::raw('"ഓർമ" as heading'), 'title as sub_heading', 
                 DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'), 
                 DB::raw('JSON_ARRAY(NULL) as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"ഓർമ" as hash_value'),DB::raw('"null" as time'),'note1 as details1','note2 as details2',DB::raw('"null" as details3'))
-                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
+                //->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
+                ->whereDate('date', $today_string)
                 ->where('status', 1); 
 
             $bibleCitationData = BiblicalCitation::select('id',DB::raw('"വേദഭാഗങ്ങൾ" as heading'), 'reference as sub_heading',
               DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date'),
                 DB::raw('JSON_ARRAY(NULL) as image'),DB::raw('"Daily Schedules" as type'),DB::raw('"True" as color'), DB::raw('"null" as link'),DB::raw('"വേദഭാഗങ്ങൾ" as hash_value'),DB::raw('"null" as time'),'note1 as details1','note2 as details2',DB::raw('"null" as details3'))
-                ->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
+                //->whereRaw("DATE_FORMAT(date, '%m-%d') = DATE_FORMAT('$today_string', '%m-%d')")
+                ->whereDate('date', $today_string)
                 ->where('status', 1); 
 
              $church_activities = DailySchedules::select('id','title as heading','venue as sub_heading', 
